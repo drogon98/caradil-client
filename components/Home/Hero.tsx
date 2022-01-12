@@ -17,7 +17,7 @@ const Hero = (): JSX.Element => {
         {/* <h5 className="mt-3">Find Your Best Car</h5> */}
 
         <Link href="/browse-cars">
-          <a className="btn bgOrange mt-4 text-light">Get Started</a>
+          <a className="btn bgOrange mt-4 text-light">Browse Cars</a>
         </Link>
       </div>
     </div>
