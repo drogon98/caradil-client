@@ -1,4 +1,4 @@
-import React from "react";
+import React, { LegacyRef } from "react";
 import { usePlacesWidget } from "react-google-autocomplete";
 
 export interface AutoCompleteProps {
@@ -29,7 +29,7 @@ export function AutoComplete(props: AutoCompleteProps) {
     <>
       <input
         type="text"
-        ref={ref}
+        ref={ref as unknown as LegacyRef<HTMLInputElement>}
         className="form-control"
         placeholder={props.placeholder}
         name={props.name}
