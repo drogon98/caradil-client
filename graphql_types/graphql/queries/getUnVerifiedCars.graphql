@@ -1,0 +1,32 @@
+query GetUnVerifiedCars {
+  getUnVerifiedCars {
+    id
+    name
+    id
+    name
+    reg_no
+    description
+    owner {
+      first_name
+      last_name
+    }
+    trips
+    features {
+      title
+    }
+    photos {
+      public_id
+      url
+      secure_url
+    }
+    documents {
+      title
+      file {
+        public_id
+        url
+        secure_url
+      }
+    }
+    reviews
+  }
+}

@@ -1,0 +1,9 @@
+mutation EditCarSecondaryFeatures(
+  $carId: Float!
+  $input: CarSecondaryFeaturesInput!
+) {
+  editCarSecondaryFeatures(carId: $carId, input: $input) {
+    error
+    carId
+  }
+}

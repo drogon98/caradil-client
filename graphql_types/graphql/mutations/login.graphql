@@ -1,0 +1,6 @@
+mutation Login($payload: LoginInput!) {
+  login(input: $payload) {
+    access_token
+    error
+  }
+}

@@ -1,0 +1,6 @@
+mutation CreateTrip($input: TripInput!) {
+  createTrip(input: $input) {
+    success
+    tripId
+  }
+}

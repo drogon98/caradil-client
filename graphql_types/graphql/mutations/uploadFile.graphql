@@ -1,0 +1,7 @@
+mutation UploadFile($file: Upload!) {
+  singleUpload(file: $file) {
+    public_id
+    url
+    secure_url
+  }
+}

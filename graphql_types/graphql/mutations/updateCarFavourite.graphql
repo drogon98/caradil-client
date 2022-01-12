@@ -1,0 +1,6 @@
+mutation UpdateCarFavourite($carId: Float!, $opType: String!) {
+  updateFavourite(carId: $carId, opType: $opType) {
+    status
+    error
+  }
+}

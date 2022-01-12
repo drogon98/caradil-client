@@ -1,0 +1,6 @@
+mutation Register($payload: RegisterInput!) {
+  register(input: $payload) {
+    access_token
+    error
+  }
+}

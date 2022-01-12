@@ -1,0 +1,1179 @@
+/* =========================GLOBALS================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+.test {
+  color: #ffe83f;
+  color: #bbafad;
+  color: #f9893f;
+  color: #555754;
+  color: #ff8a01;
+  color: #ffffff;
+  color: #000000;
+  color: #d9e1e4;
+}
+
+:root {
+  --orange: #ff8a01;
+  --white: #fff;
+  --navbar-height: 70px;
+  --hero-height: 35rem;
+}
+
+.bgWhite {
+  background-color: var(--white) !important;
+}
+
+.bgBlack {
+  background-color: #000000 !important;
+}
+
+.bgDanger {
+  background-color: red !important;
+}
+
+.bgSuccess {
+  background-color: green !important;
+}
+
+.bgPrimary {
+  background-color: blue !important;
+}
+
+.bg-gray {
+  background-color: #aeafae;
+}
+
+.bgOrange {
+  background-color: var(--orange) !important;
+}
+.colorOrange {
+  color: var(--orange) !important;
+}
+
+.m0 {
+  margin: 0 !important;
+}
+
+a,
+a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+p {
+  margin: 0 !important;
+}
+
+.spinner-border {
+  width: 24px;
+  height: 24px;
+}
+
+.spinner-border-small {
+  width: 15px;
+  height: 15px;
+}
+
+.spinner-white {
+  color: #fff;
+}
+
+.spinner-orange {
+  color: var(--orange);
+}
+
+.customContainer {
+  width: 80% !important;
+  margin: auto;
+  max-width: 2100px;
+}
+
+.customCarDetailsContainer {
+  width: 72% !important;
+  margin: auto;
+  max-width: 2100px;
+}
+
+@media screen and (max-width: 1200px) {
+  .customCarDetailsContainer {
+    width: 80% !important;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .customCarDetailsContainer {
+    width: 88% !important;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .customCarDetailsContainer {
+    width: 95% !important;
+  }
+}
+@media screen and (max-width: 900px) {
+  .customCarDetailsContainer {
+    width: 100% !important;
+  }
+}
+
+.caraIcons {
+  font-size: 20px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1265px) {
+  .customContainer {
+    width: 95% !important;
+  }
+}
+
+.marginLeft30px {
+  margin-left: 30px;
+}
+
+#mainLayoutWrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#mainContentWrapper {
+  flex: 1 0 auto;
+}
+#footerWrapper {
+  flex-shrink: 0;
+}
+
+.list-style-none {
+  list-style: none;
+}
+
+.link,
+.link:hover {
+  text-decoration: none !important;
+}
+.black-link {
+  color: #000 !important;
+}
+
+.w100 {
+  width: 100%;
+}
+
+input:focus,
+select:focus,
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0 !important;
+  font-size: 13px;
+}
+
+/* =========================END GLOBALS================================= */
+
+/* =========================NAVBARS================================= */
+
+.mainNavbar {
+  height: var(--navbar-height);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000 !important;
+}
+
+.accountNavbar,
+.adminNavbar {
+  height: var(--navbar-height);
+  display: flex;
+  align-items: flex-end;
+  position: fixed;
+  width: 100%;
+  z-index: 1002;
+}
+
+.brand {
+  flex: 1;
+}
+
+.mainNavLinks {
+  flex: 4.5;
+  width: 100%;
+}
+
+.mainNavLinksLeft {
+  flex: 2;
+}
+
+.mainNavLinksRight {
+  flex: 2;
+}
+
+.mainNavLinks a:hover {
+  font-weight: bold;
+}
+
+.account-tooltip {
+  position: relative;
+}
+
+.account-tooltip-content {
+  visibility: hidden;
+  width: 120px;
+  background-color: white;
+  color: #000;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 1005 !important;
+  top: 100%;
+  right: 0%;
+}
+
+.account-tooltip:hover .account-tooltip-content {
+  visibility: visible;
+}
+
+.account-tooltip .account-tooltip-content::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;
+  left: 92%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent white transparent;
+}
+
+.animated-navbar {
+  z-index: 1000;
+  width: 100vw !important;
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  position: fixed;
+}
+
+.user-main-nav-icon {
+  font-size: 35px;
+}
+
+@media screen and (max-width: 600px) {
+  .mainNavLinksLeft {
+    display: none !important;
+  }
+}
+
+/* =========================END NAVBARS================================= */
+
+/* =============================HOME PAGE================================= */
+.homeHero {
+  position: relative;
+  /* background-image: url("../public/images/lambo.jpg"); */
+  background-image: url("../public/images/subaru.jpg");
+  background-position: center center;
+  height: var(--hero-height);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.hero-carousel-btn {
+  position: absolute;
+  bottom: 30px;
+  border-radius: 20px;
+  width: 180px;
+  left: 50%;
+  margin-left: -90px;
+}
+
+.homeHeroSafariLandCruiser {
+  background-image: url("../public/images/safari-cruisers.jpg");
+}
+
+.homeHeroSafariTruck {
+  background-image: url("../public/images/safari-truck.jpg");
+}
+
+.homeHeroSubaru {
+  background-image: url("../public/images/subaru.jpg");
+}
+
+.homeHeroJeep {
+  background-image: url("../public/images/jeep.jpg");
+}
+
+.homeHeroBus {
+  background-image: url("../public/images/bus.jpg");
+}
+
+.homeHeroLuxuries {
+  background-image: url("../public/images/limo.jpg");
+}
+
+.heroOverlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: var(--hero-height);
+  z-index: 0;
+}
+
+@media screen and (max-width: 500px) {
+  .homeHero,
+  .heroOverlay {
+    height: 400px;
+  }
+}
+
+.heroNav {
+  position: absolute;
+  top: 0 !important;
+  width: 100%;
+  z-index: 1000;
+  color: var(--orange) !important;
+  background-color: transparent !important;
+  height: var(--navbar-height);
+}
+
+.heroContent {
+  position: relative;
+  display: flex;
+  z-index: 3;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #fff;
+}
+
+.cars-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+}
+
+.find-your-drive {
+  font-size: 80px;
+}
+
+@media screen and (max-width: 500px) {
+  .find-your-drive {
+    font-size: 30px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .cars-wrapper {
+    grid-template-columns: 1fr;
+    row-gap: 30px;
+  }
+}
+/* =============================END HOME PAGE================================= */
+
+/* ===============================AUTH PAGES======================================= */
+.authWrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.authContent {
+  min-height: 50vh;
+  width: 400px;
+}
+/* ===============================END AUTH PAGES======================================= */
+
+/* ===============================ACCOUNT ADMIN PAGES======================================= */
+.account-wrapper,
+.admin-wrapper {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 5fr;
+  position: relative;
+  top: var(--navbar-height);
+}
+
+.account-sidebar,
+.admin-sidebar {
+  height: calc(100vh - var(--navbar-height));
+  position: -webkit-sticky;
+  position: sticky;
+  background-color: var(--orange);
+  top: var(--navbar-height);
+  z-index: 1003;
+}
+
+.account-content,
+.admin-content {
+  position: relative;
+}
+
+.account-side-menu,
+.admin-side-menu {
+  overflow-y: auto;
+}
+
+.account-side-menu ul li,
+.admin-side-menu ul li {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.account-side-menu ul {
+  padding-left: 10px !important;
+}
+
+.sm-hamburger {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .account-wrapper,
+  .admin-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .account-sidebar {
+    display: none;
+  }
+
+  .account-content,
+  .admin-content {
+    top: 25px;
+  }
+
+  .sm-hamburger {
+    display: block;
+    position: fixed;
+    top: 55px;
+    /* top: var(--navbar-height); */
+    width: 100%;
+    z-index: 1000 !important;
+    background-color: white;
+  }
+
+  /* .sm-hamburger span {
+    background-color: white !important;
+  } */
+}
+
+.sm-side-menu {
+  width: 200px;
+  background-color: var(--orange);
+  position: fixed;
+  left: -200px;
+  z-index: 1001;
+  height: calc(100vh - var(--navbar-height));
+}
+
+@keyframes showSmSideMenu {
+  from {
+    left: -200px;
+  }
+  to {
+    left: 0px;
+  }
+}
+
+@keyframes hideSmSideMenu {
+  from {
+    left: 0px;
+  }
+  to {
+    left: -200px;
+  }
+}
+
+.sm-side-menu-show {
+  animation: showSmSideMenu 1s;
+  animation-fill-mode: forwards;
+}
+.sm-side-menu-hide {
+  animation: hideSmSideMenu 1s;
+  animation-fill-mode: forwards;
+}
+
+/* ===============================ACCOUNT ADMIN PAGES======================================= */
+
+/* =============================FOOTERS====================================== */
+/* =============================END FOOTERS====================================== */
+
+/* =============================EXPANDABLE====================================== */
+.expandable {
+  border: 1px solid #eaecee;
+}
+
+.expandable button {
+  border-radius: 0 !important;
+  border-bottom: 1px solid #eaecee;
+}
+
+.expandable .content {
+  padding: 10px;
+}
+
+.expand {
+  display: block;
+}
+/* =============================END EXPANDABLE====================================== */
+
+/* =============================CAR====================================== */
+.carDetailsWrapper {
+  display: grid;
+  grid-template-columns: 3fr 1.5fr;
+  column-gap: 16px;
+  margin-bottom: 180px;
+}
+
+.carDetailsChargeCard {
+  position: -webkit-sticky;
+  position: sticky;
+  top: var(--navbar-height);
+  min-height: 400px;
+  height: auto;
+  /* max-height: calc(100vh - var(--navbar-height)); */
+  overflow-y: auto;
+}
+
+.car-small-screen-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  /* min-height: 50px; */
+  height: 170px;
+  background-color: #fff;
+  display: none;
+}
+
+/* .small-screen-car-charge {
+  height: 100%;
+} */
+
+.car-small-screen-select-dates {
+  position: relative;
+  height: 200px;
+  bottom: 350px;
+  background-color: white;
+}
+
+@media screen and (max-width: 800px) {
+  .carDetailsChargeCard {
+    display: none !important;
+  }
+
+  .carDetailsWrapper {
+    grid-template-columns: 1fr;
+  }
+  .car-small-screen-bottom {
+    display: block;
+  }
+}
+
+.photoBoxWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+@media screen and (max-width: 600px) {
+  .photoBoxWrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+.photo-box-wrapper {
+  position: relative;
+}
+
+.photo-box-delete-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.photo-box-delete-wrapper button {
+  border: none;
+}
+
+.secondary-features-wrapper {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 20px;
+}
+
+.secondary-feature-box {
+  max-width: 200px;
+}
+
+@media screen and (max-width: 600px) {
+  .secondary-features-wrapper {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 8px;
+    row-gap: 20px;
+  }
+
+  .secondary-feature-box {
+    max-width: 180px;
+  }
+}
+
+.carImage {
+  height: 200px;
+}
+
+.car-details-host-left {
+  flex: 1;
+}
+
+@media screen and (max-width: 600px) {
+  .car-details-host-left {
+    flex: 2;
+  }
+}
+
+.car-details-host-right {
+  flex: 3;
+}
+
+.car-input-container {
+  border: 1px solid #000;
+  height: 35px !important;
+}
+
+.car-input-container input,
+.car-input-container select,
+.car-input-container input:focus,
+car-input-container select:focus {
+  border: none !important;
+  height: 100% !important;
+  background-color: #ffffff;
+}
+
+.car-input-container select {
+  border-left: 1px solid #000 !important;
+}
+
+.carBox {
+  position: relative;
+}
+
+.carTopIcon,
+.carFeatureIcon {
+  width: 45px;
+}
+
+/* =============================END CAR====================================== */
+
+/* ============================= CAROUSELS====================================== */
+.carousel {
+  z-index: 0 !important;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 100px;
+}
+
+.carousel-control-icon-wrapper {
+  width: 50px;
+  height: 50px;
+  border-radius: 50% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.55);
+}
+
+.carousel-inner {
+  position: relative;
+}
+
+.car-carousel-item img {
+  height: 550px;
+  width: 100%;
+}
+
+@media screen and (max-width: 1000px) {
+  .car-carousel-item img {
+    height: 450px;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .car-carousel-item img {
+    height: 350px;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .car-carousel-item img {
+    height: 250px;
+    width: 100%;
+  }
+}
+
+.carousel-fav-icon,
+.fav-icon {
+  position: absolute;
+  right: 26px;
+  top: 40px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10 !important;
+  border: none;
+}
+
+.carousel-fav-icon {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+}
+
+.carousel-heart-icon {
+  font-size: 28px;
+}
+
+@media screen and (max-width: 600px) {
+  .carousel-fav-icon {
+    right: 15px;
+    top: 20px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .carousel-heart-icon {
+    font-size: 20px;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 55px;
+  }
+
+  .carousel-control-icon-wrapper {
+    width: 30px;
+    height: 30px;
+    font-size: 10px;
+    /* background-color: red; */
+  }
+}
+
+.fav-icon {
+  background-color: transparent;
+  right: 3px;
+  top: 3px;
+  color: #ffffff;
+}
+
+/* =============================END CAROUSELS====================================== */
+
+/* =============================READMORE====================================== */
+
+.readmore {
+  position: relative;
+  min-height: 80px;
+  margin-bottom: 80px;
+}
+
+.expand {
+  height: auto;
+  /* transition: height 2s ease-in-out; */
+}
+
+.readmoreContent {
+  overflow: hidden;
+  height: 80px;
+  /* transition: height 2s ease-out; */
+}
+
+.readMoreLessLink {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: block;
+  width: 100%;
+  font-weight: bold;
+  font-size: 16px;
+  height: 60px;
+  background-image: linear-gradient(to bottom, transparent, white);
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.readMoreLessInnerWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.readMoreLessInnerWrapper .test {
+  position: absolute;
+  bottom: -45px;
+}
+
+.moreBox {
+  border: 1px solid #000;
+  padding: 1px 8px;
+  background-color: transparent;
+}
+
+/* =============================END READMORE====================================== */
+
+/* =============================SLICK CAROUSEL====================================== */
+.makeSlide {
+  height: 220px;
+  /* position: relative; */
+  /* z-index: 1; */
+}
+
+.makeSlideInner {
+  border-radius: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  margin: 10px;
+  overflow: hidden;
+}
+
+/* .slick-prev {
+  left: 3% !important;
+  z-index: 1;
+  background-color: red !important;
+  color: black !important;
+} */
+/* .slick-next {
+  right: 3% !important;
+  z-index: 1;
+  background-color: red !important;
+} */
+
+.slick-prev:before,
+.slick-next:before {
+  /* background-size: 50px 50px; */
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  content: "";
+  z-index: 2;
+  /* background-color: red; */
+  background-position: center;
+  background-size: cover;
+  /* position: absolute; */
+}
+
+.slick-prev:before {
+  background-image: url("../public/images/left-arrow.png");
+}
+.slick-next:before {
+  background-image: url("../public/images/right-arrow.png");
+}
+
+@media screen and (max-width: 600px) {
+  .slick-arrow,
+  .slick-prev:before,
+  .slick-next:before {
+    display: none !important;
+  }
+}
+
+/* =============================END SLICK CAROUSEL====================================== */
+
+/* =============================SEARCH WRAPPER====================================== */
+.search-wrapper {
+  background-color: #fff;
+}
+
+.search-sm-wrapper {
+  display: none;
+}
+
+.search-category {
+  width: 80%;
+  text-align: left;
+  padding: 0;
+}
+
+.search-category-dropdown-trigger {
+  width: 20%;
+  border-right: 1px solid #eaecee;
+  padding: 0;
+}
+
+.search-categories-wrapper {
+  position: relative;
+  /* width: 100%; Affecting small screens */
+}
+
+.remove-button,
+.apply-button {
+  font-size: 12px;
+  border-radius: 8px !important;
+}
+
+@media screen and (min-width: 600px) {
+  .search-categories-wrapper {
+    width: 100%;
+  }
+}
+
+.categ-wrapper {
+  border-right: 1px solid #eaecee !important;
+  height: 50px;
+}
+
+.categories-dropdown-wrapper {
+  position: absolute;
+  /* height: 300px; */
+  width: 400px;
+  background-color: #fff;
+  z-index: 999;
+}
+
+.categories-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+@media screen and (max-width: 430px) {
+  .categories-dropdown-wrapper {
+    width: 300px;
+  }
+
+  .categories-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+}
+
+.search-top-height {
+  height: 50px;
+}
+
+.search-category {
+  height: 50px;
+  border: none;
+  border-right: 1px solid #eaecee !important;
+  border-radius: 0;
+}
+
+/* .search-wrapper button {
+  padding: 0;
+} */
+
+.search-wrapper button,
+.search-wrapper input {
+  border-radius: 0;
+}
+
+.search-car-name input,
+.search-car-location input {
+  border: none;
+}
+
+.search-car-location,
+.search-category {
+  border-right: 1px solid #eaecee !important;
+}
+
+.search-car-location {
+  border-left: 1px solid #eaecee !important;
+}
+
+.search-wrapper .input-group-text {
+  background-color: #fff;
+  border: none;
+}
+
+.search-btn {
+  /* height: 60px; */
+  background-color: var(--orange);
+  border-radius: 5px !important;
+}
+
+.search-bottom {
+  height: 55px;
+}
+
+.more-filters-wrapper {
+  position: relative;
+}
+
+.more-filters-wrapper-content {
+  position: absolute;
+  /* top: 102%; */
+  top: 0;
+  width: 300px;
+  background-color: #fff;
+  /* height: 350px; */
+  z-index: 999;
+  left: 50px;
+}
+
+@media screen and (max-width: 600px) {
+  .search-wrapper {
+    display: none;
+  }
+  .search-sm-wrapper {
+    display: block;
+  }
+
+  .sm-filter-wrapper {
+    position: relative;
+  }
+
+  .sm-filter-content {
+    position: absolute;
+    left: 30px;
+    background-color: #fff;
+    width: 250px;
+    height: 400px;
+    top: 0;
+    z-index: 999;
+  }
+}
+
+/* =============================END SEARCH WRAPPER====================================== */
+
+/* =============================PERSONAL DETAILS====================================== */
+.profile-picture-wrapper {
+  flex: 1;
+}
+
+.profile-form {
+  flex: 2;
+}
+
+@media screen and (max-width: 600px) {
+  .profile-wrapper {
+    flex: wrap;
+  }
+}
+/* =============================END PERSONAL DETAILS====================================== */
+/* =============================LISTINGS====================================== */
+.list-name-circle {
+  height: 50px;
+  width: 50px;
+  border-radius: 10px;
+  background-color: #eaecee;
+  overflow: hidden;
+}
+
+.sm-screen-listings {
+  display: none;
+}
+
+.more-wrapper {
+  position: relative;
+}
+
+.more-tooltip {
+  background-color: #fff;
+  position: absolute;
+  right: 110%;
+  width: 100px;
+  top: 0;
+  height: 80px;
+}
+
+@media screen and (max-width: 600px) {
+  .large-screen-listings {
+    display: none;
+  }
+
+  .sm-screen-listings {
+    display: block;
+  }
+
+  .sm-listbox-wrapper {
+    border: 2px solid #eaecee;
+    border-radius: 10px;
+  }
+
+  .list-name-circle {
+    height: 100px;
+    width: 100px;
+  }
+}
+/* =============================END LISTINGS====================================== */
+
+/* ============================ TRIP ===================================== */
+
+.sm-tripboxes-wrapper {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .lg-tripboxes-wrapper {
+    display: none;
+  }
+
+  .sm-tripboxes-wrapper {
+    display: block;
+  }
+}
+
+/* ============================ END TRIP ===================================== */
+
+/* =============================SUCESS ======================================= */
+.success-car-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 600px) {
+  .success-car-image {
+    height: 180px;
+  }
+}
+/* =============================END SUCESS ======================================= */
+
+/* ================================FAQ========================================== */
+
+.faq-accordion-button.collapsed {
+  color: #000 !important;
+  font-weight: inherit;
+  background-color: #fff !important;
+}
+
+.faq-accordion-button {
+  color: var(--orange) !important;
+  font-weight: bold;
+  background-color: #fff !important;
+}
+
+/* =================================FAQ SUCCESS==================================== */
+.container {
+  margin: 0 !important;
+}

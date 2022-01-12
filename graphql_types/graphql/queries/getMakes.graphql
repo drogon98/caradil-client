@@ -1,0 +1,10 @@
+query GetMakes {
+  makes {
+    id
+    title
+    photo {
+      url
+      secure_url
+    }
+  }
+}

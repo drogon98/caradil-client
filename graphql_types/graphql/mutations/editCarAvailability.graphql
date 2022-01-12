@@ -1,0 +1,6 @@
+mutation EditCarAvailability($carId: Float!, $input: CarAvailabilityInput!) {
+  editCarAvailability(carId: $carId, input: $input) {
+    error
+    carId
+  }
+}

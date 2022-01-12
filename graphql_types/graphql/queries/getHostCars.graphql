@@ -1,0 +1,23 @@
+query GetHostCars {
+  getHostCars {
+    id
+    name
+    description
+    owner {
+      first_name
+      last_name
+    }
+    trips
+    features {
+      title
+    }
+    reviews
+    photos {
+      secure_url
+    }
+    reg_no
+    daily_rate
+    booked
+    available
+  }
+}

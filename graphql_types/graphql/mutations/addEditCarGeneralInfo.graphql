@@ -1,0 +1,10 @@
+mutation AddEditCarGeneralInfo(
+  $options: CarGeneralInfoInput!
+  $isEdit: Boolean
+  $carId: Float
+) {
+  addEditCarGeneralInfo(input: $options, carId: $carId, isEdit: $isEdit) {
+    carId
+    error
+  }
+}
