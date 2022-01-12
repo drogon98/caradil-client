@@ -24,8 +24,8 @@ export function UserNavIcon(props: UserNavIconProps) {
           <Link href="/account">Account</Link>
         </div>
         <div>
-          <p
-            className="cursor-pointer"
+          <button
+            className="btn m-0 p-0 cursor-pointer"
             onClick={async () => {
               const response = await (
                 await fetch(`${baseUrl}logout`, {
@@ -40,7 +40,7 @@ export function UserNavIcon(props: UserNavIconProps) {
             }}
           >
             Logout
-          </p>
+          </button>
         </div>
       </div>
     </div>

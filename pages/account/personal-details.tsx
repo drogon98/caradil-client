@@ -3,6 +3,7 @@ import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import AccountLayout from "../../components/layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
+import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import {
   EditProfileInput,
   PhotoInput,
@@ -29,7 +30,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
   const [mainLoading, setMainLoading] = useState(true);
   const [avatar, setAvatar] = useState<PhotoInput>();
   const [uploadFile] = useUploadFileMutation();
-  const [editProfile] = useEditProfileMutation();
+  const [editProfile, { loading: editLoading }] = useEditProfileMutation();
   const { data, loading } = useGetAuthUserQuery({
     fetchPolicy: "network-only",
   });
@@ -55,7 +56,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
   }, [data, loading]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    setValues({ ...values, [e.target.name]: e.target.value.trim() });
   };
 
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -133,13 +134,28 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                         height="250px"
                         width="250px"
                       />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        // required
-                        onChange={handleUpload}
-                        className="mt-3"
-                      />
+                      {avatar?.secure_url ? (
+                        <div className="mt-3">
+                          <div className="row p-0">
+                            <div className="col-6">
+                              <button className="btn bgOrange">Photo</button>
+                            </div>
+                            <div className="col-6">
+                              <button className="btn bgOrange">
+                                Delete Photo
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <input
+                          type="file"
+                          accept="image/*"
+                          // required
+                          onChange={handleUpload}
+                          className="mt-3"
+                        />
+                      )}
                     </div>
 
                     <div className="col-md-8 mt-4 ">
@@ -207,8 +223,16 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                     </div>
                   </div>
                   <div className="d-grid gap-2 mt-5">
+                    {/* editLoading */}
                     <button type="submit" className="btn bgOrange">
-                      Update
+                      {editLoading ? (
+                        <ButtonLoading
+                          spinnerColor="white"
+                          dimensions={{ height: "24px", width: "24px" }}
+                        />
+                      ) : (
+                        "Update"
+                      )}
                     </button>
                   </div>
                 </form>
