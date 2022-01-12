@@ -42,7 +42,7 @@ export function SearchBottomDropDowns(props: SearchBottomDropDownsProps) {
             value={props.payload?.color ?? ""}
             onChange={handleChange}
           >
-            <option value={""}>Select Color</option>
+            <option value={""}>Color</option>
             {carColors.map((color, idx) => (
               <option key={idx} value={color.toLowerCase()}>
                 {color}
@@ -57,7 +57,7 @@ export function SearchBottomDropDowns(props: SearchBottomDropDownsProps) {
             value={props.payload?.gas ?? ""}
             onChange={handleChange}
           >
-            <option value={""}>Select Gas</option>
+            <option value={""}>Gas</option>
             <option value="petrol">Petrol</option>
             <option value="diesel">Diesel</option>
           </select>
@@ -70,7 +70,7 @@ export function SearchBottomDropDowns(props: SearchBottomDropDownsProps) {
               value={props.payload?.car_make ?? ""}
               onChange={handleChange}
             >
-              <option value={""}>Select Make</option>
+              <option value={""}>Make</option>
               {carMakes.map((make, idx) => (
                 <option key={idx} value={make.toLowerCase()}>
                   {make}
