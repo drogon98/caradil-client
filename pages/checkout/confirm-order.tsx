@@ -112,8 +112,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
       console.log("Difference_In_Days :>> ", Difference_In_Days);
 
       setTotalCharge(() => {
-        let total =
-          parseInt(data.getCar.car?.daily_rate!, 10) * Difference_In_Days;
+        let total = data.getCar.car?.daily_rate! * Difference_In_Days;
         return total as unknown as string;
       });
     }
