@@ -43,7 +43,12 @@ export const ListBox: FC<ListBoxProps> = (props) => {
             <p>{props.data.booked ? "Booked" : "Not Booked"}</p>
           </div>
           <div className="col">
-            <p>Ksh.{props.data.daily_rate!.toLocaleString()}</p>
+            <p>
+              Ksh.
+              {props.data.daily_rate
+                ? props.data.daily_rate.toLocaleString()
+                : "Not set"}
+            </p>
           </div>
           <div className="col-1 d-flex justify-content-center">
             <MoreButton data={props.data}>

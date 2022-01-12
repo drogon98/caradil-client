@@ -33,7 +33,12 @@ export const SmListBox: FC<SmListBoxProps> = (props) => {
               <h4 className="m-0">{props.data.name}</h4>
               <p>{props.data.reg_no}</p>
               <p>{props.data.available ? "Available" : "Unavailable"}</p>
-              <p>Ksh.{props.data.daily_rate!.toLocaleString()}</p>
+              <p>
+                Ksh.
+                {props.data.daily_rate
+                  ? props.data.daily_rate.toLocaleString()
+                  : "Not set"}
+              </p>
             </div>
           </div>
           <div className="col-1">
