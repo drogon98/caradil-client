@@ -76,7 +76,7 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
               >
                 <a className="d-flex align-items-center">
                   <Icon icon="akar-icons:circle-plus" />{" "}
-                  <small className="m-0">List your car</small>
+                  <small className="m-0">List Car</small>
                 </a>
               </Link>
             </div>
