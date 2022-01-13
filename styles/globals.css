@@ -383,11 +383,11 @@ label {
 }
 
 .popular-cars {
-  min-height: 300px;
+  height: 300px;
 }
 
 .makes-slider {
-  min-height: 200px;
+  height: 200px;
 }
 
 .find-your-drive {
