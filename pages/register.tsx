@@ -204,10 +204,12 @@ const Register: FC<IProps> = (props) => {
             </div>
 
             <div className="d-flex mt-3 justify-content-between">
-              <span>Forgot Password?</span>
+              <span></span>
               <span>
                 <Link href="/login">
-                  <a>Already have an account?</a>
+                  <a>
+                    <small>Already have an account?</small>
+                  </a>
                 </Link>
               </span>
             </div>

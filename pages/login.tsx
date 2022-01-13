@@ -139,10 +139,14 @@ const Login = (props: LoginProps) => {
 
             <div className="d-flex mt-3 justify-content-between">
               <span>
-                <Link href="/forgot-password">Forgot Password?</Link>
+                <Link href="/forgot-password">
+                  <small>Forgot Password?</small>
+                </Link>
               </span>
               <span>
-                <Link href="/register">Don't have account?</Link>
+                <Link href="/register">
+                  <small>Don't have account?</small>
+                </Link>
               </span>
             </div>
           </div>

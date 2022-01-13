@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useGetMakesQuery } from "../../graphql_types/generated/graphql";
 import slugify from "slugify";
 import { useWindowDimensions } from "../hooks/useWindowDimensions";
+import FlexibleLoader from "../Loading/FlexibleLoader";
 
 interface IProps {}
 
@@ -63,10 +64,6 @@ export const BrowseByMake: FC<IProps> = (props) => {
   };
 
   // console.log("makes :>> ", makes);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
   return (
     <div className="customContainer my-5">
       {/* <Icon icon="eva:arrow-ios-forward-outline" /> */}
@@ -74,38 +71,44 @@ export const BrowseByMake: FC<IProps> = (props) => {
       <h3 className="mb-3 text-center">Browse by make</h3>
       {/* <MyCarousel slidesContent={data} /> */}
       {/* <div style={{ width: "80%", margin: "auto" }}> */}
-      <Slider {...settings}>
-        {makes.map((make) => (
-          <div className="makeSlide" key={make.id}>
-            <div className="makeSlideInner shadow">
-              <Link
-                href={{
-                  pathname: `/browse-cars/${make.title.toLowerCase()}`,
-                }}
-              >
-                <a>
-                  <img
-                    src={
-                      make.photo.secure_url
-                        ? make.photo.secure_url
-                        : "/images/lambo.jpg"
-                    }
-                    height="120px"
-                    width="100%"
-                    style={{ objectFit: "cover" }}
-                  />
-                  <div
-                    style={{ height: "calc(100% - 120px)" }}
-                    className="d-flex align-items-center justify-content-center"
+      <div className="makes-slider">
+        {loading ? (
+          <FlexibleLoader />
+        ) : (
+          <Slider {...settings}>
+            {makes.map((make) => (
+              <div className="makeSlide" key={make.id}>
+                <div className="makeSlideInner shadow">
+                  <Link
+                    href={{
+                      pathname: `/browse-cars/${make.title.toLowerCase()}`,
+                    }}
                   >
-                    <h5 className="m-0">{make.title}</h5>
-                  </div>
-                </a>
-              </Link>
-            </div>
-          </div>
-        ))}
-      </Slider>
+                    <a>
+                      <img
+                        src={
+                          make.photo.secure_url
+                            ? make.photo.secure_url
+                            : "/images/lambo.jpg"
+                        }
+                        height="120px"
+                        width="100%"
+                        style={{ objectFit: "cover" }}
+                      />
+                      <div
+                        style={{ height: "calc(100% - 120px)" }}
+                        className="d-flex align-items-center justify-content-center"
+                      >
+                        <h5 className="m-0">{make.title}</h5>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </Slider>
+        )}
+      </div>
     </div>
     // </div>
   );

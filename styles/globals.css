@@ -382,6 +382,14 @@ label {
   gap: 30px;
 }
 
+.popular-cars {
+  min-height: 300px;
+}
+
+.makes-slider {
+  min-height: 200px;
+}
+
 .find-your-drive {
   font-size: 80px;
 }

@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { useGetPopularCarsQuery } from "../../graphql_types/generated/graphql";
+import FlexibleLoader from "../Loading/FlexibleLoader";
 import { CarBox } from "./CarBox";
 
 interface IProps {}
@@ -25,9 +26,9 @@ export const PopularCars: FC<IProps> = (props) => {
       <h3 className="mb-4 text-center">
         Find great deals from top-rated hosts
       </h3>
-      <div className="cars-wrapper">
+      <div className="cars-wrapper popular-cars ">
         {mainLoading ? (
-          <p>Loading...</p>
+          <FlexibleLoader />
         ) : (
           data?.getPopularCars.map((car, idx) => (
             <CarBox data={car} key={idx} />
