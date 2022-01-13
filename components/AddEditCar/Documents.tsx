@@ -4,9 +4,10 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
+  SyntheticEvent,
+  useEffect,
   useState,
 } from "react";
-import { AiFillFileImage, AiFillFileText } from "react-icons/ai";
 import {
   CarDocumentsInput,
   DocumentInput,
@@ -16,6 +17,7 @@ import {
   useUploadFileMutation,
 } from "../../graphql_types/generated/graphql";
 import { ButtonLoading } from "../Loading/ButtonLoading";
+import DocumentContent from "./DocumentContent";
 import { FormSaveButton } from "./FormSaveButton";
 
 interface DocumentsProps {
@@ -38,37 +40,17 @@ export const Documents: FC<DocumentsProps> = (props) => {
   const [toDelete, setToDelete] = useState<DocumentInput>();
   const [saved, setSaved] = useState(false);
   const [id, setId] = useState<string>();
+  const [documents, setDocuments] = useState<CarDocumentsInput>({
+    documents: [],
+  });
+
+  useEffect(() => {
+    if (props.value) {
+      setDocuments({ ...props.value });
+    }
+  }, [props.value]);
 
   // console.log("props.carVerified :>> ", props.carVerified);
-
-  const processFileName = (url: string) => {
-    if (url) {
-      const urlSections = url.split("/");
-      return `https://res...${urlSections[urlSections.length - 1]}`;
-    } else {
-      return "";
-    }
-  };
-
-  const checkFileType = (url: string) => {
-    if (url) {
-      const urlSections = url.split("/");
-      const lastSection = urlSections[urlSections.length - 1];
-      const extension = lastSection.split(".")[1];
-
-      if (extension === "pdf") {
-        return "pdf";
-      } else if (
-        extension === "png" ||
-        extension === "jpg" ||
-        extension === "jpeg"
-      ) {
-        return "image";
-      }
-    } else {
-      return "";
-    }
-  };
 
   const handleUpload = async (
     e: ChangeEvent<HTMLInputElement>,
@@ -78,42 +60,67 @@ export const Documents: FC<DocumentsProps> = (props) => {
       const file = e.target.files?.[0];
       setId(title);
       const response = await uploadFile({ variables: { file } });
-      const newDocumentFile = response.data?.singleUpload;
-      delete newDocumentFile?.__typename;
-      const newDocument: DocumentInput = {
-        title,
-        file: newDocumentFile as PhotoInput,
-      };
-      const tempDocuments = [...props.value.documents];
+      if (response.data?.singleUpload.error) {
+        console.log("error :>> ", response.data?.singleUpload.error);
+      } else {
+        const newDocumentFile = response.data?.singleUpload.file;
+        delete newDocumentFile?.__typename;
+        const newDocument: DocumentInput = {
+          title,
+          file: newDocumentFile as PhotoInput,
+        };
+        const tempDocuments = [...props.value.documents];
 
-      if (title === "national_id") {
-        if (!tempDocuments[0]) {
-          tempDocuments[0] = newDocument;
-        } else {
-          setToDelete(tempDocuments[0]);
-          tempDocuments[0] = newDocument;
-          // Delete here
+        let tempToDelete: DocumentInput = {
+          title: "",
+          file: { public_id: "", url: "", secure_url: "" },
+        };
+
+        if (title === "national_id") {
+          if (!tempDocuments[0]) {
+            tempDocuments[0] = newDocument;
+          } else {
+            // setToDelete(tempDocuments[0]);
+            tempToDelete = tempDocuments[0];
+            tempDocuments[0] = newDocument;
+            // Delete here
+          }
+        } else if (title === "logbook") {
+          if (!tempDocuments[1]) {
+            tempDocuments[1] = newDocument;
+          } else {
+            // setToDelete(tempDocuments[1]);
+            tempToDelete = tempDocuments[1];
+            tempDocuments[1] = newDocument;
+            // Delete here
+            // deleteFile({ variables: { id: toDelete.file.public_id } });
+          }
+        } else if (title === "purchase_receipt") {
+          if (!tempDocuments[2]) {
+            tempDocuments[2] = newDocument;
+          } else {
+            // setToDelete(tempDocuments[2]);
+            tempToDelete = tempDocuments[2];
+            tempDocuments[2] = newDocument;
+            // Delete here
+            // deleteFile({ variables: { id: toDelete.file.public_id } });
+          }
         }
-      } else if (title === "logbook") {
-        if (!tempDocuments[1]) {
-          tempDocuments[1] = newDocument;
-        } else {
-          setToDelete(tempDocuments[1]);
-          tempDocuments[1] = newDocument;
-          // Delete here
-          // deleteFile({ variables: { id: toDelete.file.public_id } });
-        }
-      } else if (title === "purchase_receipt") {
-        if (!tempDocuments[2]) {
-          tempDocuments[2] = newDocument;
-        } else {
-          setToDelete(tempDocuments[2]);
-          tempDocuments[2] = newDocument;
-          // Delete here
-          // deleteFile({ variables: { id: toDelete.file.public_id } });
+        props.setData({ documents: tempDocuments });
+        const response2 = await editDocuments({
+          variables: {
+            carId: props.carId!,
+            input: { documents: tempDocuments },
+          },
+        });
+
+        if (
+          !response2?.data?.editCarDocuments.error &&
+          tempToDelete.file.public_id
+        ) {
+          deleteFile({ variables: { id: tempToDelete?.file.public_id! } });
         }
       }
-      props.setData({ documents: tempDocuments });
 
       e.target.value = "";
     } catch (error) {
@@ -148,14 +155,57 @@ export const Documents: FC<DocumentsProps> = (props) => {
       // setError("Network Error!");
     }
 
-    if (!response?.data?.editCarDocuments.error && toDelete) {
-      deleteFile({ variables: { id: toDelete?.file.public_id! } });
+    // if (!response?.data?.editCarDocuments.error && toDelete) {
+    if (response?.data?.editCarDocuments.error) {
+      console.log("error :>> ", response?.data?.editCarDocuments.error);
+      // deleteFile({ variables: { id: toDelete?.file.public_id! } });
     } else if (response.data?.editCarDocuments.carId) {
       setSaved(true);
       setTimeout(() => {
         setSaved(false);
       }, 3000);
     }
+  };
+
+  const getFile = (title: string) => {
+    if (title === "national_id") {
+      return documents.documents[0];
+    } else if (title === "logbook") {
+      return documents.documents[1];
+    } else if (title === "purchase_receipt") {
+      return documents.documents[2];
+    }
+  };
+
+  const handleDeleteDoc = async (
+    e: SyntheticEvent<HTMLButtonElement>,
+    title: string
+  ) => {
+    e.preventDefault();
+
+    try {
+      const response = await deleteFile({
+        variables: { id: getFile(title)!.file.public_id! },
+      });
+      if (response.data?.deleteUpload) {
+        let tempDocuments = documents.documents.map((doc) => {
+          if (doc.title === title) {
+            return {
+              title: "",
+              file: { public_id: "", url: "", secure_url: "" },
+            };
+          }
+          return doc;
+        });
+        props.setData({ documents: [...tempDocuments] });
+        await editDocuments({
+          variables: {
+            carId: props.carId!,
+            input: { documents: tempDocuments },
+          },
+        });
+      }
+    } catch (error) {}
   };
 
   // console.log("props.value :>> ", props.value);
@@ -178,35 +228,36 @@ export const Documents: FC<DocumentsProps> = (props) => {
         <label>Car Owner National Id</label>
         <div>
           {props.carVerified ? (
-            <div>
-              <span>
-                {checkFileType(props.value.documents[0]?.file?.secure_url) ===
-                "image" ? (
-                  <AiFillFileImage />
-                ) : (
-                  <AiFillFileText />
-                )}{" "}
-                <small>
-                  {processFileName(props.value.documents[0]?.file?.secure_url)}
-                </small>
-              </span>
-            </div>
+            <DocumentContent
+              isVerified={props.carVerified}
+              deleteHandler={handleDeleteDoc}
+              docUrl={documents.documents[0]?.file?.secure_url}
+              title="national_id"
+            />
           ) : (
-            <div className="d-flex align-items-center">
-              <input
-                type="file"
-                accept="image/*,.pdf"
-                onChange={(e) => handleUpload(e, "national_id")}
-                // disabled={saving}
+            <div className="d-flex align-items-start flex-column">
+              <div className="d-flex align-items-center">
+                <input
+                  type="file"
+                  accept="image/*,.pdf"
+                  onChange={(e) => handleUpload(e, "national_id")}
+                  // disabled={saving}
+                />
+                <span>
+                  {uploading && id === "national_id" && (
+                    <ButtonLoading
+                      spinnerColor="orange"
+                      dimensions={{ height: "18px", width: "18px" }}
+                    />
+                  )}
+                </span>
+              </div>
+              <DocumentContent
+                isVerified={props.carVerified}
+                deleteHandler={handleDeleteDoc}
+                docUrl={documents.documents[0]?.file?.secure_url}
+                title="national_id"
               />
-              <span>
-                {uploading && id === "national_id" && (
-                  <ButtonLoading
-                    spinnerColor="orange"
-                    dimensions={{ height: "18px", width: "18px" }}
-                  />
-                )}
-              </span>
             </div>
           )}
         </div>
@@ -214,35 +265,36 @@ export const Documents: FC<DocumentsProps> = (props) => {
         <label>Car Logbook</label>
         <div>
           {props.carVerified ? (
-            <div>
-              <span>
-                {checkFileType(props.value.documents[1]?.file?.secure_url) ===
-                "image" ? (
-                  <AiFillFileImage />
-                ) : (
-                  <AiFillFileText />
-                )}
-                <small>
-                  {processFileName(props.value.documents[1]?.file?.secure_url)}
-                </small>
-              </span>
-            </div>
+            <DocumentContent
+              isVerified={props.carVerified}
+              deleteHandler={handleDeleteDoc}
+              docUrl={documents.documents[1]?.file?.secure_url}
+              title="logbook"
+            />
           ) : (
-            <div className="d-flex align-items-center">
-              <input
-                type="file"
-                accept="image/*,.pdf"
-                onChange={(e) => handleUpload(e, "logbook")}
-                // disabled={saving}
+            <div className="d-flex align-items-start flex-column">
+              <div className="d-flex align-items-center">
+                <input
+                  type="file"
+                  accept="image/*,.pdf"
+                  onChange={(e) => handleUpload(e, "logbook")}
+                  // disabled={saving}
+                />
+                <span>
+                  {uploading && id === "logbook" && (
+                    <ButtonLoading
+                      spinnerColor="orange"
+                      dimensions={{ height: "18px", width: "18px" }}
+                    />
+                  )}
+                </span>
+              </div>
+              <DocumentContent
+                isVerified={props.carVerified}
+                deleteHandler={handleDeleteDoc}
+                docUrl={documents.documents[1]?.file?.secure_url}
+                title="logbook"
               />
-              <span>
-                {uploading && id === "logbook" && (
-                  <ButtonLoading
-                    spinnerColor="orange"
-                    dimensions={{ height: "18px", width: "18px" }}
-                  />
-                )}
-              </span>
             </div>
           )}
         </div>
@@ -252,51 +304,67 @@ export const Documents: FC<DocumentsProps> = (props) => {
           {/* is edit and no receipt */}
           {/* is not edit */}
           {!props.isEdit ? (
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-start flex-column">
               {" "}
-              <input
-                type="file"
-                accept="image/*,.pdf"
-                onChange={(e) => handleUpload(e, "purchase_receipt")}
-                // disabled={saving}
+              <div className="d-flex align-items-center">
+                <input
+                  type="file"
+                  accept="image/*,.pdf"
+                  onChange={(e) => handleUpload(e, "purchase_receipt")}
+                  // disabled={saving}
+                />
+                <span>
+                  {uploading && id === "purchase_receipt" && (
+                    <ButtonLoading
+                      spinnerColor="orange"
+                      dimensions={{ height: "18px", width: "18px" }}
+                    />
+                  )}
+                </span>
+              </div>
+              <DocumentContent
+                isVerified={props.carVerified}
+                deleteHandler={handleDeleteDoc}
+                docUrl={documents.documents[2]?.file?.secure_url}
+                title="purchase_receipt"
               />
-              <span>
-                {uploading && id === "purchase_receipt" && (
-                  <ButtonLoading
-                    spinnerColor="orange"
-                    dimensions={{ height: "18px", width: "18px" }}
-                  />
-                )}
-              </span>
             </div>
           ) : (
             <>
-              {props.value.documents[2] ? (
+              {documents.documents[2] ? (
                 <>
                   {props.carVerified ? (
-                    <div>
-                      <span>
-                        {checkFileType(
-                          props.value.documents[2]?.file?.secure_url
-                        ) === "image" ? (
-                          <AiFillFileImage />
-                        ) : (
-                          <AiFillFileText />
-                        )}
-                        <small>
-                          {processFileName(
-                            props.value.documents[2]?.file?.secure_url
-                          )}
-                        </small>
-                      </span>
-                    </div>
-                  ) : (
-                    <input
-                      type="file"
-                      accept="image/*,.pdf"
-                      onChange={(e) => handleUpload(e, "purchase_receipt")}
-                      // disabled={saving}
+                    <DocumentContent
+                      isVerified={props.carVerified}
+                      deleteHandler={handleDeleteDoc}
+                      docUrl={documents.documents[2]?.file?.secure_url}
+                      title="purchase_receipt"
                     />
+                  ) : (
+                    <div className="d-flex align-items-start flex-column">
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="file"
+                          accept="image/*,.pdf"
+                          onChange={(e) => handleUpload(e, "purchase_receipt")}
+                          // disabled={saving}
+                        />
+                        <span>
+                          {uploading && id === "purchase_receipt" && (
+                            <ButtonLoading
+                              spinnerColor="orange"
+                              dimensions={{ height: "18px", width: "18px" }}
+                            />
+                          )}
+                        </span>
+                      </div>
+                      <DocumentContent
+                        isVerified={props.carVerified}
+                        deleteHandler={handleDeleteDoc}
+                        docUrl={documents.documents[2]?.file?.secure_url}
+                        title="purchase_receipt"
+                      />
+                    </div>
                   )}
                 </>
               ) : (

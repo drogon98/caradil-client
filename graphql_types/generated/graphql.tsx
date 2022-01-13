@@ -485,11 +485,17 @@ export type UpdateFavouriteResponse = {
   status?: Maybe<Scalars['Boolean']>;
 };
 
-export type UploadedFileResponse = {
-  __typename?: 'UploadedFileResponse';
+export type UploadedFile = {
+  __typename?: 'UploadedFile';
   public_id: Scalars['String'];
   secure_url: Scalars['String'];
   url: Scalars['String'];
+};
+
+export type UploadedFileResponse = {
+  __typename?: 'UploadedFileResponse';
+  error?: Maybe<Scalars['String']>;
+  file?: Maybe<UploadedFile>;
 };
 
 export type User = {
@@ -687,7 +693,7 @@ export type UploadFileMutationVariables = Exact<{
 }>;
 
 
-export type UploadFileMutation = { __typename?: 'Mutation', singleUpload: { __typename?: 'UploadedFileResponse', public_id: string, url: string, secure_url: string } };
+export type UploadFileMutation = { __typename?: 'Mutation', singleUpload: { __typename?: 'UploadedFileResponse', error?: string | null | undefined, file?: { __typename?: 'UploadedFile', public_id: string, url: string, secure_url: string } | null | undefined } };
 
 export type CheckIfDriverIsApprovedToDriveQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1459,9 +1465,12 @@ export type UpdateCarFavouriteMutationOptions = Apollo.BaseMutationOptions<Updat
 export const UploadFileDocument = gql`
     mutation UploadFile($file: Upload!) {
   singleUpload(file: $file) {
-    public_id
-    url
-    secure_url
+    file {
+      public_id
+      url
+      secure_url
+    }
+    error
   }
 }
     `;

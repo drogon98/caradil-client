@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React, { FC } from "react";
+import { User } from "../../graphql_types/generated/graphql";
 
 interface AccountSideBarMenuProps {
   isHost: boolean;

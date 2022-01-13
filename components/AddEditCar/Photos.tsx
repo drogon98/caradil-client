@@ -55,9 +55,9 @@ export const Photos: FC<PhotosProps> = (props) => {
     const newPhoto = response?.data?.singleUpload;
     delete newPhoto?.__typename;
     const newPhotoPayload: PhotoInput = {
-      public_id: newPhoto?.public_id ?? "",
-      secure_url: newPhoto?.secure_url ?? "",
-      url: newPhoto?.secure_url ?? "",
+      public_id: newPhoto?.file?.public_id ?? "",
+      secure_url: newPhoto?.file?.secure_url ?? "",
+      url: newPhoto?.file?.secure_url ?? "",
     };
     props.setData({ photos: [...props.value.photos, newPhotoPayload!] });
 

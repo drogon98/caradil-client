@@ -1,5 +1,12 @@
 import Head from "next/head";
-import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import AccountLayout from "../../components/layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
@@ -7,6 +14,7 @@ import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import {
   EditProfileInput,
   PhotoInput,
+  useDeleteFileMutation,
   useEditProfileMutation,
   useGetAuthUserQuery,
   useUploadFileMutation,
@@ -19,6 +27,27 @@ interface PersonalDetailsProps {}
  * @function @PersonalDetails
  **/
 
+const uploadButton = (
+  uploadHandler: any,
+  loading: boolean,
+  isChange = false
+) => (
+  <>
+    <input
+      type="file"
+      accept="image/*"
+      // required
+      onChange={uploadHandler}
+      className="mt-3"
+      id="actual-btn"
+      hidden
+    />
+    <label htmlFor="actual-btn" id="upload-btn-label" className="btn">
+      {loading ? "Uploading..." : isChange ? "Change File" : "Choose File"}
+    </label>
+  </>
+);
+
 const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
   const [values, setValues] = useState<EditProfileInput>({
     user_name: "",
@@ -28,12 +57,17 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
     business_name: "",
   });
   const [mainLoading, setMainLoading] = useState(true);
-  const [avatar, setAvatar] = useState<PhotoInput>();
-  const [uploadFile] = useUploadFileMutation();
+  const [avatar, setAvatar] = useState<PhotoInput>({
+    public_id: "",
+    secure_url: "",
+    url: "",
+  });
+  const [uploadFile, { loading: uploading }] = useUploadFileMutation();
   const [editProfile, { loading: editLoading }] = useEditProfileMutation();
   const { data, loading } = useGetAuthUserQuery({
     fetchPolicy: "network-only",
   });
+  const [deleteFile, { loading: deletingPhoto }] = useDeleteFileMutation();
 
   useEffect(() => {
     if (data?.getUser.user) {
@@ -41,7 +75,12 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
       delete tempData.__typename;
       delete tempData.id;
       if (tempData.avatar?.public_id) {
-        setAvatar({ ...(tempData.avatar as PhotoInput) });
+        const tempAvatar: PhotoInput = {
+          secure_url: tempData.avatar.secure_url!,
+          public_id: tempData.avatar.public_id!,
+          url: tempData.avatar.url!,
+        };
+        setAvatar({ ...tempAvatar });
       }
       delete tempData.avatar;
       delete tempData.email;
@@ -62,11 +101,21 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
       const file = e.target.files?.[0];
-
       const response = await uploadFile({ variables: { file } });
-      const newPhoto = response.data?.singleUpload;
-      delete newPhoto?.__typename;
-      setAvatar(newPhoto);
+      if (response.data?.singleUpload.error) {
+        console.log("error :>> ", response.data?.singleUpload.error);
+      } else {
+        if (avatar.public_id) {
+          await deleteFile({ variables: { id: avatar.public_id } });
+        }
+        const newPhoto = response.data?.singleUpload.file;
+
+        delete newPhoto?.__typename;
+        setAvatar(newPhoto!);
+        await editProfile({
+          variables: { input: { ...values, avatar: newPhoto } },
+        });
+      }
       e.target.value = "";
     } catch (error) {
       console.log("error :>> ", error);
@@ -99,6 +148,32 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
     // if (response.data?.)
   };
 
+  const handleDeletePhoto = async (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    let response;
+    try {
+      response = await deleteFile({
+        variables: { id: avatar?.public_id! },
+      });
+      if (response.data?.deleteUpload) {
+        const payload = {
+          ...values,
+          avatar: null,
+        };
+        await editProfile({ variables: { input: payload } });
+        setAvatar({ public_id: "", secure_url: "", url: "" });
+      }
+    } catch (error) {
+      let errorMessage = "";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      console.log("errorMessage :>> ", errorMessage);
+      return;
+      // setError("Network Error!");
+    }
+  };
+
   // console.log("data :>> ", data);
   // console.log("avatar :>> ", avatar);
 
@@ -116,46 +191,60 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
           ) : (
             <div className="p-2">
               {" "}
-              <h3>Personal Details</h3>
+              <h3 className="text-center my-3">Personal Details</h3>
               <div className="container my-5">
                 <form
                   className="form-group profile-form"
                   onSubmit={handleSubmit}
                 >
                   <div className="row">
-                    <div className="col-md-4 d-flex justify-content-center flex-column align-items-center">
-                      <img
-                        src={
-                          avatar?.secure_url
-                            ? avatar.secure_url
-                            : "/images/avatar.svg"
-                        }
-                        className="rounded-circle"
-                        height="250px"
-                        width="250px"
-                      />
-                      {avatar?.secure_url ? (
-                        <div className="mt-3">
-                          <div className="row p-0">
-                            <div className="col-6">
-                              <button className="btn bgOrange">Photo</button>
-                            </div>
-                            <div className="col-6">
-                              <button className="btn bgOrange">
-                                Delete Photo
-                              </button>
+                    <div className="col-md-4 d-flex flex-column">
+                      <div className="d-flex justify-content-center">
+                        <img
+                          src={
+                            avatar?.secure_url
+                              ? avatar.secure_url
+                              : "/images/avatar.svg"
+                          }
+                          className="rounded-circle"
+                          height="250px"
+                          width="250px"
+                        />
+                      </div>
+                      <div className="col-8 mx-auto mt-3">
+                        {avatar?.secure_url ? (
+                          <div>
+                            <div className="d-flex justify-content-between p-0">
+                              <div>
+                                {uploadButton(handleUpload, uploading, true)}
+                              </div>
+                              <div>
+                                <button
+                                  className="btn bgOrange"
+                                  onClick={handleDeletePhoto}
+                                  style={{ width: "100px", fontSize: "10px" }}
+                                >
+                                  {deletingPhoto ? (
+                                    <ButtonLoading
+                                      spinnerColor="white"
+                                      dimensions={{
+                                        height: "18px",
+                                        width: "18px",
+                                      }}
+                                    />
+                                  ) : (
+                                    "Delete Photo"
+                                  )}
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ) : (
-                        <input
-                          type="file"
-                          accept="image/*"
-                          // required
-                          onChange={handleUpload}
-                          className="mt-3"
-                        />
-                      )}
+                        ) : (
+                          <div className="d-flex justify-content-center">
+                            {uploadButton(handleUpload, uploading)}
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <div className="col-md-8 mt-4 ">
