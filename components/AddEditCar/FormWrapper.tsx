@@ -273,6 +273,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
           carId={carId}
           setData={setPhotos}
           isEdit={props.isEdit!}
+          carVerified={props.car?.verified!}
         />
       </Expandable>
       <Expandable header="Documents">

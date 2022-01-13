@@ -23,6 +23,7 @@ interface PhotosProps {
   setData: Dispatch<SetStateAction<CarPhotosInput>>;
   carId: number | undefined;
   isEdit: boolean;
+  carVerified: boolean;
 }
 
 /**
@@ -41,6 +42,20 @@ export const Photos: FC<PhotosProps> = (props) => {
     let response;
     try {
       response = await uploadFile({ variables: { file } });
+      const newPhoto = response?.data?.singleUpload;
+      delete newPhoto?.__typename;
+      const newPhotoPayload: PhotoInput = {
+        public_id: newPhoto?.file?.public_id ?? "",
+        secure_url: newPhoto?.file?.secure_url ?? "",
+        url: newPhoto?.file?.secure_url ?? "",
+      };
+      const photos = [...props.value.photos, newPhotoPayload!];
+      props.setData({ photos: [...photos] });
+      await editPhotos({
+        variables: { carId: props.carId!, input: { photos } },
+      });
+
+      e.target.value = "";
     } catch (error) {
       e.target.value = "";
       let errorMessage = "";
@@ -51,17 +66,6 @@ export const Photos: FC<PhotosProps> = (props) => {
       return;
       // setError("Network Error!");
     }
-
-    const newPhoto = response?.data?.singleUpload;
-    delete newPhoto?.__typename;
-    const newPhotoPayload: PhotoInput = {
-      public_id: newPhoto?.file?.public_id ?? "",
-      secure_url: newPhoto?.file?.secure_url ?? "",
-      url: newPhoto?.file?.secure_url ?? "",
-    };
-    props.setData({ photos: [...props.value.photos, newPhotoPayload!] });
-
-    e.target.value = "";
   };
 
   const deletePhoto = async (id: string) => {
@@ -84,6 +88,12 @@ export const Photos: FC<PhotosProps> = (props) => {
       );
 
       props.setData({ photos: [...tempPhotos] });
+      await editPhotos({
+        variables: {
+          carId: props.carId!,
+          input: { photos: [...tempPhotos] },
+        },
+      });
     }
     // Make request to delete file
   };
@@ -99,6 +109,13 @@ export const Photos: FC<PhotosProps> = (props) => {
           input: { photos: props.value.photos },
         },
       });
+      if (response?.data?.editCarPhotos.error) {
+      } else if (response?.data?.editCarPhotos.carId) {
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 3000);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -107,15 +124,6 @@ export const Photos: FC<PhotosProps> = (props) => {
       console.log("errorMessage :>> ", errorMessage);
       return;
       // setError("Network Error!");
-    }
-
-    // console.log("response :>> ", response);
-    if (response?.data?.editCarPhotos.error) {
-    } else if (response?.data?.editCarPhotos.carId) {
-      setSaved(true);
-      setTimeout(() => {
-        setSaved(false);
-      }, 3000);
     }
   };
 
@@ -158,6 +166,7 @@ export const Photos: FC<PhotosProps> = (props) => {
                 photo={photo}
                 deletePhoto={deletePhoto}
                 key={photo.public_id}
+                carVerified={props.carVerified}
               />
             ))}
         </div>

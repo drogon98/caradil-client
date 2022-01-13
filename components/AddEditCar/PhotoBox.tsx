@@ -6,6 +6,7 @@ import { FaTrash } from "react-icons/fa";
 interface PhotoBoxProps {
   photo: PhotoInput;
   deletePhoto: (id: string) => void;
+  carVerified: boolean;
 }
 
 /**
@@ -27,11 +28,13 @@ export const PhotoBox: FC<PhotoBoxProps> = (props) => {
         height="250px"
         style={{ objectFit: "cover" }}
       />
-      <span className="photo-box-delete-wrapper">
-        <button className="btn p-0 m-0" onClick={handleClick}>
-          <FaTrash style={{ color: "orange" }} />
-        </button>
-      </span>
+      {!props.carVerified && (
+        <span className="photo-box-delete-wrapper">
+          <button className="btn p-0 m-0" onClick={handleClick}>
+            <FaTrash style={{ color: "orange" }} />
+          </button>
+        </span>
+      )}
     </div>
   );
 };
