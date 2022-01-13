@@ -62,9 +62,9 @@ const EditCar: FC<EditCarProps> = (props) => {
           {mainLoading ? (
             <Loading />
           ) : (
-            <div className="p-2">
+            <div className="p-2 mt-4">
               {" "}
-              <h3 className="text-center mb-3">Car Details</h3>
+              <h3 className="mb-3">Car Details</h3>
               <FormWrapper isEdit carId={carId} car={car} />
             </div>
           )}

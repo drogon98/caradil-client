@@ -189,7 +189,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
           {mainLoading ? (
             <Loading />
           ) : (
-            <div className="p-2">
+            <div className="p-2 mt-4">
               {" "}
               <h3 className="text-center my-3">Personal Details</h3>
               <div className="container my-5">

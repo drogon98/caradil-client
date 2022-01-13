@@ -20,7 +20,7 @@ const Bookings: FC<IProps> = (props) => {
       </Head>
       <AuthWrapper>
         <AccountLayout>
-          <div className="p-2">
+          <div className="p-2 mt-4">
             <h3>Bookings</h3>
           </div>
         </AccountLayout>

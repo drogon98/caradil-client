@@ -68,7 +68,7 @@ const Account: FC<IProps> = (props) => {
           {mainLoading ? (
             <Loading />
           ) : (
-            <div className="mt-2 p-2">
+            <div className="mt-4 p-2">
               <h1>Hi there,</h1>
               {hasCompleteProfile ? (
                 <></>

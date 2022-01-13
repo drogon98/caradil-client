@@ -24,7 +24,7 @@ const Settings = (props: SettingsProps) => {
       </Head>
       <AuthWrapper>
         <AccountLayout>
-          <div className="p-2">
+          <div className="p-2 mt-4">
             <h3>Your settings</h3>
 
             {role === 1 && (
