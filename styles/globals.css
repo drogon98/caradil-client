@@ -1090,6 +1090,8 @@ car-input-container select:focus {
   .categories-btn {
     height: 38px;
     border: 1px solid #dcdcdc;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     /* background-color: red !important; */
   }
 }
