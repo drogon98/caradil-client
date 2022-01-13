@@ -28,7 +28,7 @@ export const Rates: FC<RatesProps> = (props) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     props.setData({
       ...props.value,
-      [e.target.name]: parseInt(e.target.value),
+      [e.target.name]: parseInt(e.target.value.trim()),
     });
   };
   const [saved, setSaved] = useState(false);

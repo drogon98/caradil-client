@@ -68,7 +68,7 @@ export function Categories(props: CategoriesProps) {
   return (
     <div className="search-categories-wrapper">
       <button
-        className="btn d-flex align-items-center justify-content-between w-100"
+        className="btn d-flex align-items-center justify-content-between w-100 categories-btn"
         style={{ backgroundColor: "#fff" }}
         onClick={handleClickButtonWithPreventdefault}
         ref={categoriesButtonRef}

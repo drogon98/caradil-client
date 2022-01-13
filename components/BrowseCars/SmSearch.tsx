@@ -55,7 +55,7 @@ export function SmSearch(props: SmSearchProps) {
           props.setValues({ ...props.payload });
         }}
       >
-        <div className="input-group mb-2">
+        <div className="input-group mb-2 d-flex align-items-center">
           <Categories payload={props.payload} setPayload={props.setPayload} />
           <input
             type="text"

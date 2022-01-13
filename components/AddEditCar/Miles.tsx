@@ -26,7 +26,7 @@ interface MilesProps {
 export const Miles: FC<MilesProps> = (props) => {
   const [editMiles, { loading }] = useEditCarMilesMutation();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    props.setData({ miles_per_day: parseInt(e.target.value) });
+    props.setData({ miles_per_day: parseInt(e.target.value.trim()) });
   };
   const [saved, setSaved] = useState(false);
 

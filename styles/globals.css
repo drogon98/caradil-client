@@ -531,11 +531,11 @@ label {
 }
 
 .sm-side-menu-show {
-  animation: showSmSideMenu 1s;
+  animation: showSmSideMenu 0.5s;
   animation-fill-mode: forwards;
 }
 .sm-side-menu-hide {
-  animation: hideSmSideMenu 1s;
+  animation: hideSmSideMenu 0.5s;
   animation-fill-mode: forwards;
 }
 
@@ -1085,6 +1085,24 @@ car-input-container select:focus {
     height: 400px;
     top: 0;
     z-index: 999;
+  }
+
+  .categories-btn {
+    height: 38px;
+    border: 1px solid #dcdcdc;
+    /* background-color: red !important; */
+  }
+}
+
+@media screen and (max-width: 369px) {
+  .more-filters-wrapper-content {
+    width: 280px;
+  }
+}
+
+@media screen and (max-width: 349px) {
+  .more-filters-wrapper-content {
+    width: 270px;
   }
 }
 

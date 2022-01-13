@@ -53,8 +53,8 @@ const AccountLayout: React.FC = ({ children }): JSX.Element => {
               <HamburgerMenu
                 isOpen={false}
                 menuClicked={handleOpeHamburgerClick}
-                width={15}
-                height={10}
+                width={25}
+                height={20}
                 strokeWidth={1}
                 rotate={0}
                 color="black"
@@ -76,8 +76,8 @@ const AccountLayout: React.FC = ({ children }): JSX.Element => {
                   <HamburgerMenu
                     isOpen={true}
                     menuClicked={handleCloseHamburgerClick}
-                    width={18}
-                    height={15}
+                    width={25}
+                    height={20}
                     strokeWidth={1}
                     rotate={0}
                     color="black"

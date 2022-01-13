@@ -57,8 +57,8 @@ export function MoreFilters(props: MoreFiltersProps) {
     });
   };
 
-  console.log("props.payload :>> ", props.payload);
-  console.log("moreFilters :>> ", moreFilters);
+  // console.log("props.payload :>> ", props.payload);
+  // console.log("moreFilters :>> ", moreFilters);
 
   return (
     <div className="more-filters-wrapper">
@@ -83,11 +83,6 @@ export function MoreFilters(props: MoreFiltersProps) {
         name="more_filters"
       />
       {showMoreDropdown && (
-        // <OutsideClickHandler
-        //   onOutsideClick={() => {
-        //     alert("You clicked outside of this component!!!");
-        //   }}
-        // >
         <div
           className="more-filters-wrapper-content shadow p-2"
           ref={moreFilterRef}
