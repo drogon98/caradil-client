@@ -146,6 +146,12 @@ export type ContactResponse = {
   success: Scalars['Boolean'];
 };
 
+export type CreateTripResponse = {
+  __typename?: 'CreateTripResponse';
+  success: Scalars['Boolean'];
+  tripId?: Maybe<Scalars['Float']>;
+};
+
 export type CustomAvailabilityDataInput = {
   endDate?: InputMaybe<Scalars['String']>;
   endTime?: InputMaybe<Scalars['String']>;
@@ -226,7 +232,7 @@ export type Mutation = {
   addEditCarGeneralInfo: CarAddEditResponse;
   addMake: MakeResponse;
   contact: ContactResponse;
-  createTrip: TripResponse;
+  createTrip: CreateTripResponse;
   deleteUpload: Scalars['Boolean'];
   editCarAvailability: CarAddEditResponse;
   editCarCategories: CarAddEditResponse;
@@ -400,6 +406,7 @@ export type Query = {
   getMyBookings: Array<Trip>;
   getMyTrips: Array<Trip>;
   getPopularCars: Array<Car>;
+  getTrip: TripResponse;
   getUnVerifiedCars: Array<Car>;
   getUser: UserResponse;
   makes: Array<Make>;
@@ -415,6 +422,11 @@ export type QueryGetCarArgs = {
 
 export type QueryGetCarsArgs = {
   input: SearchInput;
+};
+
+
+export type QueryGetTripArgs = {
+  tripId: Scalars['Float'];
 };
 
 export type RegisterInput = {
@@ -442,6 +454,19 @@ export type TokenResponse = {
   error?: Maybe<Scalars['String']>;
 };
 
+export type Transaction = {
+  __typename?: 'Transaction';
+  amount?: Maybe<Scalars['String']>;
+  channel?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  invoice_no?: Maybe<Scalars['String']>;
+  order_id?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  transaction_code?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['DateTime']>;
+};
+
 export type Trip = {
   __typename?: 'Trip';
   car?: Maybe<Car>;
@@ -456,6 +481,8 @@ export type Trip = {
   start_date?: Maybe<Scalars['DateTime']>;
   start_time?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
+  transaction: Transaction;
+  transaction_id?: Maybe<Scalars['Float']>;
   updated_at?: Maybe<Scalars['DateTime']>;
 };
 
@@ -475,8 +502,8 @@ export type TripInput = {
 
 export type TripResponse = {
   __typename?: 'TripResponse';
-  success: Scalars['Boolean'];
-  tripId?: Maybe<Scalars['Float']>;
+  error?: Maybe<Scalars['String']>;
+  trip?: Maybe<Trip>;
 };
 
 export type UpdateFavouriteResponse = {
@@ -548,7 +575,7 @@ export type CreateTripMutationVariables = Exact<{
 }>;
 
 
-export type CreateTripMutation = { __typename?: 'Mutation', createTrip: { __typename?: 'TripResponse', success: boolean, tripId?: number | null | undefined } };
+export type CreateTripMutation = { __typename?: 'Mutation', createTrip: { __typename?: 'CreateTripResponse', success: boolean, tripId?: number | null | undefined } };
 
 export type ContactMutationVariables = Exact<{
   input: ContactInput;
@@ -738,6 +765,13 @@ export type GetPopularCarsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetPopularCarsQuery = { __typename?: 'Query', getPopularCars: Array<{ __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, daily_rate?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'PhotoObj', public_id?: string | null | undefined, url?: string | null | undefined, secure_url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'PhotoObj', public_id?: string | null | undefined, url?: string | null | undefined, secure_url?: string | null | undefined } | null | undefined }> | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined }> };
+
+export type GetTripQueryVariables = Exact<{
+  tripId: Scalars['Float'];
+}>;
+
+
+export type GetTripQuery = { __typename?: 'Query', getTrip: { __typename?: 'TripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'PhotoObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
 
 export type GetUnVerifiedCarsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1939,6 +1973,61 @@ export function useGetPopularCarsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetPopularCarsQueryHookResult = ReturnType<typeof useGetPopularCarsQuery>;
 export type GetPopularCarsLazyQueryHookResult = ReturnType<typeof useGetPopularCarsLazyQuery>;
 export type GetPopularCarsQueryResult = Apollo.QueryResult<GetPopularCarsQuery, GetPopularCarsQueryVariables>;
+export const GetTripDocument = gql`
+    query GetTrip($tripId: Float!) {
+  getTrip(tripId: $tripId) {
+    trip {
+      id
+      owner {
+        first_name
+      }
+      transaction {
+        channel
+        amount
+      }
+      car {
+        name
+        transmission
+        seats
+        doors
+        daily_rate
+        photos {
+          secure_url
+        }
+      }
+    }
+    error
+  }
+}
+    `;
+
+/**
+ * __useGetTripQuery__
+ *
+ * To run a query within a React component, call `useGetTripQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTripQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTripQuery({
+ *   variables: {
+ *      tripId: // value for 'tripId'
+ *   },
+ * });
+ */
+export function useGetTripQuery(baseOptions: Apollo.QueryHookOptions<GetTripQuery, GetTripQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTripQuery, GetTripQueryVariables>(GetTripDocument, options);
+      }
+export function useGetTripLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTripQuery, GetTripQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTripQuery, GetTripQueryVariables>(GetTripDocument, options);
+        }
+export type GetTripQueryHookResult = ReturnType<typeof useGetTripQuery>;
+export type GetTripLazyQueryHookResult = ReturnType<typeof useGetTripLazyQuery>;
+export type GetTripQueryResult = Apollo.QueryResult<GetTripQuery, GetTripQueryVariables>;
 export const GetUnVerifiedCarsDocument = gql`
     query GetUnVerifiedCars {
   getUnVerifiedCars {

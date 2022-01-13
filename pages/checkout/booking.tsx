@@ -44,8 +44,7 @@ function Booking(props: BookingProps) {
             router.replace({
               pathname: "/checkout/success",
               query: {
-                car_id: car_id_temp,
-                trip: response.data?.createTrip.tripId!,
+                trip_id: response.data?.createTrip.tripId!,
               },
             });
           } else {
