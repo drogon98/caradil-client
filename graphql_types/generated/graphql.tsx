@@ -759,7 +759,7 @@ export type GetMakesQuery = { __typename?: 'Query', makes: Array<{ __typename?: 
 export type GetMyTripsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMyTripsQuery = { __typename?: 'Query', getMyTrips: Array<{ __typename?: 'Trip', id?: number | null | undefined, owner_id?: number | null | undefined, start_date?: any | null | undefined, status?: string | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined }> };
+export type GetMyTripsQuery = { __typename?: 'Query', getMyTrips: Array<{ __typename?: 'Trip', id?: number | null | undefined, owner_id?: number | null | undefined, start_date?: any | null | undefined, status?: string | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined } }> };
 
 export type GetPopularCarsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1879,6 +1879,10 @@ export const GetMyTripsDocument = gql`
     end_date
     start_time
     end_time
+    transaction {
+      channel
+      amount
+    }
   }
 }
     `;

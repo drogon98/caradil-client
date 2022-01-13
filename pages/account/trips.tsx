@@ -35,7 +35,7 @@ const Trips: FC<TripsProps> = (props) => {
     }
   }, [trips]);
 
-  console.log("data :>> ", data);
+  // console.log("data :>> ", data);
 
   return (
     <>
