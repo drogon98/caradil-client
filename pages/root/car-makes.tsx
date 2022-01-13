@@ -20,7 +20,7 @@ const CarMakes: FC<CarMakesProps> = (props) => {
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const response = await uploadFile({ variables: { file } });
-    const newPhoto = response.data?.singleUpload;
+    const newPhoto = response.data?.singleUpload.file;
     delete newPhoto?.__typename;
     setValues({ ...values, photo: newPhoto });
     // e.target.value = "";
