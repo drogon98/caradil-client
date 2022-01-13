@@ -105,8 +105,8 @@ const Register: FC<IProps> = (props) => {
 
   return (
     <div className="authWrapper">
-      <div className="authContent shadow p-2 py-5">
-        <h3 className="text-center">Register</h3>
+      <div className="authContent p-2 py-5">
+        {/* <h3 className="text-center">Register</h3> */}
         <div style={{ height: "10px" }}>
           {error && <small className="text-danger">{error}</small>}
         </div>
@@ -187,7 +187,11 @@ const Register: FC<IProps> = (props) => {
           </div>
           <div>
             <div className="d-grid gap-2">
-              <button type="submit" className="btn bgOrange" disabled={loading}>
+              <button
+                type="submit"
+                className="btn bgOrange auth-btn"
+                disabled={loading}
+              >
                 {loading ? (
                   <ButtonLoading
                     spinnerColor="white"

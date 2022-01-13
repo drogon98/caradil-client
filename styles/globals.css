@@ -277,8 +277,18 @@ label {
   font-size: 35px;
 }
 
+/* .list-car-text {
+  margin-right: 0px;
+} */
+
 @media screen and (max-width: 600px) {
   .mainNavLinksLeft {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .sign-up-link {
     display: none !important;
   }
 }
@@ -392,7 +402,7 @@ label {
 
 /* ===============================AUTH PAGES======================================= */
 .authWrapper {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   display: flex;
   align-items: center;
@@ -402,6 +412,13 @@ label {
 .authContent {
   min-height: 50vh;
   width: 400px;
+}
+
+.auth-btn {
+  height: 50px;
+  font-weight: bolder;
+  font-size: larger;
+  color: #fff !important;
 }
 /* ===============================END AUTH PAGES======================================= */
 

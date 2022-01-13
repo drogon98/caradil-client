@@ -61,7 +61,7 @@ export const Miles: FC<MilesProps> = (props) => {
 
   return (
     <div>
-      <p>This is the distance your car should cover in one rental day.</p>
+      <p>This is the distance your car should cover in one day of a trip.</p>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="miles">Miles</label>

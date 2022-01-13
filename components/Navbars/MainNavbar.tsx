@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { BiPlusCircle } from "react-icons/bi";
 import { useAppSelector } from "../../redux/hooks";
 import { useRole } from "../hooks/useRole";
 import { UserNavIcon } from "./UserNavIcon";
@@ -68,15 +69,20 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
             </div>
           </div>
           <div className="mainNavLinksRight d-flex align-items-center justify-content-end">
-            <div className="pr-5">
+            <div>
               <Link
                 href={
                   role === 2 ? "/account/listings/add-car" : "/list-your-car"
                 }
               >
-                <a className="d-flex align-items-center">
-                  <Icon icon="akar-icons:circle-plus" />{" "}
-                  <small className="m-0">List Car</small>
+                <a className="d-flex align-items-center h-100">
+                  <span>
+                    {/* <Icon icon="akar-icons:circle-plus" />{" "} */}
+                    <BiPlusCircle size={"18px"} />
+                  </span>
+                  <span>
+                    <small>List Car</small>
+                  </span>
                 </a>
               </Link>
             </div>
@@ -88,7 +94,7 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
               ) : (
                 <div className="d-flex align-items-center">
                   <div
-                    style={{ width: "70px" }}
+                    style={{ width: "60px" }}
                     className="d-flex justify-content-center"
                   >
                     <Link href="/login">
@@ -97,17 +103,19 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
                       </a>
                     </Link>
                   </div>
-                  |
-                  <div
-                    className="d-flex justify-content-center"
-                    style={{ width: "70px" }}
-                  >
-                    {" "}
-                    <Link href="/register">
-                      <a>
-                        <small>Sign Up</small>
-                      </a>
-                    </Link>
+                  <div className="d-flex sign-up-link">
+                    |
+                    <div
+                      className="d-flex justify-content-center"
+                      style={{ width: "60px" }}
+                    >
+                      {" "}
+                      <Link href="/register">
+                        <a>
+                          <small>Sign Up</small>
+                        </a>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               )}
