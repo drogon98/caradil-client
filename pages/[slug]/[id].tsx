@@ -21,6 +21,8 @@ import { TripDates } from "../../components/PublicCar/TripDates";
 import {
   Car,
   CustomAvailabilityDataInput,
+  CustomAvailabilityObj,
+  Maybe,
   useCheckIfDriverIsApprovedToDriveLazyQuery,
   useGetCarQuery,
   useUpdateCarFavouriteMutation,
@@ -44,7 +46,9 @@ const Car: FC<CarProps> = (props) => {
   const role = useRole(token);
   const userId = useUserId(token);
   const [isFavourite, setIsFavourite] = useState<boolean>();
-  const [values, setValues] = useState<CustomAvailabilityDataInput>({
+  const [values, setValues] = useState<
+    Maybe<CustomAvailabilityObj> | undefined
+  >({
     startDate: "",
     startTime: "",
     endDate: "",
@@ -115,20 +119,20 @@ const Car: FC<CarProps> = (props) => {
   }, [data, carId]);
 
   useEffect(() => {
-    if (
-      values.startDate &&
-      values.startTime &&
-      values.endDate &&
-      values.endTime
-    ) {
-      setValidDates(true);
+    if (car?.custom_availability_data) {
+      setValues({
+        startDate: car?.custom_availability_data.startDate,
+        endDate: car?.custom_availability_data.endDate,
+        startTime: car?.custom_availability_data.startTime,
+        endTime: car?.custom_availability_data.endTime,
+      });
     }
-  }, [values]);
+  }, [car]);
 
   useEffect(() => {
     if (validDates) {
-      let startDate = new Date(values.startDate!);
-      let endDate = new Date(values.endDate!);
+      let startDate = new Date(values?.startDate!);
+      let endDate = new Date(values?.endDate!);
 
       // To calculate the time difference of two dates
       let Difference_In_Time = endDate.getTime() - startDate.getTime();
@@ -401,7 +405,7 @@ const Car: FC<CarProps> = (props) => {
 
                     <hr />
                     <h6>Select Trip Dates And Time</h6>
-                    <TripDates values={values} setData={setValues} />
+                    <TripDates values={values} setValidDates={setValidDates} />
 
                     <div className="d-grid gap-2">
                       {token && role ? (
@@ -513,7 +517,7 @@ const Car: FC<CarProps> = (props) => {
                   ref={pickDatesRef}
                 >
                   {/* <h5>Select Trip Dates</h5> */}
-                  <TripDates values={values} setData={setValues} />
+                  <TripDates values={values} setValidDates={setValidDates} />
                   <div className="d-grid gap-2">
                     {token && role ? (
                       <button

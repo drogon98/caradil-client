@@ -1,10 +1,17 @@
 import React, { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { time24hrs } from "../../data";
-import { CustomAvailabilityDataInput } from "../../graphql_types/generated/graphql";
+import {
+  CustomAvailabilityDataInput,
+  CustomAvailabilityObj,
+  Maybe,
+} from "../../graphql_types/generated/graphql";
 
 interface TripDatesProps {
-  setData: Dispatch<SetStateAction<CustomAvailabilityDataInput>>;
-  values: CustomAvailabilityDataInput;
+  // setData: Dispatch<SetStateAction<Maybe<CustomAvailabilityObj> | undefined>>;
+  values: Maybe<CustomAvailabilityObj> | undefined;
+  setValidDates: Dispatch<SetStateAction<boolean>>;
 }
 
 /**
@@ -13,10 +20,99 @@ interface TripDatesProps {
  **/
 
 export const TripDates: FC<TripDatesProps> = (props) => {
+  const [values, setValues] = useState({
+    endDate: "",
+    endTime: "",
+    startDate: "",
+    startTime: "",
+  });
+  const [minDate, setMinDate] = useState("");
+  const [maxDate, setMaxDate] = useState("");
+  // const [minTime, setMinTime] = useState("");
+  // const [maxTime, setMaxTime] = useState("");
+
+  const createDateValue = (date: Date) => {
+    if (date) {
+      return `${date.getFullYear()}-${
+        date.getMonth().toString().length === 1
+          ? `0${date.getMonth() + 1}`
+          : date.getMonth()
+      }-${date.getDate()}`;
+    }
+  };
+
+  const getMinDate = (val: string) => {
+    if (val) {
+      return createDateValue(new Date(val));
+    } else {
+      if (props.values?.startDate) {
+        return createDateValue(new Date(props.values.startDate));
+      } else {
+        return createDateValue(new Date());
+      }
+    }
+  };
+
+  const getMaxDate = (val: string) => {
+    if (val) {
+      return createDateValue(new Date(val));
+    } else {
+      if (props.values?.startDate) {
+        return createDateValue(new Date(props.values.startDate));
+      } else {
+        return createDateValue(new Date());
+      }
+    }
+  };
+
+  const getTimeOptions = (s: string, isStart = true) => {
+    if (s) {
+      let idx = time24hrs.findIndex((el) => el === s);
+      if (isStart) {
+        return time24hrs.slice(idx);
+      } else {
+        return time24hrs.slice(0, idx + 1);
+      }
+    } else {
+      return time24hrs;
+    }
+  };
+
+  useEffect(() => {
+    if (
+      values?.startDate &&
+      values?.startTime &&
+      values?.endDate &&
+      values?.endTime
+    ) {
+      props.setValidDates(true);
+    }
+  }, [values]);
+
+  useEffect(() => {
+    if (
+      props.values?.startDate &&
+      props.values?.endDate &&
+      props.values?.startTime &&
+      props.values?.endTime
+    ) {
+      setMinDate(getMinDate(props.values.startDate)!);
+      setMaxDate(getMaxDate(props.values.endDate)!);
+    } else {
+      const date = new Date();
+
+      setMinDate(createDateValue(date)!);
+    }
+  }, [props.values]);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    props.setData({ ...props.values, [e.target.name]: e.target.value });
+    if (e.target.name === "startDate") {
+      setMinDate(getMinDate(e.target.value)!);
+    }
+    setValues({ ...values, [e.target.name]: e.target.value });
+    // props.setData({ ...props.values, [e.target.name]: e.target.value });
   };
 
   return (
@@ -31,6 +127,10 @@ export const TripDates: FC<TripDatesProps> = (props) => {
             className="w-100"
             name="startDate"
             onChange={handleChange}
+            value={values.startDate}
+            min={minDate}
+            // max="2018-12-31"
+            // ref={startDateRef}
           />
         </div>
         <div className="w-50">
@@ -38,11 +138,13 @@ export const TripDates: FC<TripDatesProps> = (props) => {
             className="w-100"
             name="startTime"
             onChange={handleChange}
-            value={props.values.startTime ?? ""}
+            value={values.startTime ?? ""}
           >
             <option value={""}>Start Time</option>
-            {time24hrs.map((t) => (
-              <option value={t}>{t}</option>
+            {getTimeOptions(props.values?.startTime ?? "").map((t, idx) => (
+              <option key={idx} value={t}>
+                {t}
+              </option>
             ))}
           </select>
         </div>
@@ -54,9 +156,10 @@ export const TripDates: FC<TripDatesProps> = (props) => {
             type="date"
             className="w-100"
             name="endDate"
-            onFocus={(e) => (e.currentTarget.type = "date")}
-            onBlur={(e) => (e.currentTarget.type = "text")}
             onChange={handleChange}
+            value={values.endDate}
+            min={minDate}
+            max={maxDate}
           />
         </div>
         <div className="w-50">
@@ -64,11 +167,13 @@ export const TripDates: FC<TripDatesProps> = (props) => {
             className="w-100"
             name="endTime"
             onChange={handleChange}
-            value={props.values.endTime ?? ""}
+            value={values.endTime ?? ""}
           >
             <option value={""}>End Time</option>
-            {time24hrs.map((t) => (
-              <option value={t}>{t}</option>
+            {getTimeOptions(props.values?.endTime ?? "").map((t, idx) => (
+              <option key={idx} value={t}>
+                {t}
+              </option>
             ))}
           </select>
         </div>
