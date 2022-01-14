@@ -1,14 +1,14 @@
 import Head from "next/head";
 import React, { FC, useEffect, useState } from "react";
-import { SmTripBox } from "../../components/Account/Trips/SmTripBox";
-import { TripBox } from "../../components/Account/Trips/TripBox";
-import { AuthWrapper } from "../../components/AuthWrapper";
-import AccountLayout from "../../components/layouts/AccountLayout";
-import { Loading } from "../../components/Loading";
+import { SmTripBox } from "../../../components/Account/Trips/SmTripBox";
+import { TripBox } from "../../../components/Account/Trips/TripBox";
+import { AuthWrapper } from "../../../components/AuthWrapper";
+import AccountLayout from "../../../components/layouts/AccountLayout";
+import { Loading } from "../../../components/Loading";
 import {
   Trip,
   useGetMyTripsQuery,
-} from "../../graphql_types/generated/graphql";
+} from "../../../graphql_types/generated/graphql";
 
 interface TripsProps {}
 

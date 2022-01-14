@@ -22,7 +22,7 @@ export const TripBox: FC<TripBoxProps> = (props) => {
           <div className="col-2">{props.data.status}</div>
           <div className="col-1 d-flex justify-content-center">
             <MoreButton data={props.data}>
-              <Link href={``}>
+              <Link href={`/account/trips/${props.data.id}`}>
                 <a>
                   <p>Edit</p>
                 </a>
