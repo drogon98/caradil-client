@@ -108,7 +108,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
       // To calculate the no. of days between two dates
       let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-      // console.log("Difference_In_Days :>> ", Difference_In_Days);
+      console.log("Difference_In_Days :>> ", Difference_In_Days);
       setTripDays(Difference_In_Days);
       // setTotalCharge(() => {
       //   let total = data.getCar.car?.daily_rate! * Difference_In_Days;

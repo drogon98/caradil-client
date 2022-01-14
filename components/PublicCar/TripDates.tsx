@@ -12,6 +12,10 @@ interface TripDatesProps {
   // setData: Dispatch<SetStateAction<Maybe<CustomAvailabilityObj> | undefined>>;
   values: Maybe<CustomAvailabilityObj> | undefined;
   setValidDates: Dispatch<SetStateAction<boolean>>;
+  setTripDates: Dispatch<
+    SetStateAction<Maybe<CustomAvailabilityObj> | undefined>
+  >;
+  userDates: Maybe<CustomAvailabilityObj> | undefined;
 }
 
 /**
@@ -28,8 +32,6 @@ export const TripDates: FC<TripDatesProps> = (props) => {
   });
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
-  // const [minTime, setMinTime] = useState("");
-  // const [maxTime, setMaxTime] = useState("");
 
   const createDateValue = (date: Date) => {
     if (date) {
@@ -112,7 +114,7 @@ export const TripDates: FC<TripDatesProps> = (props) => {
       setMinDate(getMinDate(e.target.value)!);
     }
     setValues({ ...values, [e.target.name]: e.target.value });
-    // props.setData({ ...props.values, [e.target.name]: e.target.value });
+    props.setTripDates({ ...props.userDates, [e.target.name]: e.target.value });
   };
 
   return (

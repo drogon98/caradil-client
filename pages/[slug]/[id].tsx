@@ -54,6 +54,14 @@ const Car: FC<CarProps> = (props) => {
     endDate: "",
     endTime: "",
   });
+  const [userDates, setUserDates] = useState<
+    Maybe<CustomAvailabilityObj> | undefined
+  >({
+    startDate: "",
+    startTime: "",
+    endDate: "",
+    endTime: "",
+  });
   const [selectingDates, setSelectingDates] = useState<boolean | undefined>();
   const [validDates, setValidDates] = useState<boolean>(false);
   const pickDatesButtonRef = useRef<HTMLButtonElement>(null);
@@ -80,12 +88,12 @@ const Car: FC<CarProps> = (props) => {
         } else if (approvedData?.checkIfDriverIsApprovedToDrive.approved) {
           await router.push({
             pathname: "/checkout/confirm-order",
-            query: { carId, ...values, approved: true },
+            query: { carId, ...userDates, approved: true },
           });
         } else if (!approvedData?.checkIfDriverIsApprovedToDrive.approved) {
           await router.push({
             pathname: "/checkout/approve-driver",
-            query: { carId, ...values, approved: false },
+            query: { carId, ...userDates, approved: false },
           });
         }
       }
@@ -405,7 +413,12 @@ const Car: FC<CarProps> = (props) => {
 
                     <hr />
                     <h6>Select Trip Dates And Time</h6>
-                    <TripDates values={values} setValidDates={setValidDates} />
+                    <TripDates
+                      values={values}
+                      setTripDates={setUserDates}
+                      setValidDates={setValidDates}
+                      userDates={userDates}
+                    />
 
                     <div className="d-grid gap-2">
                       {token && role ? (
@@ -517,7 +530,12 @@ const Car: FC<CarProps> = (props) => {
                   ref={pickDatesRef}
                 >
                   {/* <h5>Select Trip Dates</h5> */}
-                  <TripDates values={values} setValidDates={setValidDates} />
+                  <TripDates
+                    values={values}
+                    setTripDates={setUserDates}
+                    setValidDates={setValidDates}
+                    userDates={userDates}
+                  />
                   <div className="d-grid gap-2">
                     {token && role ? (
                       <button
