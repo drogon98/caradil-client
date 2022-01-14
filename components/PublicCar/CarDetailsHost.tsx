@@ -14,7 +14,7 @@ export const CarDetailsHost: FC<CarDetailsHostProps> = (props) => {
   // console.log("props.data?.avatar :>> ", props.data?.avatar);
   return (
     <div>
-      <h6>HOSTED BY</h6>
+      <h6 className="fw-bolder car-details-sections-heading">HOSTED BY</h6>
       <div className="d-flex">
         <div className="car-details-host-left">
           <div className="car-details-host-image-wrapper">
@@ -24,8 +24,6 @@ export const CarDetailsHost: FC<CarDetailsHostProps> = (props) => {
                   ? props.data.avatar.secure_url!
                   : "/images/avatar.svg"
               }
-              width="120px"
-              height="120px"
               className="rounded-circle"
               style={{ objectFit: "cover" }}
             />
@@ -38,14 +36,14 @@ export const CarDetailsHost: FC<CarDetailsHostProps> = (props) => {
             <h4 className="m-0">{`${props.data?.first_name} ${props.data?.last_name}`}</h4>
           )}
 
-          <h5 className="m-0">All star host</h5>
-          <h6 className="m-0">
+          <h6 className="m-0">All star host</h6>
+          <p className="m-0">
             Joined{" "}
             {new Date(props.data?.created_at)
               .toLocaleString("default", { month: "long" })
               .slice(0, 3)}{" "}
             {new Date(props.data?.created_at).getFullYear()}
-          </h6>
+          </p>
           {/* <small>Responds in 1 minute</small> */}
         </div>
       </div>

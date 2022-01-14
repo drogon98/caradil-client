@@ -12,11 +12,23 @@ interface CarDetailsSecondaryFeaturesProps {
 
 export const FeatureIconMap = new Map<string, JSX.Element>();
 
-FeatureIconMap.set("Bluetooth", <FiBluetooth size={"28px"} />);
-FeatureIconMap.set("Wifi", <AiOutlineWifi size={"28px"} />);
-FeatureIconMap.set("Baby Chair", <FaWheelchair size={"28px"} />);
-FeatureIconMap.set("USB Charger", <BiUsb size={"28px"} />);
-FeatureIconMap.set("USB Input", <AiOutlineUsb size={"28px"} />);
+FeatureIconMap.set(
+  "Bluetooth",
+  <FiBluetooth className="secondary-feature-icon" />
+);
+FeatureIconMap.set(
+  "Wifi",
+  <AiOutlineWifi className="secondary-feature-icon" />
+);
+FeatureIconMap.set(
+  "Baby Chair",
+  <FaWheelchair className="secondary-feature-icon" />
+);
+FeatureIconMap.set("USB Charger", <BiUsb className="secondary-feature-icon" />);
+FeatureIconMap.set(
+  "USB Input",
+  <AiOutlineUsb className="secondary-feature-icon" />
+);
 
 /**
  * @author @CodeYourEmpire
@@ -29,17 +41,9 @@ export const CarDetailsSecondaryFeatures: FC<
   // console.log("props.data :>> ", props.data);
   return (
     <>
-      <h6>Features</h6>
+      <h6 className="fw-bolder car-details-sections-heading">Features</h6>
       <ReadMore>
-        <ul
-          style={{
-            display: "grid",
-            gridTemplateColumns: "auto auto",
-            listStyle: "none",
-            gap: "18px",
-          }}
-          className="p-0"
-        >
+        <ul className="p-0 car-details-secondary-features-wrapper">
           {props.data?.map((feature, idx) => (
             <li key={idx}>
               <div className="d-flex">

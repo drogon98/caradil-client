@@ -17,7 +17,7 @@ export const CarDetailsDescription: FC<CarDetailsDescriptionProps> = (
 ) => {
   return (
     <>
-      <h6>Description</h6>
+      <h6 className="fw-bolder car-details-sections-heading">Description</h6>
       <ReadMore>{props.data && parse(props.data)}</ReadMore>
       {/* <div className="mt-2">
         <button className="moreBox">More</button>

@@ -31,20 +31,13 @@ export const CarDetailsTop: FC<CarDetailsTopProps> = (props) => {
       </div> */}
 
       <div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "auto auto",
-            gap: "20px",
-          }}
-          className="mt-3"
-        >
+        <div className="mt-3 details-top-icons-wrapper">
           <div className="d-flex align-items-center">
             <span className="carTopIcon">
               <Icon
                 icon="iconoir:gas-tank-drop"
                 color="black"
-                style={{ fontSize: "30px" }}
+                className="details-top-icon"
               />
             </span>
             <span> Gas ({props.data.gas})</span>
@@ -54,7 +47,7 @@ export const CarDetailsTop: FC<CarDetailsTopProps> = (props) => {
               <Icon
                 icon="icon-park-outline:manual-gear"
                 color="black"
-                style={{ fontSize: "30px" }}
+                className="details-top-icon"
               />
             </span>
             <span>Transmission ({props.data.transmission})</span>
@@ -64,7 +57,7 @@ export const CarDetailsTop: FC<CarDetailsTopProps> = (props) => {
               <Icon
                 icon="icon-park-outline:baby-car-seat"
                 color="black"
-                style={{ fontSize: "30px" }}
+                className="details-top-icon"
                 hFlip={true}
               />
             </span>
@@ -75,7 +68,7 @@ export const CarDetailsTop: FC<CarDetailsTopProps> = (props) => {
               <Icon
                 icon="mdi:car-door"
                 color="black"
-                style={{ fontSize: "30px" }}
+                className="details-top-icon"
               />
             </span>
             <span>{props.data.doors} Doors</span>

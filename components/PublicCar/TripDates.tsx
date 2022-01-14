@@ -40,7 +40,7 @@ export const TripDates: FC<TripDatesProps> = (props) => {
             onChange={handleChange}
             value={props.values.startTime ?? ""}
           >
-            <option>Select Start Time</option>
+            <option>Start Time</option>
             <option value="00:00">00:00</option>
             <option value="00:30">00:30</option>
             <option value="01:00">01:00</option>
@@ -110,7 +110,7 @@ export const TripDates: FC<TripDatesProps> = (props) => {
             onChange={handleChange}
             value={props.values.endTime ?? ""}
           >
-            <option>Select End Time</option>
+            <option>End Time</option>
             <option value="00:00">00:00</option>
             <option value="00:30">00:30</option>
             <option value="01:00">01:00</option>
