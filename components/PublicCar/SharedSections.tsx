@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
-import { ButtonLoading } from "../../components/Loading/ButtonLoading";
+import { ButtonLoading } from "../Loading/ButtonLoading";
 import { Car } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 

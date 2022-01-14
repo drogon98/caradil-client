@@ -28,7 +28,7 @@ import {
   useUpdateCarFavouriteMutation,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
-import SharedSections from "./SharedSections";
+import SharedSections from "../../components/PublicCar/SharedSections";
 
 interface CarProps {}
 

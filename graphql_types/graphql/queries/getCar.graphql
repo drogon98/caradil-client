@@ -61,6 +61,10 @@ query GetCar($carId: Float!) {
       categories
       luxury_vip_services
       color
+      has_driver
+      driver_daily_rate
+      delivery
+      delivery_rate
     }
   }
 }
