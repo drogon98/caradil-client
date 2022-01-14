@@ -663,7 +663,7 @@ label {
 }
 
 .car-input-container {
-  border: 1px solid #000;
+  border: 1px solid #dcdcdc;
   height: 35px !important;
 }
 
@@ -677,7 +677,7 @@ car-input-container select:focus {
 }
 
 .car-input-container select {
-  border-left: 1px solid #000 !important;
+  border-left: 1px solid #dcdcdc !important;
 }
 
 .carBox {

@@ -31,10 +31,10 @@ export default function SharedSections(props: Props): ReactElement {
       <div className="mt-3">
         <hr />
         <div className="d-flex justify-content-between">
-          <h6>Car Location</h6>
+          <h6>Location</h6>
         </div>
         <small>
-          This car is located at <b>{props.car?.location}</b>
+          This {props.car?.name} is located at <b>{props.car?.location}</b>
         </small>
       </div>
 
