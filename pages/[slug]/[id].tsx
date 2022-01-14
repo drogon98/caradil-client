@@ -453,7 +453,10 @@ const Car: FC<CarProps> = (props) => {
             {/* </div> */}
             <div className="car-small-screen-bottom d-flex flex-column justify-content-around p-2">
               {!car?.available && (
-                <div style={{ height: "10px", fontSize: "12px" }}>
+                <div
+                  style={{ height: "10px", fontSize: "12px" }}
+                  className="mb-3"
+                >
                   <small className="fw-bolder text-danger">
                     This car is unavailable!
                   </small>
@@ -470,7 +473,7 @@ const Car: FC<CarProps> = (props) => {
                   </small>
                 </div>
               )}
-              <div className="d-flex flex-column mt-2">
+              <div className="d-flex flex-column">
                 <div className="d-flex justify-content-between align-items-center">
                   {validDates ? (
                     <div>
