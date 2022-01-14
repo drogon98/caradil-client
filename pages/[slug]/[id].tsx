@@ -473,46 +473,39 @@ const Car: FC<CarProps> = (props) => {
                   </small>
                 </div>
               )}
-              <div className="d-flex flex-column">
-                <div className="d-flex justify-content-between align-items-center">
-                  {validDates ? (
-                    <div>
-                      <div>
-                        <small>
-                          Ksh.{car?.daily_rate!.toLocaleString()}
-                          /day
-                        </small>
-                      </div>
-                    </div>
-                  ) : (
-                    <div>
-                      <h5 className="m-0">
-                        Ksh.{car?.daily_rate!.toLocaleString()}/day
-                      </h5>
-                    </div>
-                  )}
 
-                  <button
-                    onClick={handleSelectDates}
-                    disabled={!car?.available}
-                    className="btn m-0 p-0"
-                    style={{ fontSize: "500" }}
-                    ref={pickDatesButtonRef}
-                  >
-                    <small className="mr-2">
-                      {selectingDates ? "Close trip dates" : "Pick trip dates"}
-                    </small>
-                    <span>
-                      {" "}
-                      {selectingDates ? (
-                        <IoIosArrowDropdown size={"25px"} />
-                      ) : (
-                        <IoIosArrowDropup size={"25px"} />
-                      )}
-                    </span>
-                  </button>
+              <div
+                className={`d-flex justify-content-between align-items-center ${
+                  car?.available && `h-100`
+                }`}
+              >
+                <div>
+                  <h5 className="m-0">
+                    Ksh.{car?.daily_rate!.toLocaleString()}/day
+                  </h5>
                 </div>
+
+                <button
+                  onClick={handleSelectDates}
+                  disabled={!car?.available}
+                  className="btn m-0 p-0"
+                  style={{ fontSize: "500" }}
+                  ref={pickDatesButtonRef}
+                >
+                  <small className="mr-2">
+                    {selectingDates ? "Close trip dates" : "Pick trip dates"}
+                  </small>
+                  <span>
+                    {" "}
+                    {selectingDates ? (
+                      <IoIosArrowDropdown size={"25px"} />
+                    ) : (
+                      <IoIosArrowDropup size={"25px"} />
+                    )}
+                  </span>
+                </button>
               </div>
+
               {/* </div> */}
               {selectingDates && (
                 <div
