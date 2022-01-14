@@ -75,7 +75,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
   const [rates, setRates] = useState<CarRatesInput>({
     daily_rate: 0,
     discount: "",
-    discount_days: "",
+    discount_days: 0,
     extra_mile_rate: 0,
   });
   const [location, setLocation] = useState<string>("");
@@ -199,7 +199,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
       setRates({
         daily_rate: props.car.daily_rate ?? 0,
         discount: props.car.discount ?? "",
-        discount_days: props.car.discount_days ?? "",
+        discount_days: props.car.discount_days ?? 0,
         extra_mile_rate: props.car.extra_mile_rate ?? 0,
       });
       // setAvailabilityData({

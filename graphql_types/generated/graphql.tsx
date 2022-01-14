@@ -123,7 +123,7 @@ export type CarPrimaryFeaturesInput = {
 export type CarRatesInput = {
   daily_rate: Scalars['Float'];
   discount?: InputMaybe<Scalars['String']>;
-  discount_days?: InputMaybe<Scalars['String']>;
+  discount_days?: InputMaybe<Scalars['Float']>;
   extra_mile_rate?: InputMaybe<Scalars['Float']>;
 };
 
