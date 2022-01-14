@@ -54,6 +54,8 @@ export const TripDates: FC<TripDatesProps> = (props) => {
             type="date"
             className="w-100"
             name="endDate"
+            onFocus={(e) => (e.currentTarget.type = "date")}
+            onBlur={(e) => (e.currentTarget.type = "text")}
             onChange={handleChange}
           />
         </div>
