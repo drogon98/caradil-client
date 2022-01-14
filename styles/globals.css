@@ -1279,7 +1279,7 @@ car-input-container select:focus {
 
 @media screen and (max-width: 600px) {
   .success-car-image {
-    height: 180px;
+    height: 200px;
   }
 }
 /* =============================END SUCESS ======================================= */

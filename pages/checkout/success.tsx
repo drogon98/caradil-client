@@ -64,14 +64,14 @@ const CheckoutSuccess: NextPage = () => {
           ) : (
             <div className="customContainer mt-4 mb-5">
               <div className="row">
-                <div className="col-md-8 mx-auto">
+                <div className="col-md-7 mx-auto">
                   <h3>We've got it</h3>
 
                   <p>
                     Your reservation has been received. The host has received it
                     and will reach back to you with confirmation and more
                     details. You can track your reservation status{" "}
-                    <Link href="/">
+                    <Link href="/account/trips">
                       <a className="colorOrange">here</a>
                     </Link>
                     .
@@ -79,8 +79,8 @@ const CheckoutSuccess: NextPage = () => {
 
                   <h5 className="mt-4">Reservation Details</h5>
                   <div className="container p-0">
-                    <div className="row m-0">
-                      <div className="col-5 col-md-6 p-0">
+                    <div className="row m-0 p-0">
+                      <div className="col-md-6">
                         <img
                           src={
                             trip?.car?.photos?.[0].secure_url
@@ -90,7 +90,7 @@ const CheckoutSuccess: NextPage = () => {
                           className="success-car-image"
                         />
                       </div>
-                      <div className="col-7 col-md-6">
+                      <div className="col-md-6">
                         <h5>{trip?.car?.name}</h5>
                         <p>Transmission:{trip?.car?.transmission}</p>
                         <p>Seats:{trip?.car?.seats}</p>
@@ -110,7 +110,10 @@ const CheckoutSuccess: NextPage = () => {
                       </div>
                       <div className="col-6 d-flex justify-content-end">
                         <p className="fw-bold">
-                          Ksh.{trip?.transaction.amount}
+                          Ksh.
+                          {parseFloat(
+                            trip?.transaction.amount!
+                          ).toLocaleString()}
                         </p>
                       </div>
                     </div>
