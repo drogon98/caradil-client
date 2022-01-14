@@ -8,6 +8,7 @@ interface Props {
   discount: string;
   totalCharge: string;
   tripDays: number;
+  dailyRate: number;
 }
 
 export default function Summary(props: Props): ReactElement {
@@ -21,7 +22,7 @@ export default function Summary(props: Props): ReactElement {
       <hr />
       <div className="mb-2 d-flex justify-content-between">
         <p>Daily Rate</p>
-        <p>Ksh.5000</p>
+        <p>Ksh.{props.dailyRate?.toLocaleString()}</p>
       </div>
       <div className="mb-2 d-flex justify-content-between">
         <p>Trip Days</p>

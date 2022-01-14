@@ -348,6 +348,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                       discount={data?.getCar.car?.discount!}
                       totalCharge={totalCharge}
                       tripDays={tripDays}
+                      dailyRate={data?.getCar.car?.daily_rate!}
                     />
                   </div>
                   <div className="sm-screen-checkout-btn mt-4 d-md-none">
