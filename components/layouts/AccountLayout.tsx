@@ -10,34 +10,13 @@ const AccountLayout: React.FC = ({ children }): JSX.Element => {
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
   const [isHost, setIsHost] = useState(false);
-  // const [hamburgerOpen, setHamburgerOpen] = useState(true);
-  const [showSideMenu, setShowSideMenu] = useState<boolean>();
+  // const [showSideMenu, setShowSideMenu] = useState<boolean>();
 
   useEffect(() => {
     if (role === 2) {
       setIsHost(true);
     }
   }, [role]);
-
-  const handleOpeHamburgerClick = () => {
-    // setHamburgerOpen(!hamburgerOpen);
-    setShowSideMenu((prevState) => {
-      if (prevState === undefined) {
-        return true;
-      }
-      return prevState == true ? false : prevState === false ? true : undefined;
-    });
-  };
-
-  const handleCloseHamburgerClick = () => {
-    // setHamburgerOpen(!hamburgerOpen);
-    setShowSideMenu((prevState) => {
-      if (prevState === undefined) {
-        return true;
-      }
-      return prevState == true ? false : prevState === false ? true : undefined;
-    });
-  };
 
   // console.log("showSideMenu :>> ", showSideMenu);
 
@@ -49,57 +28,13 @@ const AccountLayout: React.FC = ({ children }): JSX.Element => {
         </header>
         <main>
           <div className="account-wrapper">
-            <div className="p-2 py-3 sm-hamburger shadow">
-              <HamburgerMenu
-                isOpen={false}
-                menuClicked={handleOpeHamburgerClick}
-                width={25}
-                height={20}
-                strokeWidth={1}
-                rotate={0}
-                color="black"
-                borderRadius={0}
-                animationDuration={0.5}
-              />
-            </div>
-
-            <div
-              className={`sm-side-menu shadow pt-2 ${
-                showSideMenu === true
-                  ? "sm-side-menu-show"
-                  : showSideMenu === false && "sm-side-menu-hide"
-              }`}
-            >
-              <div>
-                <div className="d-flex justify-content-end p-2">
-                  {" "}
-                  <HamburgerMenu
-                    isOpen={true}
-                    menuClicked={handleCloseHamburgerClick}
-                    width={25}
-                    height={20}
-                    strokeWidth={1}
-                    rotate={0}
-                    color="black"
-                    borderRadius={0}
-                    animationDuration={0.5}
-                  />
-                </div>
-              </div>
-              <AccountSideBarMenu isHost={isHost} />
-            </div>
-            {/*  */}
             <div className="account-sidebar pt-4">
               <AccountSideBarMenu isHost={isHost} />
             </div>
             <div className="account-content">{children}</div>
           </div>
         </main>
-        {/* )} */}
       </div>
-      {/* <footer id="footerWrapper">
-        <MainFooter />
-      </footer> */}
     </div>
   );
 };

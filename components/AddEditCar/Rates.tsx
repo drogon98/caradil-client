@@ -124,7 +124,7 @@ export const Rates: FC<RatesProps> = (props) => {
         </div>
         {/* Discount logic here */}
         <div>
-          <label htmlFor="mileage">Extra mile Rate</label>
+          <label htmlFor="mileage">Extra Distance Rate</label>
           <input
             type="number"
             name="extra_distance_rate"

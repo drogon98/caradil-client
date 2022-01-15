@@ -20,7 +20,7 @@ const Earnings: FC<EarningsProps> = (props) => {
       </Head>
       <AuthWrapper>
         <AccountLayout>
-          <div className="p-2 mt-4">
+          <div className="p-2">
             <h3>Your Earnings</h3>
           </div>
         </AccountLayout>

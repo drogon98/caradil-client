@@ -60,6 +60,7 @@ export default function LoginForm(props: Props): ReactElement {
 
       if (response?.data?.login.error) {
         setError(response.data?.login.error);
+        setMainLoading(false);
         return;
       } else if (response?.data?.login.access_token) {
         dispatch(setToken(response.data?.login.access_token));
@@ -96,7 +97,7 @@ export default function LoginForm(props: Props): ReactElement {
         {error && <small className="text-danger">{error}</small>}
       </div>
       <form
-        className="form-group mt-3"
+        className="form-group mt-2"
         onSubmit={(e) => {
           handleSubmit(e);
         }}

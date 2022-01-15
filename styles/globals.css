@@ -493,7 +493,10 @@ label {
   padding-left: 10px !important;
 }
 
-.sm-hamburger {
+.account-user-icon {
+  display: block;
+}
+.account-hamburger-icon {
   display: none;
 }
 
@@ -506,24 +509,18 @@ label {
     display: none;
   }
 
+  .account-user-icon {
+    display: none;
+  }
+
+  .account-hamburger-icon {
+    display: block;
+  }
+
   .account-content,
   .admin-content {
     top: 25px;
   }
-
-  .sm-hamburger {
-    display: block;
-    position: fixed;
-    top: 55px;
-    /* top: var(--navbar-height); */
-    width: 100%;
-    z-index: 1000 !important;
-    background-color: white;
-  }
-
-  /* .sm-hamburger span {
-    background-color: white !important;
-  } */
 }
 
 .sm-side-menu {
@@ -533,6 +530,7 @@ label {
   left: -200px;
   z-index: 1001;
   height: calc(100vh - var(--navbar-height));
+  top: var(--navbar-height);
 }
 
 @keyframes showSmSideMenu {

@@ -192,7 +192,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
           {mainLoading ? (
             <Loading />
           ) : (
-            <div className="p-2 mt-4">
+            <div className="p-2">
               {" "}
               <h3 className="text-center my-3">Personal Details</h3>
               <div className="container my-5">
@@ -251,7 +251,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                     </div>
 
                     <div className="col-md-8 mt-4 ">
-                      <div>
+                      <div className="mb-3">
                         <label htmlFor="username">Username</label>
                         <input
                           onChange={handleChange}
@@ -265,7 +265,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                       </div>
 
                       {role === 2 && (
-                        <div>
+                        <div className="mb-3">
                           <label htmlFor="businessName">Business Name</label>
                           <input
                             onChange={handleChange}
@@ -279,7 +279,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                         </div>
                       )}
 
-                      <div>
+                      <div className="mb-3">
                         <label htmlFor="firstName">First Name</label>
                         <input
                           onChange={handleChange}
@@ -291,7 +291,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                           // required
                         />
                       </div>
-                      <div>
+                      <div className="mb-3">
                         <label htmlFor="lastName">Last Name</label>
                         <input
                           onChange={handleChange}
@@ -303,7 +303,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                           // required
                         />
                       </div>
-                      <div>
+                      <div className="mb-3">
                         <label htmlFor="phone">Phone</label>
                         <input
                           onChange={handleChange}
@@ -317,7 +317,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="d-grid gap-2 mt-5">
+                  <div className="d-grid gap-2 mt-3">
                     {/* editLoading */}
                     <button type="submit" className="btn bgOrange">
                       {editLoading ? (
