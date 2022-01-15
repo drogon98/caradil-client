@@ -8,6 +8,7 @@ import {
   useUpdateCarFavouriteMutation,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
+import LoginWithModal from "../Auth/LoginWithModal";
 import { useUserId } from "../hooks/useUserId";
 
 interface CarBoxProps {
@@ -68,19 +69,21 @@ export const CarBox: FC<CarBoxProps> = (props) => {
           )}
         </button>
       ) : (
-        <Link
-          href={{
-            pathname: "/login",
-            query: {
-              next: router.pathname,
-              nextQuery: JSON.stringify(router.query),
-            },
-          }}
-        >
+        // <Link
+        //   href={{
+        //     pathname: "/login",
+        //     query: {
+        //       next: router.pathname,
+        //       nextQuery: JSON.stringify(router.query),
+        //     },
+        //   }}
+        // >
+        <LoginWithModal>
           <a className="fav-icon cursor-pointer">
             <BsSuitHeart size="28px" />
           </a>
-        </Link>
+        </LoginWithModal>
+        // </Link>
       )}
 
       <Link href={`/${slugify(props.data.name!)}/${props.data.id}`}>

@@ -189,6 +189,10 @@ label {
   font-size: 13px;
 }
 
+.z-index-2 {
+  z-index: 2 !important;
+}
+
 @media screen and (max-width: 500px) {
   * {
     font-size: 16px;
@@ -213,7 +217,7 @@ label {
   align-items: flex-end;
   position: fixed;
   width: 100%;
-  z-index: 1002;
+  z-index: 1002; /* Side menu */
 }
 
 .brand {
@@ -234,7 +238,7 @@ label {
 }
 
 .mainNavLinks a {
-  font-weight: 600;
+  font-weight: 480;
 }
 
 .account-tooltip {
@@ -271,7 +275,7 @@ label {
 }
 
 .animated-navbar {
-  z-index: 1000;
+  z-index: 1000 !important;
   width: 100vw !important;
   background-color: #fff;
   top: 0;
@@ -614,8 +618,8 @@ label {
   top: var(--navbar-height);
   min-height: 400px;
   height: auto;
-  /* max-height: calc(100vh - var(--navbar-height)); */
   overflow-y: auto;
+  z-index: 998 !important;
 }
 
 .car-details-host-image-wrapper img {
@@ -1024,7 +1028,7 @@ car-input-container select:focus {
   width: 25px;
   height: 25px;
   content: "";
-  z-index: 2;
+  z-index: 2 !important;
   /* background-color: red; */
   background-position: center;
   background-size: cover;
@@ -1336,6 +1340,10 @@ car-input-container select:focus {
 }
 
 /* =================================FAQ SUCCESS==================================== */
+
+/* =================================MODAL STYLES================================= */
+
+/* =================================END MODAL STYLES================================= */
 
 #upload-btn-label {
   background-color: var(--orange);

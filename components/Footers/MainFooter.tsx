@@ -96,31 +96,31 @@ export const MainFooter: FC<IProps> = (props) => {
             <div>
               <p className="mb-2">
                 <a target="_blank" href="https://instagram.com">
-                  <div className="d-flex align-items-center">
+                  <span className="d-flex align-items-center">
                     <FaInstagram size={"25px"} />
-                  </div>
+                  </span>
                 </a>
               </p>
               <p className="mb-2">
                 <a target="_blank" href="https://facebook.com">
-                  <div className="d-flex align-items-center">
+                  <span className="d-flex align-items-center">
                     <FiFacebook size={"25px"} />
-                  </div>
+                  </span>
                 </a>
               </p>
               <p className="mb-2">
                 <a target="_blank" href="https://twitter.com">
-                  <div className="d-flex align-items-center">
+                  <span className="d-flex align-items-center">
                     <FiTwitter size={"25px"} />
-                  </div>
+                  </span>
                 </a>
               </p>
               {/* FiLinkedin */}
               <p className="mb-2">
                 <a target="_blank" href="https://linkedin.com">
-                  <div className="d-flex align-items-center">
+                  <span className="d-flex align-items-center">
                     <FiLinkedin size={"25px"} />
-                  </div>
+                  </span>
                 </a>
               </p>
             </div>

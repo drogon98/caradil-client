@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
+import { useRole } from "../../components/hooks/useRole";
 import AccountLayout from "../../components/layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
@@ -19,6 +20,7 @@ import {
   useGetAuthUserQuery,
   useUploadFileMutation,
 } from "../../graphql_types/generated/graphql";
+import { useAppSelector } from "../../redux/hooks";
 
 interface PersonalDetailsProps {}
 
@@ -62,6 +64,8 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
     secure_url: "",
     url: "",
   });
+  const token = useAppSelector((state) => state.auth._id);
+  const role = useRole(token);
   const [uploadFile, { loading: uploading }] = useUploadFileMutation();
   const [editProfile, { loading: editLoading }] = useEditProfileMutation();
   const { data, loading } = useGetAuthUserQuery({
@@ -132,9 +136,8 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
       payload = { ...values };
     }
 
-    let response;
     try {
-      response = await editProfile({ variables: { input: payload } });
+      let response = await editProfile({ variables: { input: payload } });
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -261,18 +264,21 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                         />
                       </div>
 
-                      <div>
-                        <label htmlFor="businessName">Business Name</label>
-                        <input
-                          onChange={handleChange}
-                          value={values.business_name ?? ""}
-                          id="businessName"
-                          type="text"
-                          name="business_name"
-                          className="form-control"
-                          // required
-                        />
-                      </div>
+                      {role === 2 && (
+                        <div>
+                          <label htmlFor="businessName">Business Name</label>
+                          <input
+                            onChange={handleChange}
+                            value={values.business_name ?? ""}
+                            id="businessName"
+                            type="text"
+                            name="business_name"
+                            className="form-control"
+                            // required
+                          />
+                        </div>
+                      )}
+
                       <div>
                         <label htmlFor="firstName">First Name</label>
                         <input

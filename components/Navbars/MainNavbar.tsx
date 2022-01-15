@@ -1,7 +1,5 @@
-import { Icon } from "@iconify/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { BiPlusCircle } from "react-icons/bi";
 import { useAppSelector } from "../../redux/hooks";
 import { useRole } from "../hooks/useRole";
 import { UserNavIcon } from "./UserNavIcon";

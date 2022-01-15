@@ -47,13 +47,6 @@ const Layout: React.FC<LayoutProps> = ({ children, isHome }): JSX.Element => {
               <MainNavbar />
             )}
           </div>
-          {/* {showAnimatedNavbar ? (
-            <div className="animated-navbar">
-              <MainNavbar />
-            </div>
-          ) : (
-            <MainNavbar />
-          )} */}
         </header>
         <main>
           <div ref={topRef} />

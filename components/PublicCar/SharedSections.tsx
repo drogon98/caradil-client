@@ -5,6 +5,7 @@ import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 import { ButtonLoading } from "../Loading/ButtonLoading";
 import { Car } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
+import LoginWithModal from "../Auth/LoginWithModal";
 
 interface Props {
   car: Car;
@@ -70,21 +71,26 @@ export default function SharedSections(props: Props): ReactElement {
             )}
           </button>
         ) : (
-          <Link
-            href={{
-              pathname: "/login",
-              query: {
-                next: router.pathname,
-                nextQuery: JSON.stringify(router.query),
-              },
-            }}
-          >
-            <a>
-              <div className="d-grid gap-2 mt-4">
-                <button className="btn bg-gray">Add to favourite</button>
-              </div>
-            </a>
-          </Link>
+          // <Link
+          //   href={{
+          //     pathname: "/login",
+          //     query: {
+          //       next: router.pathname,
+          //       nextQuery: JSON.stringify(router.query),
+          //     },
+          //   }}
+          // >
+          //   <a>
+          <LoginWithModal>
+            <div className="d-grid gap-2 mt-4">
+              <button className="btn bg-gray">
+                {" "}
+                <BsSuitHeart className="carousel-heart-icon" /> Add to favourite
+              </button>
+            </div>
+          </LoginWithModal>
+          //   </a>
+          // </Link>
         )}
       </div>
     </>

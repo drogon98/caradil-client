@@ -11,12 +11,12 @@ export const ReadMore: FC<ReadMoreProps> = (props) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   // const read
   const handleClick = (e: SyntheticEvent<HTMLButtonElement>) => {
-    console.log("e :>> ", e);
+    // console.log("e :>> ", e);
     setIsExpanded(!isExpanded);
   };
 
   return (
-    <div className="readmore">
+    <div className="readmore z-index-2">
       <div className={isExpanded ? "expand" : "readmoreContent"}>
         {props.children}
       </div>

@@ -29,6 +29,7 @@ import {
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 import SharedSections from "../../components/PublicCar/SharedSections";
+import LoginWithModal from "../../components/Auth/LoginWithModal";
 
 interface CarProps {}
 
@@ -294,21 +295,23 @@ const Car: FC<CarProps> = (props) => {
                       )}
                     </button>
                   ) : (
-                    <Link
-                      href={{
-                        pathname: "/login",
-                        query: {
-                          next: router.pathname,
-                          nextQuery: JSON.stringify(router.query),
-                        },
-                      }}
-                    >
-                      <a>
-                        <button className="carousel-fav-icon cursor-pointer">
-                          <BsSuitHeart size="28px" />
-                        </button>
-                      </a>
-                    </Link>
+                    <LoginWithModal>
+                      {/* <Link
+                        href={{
+                          pathname: "/login",
+                          query: {
+                            next: router.pathname,
+                            nextQuery: JSON.stringify(router.query),
+                          },
+                        }}
+                      > */}
+                      {/* <a> */}
+                      <button className="carousel-fav-icon cursor-pointer">
+                        <BsSuitHeart size="28px" />
+                      </button>
+                      {/* </a> */}
+                      {/* </Link> */}
+                    </LoginWithModal>
                   )}
                 </div>
                 <button
@@ -386,7 +389,7 @@ const Car: FC<CarProps> = (props) => {
                 </div>
                 {/* <div> */}
                 <div>
-                  <div className="carDetailsChargeCard px-2 py-3 shadow">
+                  <div className="carDetailsChargeCard  px-2 py-3 shadow">
                     <div>
                       {!car?.available && (
                         <>
@@ -443,19 +446,14 @@ const Car: FC<CarProps> = (props) => {
                         </button>
                       ) : (
                         // </button>
-                        <Link
-                          href={{
-                            pathname: "/login",
-                            query: {
-                              next: router.pathname,
-                              nextQuery: JSON.stringify(router.query),
-                            },
-                          }}
-                        >
-                          <button type="submit" className="btn bgOrange">
-                            Continue
-                          </button>
-                        </Link>
+
+                        <LoginWithModal>
+                          <div className="d-grid gap-2">
+                            <button type="submit" className="btn bgOrange">
+                              Continue
+                            </button>
+                          </div>
+                        </LoginWithModal>
                       )}
                     </div>
 
@@ -555,19 +553,13 @@ const Car: FC<CarProps> = (props) => {
                         )}
                       </button>
                     ) : (
-                      <Link
-                        href={{
-                          pathname: "/login",
-                          query: {
-                            next: router.pathname,
-                            nextQuery: JSON.stringify(router.query),
-                          },
-                        }}
-                      >
-                        <button type="submit" className="btn bgOrange">
-                          Continue
-                        </button>
-                      </Link>
+                      <LoginWithModal>
+                        <div className="d-grid gap-2">
+                          <button type="submit" className="btn bgOrange">
+                            Continue
+                          </button>
+                        </div>
+                      </LoginWithModal>
                     )}
                   </div>
                 </div>
