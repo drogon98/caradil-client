@@ -64,7 +64,7 @@ export const Distance: FC<DistanceProps> = (props) => {
       <p>This is the distance your car should cover in one day of a trip.</p>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="distance_per_day">Miles</label>
+          <label htmlFor="distance_per_day">Distance (KM)</label>
           <input
             type="number"
             name="distance_per_day"

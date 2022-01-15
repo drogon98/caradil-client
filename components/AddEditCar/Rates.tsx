@@ -127,7 +127,7 @@ export const Rates: FC<RatesProps> = (props) => {
           <label htmlFor="mileage">Extra mile Rate</label>
           <input
             type="number"
-            name="extra_mile_rate"
+            name="extra_distance_rate"
             className="form-control"
             value={props.value.extra_distance_rate!}
             required
