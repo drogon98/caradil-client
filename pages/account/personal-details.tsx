@@ -13,7 +13,7 @@ import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import {
   EditProfileInput,
-  PhotoInput,
+  FileInput,
   useDeleteFileMutation,
   useEditProfileMutation,
   useGetAuthUserQuery,
@@ -57,7 +57,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
     business_name: "",
   });
   const [mainLoading, setMainLoading] = useState(true);
-  const [avatar, setAvatar] = useState<PhotoInput>({
+  const [avatar, setAvatar] = useState<FileInput>({
     public_id: "",
     secure_url: "",
     url: "",
@@ -75,7 +75,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
       delete tempData.__typename;
       delete tempData.id;
       if (tempData.avatar?.public_id) {
-        const tempAvatar: PhotoInput = {
+        const tempAvatar: FileInput = {
           secure_url: tempData.avatar.secure_url!,
           public_id: tempData.avatar.public_id!,
           url: tempData.avatar.url!,
