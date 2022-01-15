@@ -1,12 +1,11 @@
-import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { FaRegUserCircle } from "react-icons/fa";
+import { RiArrowDropDownFill } from "react-icons/ri";
 import { unsetToken } from "../../redux/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { baseUrl } from "../../utils/baseUrl";
-import { RiArrowDropDownFill } from "react-icons/ri";
-import { FaRegUserCircle } from "react-icons/fa";
 
 interface UserNavIconProps {}
 
@@ -16,12 +15,11 @@ export function UserNavIcon(props: UserNavIconProps) {
   return (
     <div className="account-tooltip m-0 p-0 cursor-pointer">
       <span className="d-flex align-items-end">
-        {/* <Icon icon="carbon:user-avatar" style={{ fontSize: "30px" }} /> */}
         <FaRegUserCircle size={"24px"} />
         <RiArrowDropDownFill size={"20px"} className="m-0 p-0" />
       </span>
 
-      <div className="account-tooltip-content shadow">
+      <div className="account-tooltip-content shadow p-2">
         <div>
           <Link href="/account">Account</Link>
         </div>
@@ -29,15 +27,19 @@ export function UserNavIcon(props: UserNavIconProps) {
           <button
             className="btn m-0 p-0 cursor-pointer"
             onClick={async () => {
-              const response = await (
-                await fetch(`${baseUrl}logout`, {
-                  credentials: "include",
-                })
-              ).json();
+              try {
+                const response = await (
+                  await fetch(`${baseUrl}logout`, {
+                    credentials: "include",
+                  })
+                ).json();
 
-              if (response.success) {
-                await router.push("/");
-                dispatch(unsetToken());
+                if (response.success) {
+                  await router.push("/");
+                  dispatch(unsetToken());
+                }
+              } catch (error) {
+                console.log("error :>> ", error);
               }
             }}
           >

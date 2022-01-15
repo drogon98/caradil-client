@@ -9,18 +9,16 @@ interface ReadMoreProps {}
 
 export const ReadMore: FC<ReadMoreProps> = (props) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  // const read
+
   const handleClick = (e: SyntheticEvent<HTMLButtonElement>) => {
-    // console.log("e :>> ", e);
     setIsExpanded(!isExpanded);
   };
 
   return (
-    <div className="readmore z-index-2">
+    <div className="readmore">
       <div className={isExpanded ? "expand" : "readmoreContent"}>
         {props.children}
       </div>
-      {/* <div className="mt-2 readMoreLessLink"> */}
       <div className={!isExpanded ? "mt-2 readMoreLessLink" : ""}>
         <div className="readMoreLessInnerWrapper">
           <div className="test">

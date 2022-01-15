@@ -4,7 +4,6 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
-  SyntheticEvent,
   useState,
 } from "react";
 import {
@@ -37,7 +36,8 @@ export const Photos: FC<PhotosProps> = (props) => {
   const [saved, setSaved] = useState(false);
   const [uploadFile, { loading: uploading }] = useUploadFileMutation();
   const [editPhotos, { loading }] = useEditCarPhotosMutation();
-  const [deleteFile] = useDeleteFileMutation();
+  const [deleteFile, { loading: deleteLoading }] = useDeleteFileMutation();
+  const [secondaryLoading, setSecondaryLoading] = useState(false);
 
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -53,9 +53,11 @@ export const Photos: FC<PhotosProps> = (props) => {
       };
       const photos = [...props.value.photos, newPhotoPayload!];
       props.setData({ photos: [...photos] });
+      setSecondaryLoading(true);
       await editPhotos({
         variables: { carId: props.carId!, input: { photos } },
       });
+      setSecondaryLoading(false);
 
       e.target.value = "";
     } catch (error) {
@@ -73,7 +75,22 @@ export const Photos: FC<PhotosProps> = (props) => {
   const deletePhoto = async (id: string) => {
     let response;
     try {
+      setSecondaryLoading(true);
       response = await deleteFile({ variables: { id } });
+      if (response.data?.deleteUpload) {
+        const tempPhotos = props.value.photos.filter(
+          (photo) => photo.public_id !== id
+        );
+
+        props.setData({ photos: [...tempPhotos] });
+        await editPhotos({
+          variables: {
+            carId: props.carId!,
+            input: { photos: [...tempPhotos] },
+          },
+        });
+        setSecondaryLoading(false);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -84,19 +101,6 @@ export const Photos: FC<PhotosProps> = (props) => {
       // setError("Network Error!");
     }
 
-    if (response.data?.deleteUpload) {
-      const tempPhotos = props.value.photos.filter(
-        (photo) => photo.public_id !== id
-      );
-
-      props.setData({ photos: [...tempPhotos] });
-      await editPhotos({
-        variables: {
-          carId: props.carId!,
-          input: { photos: [...tempPhotos] },
-        },
-      });
-    }
     // Make request to delete file
   };
 
@@ -149,7 +153,7 @@ export const Photos: FC<PhotosProps> = (props) => {
         <div className="d-flex align-items-center">
           <input type="file" accept="image/*" onChange={handleUpload} />
           <span>
-            {uploading && (
+            {(uploading || deleteLoading) && (
               <ButtonLoading
                 spinnerColor="orange"
                 dimensions={{ height: "18px", width: "18px" }}
@@ -174,17 +178,12 @@ export const Photos: FC<PhotosProps> = (props) => {
             ))}
         </div>
         <FormSaveButton
-          loading={loading}
+          loading={loading && !secondaryLoading}
           saved={saved}
           isEdit={props.isEdit}
           carId={props.carId!}
         />
       </form>
-      {/* <div className="d-flex justify-content-end mt-3">
-        <button className="btn bgOrange" type="submit" onClick={handleSubmit}>
-          Save
-        </button>
-      </div> */}
     </>
   );
 };

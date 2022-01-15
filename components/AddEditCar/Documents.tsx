@@ -39,7 +39,9 @@ export const Documents: FC<DocumentsProps> = (props) => {
   const [uploadFile, { loading: uploading }] = useUploadFileMutation();
   const [editDocuments, { loading }] = useEditCarDocumentsMutation();
   const [deleteFile] = useDeleteFileMutation();
-  const [toDelete, setToDelete] = useState<DocumentInput>();
+  // const [toDelete, setToDelete] = useState<DocumentInput>();
+  const [secondaryLoading, setSecondaryLoading] = useState(false);
+
   const [saved, setSaved] = useState(false);
   const [id, setId] = useState<string>();
   const [documents, setDocuments] = useState<CarDocumentsInput>({
@@ -109,12 +111,14 @@ export const Documents: FC<DocumentsProps> = (props) => {
           }
         }
         props.setData({ documents: tempDocuments });
+        setSecondaryLoading(true);
         const response2 = await editDocuments({
           variables: {
             carId: props.carId!,
             input: { documents: tempDocuments },
           },
         });
+        setSecondaryLoading(false);
 
         if (
           !response2?.data?.editCarDocuments.error &&
@@ -201,12 +205,14 @@ export const Documents: FC<DocumentsProps> = (props) => {
           return doc;
         });
         props.setData({ documents: [...tempDocuments] });
+        setSecondaryLoading(true);
         await editDocuments({
           variables: {
             carId: props.carId!,
             input: { documents: tempDocuments },
           },
         });
+        setSecondaryLoading(false);
       }
     } catch (error) {}
   };
@@ -378,7 +384,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
         </div>
 
         <FormSaveButton
-          loading={loading}
+          loading={loading && !secondaryLoading}
           saved={saved}
           isEdit={props.isEdit}
           carId={props.carId!}

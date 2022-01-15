@@ -59,6 +59,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
     business_name: "",
   });
   const [mainLoading, setMainLoading] = useState(true);
+  const [secondaryLoading, setSecondaryLoading] = useState(false);
   const [avatar, setAvatar] = useState<FileInput>({
     public_id: "",
     secure_url: "",
@@ -105,6 +106,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
       const file = e.target.files?.[0];
+      setSecondaryLoading(true);
       const response = await uploadFile({ variables: { file } });
       if (response.data?.singleUpload.error) {
         console.log("error :>> ", response.data?.singleUpload.error);
@@ -119,6 +121,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
         await editProfile({
           variables: { input: { ...values, avatar: newPhoto } },
         });
+        setSecondaryLoading(false);
       }
       e.target.value = "";
     } catch (error) {
@@ -163,7 +166,9 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
           ...values,
           avatar: null,
         };
+        setSecondaryLoading(true);
         await editProfile({ variables: { input: payload } });
+        setSecondaryLoading(false);
         setAvatar({ public_id: "", secure_url: "", url: "" });
       }
     } catch (error) {
@@ -227,7 +232,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                                   onClick={handleDeletePhoto}
                                   style={{ width: "100px", fontSize: "10px" }}
                                 >
-                                  {deletingPhoto ? (
+                                  {deletingPhoto && !secondaryLoading ? (
                                     <ButtonLoading
                                       spinnerColor="white"
                                       dimensions={{
@@ -320,7 +325,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                   <div className="d-grid gap-2 mt-3">
                     {/* editLoading */}
                     <button type="submit" className="btn bgOrange">
-                      {editLoading ? (
+                      {editLoading && !secondaryLoading ? (
                         <ButtonLoading
                           spinnerColor="white"
                           dimensions={{ height: "24px", width: "24px" }}
