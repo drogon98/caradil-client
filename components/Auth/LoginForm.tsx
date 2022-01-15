@@ -16,7 +16,7 @@ import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 
 interface Props {
   isModal?: boolean;
-  close: any;
+  close?: any;
 }
 
 export default function LoginForm(props: Props): ReactElement {
