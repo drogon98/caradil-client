@@ -25,9 +25,15 @@ const ContactUs: NextPage = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await contact();
-    console.log("response :>> ", response);
+    try {
+      const response = await contact({
+        variables: { input: values },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <>
       <Head>
@@ -37,69 +43,68 @@ const ContactUs: NextPage = () => {
       </Head>
       <Layout>
         <div className="customContainer my-5">
-          <h3>Reach Out</h3>
+          <div className="row">
+            <div className="col-md-7 col-lg-5 mx-auto">
+              <h3>Reach Out</h3>
 
-          <form
-            className="form-group mt-3"
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
-          >
-            <div className="mb-3">
-              <label htmlFor="email">Email</label>
-              <input
-                className="form-control"
-                required
-                id="email"
-                placeholder="johndoe@gmail.com"
-                name="email"
-                onChange={handleChange}
-                value={values.email}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="subject">Subject</label>
-              <select
-                className="form-select form-control"
-                aria-label="Default select example"
-                onChange={handleChange}
-                value={values.subject}
-                name="subject"
+              <form
+                className="form-group mt-3"
+                onSubmit={(e) => {
+                  handleSubmit(e);
+                }}
               >
-                <option>Select Subject</option>
-                <option value="General Inquiry">General Inquiry</option>
-                <option value="jeep">Jeep</option>
-                <option value="jaguar">Jaguar</option>
-                <option value="bmw">BMW</option>
-                <option value="mercedes">Mercedes</option>
-                <option value="honda">Honda</option>
-                <option value="lamborghini">Lamborghini</option>
-                <option value="audi">Audi</option>
-              </select>
+                <div className="mb-3">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    className="form-control"
+                    required
+                    id="email"
+                    placeholder="johndoe@gmail.com"
+                    name="email"
+                    onChange={handleChange}
+                    value={values.email}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="subject">Subject</label>
+                  <select
+                    className="form-select form-control"
+                    aria-label="Default select example"
+                    onChange={handleChange}
+                    value={values.subject}
+                    name="subject"
+                  >
+                    <option value={""}>Select Subject</option>
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Technical Inquiry">Technical Inquiry</option>
+                    <option value="Feedback">Feedback</option>
+                  </select>
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="message">Message</label>
+                  <textarea
+                    className="form-control"
+                    id="message"
+                    value={values.message}
+                    name="message"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <div className="d-grid gap-2">
+                    <button
+                      type="submit"
+                      className="btn bgOrange"
+                      disabled={loading}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
-            <div className="mb-3">
-              <label htmlFor="message">Message</label>
-              <textarea
-                className="form-control"
-                id="message"
-                value={values.message}
-                name="message"
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div>
-              <div className="d-grid gap-2">
-                <button
-                  type="submit"
-                  className="btn bgOrange"
-                  disabled={loading}
-                >
-                  Submit
-                </button>
-              </div>
-            </div>
-          </form>
+          </div>
         </div>
       </Layout>
     </>

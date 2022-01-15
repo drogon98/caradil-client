@@ -15,7 +15,7 @@ export const KickOff: FC<IProps> = (props) => {
   const role = useRole(token);
   // const role = null;
 
-  console.log("role :>> ", role);
+  // console.log("role :>> ", role);
 
   return (
     <div className="customContainer my-5">

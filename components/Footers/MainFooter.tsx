@@ -2,6 +2,8 @@ import React, { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useWindowDimensions } from "../hooks/useWindowDimensions";
+import { FaInstagram } from "react-icons/fa";
+import { FiFacebook, FiLinkedin, FiTwitter } from "react-icons/fi";
 
 interface IProps {}
 
@@ -33,62 +35,102 @@ export const MainFooter: FC<IProps> = (props) => {
   return (
     <div className="bgBlack text-light">
       <div className="customContainer py-5 px-0">
-        <div className="row m-0 p-0">
-          <div className="col-md-6 col-lg-3 p-0 pr-2">
-            <h3>Logo</h3>
-            <p>
-              Plan Your Trip With Caradil. Rent a Car Online Today & Enjoy the
-              Best Deals.
-            </p>
-          </div>
-          <div className="col-md-6 col-lg-3">
-            <h3>Caradil</h3>
-            <ul>
-              <li>
+        <div className="main-footer-wrapper mb-4 m-0 p-0">
+          <div className="">
+            <h5>Caradil</h5>
+            <div>
+              <p>
                 <Link href="/">About</Link>
-              </li>
-              <li>
+              </p>
+              <p>
                 <Link href="/contact-us">Contact</Link>
-              </li>
-            </ul>
+              </p>
+              {/* <p>
+                <Link href="/contact-us">Testimonies</Link>
+              </p> */}
+              {/* <p>
+                <Link href="/contact-us">Careers</Link>
+              </p> */}
+              <p>
+                <Link href="/faqs">Get Help</Link>
+              </p>{" "}
+            </div>
           </div>
-          <div className="col-md-6 col-lg-3">
-            <h3>Explore</h3>
-            <ul>
-              <li>
+
+          <div className="">
+            <h5>Explore</h5>
+            <div>
+              <p>
                 <Link href="/browse-cars">Browse cars</Link>
-              </li>{" "}
-              <li>
-                <Link href="/browse-cars">Book a car</Link>
-              </li>{" "}
-              <li>
-                <Link href="/">Trust & Safety</Link>
-              </li>{" "}
-              <li>
-                <Link href="/">Get Help</Link>
-              </li>{" "}
-              <li>
-                <Link href="/">FAQs</Link>
-              </li>{" "}
-            </ul>
+              </p>{" "}
+              <p>
+                <Link href="/">Weddings</Link>
+              </p>{" "}
+              <p>
+                <Link href="/">Luxuries & VIPs</Link>
+              </p>{" "}
+              <p>
+                <Link href="/">Tours & Safaris</Link>
+              </p>
+              <p>
+                <Link href="/">Sports</Link>
+              </p>{" "}
+            </div>
           </div>
-          <div className="col-md-6 col-lg-3">
-            <h3>Hosting</h3>
-            <ul>
-              <li>
-                <Link href="/">List your car</Link>
-              </li>
-              <li>
-                <Link href="/">Trust & Safety</Link>
-              </li>{" "}
-              <li>
-                <Link href="/">FAQS</Link>
-              </li>
-              <li>
+          <div className="">
+            <h5>Hosting</h5>
+            <div>
+              <p>
+                <Link href="/list-your-car">List your car</Link>
+              </p>
+              <p>
+                <Link href="/">Calculator</Link>
+              </p>{" "}
+              <p>
                 <Link href="/">Carasure</Link>
-              </li>
-            </ul>
+              </p>
+            </div>
           </div>
+          <div className="">
+            <h5>Get Social</h5>
+            <div>
+              <p className="mb-2">
+                <a target="_blank" href="https://instagram.com">
+                  <div className="d-flex align-items-center">
+                    <FaInstagram size={"25px"} />
+                  </div>
+                </a>
+              </p>
+              <p className="mb-2">
+                <a target="_blank" href="https://facebook.com">
+                  <div className="d-flex align-items-center">
+                    <FiFacebook size={"25px"} />
+                  </div>
+                </a>
+              </p>
+              <p className="mb-2">
+                <a target="_blank" href="https://twitter.com">
+                  <div className="d-flex align-items-center">
+                    <FiTwitter size={"25px"} />
+                  </div>
+                </a>
+              </p>
+              {/* FiLinkedin */}
+              <p className="mb-2">
+                <a target="_blank" href="https://linkedin.com">
+                  <div className="d-flex align-items-center">
+                    <FiLinkedin size={"25px"} />
+                  </div>
+                </a>
+              </p>
+            </div>
+          </div>
+          {/* <div className="">
+            <h5>Payment Methods</h5>
+            <div>
+              <img src="/images/paymentoptions.png" width="100%" />
+            </div>
+          </div> */}
         </div>
         <div>
           <p>

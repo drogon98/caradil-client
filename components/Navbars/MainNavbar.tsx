@@ -56,16 +56,16 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
             <div>
               <Link href="/faqs">
                 <a>
-                  <small>FAQs</small>
+                  <small>Get Help</small>
                 </a>
               </Link>
             </div>
             <div>
-              <Link href="/contact-us">
+              {/* <Link href="/contact-us">
                 <a>
                   <small>Contact Us</small>
                 </a>
-              </Link>
+              </Link> */}
             </div>
           </div>
           <div className="mainNavLinksRight d-flex align-items-center justify-content-end">
@@ -75,13 +75,13 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
                   role === 2 ? "/account/listings/add-car" : "/list-your-car"
                 }
               >
-                <a className="d-flex align-items-center h-100">
-                  <span>
-                    {/* <Icon icon="akar-icons:circle-plus" />{" "} */}
+                <a className="d-flex align-items-center list-car-navbar h-100">
+                  {/* <span>
+                    <Icon icon="akar-icons:circle-plus" />{" "}
                     <BiPlusCircle size={"18px"} />
-                  </span>
+                  </span> */}
                   <span>
-                    <small>List Car</small>
+                    <small>List Your Car</small>
                   </span>
                 </a>
               </Link>

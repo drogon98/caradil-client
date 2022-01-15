@@ -8,7 +8,7 @@ export const carCategories: string[] = [
   "4WD",
   "Tours & Safaris",
   // "Ambulance",
-  "Towing",
+  // "Towing",
 ];
 
 export const carVipAndLuxuryServices: string[] = [
