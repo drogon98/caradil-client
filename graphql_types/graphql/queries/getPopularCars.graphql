@@ -2,32 +2,29 @@ query GetPopularCars {
   getPopularCars {
     id
     name
-    reg_no
-    description
-    owner {
-      first_name
-      last_name
-    }
+    # reg_no
+    # description
+    # owner {
+    #   first_name
+    #   last_name
+    # }
     trips
-    features {
-      title
-    }
+    # features {
+    #   title
+    # }
     photos {
-      public_id
-      url
-      secure_url
+      ...fileInfo
     }
-    documents {
-      title
-      file {
-        public_id
-        url
-        secure_url
-      }
-    }
-    reviews
+    # documents {
+    #   title
+    #   file {
+    #     public_id
+    #     url
+    #     secure_url
+    #   }
+    # }
+    # reviews
     daily_rate
-    trips
     besties {
       id
     }

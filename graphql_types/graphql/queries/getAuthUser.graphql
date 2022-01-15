@@ -1,18 +1,7 @@
 query GetAuthUser {
   getUser {
     user {
-      id
-      user_name
-      first_name
-      last_name
-      email
-      phone
-      avatar {
-        public_id
-        url
-        secure_url
-      }
-      business_name
+      ...userInfo
     }
   }
 }

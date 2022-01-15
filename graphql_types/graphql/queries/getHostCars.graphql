@@ -2,16 +2,16 @@ query GetHostCars {
   getHostCars {
     id
     name
-    description
+    # description
     owner {
       first_name
       last_name
     }
-    trips
-    features {
-      title
-    }
-    reviews
+    # trips
+    # features {
+    #   title
+    # }
+    # reviews
     photos {
       secure_url
     }

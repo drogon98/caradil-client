@@ -8,7 +8,7 @@ import {
   CarPhotosInput,
   DocumentInput,
   FeatureInput,
-  PhotoInput,
+  FileInput,
   CarPrimaryFeaturesInput,
   CarRatesInput,
   CarAvailabilityInput,
@@ -201,7 +201,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
             url: photo.secure_url ?? "",
           };
         });
-        return { photos: tempPhotos as PhotoInput[] };
+        return { photos: tempPhotos as FileInput[] };
       });
       setDocuments(() => {
         let tempDocuments = props.car?.documents?.map((doc) => {

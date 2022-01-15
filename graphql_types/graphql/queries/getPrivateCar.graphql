@@ -1,0 +1,7 @@
+query GetPrivateCar($carId: Float!) {
+  getCar(carId: $carId) {
+    car {
+      ...carPrivateInfo
+    }
+  }
+}

@@ -12,7 +12,7 @@ import {
   Car,
   CarDocumentsInput,
   DocumentInput,
-  PhotoInput,
+  FileInput,
   useDeleteFileMutation,
   useEditCarDocumentsMutation,
   useUploadFileMutation,
@@ -69,7 +69,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
         delete newDocumentFile?.__typename;
         const newDocument: DocumentInput = {
           title,
-          file: newDocumentFile as PhotoInput,
+          file: newDocumentFile as FileInput,
         };
         const tempDocuments = [...props.value.documents];
 

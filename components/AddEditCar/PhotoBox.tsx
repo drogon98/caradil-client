@@ -1,10 +1,9 @@
 import React, { FC } from "react";
-import Image from "next/image";
-import { PhotoInput } from "../../graphql_types/generated/graphql";
 import { FaTrash } from "react-icons/fa";
+import { FileInput } from "../../graphql_types/generated/graphql";
 
 interface PhotoBoxProps {
-  photo: PhotoInput;
+  photo: FileInput;
   deletePhoto: (id: string) => void;
   carVerified: boolean;
 }

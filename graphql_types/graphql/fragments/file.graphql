@@ -1,0 +1,5 @@
+fragment fileInfo on FileObj {
+  public_id
+  secure_url
+  #   url
+}

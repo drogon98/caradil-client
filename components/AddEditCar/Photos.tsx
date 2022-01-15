@@ -10,7 +10,7 @@ import React, {
 import {
   Car,
   CarPhotosInput,
-  PhotoInput,
+  FileInput,
   useDeleteFileMutation,
   useEditCarPhotosMutation,
   useUploadFileMutation,
@@ -46,7 +46,7 @@ export const Photos: FC<PhotosProps> = (props) => {
       response = await uploadFile({ variables: { file } });
       const newPhoto = response?.data?.singleUpload;
       delete newPhoto?.__typename;
-      const newPhotoPayload: PhotoInput = {
+      const newPhotoPayload: FileInput = {
         public_id: newPhoto?.file?.public_id ?? "",
         secure_url: newPhoto?.file?.secure_url ?? "",
         url: newPhoto?.file?.secure_url ?? "",

@@ -15,18 +15,14 @@ query GetUnVerifiedCars {
       title
     }
     photos {
-      public_id
-      url
-      secure_url
+      ...fileInfo
     }
-    documents {
-      title
-      file {
-        public_id
-        url
-        secure_url
-      }
-    }
+    # documents {
+    #   title
+    #   file {
+    #     ...fileInfo
+    #   }
+    # }
     reviews
   }
 }

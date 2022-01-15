@@ -8,6 +8,7 @@ import { Loading } from "../../../../../components/Loading";
 import {
   Car,
   useGetCarQuery,
+  useGetPrivateCarQuery,
 } from "../../../../../graphql_types/generated/graphql";
 
 interface EditCarProps {}
@@ -31,7 +32,10 @@ const EditCar: FC<EditCarProps> = (props) => {
     }
   }, [carId]);
 
-  const { data, loading } = useGetCarQuery({ variables: { carId }, skip });
+  const { data, loading } = useGetPrivateCarQuery({
+    variables: { carId },
+    skip,
+  });
 
   useEffect(() => {
     if (carId && data?.getCar) {
@@ -44,6 +48,8 @@ const EditCar: FC<EditCarProps> = (props) => {
       setMainLoading(false);
     }
   }, [loading, data]);
+
+  console.log("data :>> ", data);
 
   // console.log("carId :>> ", carId);
 
