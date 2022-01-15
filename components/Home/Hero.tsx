@@ -11,10 +11,14 @@ const Hero = (): JSX.Element => {
       {/* <HeroCarousel /> */}
       <div className="heroContent">
         <h1>
+          Find Your <span className="colorOrange hero-text-suffix">Drive</span>
+        </h1>
+        <h6>Explore africa's largest car sharing marketplace</h6>
+        {/* <h1>
           Plan your{" "}
           <span className="colorOrange hero-text-suffix">trip now</span>
-          {/* Find Your Drive */}
-        </h1>
+         
+        </h1> */}
         {/* <h5 className="mt-3">Find Your Best Car</h5> */}
 
         <Link href="/browse-cars">
