@@ -2,5 +2,73 @@ mutation EditCarPhotos($carId: Float!, $input: CarPhotosInput!) {
   editCarPhotos(carId: $carId, input: $input) {
     error
     carId
+    verified
+    car {
+      id
+      name
+      reg_no
+      description
+      owner {
+        first_name
+        last_name
+        created_at
+        avatar {
+          public_id
+          secure_url
+          url
+        }
+        business_name
+      }
+      trips
+      features {
+        title
+      }
+      photos {
+        public_id
+        url
+        secure_url
+      }
+      documents {
+        title
+        file {
+          public_id
+          url
+          secure_url
+        }
+      }
+      reviews
+      verified
+      seats
+      doors
+      transmission
+      gas
+      daily_rate
+      discount
+      discount_days
+      available
+      custom_availability
+      custom_availability_data {
+        startDate
+        startTime
+        endDate
+        endTime
+      }
+      make
+      location
+      distance_per_day
+      extra_distance_rate
+      besties {
+        id
+      }
+      booked
+      categories
+      luxury_vip_services
+      color
+      has_driver
+      driver_daily_rate
+      delivery
+      delivery_rate
+      hourly_rate
+    }
   }
 }

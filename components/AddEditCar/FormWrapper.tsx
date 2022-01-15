@@ -12,7 +12,8 @@ import {
   CarPrimaryFeaturesInput,
   CarRatesInput,
   CarAvailabilityInput,
-  CarMilesInput,
+  CarDistanceInput,
+  CarDriverAndDeliveryInput,
 } from "../../graphql_types/generated/graphql";
 import { Expandable } from "../Expandable";
 import { Availability } from "./Availability";
@@ -24,10 +25,11 @@ import { Location } from "./Location";
 import { Photos } from "./Photos";
 import { PrimaryFeatures } from "./PrimaryFeatures";
 import { Rates } from "./Rates";
-import { Miles } from "./Miles";
+import { Distance } from "./Distance";
 import { useRouter } from "next/router";
 import { Categories } from "./Categories";
 import { LuxuryAndVip } from "./LuxuryAndVipServices";
+import DriverAndDelivery from "./DriverAndDelivery";
 
 interface FormWrapperProps {
   isEdit?: boolean | undefined;
@@ -42,6 +44,8 @@ interface FormWrapperProps {
 
 export const FormWrapper: FC<FormWrapperProps> = (props) => {
   const [carId, setCarId] = useState<number | undefined>();
+  const [responseCar, setResponseCar] = useState<Car>();
+  // const [showVerificationStart, setVerificationStart] = useState(false);
   const [nameAndRegNoData, setNameAndRegNoData] = useState<CarGeneralInfoInput>(
     {
       name: "",
@@ -76,10 +80,20 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
     daily_rate: 0,
     discount: "",
     discount_days: 0,
-    extra_mile_rate: 0,
+    extra_distance_rate: 0,
+    delivery_rate: 0,
+    driver_daily_rate: 0,
+    hourly_rate: 0,
   });
   const [location, setLocation] = useState<string>("");
-  const [miles, setMiles] = useState<CarMilesInput>({ miles_per_day: 0 });
+  const [distance, setDistance] = useState<CarDistanceInput>({
+    distance_per_day: 0,
+  });
+  const [driverAndDelivery, setDriverAndDelivery] =
+    useState<CarDriverAndDeliveryInput>({
+      has_driver: false,
+      delivery: false,
+    });
   const [availabilityData, setAvailabilityData] =
     useState<CarAvailabilityInput>({
       available: false,
@@ -138,6 +152,12 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
       setCarId(props.carId);
     }
   }, [props.isEdit]);
+
+  // useEffect(() => {
+  //   if (responseCar?.verified) {
+  //     setVerificationStart(true);
+  //   }
+  // }, [responseCar]);
 
   useEffect(() => {
     if (props.car) {
@@ -200,13 +220,12 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
         daily_rate: props.car.daily_rate ?? 0,
         discount: props.car.discount ?? "",
         discount_days: props.car.discount_days ?? 0,
-        extra_mile_rate: props.car.extra_mile_rate ?? 0,
+        extra_distance_rate: props.car.extra_distance_rate ?? 0,
+        delivery_rate: props.car.delivery_rate ?? 0,
+        driver_daily_rate: props.car.driver_daily_rate ?? 0,
+        hourly_rate: props.car.hourly_rate ?? 0,
       });
-      // setAvailabilityData({
-      //   available: props.car.available ?? false,
-      //   custom_availability: props.car.custom_availability ?? false,
-      //   custom_availability_data: props.car.custom_availability_data,
-      // });
+
       setAvailabilityData(() => {
         const tempCustomAvailabilityData = {
           startDate: props.car?.custom_availability_data?.startDate,
@@ -221,7 +240,11 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
         };
       });
       setLocation(props.car.location ?? "");
-      setMiles({ miles_per_day: props.car.miles_per_day ?? 0 });
+      setDistance({ distance_per_day: props.car.distance_per_day ?? 0 });
+      setDriverAndDelivery({
+        delivery: props.car.delivery ?? false,
+        has_driver: props.car.has_driver ?? false,
+      });
     }
   }, [props.car]);
 
@@ -246,6 +269,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
           setCarId={setCarId}
           isEdit={props.isEdit ?? false}
           carId={carId}
+          setResponseCar={setResponseCar}
         />
       </Expandable>
 
@@ -255,6 +279,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
           carId={carId}
           isEdit={props.isEdit ?? false}
           setData={setPrimaryFeatures}
+          setResponseCar={setResponseCar}
         />
       </Expandable>
 
@@ -264,6 +289,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
           carId={carId}
           // isEdit={props.isEdit ?? false}
           setData={setDescription}
+          setResponseCar={setResponseCar}
         />
       </Expandable>
 
@@ -274,6 +300,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
           setData={setPhotos}
           isEdit={props.isEdit!}
           carVerified={props.car?.verified!}
+          setResponseCar={setResponseCar}
         />
       </Expandable>
       <Expandable header="Documents">
@@ -283,58 +310,67 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
           setData={setDocuments}
           isEdit={props.isEdit ?? false}
           carVerified={props.car?.verified!}
+          setResponseCar={setResponseCar}
         />
       </Expandable>
-      {props.isEdit && props.car?.verified && (
-        <>
-          <Expandable header="Secondary Features">
-            <SecondaryFeatures
-              value={secondaryFeatures}
+      {/* {props.isEdit && props.car?.verified && ( */}
+      <>
+        <Expandable header="Secondary Features">
+          <SecondaryFeatures
+            value={secondaryFeatures}
+            carId={carId}
+            setData={setSecondaryFeatures}
+          />
+        </Expandable>
+
+        <Expandable header="Categories">
+          <Categories
+            value={categories!}
+            carId={carId}
+            setData={setCategories}
+          />
+        </Expandable>
+
+        {showLuxuryAndVipServices && (
+          <Expandable header="VIP & Luxury Services">
+            <LuxuryAndVip
+              value={luxuryAndVipServices!}
               carId={carId}
-              setData={setSecondaryFeatures}
+              setData={setLuxuryAndVipServices}
             />
           </Expandable>
+        )}
 
-          <Expandable header="Categories">
-            <Categories
-              value={categories!}
-              carId={carId}
-              setData={setCategories}
-            />
-          </Expandable>
+        <Expandable header="Location">
+          <Location value={location} carId={carId} setData={setLocation} />
+        </Expandable>
 
-          {showLuxuryAndVipServices && (
-            <Expandable header="VIP & Luxury Services">
-              <LuxuryAndVip
-                value={luxuryAndVipServices!}
-                carId={carId}
-                setData={setLuxuryAndVipServices}
-              />
-            </Expandable>
-          )}
+        <Expandable header="Distance">
+          <Distance value={distance} carId={carId} setData={setDistance} />
+        </Expandable>
 
-          <Expandable header="Location">
-            <Location value={location} carId={carId} setData={setLocation} />
-          </Expandable>
+        <Expandable header="Driver And Delivery">
+          <DriverAndDelivery
+            value={driverAndDelivery}
+            carId={carId}
+            setData={setDriverAndDelivery}
+          />
+        </Expandable>
 
-          <Expandable header="Miles">
-            <Miles value={miles} carId={carId} setData={setMiles} />
-          </Expandable>
+        <Expandable header="Rates">
+          <Rates value={rates} carId={carId} setData={setRates} />
+        </Expandable>
 
-          <Expandable header="Rates">
-            <Rates value={rates} carId={carId} setData={setRates} />
-          </Expandable>
-
-          <Expandable header="Availability">
-            <Availability
-              value={availabilityData}
-              carId={carId}
-              setData={setAvailabilityData}
-              booked={props.car.booked ?? false}
-            />
-          </Expandable>
-        </>
-      )}
+        <Expandable header="Availability">
+          <Availability
+            value={availabilityData}
+            carId={carId}
+            setData={setAvailabilityData}
+            booked={props.car?.booked ?? false}
+          />
+        </Expandable>
+      </>
+      {/* )} */}
     </>
   );
 };

@@ -52,8 +52,8 @@ query GetCar($carId: Float!) {
       }
       make
       location
-      miles_per_day
-      extra_mile_rate
+      distance_per_day
+      extra_distance_rate
       besties {
         id
       }
@@ -65,6 +65,7 @@ query GetCar($carId: Float!) {
       driver_daily_rate
       delivery
       delivery_rate
+      hourly_rate
     }
   }
 }

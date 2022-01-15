@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { HeroCarousel } from "./HeroCarousel";
+// import { HeroCarousel } from "./HeroCarousel";
 
 const Hero = (): JSX.Element => {
   return (
@@ -11,7 +11,8 @@ const Hero = (): JSX.Element => {
       {/* <HeroCarousel /> */}
       <div className="heroContent">
         <h1>
-          Plan your <span className="colorOrange">trip now</span>
+          Plan your{" "}
+          <span className="colorOrange hero-text-suffix">trip now</span>
           {/* Find Your Drive */}
         </h1>
         {/* <h5 className="mt-3">Find Your Best Car</h5> */}

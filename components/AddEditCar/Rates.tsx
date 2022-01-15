@@ -26,10 +26,17 @@ interface RatesProps {
 export const Rates: FC<RatesProps> = (props) => {
   const [editRates, { loading }] = useEditCarRatesMutation();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    props.setData({
-      ...props.value,
-      [e.target.name]: parseInt(e.target.value.trim()),
-    });
+    if (e.target.name === "discount") {
+      props.setData({
+        ...props.value,
+        [e.target.name]: e.target.value.trim(),
+      });
+    } else {
+      props.setData({
+        ...props.value,
+        [e.target.name]: parseInt(e.target.value.trim()),
+      });
+    }
   };
   const [saved, setSaved] = useState(false);
 
@@ -63,6 +70,19 @@ export const Rates: FC<RatesProps> = (props) => {
     <div>
       <form onSubmit={handleSubmit}>
         <div>
+          <label htmlFor="mileage">Hourly Rate</label>
+          <input
+            type="number"
+            name="hourly_rate"
+            className="form-control"
+            value={props.value.hourly_rate}
+            required
+            onChange={handleChange}
+            placeholder="eg John Doe"
+          />
+          {/* Parse the amount to check for valid amounts */}
+        </div>
+        <div>
           <label htmlFor="mileage">Daily Rate</label>
           <input
             type="number"
@@ -75,6 +95,33 @@ export const Rates: FC<RatesProps> = (props) => {
           />
           {/* Parse the amount to check for valid amounts */}
         </div>
+        <div>
+          <label htmlFor="discount">Discount</label>
+          <input
+            type="text"
+            name="discount"
+            className="form-control"
+            value={props.value.discount!}
+            // required
+            onChange={handleChange}
+            placeholder="eg John Doe"
+            id="discount"
+          />
+          {/* Parse the amount to check for valid amounts */}
+        </div>
+        <div>
+          <label htmlFor="discount_days">Discount Days</label>
+          <input
+            type="number"
+            name="discount_days"
+            className="form-control"
+            value={props.value.discount_days!}
+            required
+            onChange={handleChange}
+            placeholder="eg 200"
+          />
+          {/* Parse the amount to check for valid amounts */}
+        </div>
         {/* Discount logic here */}
         <div>
           <label htmlFor="mileage">Extra mile Rate</label>
@@ -82,7 +129,33 @@ export const Rates: FC<RatesProps> = (props) => {
             type="number"
             name="extra_mile_rate"
             className="form-control"
-            value={props.value.extra_mile_rate ?? ""}
+            value={props.value.extra_distance_rate!}
+            required
+            onChange={handleChange}
+            placeholder="eg 200"
+          />
+          {/* Parse the amount to check for valid amounts */}
+        </div>
+        <div>
+          <label htmlFor="discount_days">Driver Daily Rate</label>
+          <input
+            type="number"
+            name="driver_daily_rate"
+            className="form-control"
+            value={props.value.driver_daily_rate!}
+            required
+            onChange={handleChange}
+            placeholder="eg 200"
+          />
+          {/* Parse the amount to check for valid amounts */}
+        </div>
+        <div>
+          <label htmlFor="discount_days">Delivery Rate</label>
+          <input
+            type="number"
+            name="delivery_rate"
+            className="form-control"
+            value={props.value.delivery_rate!}
             required
             onChange={handleChange}
             placeholder="eg 200"

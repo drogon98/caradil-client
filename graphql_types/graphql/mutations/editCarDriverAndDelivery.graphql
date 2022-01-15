@@ -1,0 +1,9 @@
+mutation EditCarDriverAndDelivery(
+  $carId: Float!
+  $input: CarDriverAndDeliveryInput!
+) {
+  editCarDriverAndDelivery(carId: $carId, input: $input) {
+    error
+    carId
+  }
+}

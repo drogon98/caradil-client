@@ -303,8 +303,10 @@ const Car: FC<CarProps> = (props) => {
                         },
                       }}
                     >
-                      <a className="carousel-fav-icon cursor-pointer">
-                        <BsSuitHeart size="28px" />
+                      <a>
+                        <button className="carousel-fav-icon cursor-pointer">
+                          <BsSuitHeart size="28px" />
+                        </button>
                       </a>
                     </Link>
                   )}

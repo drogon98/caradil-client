@@ -9,6 +9,7 @@ import React, {
 // import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import {
+  Car,
   CarDescriptionInput,
   useEditCarDescriptionMutation,
 } from "../../graphql_types/generated/graphql";
@@ -25,6 +26,7 @@ interface DescriptionProps {
   value: CarDescriptionInput;
   setData: Dispatch<SetStateAction<CarDescriptionInput>>;
   carId: number | undefined;
+  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -90,6 +92,15 @@ export const Description: FC<DescriptionProps> = (props) => {
           input: { description: value },
         },
       });
+
+      if (response?.data?.editCarDescription.error) {
+      } else if (response?.data?.editCarDescription.carId) {
+        props.setResponseCar(response.data.editCarDescription.car!);
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 3000);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -99,16 +110,6 @@ export const Description: FC<DescriptionProps> = (props) => {
       return;
       // setError("Network Error!");
     }
-
-    if (response?.data?.editCarDescription.error) {
-    } else if (response?.data?.editCarDescription.carId) {
-      setSaved(true);
-      setTimeout(() => {
-        setSaved(false);
-      }, 3000);
-    }
-
-    console.log("response :>> ", response);
   };
 
   const handleDescriptionChange = (value: any) => {

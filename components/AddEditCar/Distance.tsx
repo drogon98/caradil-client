@@ -7,14 +7,14 @@ import React, {
   useState,
 } from "react";
 import {
-  CarMilesInput,
-  useEditCarMilesMutation,
+  CarDistanceInput,
+  useEditCarDistanceMutation,
 } from "../../graphql_types/generated/graphql";
 import { FormSaveButton } from "./FormSaveButton";
 
-interface MilesProps {
-  value: CarMilesInput;
-  setData: Dispatch<SetStateAction<CarMilesInput>>;
+interface DistanceProps {
+  value: CarDistanceInput;
+  setData: Dispatch<SetStateAction<CarDistanceInput>>;
   carId: number | undefined;
 }
 
@@ -23,10 +23,10 @@ interface MilesProps {
  * @function @Miles
  **/
 
-export const Miles: FC<MilesProps> = (props) => {
-  const [editMiles, { loading }] = useEditCarMilesMutation();
+export const Distance: FC<DistanceProps> = (props) => {
+  const [editDistance, { loading }] = useEditCarDistanceMutation();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    props.setData({ miles_per_day: parseInt(e.target.value.trim()) });
+    props.setData({ distance_per_day: parseInt(e.target.value.trim()) });
   };
   const [saved, setSaved] = useState(false);
 
@@ -34,10 +34,10 @@ export const Miles: FC<MilesProps> = (props) => {
     e.preventDefault();
     let response;
     try {
-      response = await editMiles({
+      response = await editDistance({
         variables: {
           carId: props.carId!,
-          input: { miles_per_day: props.value.miles_per_day },
+          input: { distance_per_day: props.value.distance_per_day },
         },
       });
     } catch (error) {
@@ -50,8 +50,8 @@ export const Miles: FC<MilesProps> = (props) => {
       // setError("Network Error!");
     }
 
-    if (response.data?.editCarMiles.error) {
-    } else if (response.data?.editCarMiles.carId) {
+    if (response.data?.editCarDistance.error) {
+    } else if (response.data?.editCarDistance.carId) {
       setSaved(true);
       setTimeout(() => {
         setSaved(false);
@@ -64,15 +64,16 @@ export const Miles: FC<MilesProps> = (props) => {
       <p>This is the distance your car should cover in one day of a trip.</p>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="miles">Miles</label>
+          <label htmlFor="distance_per_day">Miles</label>
           <input
             type="number"
-            name="miles"
+            name="distance_per_day"
             className="form-control"
-            value={props.value.miles_per_day}
+            value={props.value.distance_per_day}
             required
             onChange={handleChange}
             placeholder="eg 800"
+            id="distance_per_day"
           />
         </div>
         <FormSaveButton

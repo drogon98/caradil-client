@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { carMakes } from "../../data";
 import {
+  Car,
   CarGeneralInfoInput,
   useAddEditCarGeneralInfoMutation,
 } from "../../graphql_types/generated/graphql";
@@ -19,6 +20,7 @@ interface NameAndRegNoProps {
   setCarId: Dispatch<SetStateAction<number | undefined>>;
   isEdit: boolean;
   carId: number | undefined;
+  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -54,6 +56,16 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
           carId: props.carId,
         },
       });
+
+      if (response?.data?.addEditCarGeneralInfo.error) {
+      } else if (response?.data?.addEditCarGeneralInfo.carId) {
+        props.setResponseCar(response.data.addEditCarGeneralInfo.car!);
+        props.setCarId(response?.data?.addEditCarGeneralInfo.carId);
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 3000);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -62,15 +74,6 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
       console.log("errorMessage :>> ", errorMessage);
       return;
       // setError("Network Error!");
-    }
-
-    if (response?.data?.addEditCarGeneralInfo.error) {
-    } else if (response?.data?.addEditCarGeneralInfo.carId) {
-      props.setCarId(response?.data?.addEditCarGeneralInfo.carId);
-      setSaved(true);
-      setTimeout(() => {
-        setSaved(false);
-      }, 3000);
     }
   };
 

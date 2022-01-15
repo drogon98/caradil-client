@@ -22,10 +22,11 @@ export default function SharedSections(props: Props): ReactElement {
         <hr />
         <div className="d-flex justify-content-between">
           <h6>Distance included</h6>
-          <p>{props.car?.miles_per_day} miles</p>
+          <p>{props.car?.distance_per_day} KM</p>
         </div>
         <small>
-          Ksh.{props.car?.extra_mile_rate}/mi fee for additional miles driven
+          Ksh.{props.car?.extra_distance_rate} per km fee for additional
+          kilometres driven
         </small>
       </div>
       <div className="mt-3">

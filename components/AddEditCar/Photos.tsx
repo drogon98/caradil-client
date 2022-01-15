@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 import {
+  Car,
   CarPhotosInput,
   PhotoInput,
   useDeleteFileMutation,
@@ -24,6 +25,7 @@ interface PhotosProps {
   carId: number | undefined;
   isEdit: boolean;
   carVerified: boolean;
+  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -111,6 +113,7 @@ export const Photos: FC<PhotosProps> = (props) => {
       });
       if (response?.data?.editCarPhotos.error) {
       } else if (response?.data?.editCarPhotos.carId) {
+        props.setResponseCar(response.data.editCarPhotos.car!);
         setSaved(true);
         setTimeout(() => {
           setSaved(false);

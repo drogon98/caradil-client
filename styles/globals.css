@@ -189,6 +189,12 @@ label {
   font-size: 13px;
 }
 
+@media screen and (max-width: 500px) {
+  * {
+    font-size: 14px;
+  }
+}
+
 /* =========================END GLOBALS================================= */
 
 /* =========================NAVBARS================================= */
@@ -362,6 +368,10 @@ label {
   color: var(--orange) !important;
   background-color: transparent !important;
   height: var(--navbar-height);
+}
+
+.hero-text-suffix {
+  font-size: inherit;
 }
 
 .heroContent {
@@ -788,7 +798,7 @@ car-input-container select:focus {
     font-size: 20px;
   }
 
-  .carDetailsWrapper {
+  * {
     font-size: 13px;
   }
 

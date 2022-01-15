@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import {
+  Car,
   CarDocumentsInput,
   DocumentInput,
   PhotoInput,
@@ -26,6 +27,7 @@ interface DocumentsProps {
   carId: number | undefined;
   carVerified: boolean;
   isEdit: boolean;
+  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -145,6 +147,16 @@ export const Documents: FC<DocumentsProps> = (props) => {
           input: { documents: props.value.documents },
         },
       });
+      if (response?.data?.editCarDocuments.error) {
+        console.log("error :>> ", response?.data?.editCarDocuments.error);
+        // deleteFile({ variables: { id: toDelete?.file.public_id! } });
+      } else if (response.data?.editCarDocuments.carId) {
+        props.setResponseCar(response.data.editCarDocuments.car!);
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 3000);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -156,15 +168,6 @@ export const Documents: FC<DocumentsProps> = (props) => {
     }
 
     // if (!response?.data?.editCarDocuments.error && toDelete) {
-    if (response?.data?.editCarDocuments.error) {
-      console.log("error :>> ", response?.data?.editCarDocuments.error);
-      // deleteFile({ variables: { id: toDelete?.file.public_id! } });
-    } else if (response.data?.editCarDocuments.carId) {
-      setSaved(true);
-      setTimeout(() => {
-        setSaved(false);
-      }, 3000);
-    }
   };
 
   const getFile = (title: string) => {

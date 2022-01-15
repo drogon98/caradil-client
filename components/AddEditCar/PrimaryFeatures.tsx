@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { carColors } from "../../data";
 import {
+  Car,
   CarPrimaryFeaturesInput,
   useEditCarPrimaryFeaturesMutation,
 } from "../../graphql_types/generated/graphql";
@@ -18,6 +19,7 @@ interface PrimaryFeaturesProps {
   setData: Dispatch<SetStateAction<CarPrimaryFeaturesInput>>;
   carId: number | undefined;
   isEdit: boolean;
+  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -54,6 +56,14 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
       response = await editPrimaryFeatures({
         variables: { carId: props.carId!, input: payload },
       });
+      if (response.data?.editCarPrimaryFeatures.error) {
+      } else if (response.data?.editCarPrimaryFeatures.carId) {
+        props.setResponseCar(response.data.editCarPrimaryFeatures.car!);
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 3000);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -62,14 +72,6 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
       console.log("errorMessage :>> ", errorMessage);
       return;
       // setError("Network Error!");
-    }
-
-    if (response.data?.editCarPrimaryFeatures.error) {
-    } else if (response.data?.editCarPrimaryFeatures.carId) {
-      setSaved(true);
-      setTimeout(() => {
-        setSaved(false);
-      }, 3000);
     }
 
     // console.log("response :>> ", response);
