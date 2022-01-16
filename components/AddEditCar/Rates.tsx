@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import {
+  Car,
   CarRatesInput,
   useEditCarRatesMutation,
 } from "../../graphql_types/generated/graphql";
@@ -16,6 +17,8 @@ interface RatesProps {
   value: CarRatesInput;
   setData: Dispatch<SetStateAction<CarRatesInput>>;
   carId: number | undefined;
+  car: Car;
+  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -48,6 +51,15 @@ export const Rates: FC<RatesProps> = (props) => {
       response = await editRates({
         variables: { carId: props.carId!, input: props.value },
       });
+
+      if (response.data?.editCarRates.error) {
+      } else if (response.data?.editCarRates.carId) {
+        props.setResponseCar(response.data.editCarRates.car!);
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 3000);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -58,18 +70,12 @@ export const Rates: FC<RatesProps> = (props) => {
       // setError("Network Error!");
     }
 
-    if (response.data?.editCarRates.error) {
-    } else if (response.data?.editCarRates.carId) {
-      setSaved(true);
-      setTimeout(() => {
-        setSaved(false);
-      }, 3000);
-    }
+    
   };
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div>
+        {/* <div>
           <label htmlFor="mileage">Hourly Rate</label>
           <input
             type="number"
@@ -80,8 +86,7 @@ export const Rates: FC<RatesProps> = (props) => {
             onChange={handleChange}
             placeholder="eg John Doe"
           />
-          {/* Parse the amount to check for valid amounts */}
-        </div>
+        </div> */}
         <div>
           <label htmlFor="mileage">Daily Rate</label>
           <input
@@ -93,7 +98,6 @@ export const Rates: FC<RatesProps> = (props) => {
             onChange={handleChange}
             placeholder="eg John Doe"
           />
-          {/* Parse the amount to check for valid amounts */}
         </div>
         <div>
           <label htmlFor="discount">Discount</label>
@@ -107,7 +111,6 @@ export const Rates: FC<RatesProps> = (props) => {
             placeholder="eg John Doe"
             id="discount"
           />
-          {/* Parse the amount to check for valid amounts */}
         </div>
         <div>
           <label htmlFor="discount_days">Discount Days</label>
@@ -116,52 +119,56 @@ export const Rates: FC<RatesProps> = (props) => {
             name="discount_days"
             className="form-control"
             value={props.value.discount_days!}
-            required
+            // required
             onChange={handleChange}
             placeholder="eg 200"
           />
-          {/* Parse the amount to check for valid amounts */}
         </div>
-        {/* Discount logic here */}
-        <div>
-          <label htmlFor="mileage">Extra Distance Rate</label>
-          <input
-            type="number"
-            name="extra_distance_rate"
-            className="form-control"
-            value={props.value.extra_distance_rate!}
-            required
-            onChange={handleChange}
-            placeholder="eg 200"
-          />
-          {/* Parse the amount to check for valid amounts */}
-        </div>
-        <div>
-          <label htmlFor="discount_days">Driver Daily Rate</label>
-          <input
-            type="number"
-            name="driver_daily_rate"
-            className="form-control"
-            value={props.value.driver_daily_rate!}
-            required
-            onChange={handleChange}
-            placeholder="eg 200"
-          />
-          {/* Parse the amount to check for valid amounts */}
-        </div>
-        <div>
-          <label htmlFor="discount_days">Delivery Rate</label>
-          <input
-            type="number"
-            name="delivery_rate"
-            className="form-control"
-            value={props.value.delivery_rate!}
-            required
-            onChange={handleChange}
-            placeholder="eg 200"
-          />
-          {/* Parse the amount to check for valid amounts */}
-        </div>
+        {props.car?.has_unlimited_distance === false && (
+          <div>
+            <label htmlFor="mileage">Extra Distance Rate</label>
+            <input
+              type="number"
+              name="extra_distance_rate"
+              className="form-control"
+              value={props.value.extra_distance_rate!}
+              required
+              onChange={handleChange}
+              placeholder="eg 200"
+            />
+          </div>
+        )}
+
+        {props.car?.has_driver && (
+          <div>
+            <label htmlFor="discount_days">Driver Daily Rate</label>
+            <input
+              type="number"
+              name="driver_daily_rate"
+              className="form-control"
+              value={props.value.driver_daily_rate!}
+              // required
+              onChange={handleChange}
+              placeholder="eg 200"
+            />
+          </div>
+        )}
+
+        {props.car?.delivery && (
+          <div>
+            <label htmlFor="discount_days">Delivery Rate</label>
+            <input
+              type="number"
+              name="delivery_rate"
+              className="form-control"
+              value={props.value.delivery_rate!}
+              // required
+              onChange={handleChange}
+              placeholder="eg 200"
+            />
+          </div>
+        )}
+
         <FormSaveButton
           loading={loading}
           saved={saved}

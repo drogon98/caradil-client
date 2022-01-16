@@ -5,7 +5,9 @@ import React, {
   SetStateAction,
   useState,
 } from "react";
+import { time24hrs } from "../../data";
 import {
+  Car,
   CarAvailabilityInput,
   useEditCarAvailabilityMutation,
 } from "../../graphql_types/generated/graphql";
@@ -16,6 +18,7 @@ interface AvailabilityProps {
   setData: Dispatch<SetStateAction<CarAvailabilityInput>>;
   carId: number | undefined;
   booked: boolean;
+  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -42,14 +45,16 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         },
       });
     } else if (e.target.name === "custom_availability") {
-      // if (props.value.custom_availability) {
-      //   props.setData({ ...props.value, custom_availability_data: null });
-      // }
       props.setData({
         ...props.value,
         [e.target.name]: !props.value.custom_availability,
       });
-    } else if (e.target.name === "available") {
+    } else if (e.target.name === "advance_book_period") {
+      props.setData({
+        ...props.value,
+        [e.target.name]: e.target.value,
+      });
+    } else {
       props.setData({
         ...props.value,
         [e.target.name]: e.target.value === "true" ? true : false,
@@ -67,12 +72,23 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         variables: {
           carId: props.carId!,
           input: {
+            advance_book_period: props.value.advance_book_period,
+            car_has_other_use: props.value.car_has_other_use,
             available: props.value.available,
             custom_availability: props.value.custom_availability,
             custom_availability_data: props.value.custom_availability_data,
           },
         },
       });
+
+      if (response.data?.editCarAvailability.error) {
+      } else if (response.data?.editCarAvailability.carId) {
+        props.setResponseCar(response.data.editCarAvailability.car!);
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 3000);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -82,14 +98,6 @@ export const Availability: FC<AvailabilityProps> = (props) => {
       return;
       // setError("Network Error!");
     }
-
-    if (response.data?.editCarAvailability.error) {
-    } else if (response.data?.editCarAvailability.carId) {
-      setSaved(true);
-      setTimeout(() => {
-        setSaved(false);
-      }, 3000);
-    }
   };
 
   console.log("props.value :>> ", props.value);
@@ -97,15 +105,46 @@ export const Availability: FC<AvailabilityProps> = (props) => {
   return (
     <div>
       <p>
-        When you list your car, we’ll automatically set your Daily availability
+        {/* When you list your car, we will automatically set your Daily availability
         to “I’m always available.” You can change your Daily availability at any
         time by setting the hours you’re available during each day of the week.
         You’ll only receive trip requests that start and end within the times
         you set. Whatever Daily availability you set, we’ll apply to all your
-        vehicle listings.{" "}
+        vehicle listings.{" "} */}
       </p>
       <form onSubmit={handleSubmit}>
-        <div className="form-check form-switch">
+        <div className="form-check mb-3">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            value={props.value.car_has_other_use ? "false" : "true"}
+            id="car_has_other_use"
+            name="car_has_other_use"
+            checked={props.value.car_has_other_use}
+            onChange={handleChange}
+          />
+          <label className="form-check-label" htmlFor="car_has_other_use">
+            I use this car for personal reasons
+          </label>
+        </div>
+        <div className="mb-3">
+          <label>How advance do you want to be notified of a trip</label>
+          <div>
+            <select
+              name="advance_book_period"
+              onChange={handleChange}
+              value={props.value.advance_book_period ?? ""}
+              required
+            >
+              <option value="">Advance Duration</option>
+              <option value="3hrs">3hrs Before The Trip</option>
+              <option value="6hrs">6hrs Before The Trip</option>
+              <option value="12hrs">12hrs Before The Trip</option>
+              <option value="24hrs">24hrs Before The Trip</option>
+            </select>
+          </div>
+        </div>
+        <div className="form-check form-switch mb-3">
           <input
             className="form-check-input"
             type="checkbox"
@@ -141,147 +180,72 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         </div>
 
         {props.value.custom_availability && (
-          <>
-            <div className="w-60">
-              <input
-                type="date"
-                className="w-100 car-date-time-input-location"
-                name="startDate"
-                onChange={handleChange}
-                value={props.value.custom_availability_data?.startDate ?? ""}
-                required
-              />
-            </div>
+          <div className="row">
+            <div className="col-lg-6">
+              <div className="d-flex">
+                <div className="w-50">
+                  <input
+                    type="date"
+                    className="w-100 car-date-time-input-location"
+                    name="startDate"
+                    onChange={handleChange}
+                    value={
+                      props.value.custom_availability_data?.startDate ?? ""
+                    }
+                    required
+                  />
+                </div>
 
-            <div className="w-40">
-              <select
-                className="w-100"
-                name="startTime"
-                onChange={handleChange}
-                value={props.value.custom_availability_data?.startTime ?? ""}
-                required
-              >
-                <option value="00:00">00:00</option>
-                <option value="00:30">00:30</option>
-                <option value="01:00">01:00</option>
-                <option value="01:30">01:30</option>
-                <option value="02:00">02:00</option>
-                <option value="02:30">02:30</option>
-                <option value="03:00">03:00</option>
-                <option value="03:30">03:30</option>
-                <option value="04:00">04:00</option>
-                <option value="04:30">04:30</option>
-                <option value="05:00">05:00</option>
-                <option value="05:30">05:30</option>
-                <option value="06:00">06:00</option>
-                <option value="06:30">06:30</option>
-                <option value="07:00">07:00</option>
-                <option value="07:30">07:30</option>
-                <option value="08:00">08:00</option>
-                <option value="08:30">08:30</option>
-                <option value="09:00">09:00</option>
-                <option value="09:30">09:30</option>
-                <option value="10:00">10:00</option>
-                <option value="10:30">10:30</option>
-                <option value="11:00">11:00</option>
-                <option value="11:30">11:30</option>
-                <option value="12:00">12:00</option>
-                <option value="12:30">12:30</option>
-                <option value="13:00">13:00</option>
-                <option value="13:30">13:30</option>
-                <option value="14:00">14:00</option>
-                <option value="14:30">14:30</option>
-                <option value="15:00">15:00</option>
-                <option value="15:30">15:30</option>
-                <option value="16:00">16:00</option>
-                <option value="16:30">16:30</option>
-                <option value="17:00">17:00</option>
-                <option value="17:30">17:30</option>
-                <option value="18:00">18:00</option>
-                <option value="18:30">18:30</option>
-                <option value="19:00">19:00</option>
-                <option value="19:30">19:30</option>
-                <option value="20:00">20:00</option>
-                <option value="20:30">20:30</option>
-                <option value="21:00">21:00</option>
-                <option value="21:30">21:30</option>
-                <option value="22:00">22:00</option>
-                <option value="22:30">22:30</option>
-                <option value="23:00">23:00</option>
-                <option value="23:30">23:30</option>
-              </select>
-            </div>
+                <div className="w-50">
+                  <select
+                    className="w-100"
+                    name="startTime"
+                    onChange={handleChange}
+                    value={
+                      props.value.custom_availability_data?.startTime ?? ""
+                    }
+                    required
+                  >
+                    <option value={""}>Start Time</option>
+                    {time24hrs.map((t, idx) => (
+                      <option key={idx} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="d-flex mt-2">
+                <div className="w-50">
+                  <input
+                    type="date"
+                    className="w-100 car-date-time-input-location"
+                    name="endDate"
+                    onChange={handleChange}
+                    value={props.value.custom_availability_data?.endDate ?? ""}
+                    required
+                  />
+                </div>
 
-            <div className="w-60">
-              <input
-                type="date"
-                className="w-100 car-date-time-input-location"
-                name="endDate"
-                onChange={handleChange}
-                value={props.value.custom_availability_data?.endDate ?? ""}
-                required
-              />
+                <div className="w-50">
+                  <select
+                    className="w-100"
+                    name="endTime"
+                    onChange={handleChange}
+                    value={props.value.custom_availability_data?.endTime ?? ""}
+                    required
+                  >
+                    <option value={""}>End Time</option>
+                    {time24hrs.map((t, idx) => (
+                      <option key={idx} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
             </div>
-
-            <div className="w-40">
-              <select
-                className="w-100"
-                name="endTime"
-                onChange={handleChange}
-                value={props.value.custom_availability_data?.endTime ?? ""}
-                required
-              >
-                <option value="00:00">00:00</option>
-                <option value="00:30">00:30</option>
-                <option value="01:00">01:00</option>
-                <option value="01:30">01:30</option>
-                <option value="02:00">02:00</option>
-                <option value="02:30">02:30</option>
-                <option value="03:00">03:00</option>
-                <option value="03:30">03:30</option>
-                <option value="04:00">04:00</option>
-                <option value="04:30">04:30</option>
-                <option value="05:00">05:00</option>
-                <option value="05:30">05:30</option>
-                <option value="06:00">06:00</option>
-                <option value="06:30">06:30</option>
-                <option value="07:00">07:00</option>
-                <option value="07:30">07:30</option>
-                <option value="08:00">08:00</option>
-                <option value="08:30">08:30</option>
-                <option value="09:00">09:00</option>
-                <option value="09:30">09:30</option>
-                <option value="10:00">10:00</option>
-                <option value="10:30">10:30</option>
-                <option value="11:00">11:00</option>
-                <option value="11:30">11:30</option>
-                <option value="12:00">12:00</option>
-                <option value="12:30">12:30</option>
-                <option value="13:00">13:00</option>
-                <option value="13:30">13:30</option>
-                <option value="14:00">14:00</option>
-                <option value="14:30">14:30</option>
-                <option value="15:00">15:00</option>
-                <option value="15:30">15:30</option>
-                <option value="16:00">16:00</option>
-                <option value="16:30">16:30</option>
-                <option value="17:00">17:00</option>
-                <option value="17:30">17:30</option>
-                <option value="18:00">18:00</option>
-                <option value="18:30">18:30</option>
-                <option value="19:00">19:00</option>
-                <option value="19:30">19:30</option>
-                <option value="20:00">20:00</option>
-                <option value="20:30">20:30</option>
-                <option value="21:00">21:00</option>
-                <option value="21:30">21:30</option>
-                <option value="22:00">22:00</option>
-                <option value="22:30">22:30</option>
-                <option value="23:00">23:00</option>
-                <option value="23:30">23:30</option>
-              </select>
-            </div>
-          </>
+          </div>
         )}
 
         <FormSaveButton

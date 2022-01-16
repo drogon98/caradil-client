@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react";
 import React, {
   ChangeEvent,
   Dispatch,
@@ -9,13 +10,12 @@ import React, {
   useState,
 } from "react";
 import {
+  Car,
   CarSecondaryFeaturesInput,
   useEditCarSecondaryFeaturesMutation,
 } from "../../graphql_types/generated/graphql";
 import { FeatureIconMap } from "../PublicCar/CarDetailsSecondaryFeatures";
 import { FormSaveButton } from "./FormSaveButton";
-import { ImCross } from "react-icons/im";
-import { Icon } from "@iconify/react";
 
 const AllOptionFeatures = [
   "Bluetooth",
@@ -29,13 +29,8 @@ interface SecondaryFeaturesProps {
   value: CarSecondaryFeaturesInput;
   setData: Dispatch<SetStateAction<CarSecondaryFeaturesInput>>;
   carId: number | undefined;
+  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
-
-// const FeatureIconMap = new Map<string, string>();
-
-// FeatureIconMap.set("bluetooth", "FiBluetooth");
-// FeatureIconMap.set("wifi", "AiOutlineWifi");
-// FeatureIconMap.set("babychair", "FaWheelchair");
 
 /**
  * @author @CodeYourEmpire
@@ -79,6 +74,15 @@ export const SecondaryFeatures: FC<SecondaryFeaturesProps> = (props) => {
       response = await editCarFeatures({
         variables: { carId: props.carId!, input: features! },
       });
+
+      if (response.data?.editCarSecondaryFeatures.error) {
+      } else if (response.data?.editCarSecondaryFeatures.carId) {
+        props.setResponseCar(response.data.editCarSecondaryFeatures.car!);
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 3000);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -87,14 +91,6 @@ export const SecondaryFeatures: FC<SecondaryFeaturesProps> = (props) => {
       console.log("errorMessage :>> ", errorMessage);
       return;
       // setError("Network Error!");
-    }
-
-    if (response.data?.editCarSecondaryFeatures.error) {
-    } else if (response.data?.editCarSecondaryFeatures.carId) {
-      setSaved(true);
-      setTimeout(() => {
-        setSaved(false);
-      }, 3000);
     }
   };
 
@@ -115,15 +111,15 @@ export const SecondaryFeatures: FC<SecondaryFeaturesProps> = (props) => {
   return (
     <>
       <form className="form-group" onSubmit={handleSubmit}>
-        <p>
+        {/* <p>
           Sites usually show images to provide illustration, like photos for
           online stores or news articles Sites usually show images to provide
           illustration, like photos for online stores or news articles Sites
           usually show images to provide illustration, like photos for online
           stores or news articles
-        </p>
+        </p> */}
         <div>
-          <label>Select features of your car below</label>
+          <label>Secondary Features</label>
           {/* <input type="text" name="feature" className="ml-2 " /> */}
 
           <select

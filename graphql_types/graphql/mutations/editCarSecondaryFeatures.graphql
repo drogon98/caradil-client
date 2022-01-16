@@ -5,5 +5,8 @@ mutation EditCarSecondaryFeatures(
   editCarSecondaryFeatures(carId: $carId, input: $input) {
     error
     carId
+    car {
+      ...carInfo
+    }
   }
 }

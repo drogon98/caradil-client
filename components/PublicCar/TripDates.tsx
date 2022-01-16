@@ -1,9 +1,13 @@
-import React, { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { time24hrs } from "../../data";
 import {
-  CustomAvailabilityDataInput,
   CustomAvailabilityObj,
   Maybe,
 } from "../../graphql_types/generated/graphql";

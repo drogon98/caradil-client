@@ -5,5 +5,8 @@ mutation EditCarLuxuryAndVipServices(
   editCarLuxuryAndVipServices(carId: $carId, input: $input) {
     carId
     error
+    car {
+      ...carInfo
+    }
   }
 }

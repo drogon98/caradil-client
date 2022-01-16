@@ -80,11 +80,8 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
   return (
     <>
       <p className="mb-3">
-        Sites usually show images to provide illustration, like photos for
-        online stores or news articles Sites usually show images to provide
-        illustration, like photos for online stores or news articles Sites
-        usually show images to provide illustration, like photos for online
-        stores or news articles
+        Add your car name. Make it unique and only three words long eg.{" "}
+        <b>Subaru Forester 2016</b>.
       </p>
       <form
         className="form-group"
@@ -94,15 +91,16 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
       >
         <div className="row">
           <div className="col">
-            <label htmlFor="carName">Name</label>
+            <label htmlFor="name">Name</label>
             <input
+              id="name"
               type="text"
               name="name"
               className="form-control"
               value={props.value.name}
               required
               onChange={handleChange}
-              placeholder="eg Subaru Forester"
+              placeholder="eg Subaru Forester 2016"
               disabled={props.isEdit}
             />
           </div>
@@ -115,6 +113,7 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
               value={props.value.make}
               name="make"
               disabled={props.isEdit}
+              required
             >
               <option value={""}>Select Make</option>
               {carMakes.map((make, idx) => (
@@ -133,6 +132,19 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
               name="reg_no"
               className="form-control"
               value={props.value.reg_no}
+              required
+              onChange={handleChange}
+              placeholder="eg KBA111C"
+              disabled={props.isEdit}
+            />
+          </div>
+          <div className="col-6">
+            <label htmlFor="carName">Odometer Reading</label>
+            <input
+              type="text"
+              name="odometer_reading"
+              className="form-control"
+              value={props.value.odometer_reading}
               required
               onChange={handleChange}
               placeholder="eg KBA111C"

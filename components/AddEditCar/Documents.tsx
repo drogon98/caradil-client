@@ -222,11 +222,8 @@ export const Documents: FC<DocumentsProps> = (props) => {
   return (
     <>
       <p className="mb-3">
-        Sites usually show images to provide illustration, like photos for
-        online stores or news articles Sites usually show images to provide
-        illustration, like photos for online stores or news articles Sites
-        usually show images to provide illustration, like photos for online
-        stores or news articles
+        These documents will help us verify this car is yours. Ensure they are
+        clear and original copies. Otherwise, your car will be rejected.
       </p>
 
       <form

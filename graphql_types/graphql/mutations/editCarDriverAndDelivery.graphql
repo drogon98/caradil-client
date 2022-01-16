@@ -5,5 +5,8 @@ mutation EditCarDriverAndDelivery(
   editCarDriverAndDelivery(carId: $carId, input: $input) {
     error
     carId
+    car {
+      ...carInfo
+    }
   }
 }

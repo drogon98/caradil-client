@@ -6,7 +6,10 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useEditCarLocationMutation } from "../../graphql_types/generated/graphql";
+import {
+  Car,
+  useEditCarLocationMutation,
+} from "../../graphql_types/generated/graphql";
 import { AutoComplete } from "../Location/AutoComplete";
 import { FormSaveButton } from "./FormSaveButton";
 
@@ -14,6 +17,7 @@ interface LocationProps {
   value: string;
   setData: Dispatch<SetStateAction<string>>;
   carId: number | undefined;
+  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -39,6 +43,14 @@ export const Location: FC<LocationProps> = (props) => {
       response = await editLocation({
         variables: { carId: props.carId!, input: { location: props.value } },
       });
+      if (response.data?.editCarLocation.error) {
+      } else if (response.data?.editCarLocation.carId) {
+        props.setResponseCar(response.data.editCarLocation.car!);
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 3000);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -49,32 +61,19 @@ export const Location: FC<LocationProps> = (props) => {
       // setError("Network Error!");
     }
 
-    if (response.data?.editCarLocation.error) {
-    } else if (response.data?.editCarLocation.carId) {
-      setSaved(true);
-      setTimeout(() => {
-        setSaved(false);
-      }, 3000);
-    }
-
     // console.log("response :>> ", response);
   };
   return (
     <div>
+      <p className="mb-2">
+        This is the location of your car. If guests search for cars that match
+        this location,it will appear in their search .
+      </p>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="mileage">Location</label>
-          {/* <input
-            type="text"
-            name="location"
-            className="form-control"
-            value={props.value}
-            required
-            onChange={handleChange}
-            placeholder="eg Ruiru Kamakis"
-          /> */}
           <AutoComplete
-            placeholder="Car location or pickup location"
+            placeholder="Car location"
             handler={handleChange}
             inputRef={inputRef}
             name="location"

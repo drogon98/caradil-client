@@ -51,6 +51,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
       name: "",
       reg_no: "",
       make: "",
+      odometer_reading: "",
     }
   );
   const [primaryFeatures, setPrimaryFeatures] =
@@ -88,10 +89,12 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
   const [location, setLocation] = useState<string>("");
   const [distance, setDistance] = useState<CarDistanceInput>({
     distance_per_day: 0,
+    has_unlimited_distance: false,
   });
   const [driverAndDelivery, setDriverAndDelivery] =
     useState<CarDriverAndDeliveryInput>({
-      has_driver: false,
+      driver_mode: 3,
+      manual_transmission_test: false,
       delivery: false,
     });
   const [availabilityData, setAvailabilityData] =
@@ -99,6 +102,8 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
       available: false,
       custom_availability: false,
       custom_availability_data: {},
+      car_has_other_use: false,
+      advance_book_period: "",
     });
 
   // console.log("props.car :>> ", props.car);
@@ -165,6 +170,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
         name: props.car.name!,
         reg_no: props.car.reg_no!,
         make: props.car.make!,
+        odometer_reading: props.car.odometer_reading!,
       });
       setPrimaryFeatures({
         gas: props.car.gas ?? "",
@@ -234,16 +240,22 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
           endTime: props.car?.custom_availability_data?.endTime,
         };
         return {
+          car_has_other_use: props.car?.car_has_other_use!,
+          advance_book_period: props.car?.advance_book_period ?? "",
           available: props.car?.available ?? false,
           custom_availability: props.car?.custom_availability ?? false,
           custom_availability_data: tempCustomAvailabilityData,
         };
       });
       setLocation(props.car.location ?? "");
-      setDistance({ distance_per_day: props.car.distance_per_day ?? 0 });
+      setDistance({
+        distance_per_day: props.car.distance_per_day ?? 0,
+        has_unlimited_distance: props.car.has_unlimited_distance ?? false,
+      });
       setDriverAndDelivery({
         delivery: props.car.delivery ?? false,
-        has_driver: props.car.has_driver ?? false,
+        manual_transmission_test: props.car.manual_transmission_test ?? false,
+        driver_mode: props.car.driver_mode!,
       });
     }
   }, [props.car]);
@@ -320,6 +332,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
             value={secondaryFeatures}
             carId={carId}
             setData={setSecondaryFeatures}
+            setResponseCar={setResponseCar}
           />
         </Expandable>
 
@@ -328,6 +341,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
             value={categories!}
             carId={carId}
             setData={setCategories}
+            setResponseCar={setResponseCar}
           />
         </Expandable>
 
@@ -337,16 +351,27 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
               value={luxuryAndVipServices!}
               carId={carId}
               setData={setLuxuryAndVipServices}
+              setResponseCar={setResponseCar}
             />
           </Expandable>
         )}
 
         <Expandable header="Location">
-          <Location value={location} carId={carId} setData={setLocation} />
+          <Location
+            value={location}
+            carId={carId}
+            setData={setLocation}
+            setResponseCar={setResponseCar}
+          />
         </Expandable>
 
         <Expandable header="Distance">
-          <Distance value={distance} carId={carId} setData={setDistance} />
+          <Distance
+            value={distance}
+            carId={carId}
+            setData={setDistance}
+            setResponseCar={setResponseCar}
+          />
         </Expandable>
 
         <Expandable header="Driver And Delivery">
@@ -354,11 +379,19 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
             value={driverAndDelivery}
             carId={carId}
             setData={setDriverAndDelivery}
+            manual={props.car?.transmission === "manual"}
+            setResponseCar={setResponseCar}
           />
         </Expandable>
 
         <Expandable header="Rates">
-          <Rates value={rates} carId={carId} setData={setRates} />
+          <Rates
+            value={rates}
+            carId={carId}
+            setData={setRates}
+            car={responseCar!}
+            setResponseCar={setResponseCar}
+          />
         </Expandable>
 
         <Expandable header="Availability">
@@ -367,6 +400,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
             carId={carId}
             setData={setAvailabilityData}
             booked={props.car?.booked ?? false}
+            setResponseCar={setResponseCar}
           />
         </Expandable>
       </>

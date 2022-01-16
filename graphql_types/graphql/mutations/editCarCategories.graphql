@@ -2,5 +2,8 @@ mutation EditCarCategories($carId: Float!, $input: CarCategoriesInput!) {
   editCarCategories(carId: $carId, input: $input) {
     carId
     error
+    car {
+      ...carInfo
+    }
   }
 }

@@ -90,6 +90,7 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
               onChange={handleChange}
               value={props.value.gas}
               name="gas"
+              required
             >
               <option value={""}>Select Gas</option>
               <option value="petrol">Petrol</option>
@@ -104,6 +105,7 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
               onChange={handleChange}
               value={props.value.transmission}
               name="transmission"
+              required
             >
               <option value={""}>Select Transmission</option>
               <option value="manual">Manual</option>
@@ -120,6 +122,7 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
               onChange={handleChange}
               value={props.value.color}
               name="color"
+              required
             >
               <option value={""}>Select Color</option>
               {carColors.map((color, idx) => (

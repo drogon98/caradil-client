@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import {
+  Car,
   CarDistanceInput,
   useEditCarDistanceMutation,
 } from "../../graphql_types/generated/graphql";
@@ -16,6 +17,7 @@ interface DistanceProps {
   value: CarDistanceInput;
   setData: Dispatch<SetStateAction<CarDistanceInput>>;
   carId: number | undefined;
+  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -26,7 +28,24 @@ interface DistanceProps {
 export const Distance: FC<DistanceProps> = (props) => {
   const [editDistance, { loading }] = useEditCarDistanceMutation();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    props.setData({ distance_per_day: parseInt(e.target.value.trim()) });
+    if (e.target.name === "has_unlimited_distance") {
+      if (e.target.value === "true") {
+        props.setData({
+          distance_per_day: 0,
+          [e.target.name]: true,
+        });
+      } else {
+        props.setData({
+          ...props.value,
+          [e.target.name]: false,
+        });
+      }
+    } else {
+      props.setData({
+        ...props.value,
+        [e.target.name]: parseInt(e.target.value.trim()),
+      });
+    }
   };
   const [saved, setSaved] = useState(false);
 
@@ -37,9 +56,18 @@ export const Distance: FC<DistanceProps> = (props) => {
       response = await editDistance({
         variables: {
           carId: props.carId!,
-          input: { distance_per_day: props.value.distance_per_day },
+          input: { ...props.value },
         },
       });
+
+      if (response.data?.editCarDistance.error) {
+      } else if (response.data?.editCarDistance.carId) {
+        props.setResponseCar(response.data.editCarDistance.car!);
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 3000);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -49,20 +77,31 @@ export const Distance: FC<DistanceProps> = (props) => {
       return;
       // setError("Network Error!");
     }
-
-    if (response.data?.editCarDistance.error) {
-    } else if (response.data?.editCarDistance.carId) {
-      setSaved(true);
-      setTimeout(() => {
-        setSaved(false);
-      }, 3000);
-    }
   };
 
   return (
     <div>
-      <p>This is the distance your car should cover in one day of a trip.</p>
+      <p className="mb-2">
+        This is the distance your car should cover in one day of a trip.
+      </p>
       <form onSubmit={handleSubmit}>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="has_unlimited_distance"
+            value={props.value.has_unlimited_distance ? "false" : "true"}
+            id="has_unlimited_distance_input"
+            checked={props.value.has_unlimited_distance}
+            onChange={handleChange}
+          />
+          <label
+            className="form-check-label"
+            htmlFor="has_unlimited_distance_input"
+          >
+            Unlimited Distance
+          </label>
+        </div>
         <div>
           <label htmlFor="distance_per_day">Distance (KM)</label>
           <input
@@ -74,6 +113,7 @@ export const Distance: FC<DistanceProps> = (props) => {
             onChange={handleChange}
             placeholder="eg 800"
             id="distance_per_day"
+            disabled={props.value.has_unlimited_distance}
           />
         </div>
         <FormSaveButton

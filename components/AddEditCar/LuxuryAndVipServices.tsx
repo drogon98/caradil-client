@@ -7,13 +7,17 @@ import React, {
   useState,
 } from "react";
 import { carVipAndLuxuryServices } from "../../data";
-import { useEditCarLuxuryAndVipServicesMutation } from "../../graphql_types/generated/graphql";
+import {
+  Car,
+  useEditCarLuxuryAndVipServicesMutation,
+} from "../../graphql_types/generated/graphql";
 import { FormSaveButton } from "./FormSaveButton";
 
 interface LuxuryAndVipProps {
   value: string[];
   setData: Dispatch<SetStateAction<string[] | undefined>>;
   carId: number | undefined;
+  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -44,6 +48,14 @@ export const LuxuryAndVip: FC<LuxuryAndVipProps> = (props) => {
       response = await editLuxuryAndVipServices({
         variables: { carId: props.carId!, input: { services: props.value } },
       });
+      if (response?.data?.editCarLuxuryAndVipServices.error) {
+      } else if (response.data?.editCarLuxuryAndVipServices.carId) {
+        props.setResponseCar(response.data.editCarLuxuryAndVipServices.car!);
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 3000);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -52,14 +64,6 @@ export const LuxuryAndVip: FC<LuxuryAndVipProps> = (props) => {
       console.log("errorMessage :>> ", errorMessage);
       return;
       // setError("Network Error!");
-    }
-
-    if (response?.data?.editCarLuxuryAndVipServices.error) {
-    } else if (response.data?.editCarLuxuryAndVipServices.carId) {
-      setSaved(true);
-      setTimeout(() => {
-        setSaved(false);
-      }, 3000);
     }
 
     // console.log("response :>> ", response);

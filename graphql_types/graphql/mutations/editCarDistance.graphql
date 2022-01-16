@@ -2,5 +2,8 @@ mutation EditCarDistance($carId: Float!, $input: CarDistanceInput!) {
   editCarDistance(carId: $carId, input: $input) {
     error
     carId
+    car {
+      ...carInfo
+    }
   }
 }

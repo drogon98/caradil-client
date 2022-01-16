@@ -7,6 +7,7 @@ interface FormSaveButtonProps {
   loading: boolean;
   isEdit: boolean;
   carId: number;
+  disabled?: boolean;
 }
 
 /**

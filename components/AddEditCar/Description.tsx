@@ -120,12 +120,10 @@ export const Description: FC<DescriptionProps> = (props) => {
 
   return (
     <>
-      <p>
-        Sites usually show images to provide illustration, like photos for
-        online stores or news articles Sites usually show images to provide
-        illustration, like photos for online stores or news articles Sites
-        usually show images to provide illustration, like photos for online
-        stores or news articles
+      <p className="mb-2">
+        Describe your car in <b>100+</b> words. This is a chance to make a great
+        impression to clients who will rent it. Ensure you space your content to
+        make it readable to the guests.
       </p>
       <ReactQuill
         value={value}
@@ -150,7 +148,7 @@ export const Description: FC<DescriptionProps> = (props) => {
         <div className="d-flex justify-content-end">
           <button
             className="btn bgOrange p-0 m-0"
-            disabled={loading || !props.carId}
+            disabled={loading || !props.carId || value.length > 100}
             style={{ height: "35px", minWidth: "60px" }}
             onClick={handleSaveDescription}
           >

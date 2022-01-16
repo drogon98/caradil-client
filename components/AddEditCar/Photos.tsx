@@ -139,11 +139,8 @@ export const Photos: FC<PhotosProps> = (props) => {
   return (
     <>
       <p className="mb-3">
-        Sites usually show images to provide illustration, like photos for
-        online stores or news articles Sites usually show images to provide
-        illustration, like photos for online stores or news articles Sites
-        usually show images to provide illustration, like photos for online
-        stores or news articles
+        We prefer <b>5+</b> photos. Ensure these photos are clear and your car
+        is the main subject.
       </p>
       <form
         onSubmit={(e) => {
