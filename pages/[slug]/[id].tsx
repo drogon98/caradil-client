@@ -1,7 +1,14 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  FC,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 import { useOutsideClickHandler } from "../../components/hooks/useOutsideClickHandler";
@@ -37,6 +44,28 @@ interface CarProps {}
  * @author @CodeYourEmpire
  * @function @Car
  **/
+
+export const totalChargeCalculator = (
+  car: Car,
+  dates: CustomAvailabilityObj,
+  setTotalCharge: Dispatch<React.SetStateAction<number>>
+) => {
+  let startDate = new Date(dates?.startDate!);
+  let endDate = new Date(dates?.endDate!);
+
+  // To calculate the time difference of two dates
+  let Difference_In_Time = endDate.getTime() - startDate.getTime();
+
+  // To calculate the no. of days between two dates
+  let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+  console.log("Difference_In_Days :>> ", Difference_In_Days);
+
+  setTotalCharge(() => {
+    let total = car?.daily_rate! * Difference_In_Days;
+    return total;
+  });
+};
 
 const Car: FC<CarProps> = (props) => {
   const router = useRouter();
@@ -139,22 +168,8 @@ const Car: FC<CarProps> = (props) => {
   }, [car]);
 
   useEffect(() => {
-    if (validDates) {
-      let startDate = new Date(values?.startDate!);
-      let endDate = new Date(values?.endDate!);
-
-      // To calculate the time difference of two dates
-      let Difference_In_Time = endDate.getTime() - startDate.getTime();
-
-      // To calculate the no. of days between two dates
-      let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-
-      // console.log("Difference_In_Days :>> ", Difference_In_Days);
-
-      setTotalCharge(() => {
-        let total = car?.daily_rate! * Difference_In_Days;
-        return total;
-      });
+    if (validDates && car && values) {
+      totalChargeCalculator(car, values, setTotalCharge);
     }
   }, [validDates, values, car]);
 
@@ -411,10 +426,15 @@ const Car: FC<CarProps> = (props) => {
                       )}
                     </div>
 
-                    <small>Ksh.{car?.daily_rate!.toLocaleString()}/day</small>
-                    {validDates && (
-                      <h6>Total Ksh.{totalCharge.toLocaleString()}</h6>
-                    )}
+                    <div className="d-flex justify-content-between align-items-center">
+                      <h6 className="fw-bolder m-0">
+                        Ksh.{car?.daily_rate!.toLocaleString()}/day
+                      </h6>
+                      <small className="fw-bold ml-3">
+                        {validDates &&
+                          `Total Ksh.${totalCharge.toLocaleString()}`}
+                      </small>
+                    </div>
 
                     <hr />
                     <h6>Select Trip Dates And Time</h6>
@@ -423,6 +443,8 @@ const Car: FC<CarProps> = (props) => {
                       setTripDates={setUserDates}
                       setValidDates={setValidDates}
                       userDates={userDates}
+                      setTotalCharge={setTotalCharge}
+                      car={car!}
                     />
 
                     <div className="d-grid gap-2">
@@ -535,6 +557,8 @@ const Car: FC<CarProps> = (props) => {
                     setTripDates={setUserDates}
                     setValidDates={setValidDates}
                     userDates={userDates}
+                    setTotalCharge={setTotalCharge}
+                    car={car!}
                   />
                   <div className="d-grid gap-2">
                     {token && role ? (

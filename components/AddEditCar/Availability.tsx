@@ -176,7 +176,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
           <label className="form-check-label" htmlFor="mySwitch">
             {props.booked
               ? "This car is booked. It's hence unavailable."
-              : "Available"}
+              : "This car is available now"}
           </label>
         </div>
         <p>

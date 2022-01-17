@@ -45,6 +45,9 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     fetchPolicy: "network-only",
   });
   const token = useAppSelector((state) => state.auth._id);
+  const [ttl, setTtl] = useState(0);
+  const [driverTtl, setDriverTtl] = useState(0);
+  const [deliverTtl, setDeliverTtl] = useState(0);
   const [totalCharge, setTotalCharge] = useState<string>("");
   const [values, setValues] = useState<PayData>({
     p1: "",
@@ -108,7 +111,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
       // To calculate the no. of days between two dates
       let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-      console.log("Difference_In_Days :>> ", Difference_In_Days);
+      // console.log("Difference_In_Days :>> ", Difference_In_Days);
       setTripDays(Difference_In_Days);
       // setTotalCharge(() => {
       //   let total = data.getCar.car?.daily_rate! * Difference_In_Days;
@@ -117,35 +120,46 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     }
   }, [router.query, data]);
 
+  // console.log("tripDays :>> ", tripDays);
+  useEffect(() => {
+    if (data && tripDays) {
+      let total = data?.getCar.car?.daily_rate! * tripDays;
+      setTtl(total);
+    }
+  }, [tripDays, data]);
+
+  useEffect(() => {}, [totalCharge, tripDays, data]);
+
+  useEffect(() => {
+    if (data && tripDays) {
+      if (includeDriver) {
+        let driverTtl = data.getCar.car?.driver_daily_rate! * tripDays;
+        setDriverTtl(driverTtl);
+      } else {
+        setDriverTtl(0);
+      }
+    }
+  }, [includeDriver, tripDays, data]);
+
   useEffect(() => {
     if (data) {
-      let total = data?.getCar.car?.daily_rate! * tripDays;
-      let driverTtl = data.getCar.car?.driver_daily_rate! * tripDays;
-      let deliverTtl = data.getCar.car?.delivery_rate! * 2; // 2kms
-      if (includeDriver) {
-        total += driverTtl;
-      } else {
-        total -= driverTtl;
-      }
-
       if (deliverToMe) {
-        total += deliverTtl;
+        let deliverTtl = data.getCar.car?.delivery_rate! * 2;
+        setDeliverTtl(deliverTtl);
       } else {
-        total -= deliverTtl;
+        setDeliverTtl(0);
       }
-
-      setTotalCharge(total as unknown as string);
     }
-  }, [tripDays, data, includeDriver, deliverToMe]);
+  }, [deliverToMe, tripDays, data]);
 
   useEffect(() => {
     if (data?.getCar.car?.id) {
       if (data.getCar.car.discount) {
-        if (data.getCar.car.discount_days) {
-          if (data.getCar.car.discount_days < 0) {
-            setDiscountEligible(true);
-          }
-        }
+        // if (data.getCar.car.discount_days) {
+        // if (data.getCar.car.discount_days > 0) {
+        setDiscountEligible(true);
+        // }
+        // }
       }
     }
   }, [tripDays, data]);
@@ -190,7 +204,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
         },
         body: JSON.stringify({
           ...values,
-          ttl: totalCharge,
+          ttl: getTotal(),
         }),
       });
     } catch (error) {
@@ -205,7 +219,22 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     }
   };
 
-  // console.log(`approvedLoading`, approvedLoading);
+  const getTotal = () => {
+    let tempTtl = ttl + deliverTtl + driverTtl;
+    if (discountEligible) {
+      if (data?.getCar.car?.discount_days) {
+        if (tripDays >= data?.getCar.car?.discount_days) {
+          return (
+            (tempTtl * (100 - parseFloat(data.getCar.car?.discount!))) / 100
+          );
+        }
+        return tempTtl;
+      }
+      return (tempTtl * (100 - parseFloat(data?.getCar.car?.discount!))) / 100;
+    } else {
+      return tempTtl;
+    }
+  };
 
   return (
     <>
@@ -334,7 +363,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                           type="submit"
                           className="btn bgOrange fw-bolder"
                         >
-                          {`Pay Ksh.${totalCharge.toLocaleString()}`}
+                          {`Pay Ksh.${getTotal().toLocaleString()}`}
                         </button>
                       </div>
                     </div>
@@ -346,15 +375,16 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                       discountEligible={discountEligible}
                       discountDays={data?.getCar.car?.discount_days!}
                       discount={data?.getCar.car?.discount!}
-                      totalCharge={totalCharge}
+                      totalCharge={getTotal()}
                       tripDays={tripDays}
                       dailyRate={data?.getCar.car?.daily_rate!}
+                      car={data?.getCar.car!}
                     />
                   </div>
                   <div className="sm-screen-checkout-btn mt-4 d-md-none">
                     <div className="d-grid gap-2">
                       <button type="submit" className="btn bgOrange fw-bolder">
-                        {`Pay Ksh.${totalCharge.toLocaleString()}`}
+                        {`Pay Ksh.${getTotal().toLocaleString()}`}
                       </button>
                     </div>
                   </div>

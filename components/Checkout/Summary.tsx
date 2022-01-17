@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { Car } from "../../graphql_types/generated/graphql";
 
 interface Props {
   includeDriver: boolean;
@@ -6,9 +7,10 @@ interface Props {
   discountEligible: boolean;
   discountDays: number;
   discount: string;
-  totalCharge: string;
+  totalCharge: number;
   tripDays: number;
   dailyRate: number;
+  car: Car;
 }
 
 export default function Summary(props: Props): ReactElement {
@@ -31,14 +33,14 @@ export default function Summary(props: Props): ReactElement {
       {props.includeDriver && (
         <div className="mb-2 d-flex justify-content-between">
           <p>Driver Daily Rate</p>
-          <p>Ksh.800</p>
+          <p>Ksh.{props.car.driver_daily_rate}</p>
         </div>
       )}
 
       {props.deliverToMe && (
         <div className="mb-2 d-flex justify-content-between">
           <p>Delivery Fee</p>
-          <p>Ksh.1200</p>
+          <p>Ksh.{props.car.delivery_rate}</p>
         </div>
       )}
 
@@ -54,9 +56,7 @@ export default function Summary(props: Props): ReactElement {
       <hr />
       <div className="mb-2 d-flex justify-content-between">
         <h6 className="fw-bolder">Total</h6>
-        <p className="fw-bolder">
-          Ksh.{parseInt(props.totalCharge).toLocaleString()}
-        </p>
+        <p className="fw-bolder">Ksh.{props.totalCharge.toLocaleString()}</p>
       </div>
       <hr />
     </div>
