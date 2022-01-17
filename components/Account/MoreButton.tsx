@@ -8,6 +8,7 @@ import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
 export interface MoreButtonProps {
   data: Car | Trip;
   children: ReactChild;
+  disabled?: boolean;
 }
 
 export function MoreButton(props: MoreButtonProps) {
@@ -24,7 +25,12 @@ export function MoreButton(props: MoreButtonProps) {
 
   return (
     <div className="more-wrapper">
-      <button className="btn m-0 p-0" onClick={handleClick} ref={moreButtonRef}>
+      <button
+        className="btn m-0 p-0"
+        onClick={handleClick}
+        ref={moreButtonRef}
+        disabled={props.disabled}
+      >
         <CgMoreR />
       </button>
       {showDropDown && (

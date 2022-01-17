@@ -812,12 +812,17 @@ export type GetCarsQuery = { __typename?: 'Query', getCars: Array<{ __typename?:
 export type GetHostCarsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetHostCarsQuery = { __typename?: 'Query', getHostCars: Array<{ __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, daily_rate?: number | null | undefined, booked?: boolean | null | undefined, available?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined }> };
+export type GetHostCarsQuery = { __typename?: 'Query', getHostCars: Array<{ __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, daily_rate?: number | null | undefined, booked?: boolean | null | undefined, available?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined }> };
 
 export type GetMakesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetMakesQuery = { __typename?: 'Query', makes: Array<{ __typename?: 'Make', id?: number | null | undefined, title?: string | null | undefined, photo?: { __typename?: 'FileObj', url?: string | null | undefined, secure_url?: string | null | undefined } | null | undefined }> };
+
+export type GetMyBookingsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMyBookingsQuery = { __typename?: 'Query', getMyBookings: Array<{ __typename?: 'Trip', id?: number | null | undefined, owner_id?: number | null | undefined, start_date?: any | null | undefined, status?: string | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined } }> };
 
 export type GetMyTripsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2039,6 +2044,7 @@ export const GetHostCarsDocument = gql`
     daily_rate
     booked
     available
+    verification_in_progress
   }
 }
     `;
@@ -2108,6 +2114,50 @@ export function useGetMakesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetMakesQueryHookResult = ReturnType<typeof useGetMakesQuery>;
 export type GetMakesLazyQueryHookResult = ReturnType<typeof useGetMakesLazyQuery>;
 export type GetMakesQueryResult = Apollo.QueryResult<GetMakesQuery, GetMakesQueryVariables>;
+export const GetMyBookingsDocument = gql`
+    query GetMyBookings {
+  getMyBookings {
+    id
+    owner_id
+    start_date
+    status
+    end_date
+    start_time
+    end_time
+    transaction {
+      channel
+      amount
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMyBookingsQuery__
+ *
+ * To run a query within a React component, call `useGetMyBookingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMyBookingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMyBookingsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetMyBookingsQuery(baseOptions?: Apollo.QueryHookOptions<GetMyBookingsQuery, GetMyBookingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMyBookingsQuery, GetMyBookingsQueryVariables>(GetMyBookingsDocument, options);
+      }
+export function useGetMyBookingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyBookingsQuery, GetMyBookingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMyBookingsQuery, GetMyBookingsQueryVariables>(GetMyBookingsDocument, options);
+        }
+export type GetMyBookingsQueryHookResult = ReturnType<typeof useGetMyBookingsQuery>;
+export type GetMyBookingsLazyQueryHookResult = ReturnType<typeof useGetMyBookingsLazyQuery>;
+export type GetMyBookingsQueryResult = Apollo.QueryResult<GetMyBookingsQuery, GetMyBookingsQueryVariables>;
 export const GetMyTripsDocument = gql`
     query GetMyTrips {
   getMyTrips {

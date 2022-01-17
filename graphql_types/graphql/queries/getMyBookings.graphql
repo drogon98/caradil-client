@@ -1,0 +1,15 @@
+query GetMyBookings {
+  getMyBookings {
+    id
+    owner_id
+    start_date
+    status
+    end_date
+    start_time
+    end_time
+    transaction {
+      channel
+      amount
+    }
+  }
+}

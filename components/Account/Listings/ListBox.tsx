@@ -15,7 +15,7 @@ interface ListBoxProps {
  **/
 
 export const ListBox: FC<ListBoxProps> = (props) => {
-  // console.log("props :>> ", props);
+  console.log("props :>> ", props.data);
   return (
     <div className="shadow py-2 mb-4">
       <div className="container">
@@ -37,7 +37,13 @@ export const ListBox: FC<ListBoxProps> = (props) => {
             <p>{props.data.reg_no}</p>
           </div>
           <div className="col">
-            <p>{props.data.available ? "Available" : "Unavailable"}</p>
+            <p>
+              {props.data.verification_in_progress
+                ? "Under Verification"
+                : props.data.available
+                ? "Available"
+                : "Unavailable"}
+            </p>
           </div>
           <div className="col">
             <p>{props.data.booked ? "Booked" : "Not Booked"}</p>
@@ -51,14 +57,17 @@ export const ListBox: FC<ListBoxProps> = (props) => {
             </p>
           </div>
           <div className="col-1 d-flex justify-content-center">
-            <MoreButton data={props.data}>
+            <MoreButton
+              data={props.data}
+              disabled={props.data.verification_in_progress!}
+            >
               <Link
                 href={`/account/listings/edit-car/${slugify(
                   props.data.name!
                 )}/${props.data.id!}`}
               >
                 <a>
-                  <p>Edit</p>
+                  <p>Manage</p>
                 </a>
               </Link>
             </MoreButton>

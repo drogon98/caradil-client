@@ -32,7 +32,13 @@ export const SmListBox: FC<SmListBoxProps> = (props) => {
             <div className="d-flex flex-column">
               <h4 className="m-0">{props.data.name}</h4>
               <p>{props.data.reg_no}</p>
-              <p>{props.data.available ? "Available" : "Unavailable"}</p>
+              <p>
+                {props.data.verification_in_progress
+                  ? "Under Verification"
+                  : props.data.available
+                  ? "Available"
+                  : "Unavailable"}
+              </p>
               <p>
                 Ksh.
                 {props.data.daily_rate
@@ -42,14 +48,17 @@ export const SmListBox: FC<SmListBoxProps> = (props) => {
             </div>
           </div>
           <div className="col-1">
-            <MoreButton data={props.data}>
+            <MoreButton
+              data={props.data}
+              disabled={props.data.verification_in_progress!}
+            >
               <Link
                 href={`/account/listings/edit-car/${slugify(
                   props.data.name!
                 )}/${props.data.id!}`}
               >
                 <a>
-                  <p>Edit</p>
+                  <p>Manage</p>
                 </a>
               </Link>
             </MoreButton>
