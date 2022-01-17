@@ -240,7 +240,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
           endTime: props.car?.custom_availability_data?.endTime,
         };
         return {
-          car_has_other_use: props.car?.car_has_other_use!,
+          car_has_other_use: props.car?.car_has_other_use ?? false,
           advance_book_period: props.car?.advance_book_period ?? "",
           available: props.car?.available ?? false,
           custom_availability: props.car?.custom_availability ?? false,

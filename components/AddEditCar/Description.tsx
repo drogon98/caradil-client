@@ -148,7 +148,7 @@ export const Description: FC<DescriptionProps> = (props) => {
         <div className="d-flex justify-content-end">
           <button
             className="btn bgOrange p-0 m-0"
-            disabled={loading || !props.carId || value.length > 100}
+            disabled={loading || !props.carId || value.length < 100}
             style={{ height: "35px", minWidth: "60px" }}
             onClick={handleSaveDescription}
           >

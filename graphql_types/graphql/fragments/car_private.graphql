@@ -57,5 +57,11 @@ fragment carPrivateInfo on Car {
   driver_daily_rate
   delivery
   delivery_rate
+  can_rent_hourly
   hourly_rate
+  has_unlimited_distance
+  car_has_other_use
+  driver_mode
+  advance_book_period
+  manual_transmission_test
 }

@@ -97,7 +97,7 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
               type="text"
               name="name"
               className="form-control"
-              value={props.value.name}
+              value={props.value.name ?? ""}
               required
               onChange={handleChange}
               placeholder="eg Subaru Forester 2016"
@@ -110,7 +110,7 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
               className="form-select form-control"
               aria-label="Default select example"
               onChange={handleChange}
-              value={props.value.make}
+              value={props.value.make ?? ""}
               name="make"
               disabled={props.isEdit}
               required
@@ -131,7 +131,7 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
               type="text"
               name="reg_no"
               className="form-control"
-              value={props.value.reg_no}
+              value={props.value.reg_no ?? ""}
               required
               onChange={handleChange}
               placeholder="eg KBA111C"
@@ -144,10 +144,10 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
               type="text"
               name="odometer_reading"
               className="form-control"
-              value={props.value.odometer_reading}
+              value={props.value.odometer_reading ?? ""}
               required
               onChange={handleChange}
-              placeholder="eg KBA111C"
+              placeholder="eg 80000"
               disabled={props.isEdit}
             />
           </div>

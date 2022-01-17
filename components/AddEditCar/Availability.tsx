@@ -100,7 +100,23 @@ export const Availability: FC<AvailabilityProps> = (props) => {
     }
   };
 
-  console.log("props.value :>> ", props.value);
+  const createDateValue = (date: Date) => {
+    if (date) {
+      return `${date.getFullYear()}-${
+        date.getMonth().toString().length === 1
+          ? `0${date.getMonth() + 1}`
+          : date.getMonth()
+      }-${date.getDate()}`;
+    }
+  };
+
+  const getMinDate = (val: string) => {
+    if (val) {
+      return createDateValue(new Date(val));
+    } else {
+      return createDateValue(new Date());
+    }
+  };
 
   return (
     <div>
@@ -133,7 +149,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             <select
               name="advance_book_period"
               onChange={handleChange}
-              value={props.value.advance_book_period ?? ""}
+              value={props.value?.advance_book_period ?? ""}
               required
             >
               <option value="">Advance Duration</option>
@@ -172,7 +188,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             id="check1"
             name="custom_availability"
             value="something"
-            checked={props.value.custom_availability}
+            checked={props.value.custom_availability ?? false}
             onChange={handleChange}
             disabled={props.booked}
           />
@@ -224,6 +240,9 @@ export const Availability: FC<AvailabilityProps> = (props) => {
                     onChange={handleChange}
                     value={props.value.custom_availability_data?.endDate ?? ""}
                     required
+                    min={getMinDate(
+                      props.value.custom_availability_data?.startDate ?? ""
+                    )}
                   />
                 </div>
 
