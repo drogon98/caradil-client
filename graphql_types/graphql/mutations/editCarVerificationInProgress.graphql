@@ -1,0 +1,3 @@
+mutation EditCarVerificationInProgress($carId: Float!) {
+  editCarVerificationInProgress(carId: $carId)
+}

@@ -41,7 +41,7 @@ const Account: FC<IProps> = (props) => {
         if (role === 1) {
           if (
             user?.phone &&
-            user?.user_name &&
+            // user?.user_name &&
             user?.first_name &&
             user?.last_name
           ) {
@@ -52,10 +52,11 @@ const Account: FC<IProps> = (props) => {
         } else if (role === 2) {
           if (
             user?.phone &&
-            user?.user_name &&
+            // user?.user_name &&
             user?.first_name &&
-            user?.last_name &&
-            user?.business_name
+            user?.last_name
+            // &&
+            // user?.business_name
           ) {
             setHasCompleteProfile(true);
           } else {

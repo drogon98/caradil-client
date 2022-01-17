@@ -138,6 +138,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             name="car_has_other_use"
             checked={props.value.car_has_other_use}
             onChange={handleChange}
+            required
           />
           <label className="form-check-label" htmlFor="car_has_other_use">
             I use this car for personal reasons
@@ -153,10 +154,10 @@ export const Availability: FC<AvailabilityProps> = (props) => {
               required
             >
               <option value="">Advance Duration</option>
-              <option value="3hrs">3hrs Before The Trip</option>
-              <option value="6hrs">6hrs Before The Trip</option>
-              <option value="12hrs">12hrs Before The Trip</option>
-              <option value="24hrs">24hrs Before The Trip</option>
+              <option value="3hrs">3hrs before the trip</option>
+              <option value="6hrs">6hrs before the trip</option>
+              <option value="12hrs">12hrs before the trip</option>
+              <option value="24hrs">24hrs before the trip</option>
             </select>
           </div>
         </div>
@@ -170,6 +171,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             checked={props.value.available}
             onChange={handleChange}
             disabled={props.booked}
+            required
           />
           <label className="form-check-label" htmlFor="mySwitch">
             {props.booked
@@ -191,6 +193,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             checked={props.value.custom_availability ?? false}
             onChange={handleChange}
             disabled={props.booked}
+            required
           />
           <label className="form-check-label">Custom Date</label>
         </div>

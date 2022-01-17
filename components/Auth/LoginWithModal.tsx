@@ -4,9 +4,9 @@ import React, {
   SyntheticEvent,
   useState,
 } from "react";
+import { Modal } from "react-bootstrap";
 import LoginForm from "./LoginForm";
 
-import { Modal, Button } from "react-bootstrap";
 interface Props {
   children: ReactChild;
 }

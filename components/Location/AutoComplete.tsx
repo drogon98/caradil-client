@@ -7,6 +7,7 @@ export interface AutoCompleteProps {
   name: string;
   value: string;
   inputRef: any;
+  required?: any;
 }
 
 export function AutoComplete(props: AutoCompleteProps) {
@@ -37,6 +38,7 @@ export function AutoComplete(props: AutoCompleteProps) {
         // onChange={handleChange}
         defaultValue={props.value}
         onKeyPress={handleKeyDown}
+        required={props.required ?? false}
       />
     </>
   );

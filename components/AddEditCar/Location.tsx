@@ -78,6 +78,7 @@ export const Location: FC<LocationProps> = (props) => {
             inputRef={inputRef}
             name="location"
             value={props.value}
+            required={true}
           />
         </div>
         <FormSaveButton

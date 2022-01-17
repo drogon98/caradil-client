@@ -371,7 +371,7 @@ label {
 @media screen and (max-width: 500px) {
   .homeHero,
   .heroOverlay {
-    height: 450px;
+    height: 500px;
   }
 }
 
@@ -383,6 +383,8 @@ label {
   color: var(--orange) !important;
   background-color: transparent !important;
   height: var(--navbar-height);
+  align-items: center;
+  display: flex;
 }
 
 .hero-text-suffix {

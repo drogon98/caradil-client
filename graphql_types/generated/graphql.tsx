@@ -71,6 +71,7 @@ export type Car = {
   transmission?: Maybe<Scalars['String']>;
   trips?: Maybe<Scalars['Float']>;
   updated_at?: Maybe<Scalars['DateTime']>;
+  verification_in_progress?: Maybe<Scalars['Boolean']>;
   verified?: Maybe<Scalars['Boolean']>;
 };
 
@@ -284,6 +285,7 @@ export type Mutation = {
   editCarPrimaryFeatures: CarAddEditResponse;
   editCarRates: CarAddEditResponse;
   editCarSecondaryFeatures: CarAddEditResponse;
+  editCarVerificationInProgress: Scalars['Boolean'];
   editCarVerified: Scalars['Boolean'];
   editProfile: Scalars['Boolean'];
   login: TokenResponse;
@@ -390,6 +392,11 @@ export type MutationEditCarRatesArgs = {
 export type MutationEditCarSecondaryFeaturesArgs = {
   carId: Scalars['Float'];
   input: CarSecondaryFeaturesInput;
+};
+
+
+export type MutationEditCarVerificationInProgressArgs = {
+  carId: Scalars['Float'];
 };
 
 
@@ -727,6 +734,13 @@ export type EditCarSecondaryFeaturesMutationVariables = Exact<{
 
 
 export type EditCarSecondaryFeaturesMutation = { __typename?: 'Mutation', editCarSecondaryFeatures: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, extra_distance_rate?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+
+export type EditCarVerificationInProgressMutationVariables = Exact<{
+  carId: Scalars['Float'];
+}>;
+
+
+export type EditCarVerificationInProgressMutation = { __typename?: 'Mutation', editCarVerificationInProgress: boolean };
 
 export type EditCarVerifiedMutationVariables = Exact<{
   carId: Scalars['Float'];
@@ -1618,6 +1632,37 @@ export function useEditCarSecondaryFeaturesMutation(baseOptions?: Apollo.Mutatio
 export type EditCarSecondaryFeaturesMutationHookResult = ReturnType<typeof useEditCarSecondaryFeaturesMutation>;
 export type EditCarSecondaryFeaturesMutationResult = Apollo.MutationResult<EditCarSecondaryFeaturesMutation>;
 export type EditCarSecondaryFeaturesMutationOptions = Apollo.BaseMutationOptions<EditCarSecondaryFeaturesMutation, EditCarSecondaryFeaturesMutationVariables>;
+export const EditCarVerificationInProgressDocument = gql`
+    mutation EditCarVerificationInProgress($carId: Float!) {
+  editCarVerificationInProgress(carId: $carId)
+}
+    `;
+export type EditCarVerificationInProgressMutationFn = Apollo.MutationFunction<EditCarVerificationInProgressMutation, EditCarVerificationInProgressMutationVariables>;
+
+/**
+ * __useEditCarVerificationInProgressMutation__
+ *
+ * To run a mutation, you first call `useEditCarVerificationInProgressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditCarVerificationInProgressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editCarVerificationInProgressMutation, { data, loading, error }] = useEditCarVerificationInProgressMutation({
+ *   variables: {
+ *      carId: // value for 'carId'
+ *   },
+ * });
+ */
+export function useEditCarVerificationInProgressMutation(baseOptions?: Apollo.MutationHookOptions<EditCarVerificationInProgressMutation, EditCarVerificationInProgressMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditCarVerificationInProgressMutation, EditCarVerificationInProgressMutationVariables>(EditCarVerificationInProgressDocument, options);
+      }
+export type EditCarVerificationInProgressMutationHookResult = ReturnType<typeof useEditCarVerificationInProgressMutation>;
+export type EditCarVerificationInProgressMutationResult = Apollo.MutationResult<EditCarVerificationInProgressMutation>;
+export type EditCarVerificationInProgressMutationOptions = Apollo.BaseMutationOptions<EditCarVerificationInProgressMutation, EditCarVerificationInProgressMutationVariables>;
 export const EditCarVerifiedDocument = gql`
     mutation EditCarVerified($carId: Float!) {
   editCarVerified(carId: $carId)

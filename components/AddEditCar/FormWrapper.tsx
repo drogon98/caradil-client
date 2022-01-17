@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
 import {
   Car,
   CarDescriptionInput,
@@ -14,6 +14,7 @@ import {
   CarAvailabilityInput,
   CarDistanceInput,
   CarDriverAndDeliveryInput,
+  useEditCarVerificationInProgressMutation,
 } from "../../graphql_types/generated/graphql";
 import { Expandable } from "../Expandable";
 import { Availability } from "./Availability";
@@ -30,6 +31,8 @@ import { useRouter } from "next/router";
 import { Categories } from "./Categories";
 import { LuxuryAndVip } from "./LuxuryAndVipServices";
 import DriverAndDelivery from "./DriverAndDelivery";
+import { Modal } from "react-bootstrap";
+import { ButtonLoading } from "../Loading/ButtonLoading";
 
 interface FormWrapperProps {
   isEdit?: boolean | undefined;
@@ -45,15 +48,21 @@ interface FormWrapperProps {
 export const FormWrapper: FC<FormWrapperProps> = (props) => {
   const [carId, setCarId] = useState<number | undefined>();
   const [responseCar, setResponseCar] = useState<Car>();
+  const [requestVerification, setRequestVerification] = useState(false);
+  const requestVerificationBtnRef = useRef<HTMLButtonElement>(null);
+  const [showVerificationRequestModal, setShowVerificationRequestModal] =
+    useState(false);
+  const [
+    verificationInProgressEditSuccess,
+    setVerificationInProgressEditSuccess,
+  ] = useState(false);
   // const [showVerificationStart, setVerificationStart] = useState(false);
-  const [nameAndRegNoData, setNameAndRegNoData] = useState<CarGeneralInfoInput>(
-    {
-      name: "",
-      reg_no: "",
-      make: "",
-      odometer_reading: "",
-    }
-  );
+  const [carGeneralInfo, setCarGeneralInfo] = useState<CarGeneralInfoInput>({
+    name: "",
+    reg_no: "",
+    make: "",
+    odometer_reading: "",
+  });
   const [primaryFeatures, setPrimaryFeatures] =
     useState<CarPrimaryFeaturesInput>({
       gas: "",
@@ -108,12 +117,17 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
 
   // console.log("props.car :>> ", props.car);
 
+  const [
+    editVerificationInProgress,
+    { loading: verificationinProgressLoading },
+  ] = useEditCarVerificationInProgressMutation();
+
   const router = useRouter();
 
   useEffect(() => {
     router.beforePopState((cb): boolean => {
       // Handles back and forward arrow click
-      console.log("cb :>> ", cb);
+      // console.log("cb :>> ", cb);
       return true;
     });
 
@@ -158,15 +172,112 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
     }
   }, [props.isEdit]);
 
-  // useEffect(() => {
-  //   if (responseCar?.verified) {
-  //     setVerificationStart(true);
-  //   }
-  // }, [responseCar]);
+  useEffect(() => {
+    const checkIfVerificationReady = () => {
+      if (!responseCar?.name) {
+        console.log("x");
+        return false;
+      }
+
+      if (!responseCar?.gas) {
+        console.log("o");
+        return false;
+      }
+
+      if (responseCar?.description?.length === 0) {
+        console.log("f");
+        return false;
+      }
+
+      if (responseCar?.photos?.length === 0) {
+        console.log("q");
+        return false;
+      }
+
+      if (responseCar?.documents && responseCar?.documents.length < 2) {
+        console.log("b");
+        return false;
+      }
+
+      if (responseCar?.features?.length === 0) {
+        console.log("a");
+        return false;
+      }
+
+      if (responseCar.categories?.length === 0) {
+        console.log("c");
+        return false;
+      }
+
+      if (!responseCar.location) {
+        console.log("t");
+        return false;
+      }
+
+      let bools = [true, false];
+
+      if (
+        !bools.some((b) => b === responseCar.has_unlimited_distance) ||
+        (responseCar.distance_per_day && responseCar.distance_per_day < 0)
+      ) {
+        console.log("l");
+        return false;
+      }
+
+      if (
+        !responseCar.driver_mode ||
+        !bools.some((b) => b === responseCar.delivery)
+        // (
+        //   !responseCar.delivery === false && !responseCar.delivery === true
+        // )
+      ) {
+        console.log("j");
+        return false;
+      }
+
+      if (!responseCar.daily_rate) {
+        console.log("k");
+        return false;
+      }
+
+      if (
+        !bools.some((b) => b === responseCar.car_has_other_use) ||
+        // (
+        //   !responseCar.car_has_other_use === true &&
+        //     !responseCar.car_has_other_use === true
+        // )
+
+        !responseCar.advance_book_period ||
+        !bools.some((b) => b === responseCar.available)
+        // (
+        //   !responseCar.available === true && !responseCar.available === false
+        // )
+      ) {
+        console.log("m");
+        return false;
+      }
+
+      return true;
+    };
+
+    if (responseCar?.id) {
+      console.log(
+        "checkIfVerificationReady() :>> ",
+        checkIfVerificationReady()
+      );
+      if (checkIfVerificationReady()) {
+        if (!responseCar.verified) {
+          if (requestVerificationBtnRef.current) {
+            requestVerificationBtnRef.current.click();
+          }
+        }
+      }
+    }
+  }, [responseCar]);
 
   useEffect(() => {
     if (props.car) {
-      setNameAndRegNoData({
+      setCarGeneralInfo({
         name: props.car.name!,
         reg_no: props.car.reg_no!,
         make: props.car.make!,
@@ -269,15 +380,87 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
     }
   }, [categories]);
 
+  const handleEditVerificationInProgress = async (
+    e: SyntheticEvent<HTMLButtonElement>
+  ) => {
+    try {
+      const response = await editVerificationInProgress({
+        variables: { carId: carId! },
+      });
+
+      if (response.data?.editCarVerificationInProgress) {
+        setVerificationInProgressEditSuccess(true);
+        setTimeout(async () => {
+          await router.push("/account/listings");
+        }, 8000);
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
+
   // console.log("carId :>> ", carId);
 
   // A refresh will cause data loss
   return (
     <>
+      {showVerificationRequestModal && (
+        <Modal
+          show={showVerificationRequestModal}
+          onHide={() => setShowVerificationRequestModal(false)}
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Request Verification</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {/* <LoginForm isModal close={handleClose} /> */}
+            {verificationInProgressEditSuccess ? (
+              <>
+                <h3 className="text-success">Good Luck!</h3>
+                <p>The initiate verification was done successfully.</p>
+                <b>You will be redirected in 5 seconds...</b>
+              </>
+            ) : (
+              <>
+                <p className="mb-3">
+                  You have added the required information to list your car. Now
+                  we need to do verification to ensure this car meets all the
+                  requirements. This takes around 5 minutes. After verification
+                  we will reach back to you with the results and the steps to
+                  take next. Click the button below to initiate the
+                  verification.
+                </p>
+                <div className="d-grid gap-2">
+                  <button
+                    className="btn bgOrange"
+                    disabled={verificationinProgressLoading}
+                    onClick={handleEditVerificationInProgress}
+                  >
+                    {verificationinProgressLoading ? (
+                      <ButtonLoading
+                        spinnerColor="white"
+                        dimensions={{ height: "24px", width: "24px" }}
+                      />
+                    ) : (
+                      "Initiate Verification"
+                    )}
+                  </button>
+                </div>
+              </>
+            )}
+          </Modal.Body>
+        </Modal>
+      )}
+      <button
+        ref={requestVerificationBtnRef}
+        hidden
+        onClick={() => setShowVerificationRequestModal(true)}
+      />
       <Expandable header="General Info">
         <GeneralInfo
-          value={nameAndRegNoData}
-          setData={setNameAndRegNoData}
+          value={carGeneralInfo}
+          setData={setCarGeneralInfo}
           setCarId={setCarId}
           isEdit={props.isEdit ?? false}
           carId={carId}
