@@ -41,7 +41,7 @@ export const FormSaveButton: FC<FormSaveButtonProps> = (props) => {
         ) : (
           <button
             className="btn bgOrange p-0 m-0"
-            disabled={props.loading || !props.carId}
+            disabled={props.loading || !props.carId || props.disabled}
             style={{ height: "35px", minWidth: "60px" }}
             type="submit"
           >

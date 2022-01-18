@@ -79,6 +79,8 @@ export const Distance: FC<DistanceProps> = (props) => {
     }
   };
 
+  // console.log("props.value :>> ", props.value);
+
   return (
     <div>
       <p className="mb-2">
@@ -94,6 +96,7 @@ export const Distance: FC<DistanceProps> = (props) => {
             id="has_unlimited_distance_input"
             checked={props.value.has_unlimited_distance}
             onChange={handleChange}
+            // required
           />
           <label
             className="form-check-label"
@@ -109,11 +112,12 @@ export const Distance: FC<DistanceProps> = (props) => {
             name="distance_per_day"
             className="form-control"
             value={props.value.distance_per_day}
-            required
+            // required
             onChange={handleChange}
             placeholder="eg 800"
             id="distance_per_day"
             disabled={props.value.has_unlimited_distance}
+            min={0}
           />
         </div>
         <FormSaveButton
@@ -121,6 +125,11 @@ export const Distance: FC<DistanceProps> = (props) => {
           loading={loading}
           isEdit={false}
           carId={props.carId!}
+          // disabled={
+          //   ![true, false].some(
+          //     (b) => b === props.value.has_unlimited_distance
+          //   ) || props.value.distance_per_day === 0
+          // }
         />
       </form>
     </div>

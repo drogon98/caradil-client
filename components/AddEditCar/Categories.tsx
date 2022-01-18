@@ -101,6 +101,7 @@ export const Categories: FC<CategoryProps> = (props) => {
           saved={saved}
           isEdit={false}
           carId={props.carId!}
+          disabled={props.value?.length === 0}
         />
       </form>
     </div>

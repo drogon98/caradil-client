@@ -179,6 +179,7 @@ export const Photos: FC<PhotosProps> = (props) => {
           saved={saved}
           isEdit={props.isEdit}
           carId={props.carId!}
+          disabled={props.value.photos.length === 0}
         />
       </form>
     </>

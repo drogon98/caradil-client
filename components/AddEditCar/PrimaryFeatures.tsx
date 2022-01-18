@@ -141,6 +141,7 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
               value={props.value.seats}
               required
               onChange={handleChange}
+              min={0}
               // placeholder="eg KBA765K"
             />
           </div>
@@ -155,6 +156,7 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
               value={props.value.doors}
               required
               onChange={handleChange}
+              min={0}
               // placeholder="eg KBA765K"
             />
           </div>

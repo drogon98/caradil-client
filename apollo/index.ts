@@ -42,6 +42,7 @@ const client = new ApolloClient({
     httpLink,
     // NetwworkErrorRetryLink,
   ]),
+  ssrMode: true,
   // link: authLink.concat(httpLink),
 });
 

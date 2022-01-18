@@ -68,8 +68,8 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
       gas: "",
       color: "",
       transmission: "",
-      doors: 0,
-      seats: 0,
+      doors: 5,
+      seats: 5,
     });
   const [description, setDescription] = useState<CarDescriptionInput>({
     description: "",
@@ -261,10 +261,10 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
     };
 
     if (responseCar?.id) {
-      console.log(
-        "checkIfVerificationReady() :>> ",
-        checkIfVerificationReady()
-      );
+      // console.log(
+      //   "checkIfVerificationReady() :>> ",
+      //   checkIfVerificationReady()
+      // );
       if (checkIfVerificationReady()) {
         if (!responseCar.verified) {
           if (requestVerificationBtnRef.current) {

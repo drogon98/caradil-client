@@ -97,7 +97,7 @@ export default function DriverAndDelivery(props: Props): ReactElement {
               value={1}
               checked={props.value.driver_mode === 1}
               onChange={handleChange}
-              required
+              // required
             />
             <label className="form-check-label" htmlFor="self_drive_only">
               Self Drive Only (Guest will have to be the driver)
@@ -112,7 +112,7 @@ export default function DriverAndDelivery(props: Props): ReactElement {
               value={2}
               checked={props.value.driver_mode === 2}
               onChange={handleChange}
-              required
+              // required
             />
             <label className="form-check-label" htmlFor="private_driver_only">
               My Driver/Chauffeur Only ( This driver can be you)
@@ -127,7 +127,7 @@ export default function DriverAndDelivery(props: Props): ReactElement {
               value={3}
               checked={props.value.driver_mode === 3}
               onChange={handleChange}
-              required
+              // required
             />
             <label
               className="form-check-label"
@@ -173,7 +173,7 @@ export default function DriverAndDelivery(props: Props): ReactElement {
             checked={props.value.delivery}
             name="delivery"
             onChange={handleChange}
-            required
+            // required
           />
           <label className="form-check-label" htmlFor="provide-delivery">
             I will deliver car to requested location

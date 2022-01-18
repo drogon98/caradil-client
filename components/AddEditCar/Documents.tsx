@@ -385,6 +385,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
           saved={saved}
           isEdit={props.isEdit}
           carId={props.carId!}
+          disabled={props.value.documents.length < 2}
         />
       </form>
     </>

@@ -173,6 +173,7 @@ export const SecondaryFeatures: FC<SecondaryFeaturesProps> = (props) => {
           loading={loading}
           isEdit={false}
           carId={props.carId!}
+          disabled={features.features.length === 0}
         />
       </form>
     </>
