@@ -4,86 +4,65 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
-  useEffect,
   useState,
 } from "react";
-import { carColors, features } from "../../data";
+import { carColors } from "../../data";
 import {
   Car,
-  CarFeaturesInput,
-  useEditCarFeaturesMutation,
+  CarPrimaryFeaturesInput,
+  useEditCarPrimaryFeaturesMutation,
 } from "../../graphql_types/generated/graphql";
+import { FormSaveButton } from "./FormSaveButton";
 
-interface FeaturesProps {
-  value: CarFeaturesInput;
-  activeSlide: number;
-  setActiveSlide: Dispatch<SetStateAction<number>>;
-  setCompData: Dispatch<SetStateAction<Car | undefined>>;
+interface PrimaryFeaturesProps {
+  value: CarPrimaryFeaturesInput;
+  setData: Dispatch<SetStateAction<CarPrimaryFeaturesInput>>;
   carId: number | undefined;
+  isEdit: boolean;
+  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
-export const Features: FC<FeaturesProps> = (props) => {
-  const [editFeatures, { loading, error }] = useEditCarFeaturesMutation();
+/**
+ * @author
+ * @function @PrimaryFeatures
+ **/
 
-  const [values, setValues] = useState<CarFeaturesInput>();
-
-  useEffect(() => {
-    setValues({
-      gas: props.value.gas,
-      doors: props.value.doors,
-      transmission: props.value.transmission,
-      seats: props.value.seats,
-      color: props.value.color,
-      features: props.value.features,
-    });
-  }, [props.value]);
-
+export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
+  const [editPrimaryFeatures, { loading, error }] =
+    useEditCarPrimaryFeaturesMutation();
+  const [saved, setSaved] = useState(false);
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
-    setValues({ ...values!, [e.target.name]: e.target.value });
-  };
-
-  const handleFeatureChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const isAdded = values?.features?.find(
-      (val) => val.title === e.target.value
-    );
-    if (isAdded) {
-      let tempValues = values?.features?.filter(
-        (val) => val.title !== e.target.value
-      );
-      setValues({ ...values!, features: [...tempValues!] });
-    } else {
-      setValues({
-        ...values!,
-        features: [...(values?.features ?? []), { title: e.target.value }],
-      });
-    }
-    // console.log("e.target.value :>> ", e.target.value);
-    //   props.setData(e.target.value);
+    props.setData({ ...props.value, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const payload = {
-      transmission: values?.transmission!,
-      gas: values?.gas!,
-      color: values?.color!,
-      doors: parseInt(values?.doors as unknown as string, 10)!,
-      seats: parseInt(values?.seats as unknown as string, 10)!,
-      features: values?.features!,
+      transmission: props.value.transmission,
+      gas: props.value.gas,
+      color: props.value.color,
+      doors: parseInt(props.value.doors as unknown as string, 10),
+      seats: parseInt(props.value.seats as unknown as string, 10),
     };
 
+    // console.log("payload :>> ", payload);
+
+    // console.log("props.value :>> ", props.value);
+    let response;
     try {
-      // const carId = parseInt(sessionStorage.getItem("carId")!, 10);
-      let response = await editFeatures({
-        variables: { carId: props.carId!, input: payload! },
+      response = await editPrimaryFeatures({
+        variables: { carId: props.carId!, input: payload },
       });
-      if (response.data?.editCarFeatures.error) {
-      } else if (response.data?.editCarFeatures.carId) {
-        // props.setCompData(response.data.editCarFeatures.car!);
-        props.setActiveSlide(props.activeSlide + 1);
+      if (response.data?.editCarPrimaryFeatures.error) {
+      } else if (response.data?.editCarPrimaryFeatures.carId) {
+        props.setResponseCar(response.data.editCarPrimaryFeatures.car!);
+        setSaved(true);
+        setTimeout(() => {
+          setSaved(false);
+        }, 3000);
       }
     } catch (error) {
       let errorMessage = "";
@@ -101,7 +80,6 @@ export const Features: FC<FeaturesProps> = (props) => {
   return (
     <div>
       {" "}
-      <h3>Features</h3>
       <form onSubmit={handleSubmit}>
         <div className="row">
           <div className="col">
@@ -110,7 +88,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               className="form-select form-control"
               aria-label="Default select example"
               onChange={handleChange}
-              value={values?.gas}
+              value={props.value.gas}
               name="gas"
               required
             >
@@ -125,7 +103,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               className="form-select form-control"
               aria-label="Default select example"
               onChange={handleChange}
-              value={values?.transmission}
+              value={props.value.transmission}
               name="transmission"
               required
             >
@@ -142,7 +120,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               className="form-select form-control"
               aria-label="Default select example"
               onChange={handleChange}
-              value={values?.color}
+              value={props.value.color}
               name="color"
               required
             >
@@ -160,7 +138,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               type="number"
               name="seats"
               className="form-control"
-              value={values?.seats}
+              value={props.value.seats}
               required
               onChange={handleChange}
               min={0}
@@ -175,7 +153,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               type="number"
               name="doors"
               className="form-control"
-              value={values?.doors}
+              value={props.value.doors}
               required
               onChange={handleChange}
               min={0}
@@ -184,40 +162,12 @@ export const Features: FC<FeaturesProps> = (props) => {
           </div>
         </div>
 
-        {features.map((feature, idx) => {
-          const isSelected = values?.features?.find(
-            (feat) => feat.title === feature
-          );
-          return (
-            <div className="form-check" key={idx}>
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value={feature}
-                checked={isSelected ? true : false}
-                id="flexCheckDefault"
-                onChange={handleFeatureChange}
-              />
-              <label className="form-check-label" htmlFor="flexCheckDefault">
-                {feature}
-              </label>
-            </div>
-          );
-        })}
-
-        <div className="d-flex justify-content-between mt-4">
-          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
-            Prev
-          </button>
-          <button type="submit">Next</button>
-        </div>
-
-        {/* <FormSaveButton
+        <FormSaveButton
           saved={saved}
           loading={loading}
           isEdit={props.isEdit}
           carId={props.carId!}
-        /> */}
+        />
       </form>
     </div>
   );

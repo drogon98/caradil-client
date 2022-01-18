@@ -88,7 +88,7 @@ const Account: FC<IProps> = (props) => {
             <Loading />
           ) : (
             <div className="p-2">
-              <h1>Hi there,</h1>
+              <h1>Hi {user?.first_name ? user.first_name : "there"},</h1>
               {hasCompleteProfile ? (
                 <></>
               ) : (

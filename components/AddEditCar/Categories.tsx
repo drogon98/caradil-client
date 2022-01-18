@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { carCategories } from "../../data";
+import { carCategories, carVipAndLuxuryServices } from "../../data";
 import {
   Car,
   CarCategoriesInput,
@@ -34,12 +34,24 @@ interface CategoryProps {
 export const Categories: FC<CategoryProps> = (props) => {
   const [editCategories, { loading }] = useEditCarCategoriesMutation();
   const [values, setValues] = useState<CarCategoriesInput>();
+  const [hasVipAndLuxury, setHasVipAndLuxury] = useState(false);
 
   useEffect(() => {
     if (props.value) {
       setValues({ ...props.value! });
     }
   }, [props.value]);
+
+  useEffect(() => {
+    const hasVip = values?.categories.some(
+      (cat) => cat === "Luxury & Vip".toLocaleLowerCase()
+    );
+    if (hasVip) {
+      setHasVipAndLuxury(true);
+    } else {
+      setHasVipAndLuxury(false);
+    }
+  }, [values?.categories]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const isAdded = values?.categories?.find((val) => val === e.target.value);
@@ -52,6 +64,28 @@ export const Categories: FC<CategoryProps> = (props) => {
       setValues({
         ...values!,
         categories: [...(values?.categories ?? []), e.target.value],
+      });
+    }
+    // console.log("e.target.value :>> ", e.target.value);
+    //   props.setData(e.target.value);
+  };
+
+  const handleLuxuryVipChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const isAdded = values?.luxury_and_vip_services?.find(
+      (val) => val === e.target.value
+    );
+    if (isAdded) {
+      let tempValues = values?.luxury_and_vip_services?.filter(
+        (val) => val !== e.target.value
+      );
+      setValues({ ...values!, luxury_and_vip_services: [...tempValues!] });
+    } else {
+      setValues({
+        ...values!,
+        luxury_and_vip_services: [
+          ...(values?.luxury_and_vip_services ?? []),
+          e.target.value,
+        ],
       });
     }
     // console.log("e.target.value :>> ", e.target.value);
@@ -112,6 +146,38 @@ export const Categories: FC<CategoryProps> = (props) => {
             </div>
           );
         })}
+        {hasVipAndLuxury && (
+          <>
+            <p className="mt-5">
+              You selected vip and luxury. Which other luxury services do you
+              offer below
+            </p>
+            {carVipAndLuxuryServices.map((service, idx) => {
+              const isSelected = values?.categories?.find(
+                (ser) => ser === service
+              );
+              return (
+                <div className="form-check" key={idx}>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value={service}
+                    checked={isSelected ? true : false}
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                    {service}
+                  </label>
+                </div>
+              );
+            })}
+          </>
+        )}
+
         <div className="d-flex justify-content-between mt-4">
           <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
             Prev

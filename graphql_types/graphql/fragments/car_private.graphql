@@ -45,7 +45,7 @@ fragment carPrivateInfo on Car {
   make
   location
   distance_per_day
-  extra_distance_rate
+  # extra_distance_rate
   besties {
     id
   }

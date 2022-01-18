@@ -13,7 +13,6 @@ import {
   CarGeneralInfoInput,
   useAddEditCarGeneralInfoMutation,
 } from "../../graphql_types/generated/graphql";
-import { FormSaveButton } from "./FormSaveButton";
 
 interface GeneralInfoProps {
   value: CarGeneralInfoInput;
@@ -60,6 +59,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         ...values!,
         [e.target.name]: e.target.value.trim().toUpperCase(),
       });
+    } else if (e.target.name === "odometer_reading") {
+      setValues({ ...values!, [e.target.name]: parseInt(e.target.value, 10) });
     } else {
       setValues({ ...values!, [e.target.name]: e.target.value });
     }
@@ -71,7 +72,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
     try {
       let response = await addEditCarGeneralInfo({
         variables: {
-          options: values!,
+          options: { ...values! },
           isEdit: props.isResume ? true : false,
           carId: props.carId,
         },
@@ -106,6 +107,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
 
   return (
     <>
+      <h4>General Info</h4>
       <p className="mb-3">
         Add your car name. Make it unique with minimum three words a maximum of
         four words long eg. <b>Subaru Forester 2016</b>.
@@ -168,7 +170,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           <div className="col-6">
             <label htmlFor="carName">Odometer Reading</label>
             <input
-              type="text"
+              type="number"
               name="odometer_reading"
               className="form-control"
               value={values?.odometer_reading}

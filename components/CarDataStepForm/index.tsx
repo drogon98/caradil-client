@@ -19,6 +19,7 @@ import { Features } from "../AddEditCar/Features";
 import { Rates } from "../AddEditCar/Rates";
 import { useRouter } from "next/router";
 import { Loading } from "../Loading";
+import Finish from "../AddEditCar/Finish";
 
 interface Props {
   data?: any;
@@ -274,7 +275,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
               name: compData?.name ?? "",
               reg_no: compData?.reg_no ?? "",
               make: compData?.make ?? "",
-              odometer_reading: compData?.odometer_reading ?? "",
+              odometer_reading: compData?.odometer_reading ?? 0,
             }}
           />
         </div>
@@ -414,6 +415,12 @@ export default function CarDataStepForm(props: Props): ReactElement {
               hourly_rate: compData?.hourly_rate ?? 0,
             }}
           />
+        </div>
+      )}
+
+      {activeSlide === 10 && (
+        <div className="col-md-7 col-lg-6 mx-auto mt-5">
+          <Finish />
         </div>
       )}
     </div>
