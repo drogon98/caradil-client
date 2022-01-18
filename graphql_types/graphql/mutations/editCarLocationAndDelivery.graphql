@@ -1,0 +1,12 @@
+mutation EditCarLocationAndDelivery(
+  $carId: Float!
+  $input: CarLocationAndDeliveryInput!
+) {
+  editCarLocationAndDelivery(carId: $carId, input: $input) {
+    error
+    carId
+    car {
+      ...carInfo
+    }
+  }
+}

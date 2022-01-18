@@ -5,7 +5,7 @@ import { FileInput } from "../../graphql_types/generated/graphql";
 interface PhotoBoxProps {
   photo: FileInput;
   deletePhoto: (id: string) => void;
-  carVerified: boolean;
+  carVerified?: boolean;
 }
 
 /**

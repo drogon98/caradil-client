@@ -2,6 +2,7 @@ import Head from "next/head";
 import React, { FC } from "react";
 import { FormWrapper } from "../../../components/AddEditCar/FormWrapper";
 import { AuthWrapper } from "../../../components/AuthWrapper";
+import CarDataStepForm from "../../../components/CarDataStepForm";
 import AccountLayout from "../../../components/layouts/AccountLayout";
 
 interface AddCarProps {}
@@ -25,8 +26,9 @@ const AddCar: FC<AddCarProps> = (props) => {
       <AccountLayout>
         <AuthWrapper>
           <div className="p-2 mt-4">
-            <h3 className="mb-3">Car Details</h3>
-            <FormWrapper />
+            {/* <h3 className="mb-3">Car Details</h3>
+            <FormWrapper /> */}
+            <CarDataStepForm />
           </div>
         </AuthWrapper>
       </AccountLayout>

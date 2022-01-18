@@ -24,9 +24,12 @@ const ReactQuill = dynamic(() => import("react-quill"), {
 
 interface DescriptionProps {
   value: CarDescriptionInput;
-  setData: Dispatch<SetStateAction<CarDescriptionInput>>;
+  setActiveSlide: Dispatch<SetStateAction<number>>;
+  activeSlide: number;
+  setCompData: Dispatch<SetStateAction<Car | undefined>>;
+  // setData: Dispatch<SetStateAction<CarDescriptionInput>>;
   carId: number | undefined;
-  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
+  // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -74,32 +77,28 @@ const formats = [
 export const Description: FC<DescriptionProps> = (props) => {
   const [editCarDescription, { loading }] = useEditCarDescriptionMutation();
   const [value, setValue] = useState("");
-  const [saved, setSaved] = useState(false);
+  // const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    setValue(props.value.description ?? "");
+    setValue(props.value.description);
   }, [props.value]);
 
   const handleSaveDescription = async (
     e: SyntheticEvent<HTMLButtonElement>
   ) => {
-    let response;
+    props.setActiveSlide(props.activeSlide + 1);
 
     try {
-      response = await editCarDescription({
+      let response = await editCarDescription({
         variables: {
           carId: props.carId!,
           input: { description: value },
         },
       });
-
       if (response?.data?.editCarDescription.error) {
       } else if (response?.data?.editCarDescription.carId) {
-        props.setResponseCar(response.data.editCarDescription.car!);
-        setSaved(true);
-        setTimeout(() => {
-          setSaved(false);
-        }, 3000);
+        props.setCompData(response.data.editCarDescription.car!);
+        props.setActiveSlide(props.activeSlide + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -114,8 +113,6 @@ export const Description: FC<DescriptionProps> = (props) => {
 
   const handleDescriptionChange = (value: any) => {
     setValue(value);
-    // props.setData({ description: value });
-    // props.setData((prevState) => (prevState += value));
   };
 
   return (
@@ -133,8 +130,15 @@ export const Description: FC<DescriptionProps> = (props) => {
         formats={formats}
         placeholder="Type description here"
       />
+
+      <div className="d-flex justify-content-between mt-4">
+        <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
+          Prev
+        </button>
+        <button onClick={handleSaveDescription}>Next</button>
+      </div>
       <div className="d-flex justify-content-end align-items-center mt-3">
-        {saved && (
+        {/* {saved && (
           <span style={{ width: "calc(100px - 2em)", marginRight: "1em" }}>
             <div>
               <Icon
@@ -144,8 +148,8 @@ export const Description: FC<DescriptionProps> = (props) => {
               <span className="ml-2">Saved</span>
             </div>
           </span>
-        )}
-        <div className="d-flex justify-content-end">
+        )} */}
+        {/* <div className="d-flex justify-content-end">
           <button
             className="btn bgOrange p-0 m-0"
             disabled={loading || !props.carId || value.length < 100}
@@ -161,7 +165,7 @@ export const Description: FC<DescriptionProps> = (props) => {
               "Save"
             )}
           </button>
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -23,11 +23,14 @@ import { FormSaveButton } from "./FormSaveButton";
 
 interface DocumentsProps {
   value: CarDocumentsInput;
-  setData: Dispatch<SetStateAction<CarDocumentsInput>>;
+  // setData: Dispatch<SetStateAction<CarDocumentsInput>>;
   carId: number | undefined;
   carVerified: boolean;
   isEdit: boolean;
-  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
+  // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
+  setCompData: Dispatch<SetStateAction<Car | undefined>>;
+  activeSlide: number;
+  setActiveSlide: Dispatch<SetStateAction<number>>;
 }
 
 /**
@@ -42,7 +45,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
   // const [toDelete, setToDelete] = useState<DocumentInput>();
   const [secondaryLoading, setSecondaryLoading] = useState(false);
 
-  const [saved, setSaved] = useState(false);
+  // const [saved, setSaved] = useState(false);
   const [id, setId] = useState<string>();
   const [documents, setDocuments] = useState<CarDocumentsInput>({
     documents: [],
@@ -50,6 +53,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
 
   useEffect(() => {
     if (props.value) {
+      console.log("  props.value :>> ", props.value);
       setDocuments({ ...props.value });
     }
   }, [props.value]);
@@ -73,7 +77,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
           title,
           file: newDocumentFile as FileInput,
         };
-        const tempDocuments = [...props.value.documents];
+        const tempDocuments = [...documents.documents];
 
         let tempToDelete: DocumentInput = {
           title: "",
@@ -110,7 +114,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
             // deleteFile({ variables: { id: toDelete.file.public_id } });
           }
         }
-        props.setData({ documents: tempDocuments });
+        setDocuments({ documents: tempDocuments });
         setSecondaryLoading(true);
         const response2 = await editDocuments({
           variables: {
@@ -143,23 +147,19 @@ export const Documents: FC<DocumentsProps> = (props) => {
 
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let response;
     try {
-      response = await editDocuments({
+      let response = await editDocuments({
         variables: {
           carId: props.carId!,
-          input: { documents: props.value.documents },
+          input: { documents: documents.documents },
         },
       });
       if (response?.data?.editCarDocuments.error) {
         console.log("error :>> ", response?.data?.editCarDocuments.error);
         // deleteFile({ variables: { id: toDelete?.file.public_id! } });
       } else if (response.data?.editCarDocuments.carId) {
-        props.setResponseCar(response.data.editCarDocuments.car!);
-        setSaved(true);
-        setTimeout(() => {
-          setSaved(false);
-        }, 3000);
+        props.setCompData(response.data.editCarDocuments.car!);
+        props.setActiveSlide(props.activeSlide + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -204,14 +204,14 @@ export const Documents: FC<DocumentsProps> = (props) => {
           }
           return doc;
         });
-        props.setData({ documents: [...tempDocuments] });
+        setDocuments({ documents: [...tempDocuments] });
         setSecondaryLoading(true);
-        await editDocuments({
-          variables: {
-            carId: props.carId!,
-            input: { documents: tempDocuments },
-          },
-        });
+        // await editDocuments({
+        //   variables: {
+        //     // carId: props.carId!,
+        //     input: { documents: tempDocuments },
+        //   },
+        // });
         setSecondaryLoading(false);
       }
     } catch (error) {}
@@ -380,13 +380,20 @@ export const Documents: FC<DocumentsProps> = (props) => {
           )}
         </div>
 
-        <FormSaveButton
+        <div className="d-flex justify-content-between mt-4">
+          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
+            Prev
+          </button>
+          <button type="submit">Next</button>
+        </div>
+
+        {/* <FormSaveButton
           loading={loading && !secondaryLoading}
           saved={saved}
           isEdit={props.isEdit}
           carId={props.carId!}
           disabled={props.value.documents.length < 2}
-        />
+        /> */}
       </form>
     </>
   );

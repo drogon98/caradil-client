@@ -4,6 +4,7 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
+  useEffect,
   useState,
 } from "react";
 import {
@@ -20,30 +21,31 @@ import { PhotoBox } from "./PhotoBox";
 
 interface PhotosProps {
   value: CarPhotosInput;
-  setData: Dispatch<SetStateAction<CarPhotosInput>>;
   carId: number | undefined;
-  isEdit: boolean;
   carVerified: boolean;
-  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
+  setActiveSlide: Dispatch<SetStateAction<number>>;
+  activeSlide: number;
+  setCompData: Dispatch<SetStateAction<Car | undefined>>;
 }
 
-/**
- * @author @CodeYourEmpire
- * @function @Photos
- **/
-
 export const Photos: FC<PhotosProps> = (props) => {
-  const [saved, setSaved] = useState(false);
   const [uploadFile, { loading: uploading }] = useUploadFileMutation();
   const [editPhotos, { loading }] = useEditCarPhotosMutation();
   const [deleteFile, { loading: deleteLoading }] = useDeleteFileMutation();
   const [secondaryLoading, setSecondaryLoading] = useState(false);
+  const [values, setValues] = useState<CarPhotosInput>();
+
+  useEffect(() => {
+    if (props.value.photos) {
+      setValues({ photos: props.value.photos });
+    }
+  }, [props.value]);
 
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    let response;
+
     try {
-      response = await uploadFile({ variables: { file } });
+      let response = await uploadFile({ variables: { file } });
       const newPhoto = response?.data?.singleUpload;
       delete newPhoto?.__typename;
       const newPhotoPayload: FileInput = {
@@ -51,8 +53,8 @@ export const Photos: FC<PhotosProps> = (props) => {
         secure_url: newPhoto?.file?.secure_url ?? "",
         url: newPhoto?.file?.secure_url ?? "",
       };
-      const photos = [...props.value.photos, newPhotoPayload!];
-      props.setData({ photos: [...photos] });
+      const photos = [...(values?.photos ?? []), newPhotoPayload!];
+      setValues({ photos: [...photos] });
       setSecondaryLoading(true);
       await editPhotos({
         variables: { carId: props.carId!, input: { photos } },
@@ -73,20 +75,19 @@ export const Photos: FC<PhotosProps> = (props) => {
   };
 
   const deletePhoto = async (id: string) => {
-    let response;
     try {
       setSecondaryLoading(true);
-      response = await deleteFile({ variables: { id } });
+      let response = await deleteFile({ variables: { id } });
       if (response.data?.deleteUpload) {
-        const tempPhotos = props.value.photos.filter(
+        const tempPhotos = values?.photos.filter(
           (photo) => photo.public_id !== id
         );
 
-        props.setData({ photos: [...tempPhotos] });
+        setValues({ photos: [...tempPhotos!] });
         await editPhotos({
           variables: {
             carId: props.carId!,
-            input: { photos: [...tempPhotos] },
+            input: { photos: [...tempPhotos!] },
           },
         });
         setSecondaryLoading(false);
@@ -107,21 +108,17 @@ export const Photos: FC<PhotosProps> = (props) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let response;
     try {
-      response = await editPhotos({
+      let response = await editPhotos({
         variables: {
           carId: props.carId!,
-          input: { photos: props.value.photos },
+          input: { photos: values?.photos! },
         },
       });
       if (response?.data?.editCarPhotos.error) {
       } else if (response?.data?.editCarPhotos.carId) {
-        props.setResponseCar(response.data.editCarPhotos.car!);
-        setSaved(true);
-        setTimeout(() => {
-          setSaved(false);
-        }, 3000);
+        props.setCompData(response.data.editCarPhotos.car!);
+        props.setActiveSlide(props.activeSlide + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -159,28 +156,36 @@ export const Photos: FC<PhotosProps> = (props) => {
           </span>
         </div>
 
-        {props.value.photos.length === 0 && (
+        {values?.photos.length === 0 && (
           <p className="pt-3">No photos uploaded!</p>
         )}
 
         <div className="photoBoxWrapper mt-4">
-          {props.value.photos?.length > 0 &&
-            props.value.photos.map((photo) => (
+          {values &&
+            values?.photos?.length > 0 &&
+            values.photos.map((photo) => (
               <PhotoBox
                 photo={photo}
                 deletePhoto={deletePhoto}
                 key={photo.public_id}
-                carVerified={props.carVerified}
+                // carVerified={props.carVerified}
               />
             ))}
         </div>
-        <FormSaveButton
+
+        <div className="d-flex justify-content-between mt-4">
+          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
+            Prev
+          </button>
+          <button type="submit">Next</button>
+        </div>
+        {/* <FormSaveButton
           loading={loading && !secondaryLoading}
           saved={saved}
           isEdit={props.isEdit}
           carId={props.carId!}
           disabled={props.value.photos.length === 0}
-        />
+        /> */}
       </form>
     </>
   );

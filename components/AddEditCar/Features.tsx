@@ -4,65 +4,67 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
+  useEffect,
   useState,
 } from "react";
 import { carColors } from "../../data";
 import {
   Car,
-  CarPrimaryFeaturesInput,
-  useEditCarPrimaryFeaturesMutation,
+  CarFeaturesInput,
+  useEditCarFeaturesMutation,
 } from "../../graphql_types/generated/graphql";
-import { FormSaveButton } from "./FormSaveButton";
 
-interface PrimaryFeaturesProps {
-  value: CarPrimaryFeaturesInput;
-  setData: Dispatch<SetStateAction<CarPrimaryFeaturesInput>>;
+interface FeaturesProps {
+  value: CarFeaturesInput;
+  activeSlide: number;
+  setActiveSlide: Dispatch<SetStateAction<number>>;
+  setCompData: Dispatch<SetStateAction<Car | undefined>>;
   carId: number | undefined;
-  isEdit: boolean;
-  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
-/**
- * @author
- * @function @PrimaryFeatures
- **/
+export const Features: FC<FeaturesProps> = (props) => {
+  const [editFeatures, { loading, error }] = useEditCarFeaturesMutation();
 
-export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
-  const [editPrimaryFeatures, { loading, error }] =
-    useEditCarPrimaryFeaturesMutation();
-  const [saved, setSaved] = useState(false);
+  const [values, setValues] = useState<CarFeaturesInput>();
+
+  useEffect(() => {
+    setValues({
+      gas: props.value.gas,
+      doors: props.value.doors,
+      transmission: props.value.transmission,
+      seats: props.value.seats,
+      color: props.value.color,
+      features: props.value.features,
+    });
+  }, [props.value]);
+
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    props.setData({ ...props.value, [e.target.name]: e.target.value });
+    setValues({ ...values!, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const payload = {
-      transmission: props.value.transmission,
-      gas: props.value.gas,
-      color: props.value.color,
-      doors: parseInt(props.value.doors as unknown as string, 10),
-      seats: parseInt(props.value.seats as unknown as string, 10),
+      transmission: values?.transmission!,
+      gas: values?.gas!,
+      color: values?.color!,
+      doors: parseInt(values?.doors as unknown as string, 10)!,
+      seats: parseInt(values?.seats as unknown as string, 10)!,
+      features: values?.features!,
     };
 
-    // console.log("payload :>> ", payload);
-
-    // console.log("props.value :>> ", props.value);
-    let response;
     try {
-      response = await editPrimaryFeatures({
-        variables: { carId: props.carId!, input: payload },
+      const carId = parseInt(sessionStorage.getItem("carId")!, 10);
+      let response = await editFeatures({
+        variables: { carId: carId, input: payload! },
       });
-      if (response.data?.editCarPrimaryFeatures.error) {
-      } else if (response.data?.editCarPrimaryFeatures.carId) {
-        props.setResponseCar(response.data.editCarPrimaryFeatures.car!);
-        setSaved(true);
-        setTimeout(() => {
-          setSaved(false);
-        }, 3000);
+      if (response.data?.editCarFeatures.error) {
+      } else if (response.data?.editCarFeatures.carId) {
+        props.setCompData(response.data.editCarFeatures.car!);
+        props.setActiveSlide(props.activeSlide + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -88,7 +90,7 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
               className="form-select form-control"
               aria-label="Default select example"
               onChange={handleChange}
-              value={props.value.gas}
+              value={values?.gas}
               name="gas"
               required
             >
@@ -103,7 +105,7 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
               className="form-select form-control"
               aria-label="Default select example"
               onChange={handleChange}
-              value={props.value.transmission}
+              value={values?.transmission}
               name="transmission"
               required
             >
@@ -120,7 +122,7 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
               className="form-select form-control"
               aria-label="Default select example"
               onChange={handleChange}
-              value={props.value.color}
+              value={values?.color}
               name="color"
               required
             >
@@ -138,7 +140,7 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
               type="number"
               name="seats"
               className="form-control"
-              value={props.value.seats}
+              value={values?.seats}
               required
               onChange={handleChange}
               min={0}
@@ -153,7 +155,7 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
               type="number"
               name="doors"
               className="form-control"
-              value={props.value.doors}
+              value={values?.doors}
               required
               onChange={handleChange}
               min={0}
@@ -162,12 +164,19 @@ export const PrimaryFeatures: FC<PrimaryFeaturesProps> = (props) => {
           </div>
         </div>
 
-        <FormSaveButton
+        <div className="d-flex justify-content-between mt-4">
+          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
+            Prev
+          </button>
+          <button type="submit">Next</button>
+        </div>
+
+        {/* <FormSaveButton
           saved={saved}
           loading={loading}
           isEdit={props.isEdit}
           carId={props.carId!}
-        />
+        /> */}
       </form>
     </div>
   );

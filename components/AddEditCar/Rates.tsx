@@ -4,6 +4,7 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
+  useEffect,
   useState,
 } from "react";
 import {
@@ -15,10 +16,14 @@ import { FormSaveButton } from "./FormSaveButton";
 
 interface RatesProps {
   value: CarRatesInput;
-  setData: Dispatch<SetStateAction<CarRatesInput>>;
+  // setData: Dispatch<SetStateAction<CarRatesInput>>;
   carId: number | undefined;
-  car: Car;
-  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
+  // car: Car;
+  // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
+
+  setActiveSlide: Dispatch<SetStateAction<number>>;
+  activeSlide: number;
+  setCompData: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -28,38 +33,50 @@ interface RatesProps {
 
 export const Rates: FC<RatesProps> = (props) => {
   const [editRates, { loading }] = useEditCarRatesMutation();
+  const [values, setValues] = useState<CarRatesInput>();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "discount") {
-      props.setData({
-        ...props.value,
+      setValues({
+        ...values!,
         [e.target.name]: e.target.value.trim(),
       });
     } else {
-      props.setData({
-        ...props.value,
+      setValues({
+        ...values!,
         [e.target.name]: parseInt(e.target.value.trim()),
       });
     }
   };
-  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (props.value) {
+      setValues({ ...props.value });
+    }
+  }, [props.value]);
+
+  // const [saved, setSaved] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let response;
     try {
-      response = await editRates({
-        variables: { carId: props.carId!, input: props.value },
-      });
+      props.setActiveSlide(props.activeSlide + 1);
+      // response = await editRates({
+      //   variables: { carId: props.carId!, input: props.value },
+      // });
 
-      if (response.data?.editCarRates.error) {
-      } else if (response.data?.editCarRates.carId) {
-        props.setResponseCar(response.data.editCarRates.car!);
-        setSaved(true);
-        setTimeout(() => {
-          setSaved(false);
-        }, 3000);
-      }
+      // if (response.data?.editCarRates.error) {
+      // } else if (response.data?.editCarRates.carId) {
+      //   // props.setCompData(response.data.editCarDescription.car!);
+      //   //  props.setActiveSlide(props.activeSlide + 1);
+      //   // props.setResponseCar(response.data.editCarRates.car!);
+      //   // setSaved(true);
+      //   // setTimeout(() => {
+      //   //   setSaved(false);
+      //   // }, 3000);
+      // }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -69,8 +86,6 @@ export const Rates: FC<RatesProps> = (props) => {
       return;
       // setError("Network Error!");
     }
-
-    
   };
   return (
     <div>
@@ -93,7 +108,7 @@ export const Rates: FC<RatesProps> = (props) => {
             type="number"
             name="daily_rate"
             className="form-control"
-            value={props.value.daily_rate}
+            value={values?.daily_rate}
             required
             onChange={handleChange}
             placeholder="eg John Doe"
@@ -105,7 +120,7 @@ export const Rates: FC<RatesProps> = (props) => {
             type="text"
             name="discount"
             className="form-control"
-            value={props.value.discount!}
+            value={values?.discount!}
             // required
             onChange={handleChange}
             placeholder="eg John Doe"
@@ -118,43 +133,43 @@ export const Rates: FC<RatesProps> = (props) => {
             type="number"
             name="discount_days"
             className="form-control"
-            value={props.value.discount_days!}
+            value={values?.discount_days!}
             // required
             onChange={handleChange}
             placeholder="eg 200"
           />
         </div>
-        {props.car?.has_unlimited_distance === false && (
+        {/* {values?.has_unlimited_distance === false && (
           <div>
             <label htmlFor="mileage">Extra Distance Rate</label>
             <input
               type="number"
               name="extra_distance_rate"
               className="form-control"
-              value={props.value.extra_distance_rate!}
+              value={values.extra_distance_rate!}
               required
-              onChange={handleChange}
+              // onChange={handleChange}
               placeholder="eg 200"
             />
           </div>
-        )}
+        )} */}
 
-        {props.car?.has_driver && (
+        {/* {values?.has_driver && (
           <div>
             <label htmlFor="discount_days">Driver Daily Rate</label>
             <input
               type="number"
               name="driver_daily_rate"
               className="form-control"
-              value={props.value.driver_daily_rate!}
+              value={values.driver_daily_rate!}
               // required
-              onChange={handleChange}
+              // onChange={handleChange}
               placeholder="eg 200"
             />
           </div>
-        )}
+        )} */}
 
-        {props.car?.delivery && (
+        {/* {values?.delivery && (
           <div>
             <label htmlFor="discount_days">Delivery Rate</label>
             <input
@@ -163,18 +178,25 @@ export const Rates: FC<RatesProps> = (props) => {
               className="form-control"
               value={props.value.delivery_rate!}
               // required
-              onChange={handleChange}
+              // onChange={handleChange}
               placeholder="eg 200"
             />
           </div>
-        )}
+        )} */}
 
-        <FormSaveButton
+        <div className="d-flex justify-content-between mt-4">
+          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
+            Prev
+          </button>
+          <button type="submit">Next</button>
+        </div>
+
+        {/* <FormSaveButton
           loading={loading}
           saved={saved}
           isEdit={false}
           carId={props.carId!}
-        />
+        /> */}
       </form>
     </div>
   );
