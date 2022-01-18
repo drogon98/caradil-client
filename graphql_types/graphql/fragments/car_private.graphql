@@ -64,4 +64,5 @@ fragment carPrivateInfo on Car {
   driver_mode
   advance_book_period
   manual_transmission_test
+  odometer_reading
 }

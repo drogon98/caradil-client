@@ -55,28 +55,18 @@ export const Rates: FC<RatesProps> = (props) => {
     }
   }, [props.value]);
 
-  // const [saved, setSaved] = useState(false);
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    let response;
     try {
-      props.setActiveSlide(props.activeSlide + 1);
-      // response = await editRates({
-      //   variables: { carId: props.carId!, input: props.value },
-      // });
+      let response = await editRates({
+        variables: { carId: props.carId!, input: values! },
+      });
 
-      // if (response.data?.editCarRates.error) {
-      // } else if (response.data?.editCarRates.carId) {
-      //   // props.setCompData(response.data.editCarDescription.car!);
-      //   //  props.setActiveSlide(props.activeSlide + 1);
-      //   // props.setResponseCar(response.data.editCarRates.car!);
-      //   // setSaved(true);
-      //   // setTimeout(() => {
-      //   //   setSaved(false);
-      //   // }, 3000);
-      // }
+      if (response.data?.editCarRates.error) {
+      } else if (response.data?.editCarRates.carId) {
+        props.setCompData(response.data.editCarRates.car!);
+        props.setActiveSlide(props.activeSlide + 1);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {

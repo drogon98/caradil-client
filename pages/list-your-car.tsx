@@ -6,11 +6,6 @@ import Layout from "../components/layouts/Layout";
 
 interface IProps {}
 
-/**
- * @author
- * @function @ListYourCar
- **/
-
 const ListYourCar: FC<IProps> = (props) => {
   return (
     <>

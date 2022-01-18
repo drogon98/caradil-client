@@ -97,7 +97,7 @@ export const Description: FC<DescriptionProps> = (props) => {
       });
       if (response?.data?.editCarDescription.error) {
       } else if (response?.data?.editCarDescription.carId) {
-        props.setCompData(response.data.editCarDescription.car!);
+        // props.setCompData(response.data.editCarDescription.car!);
         props.setActiveSlide(props.activeSlide + 1);
       }
     } catch (error) {

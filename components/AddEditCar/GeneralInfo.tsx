@@ -37,6 +37,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
   const [addEditCarGeneralInfo, { loading }] =
     useAddEditCarGeneralInfoMutation();
   // const [saved, setSaved] = useState(false);
+  const [isValid, setIsValid] = useState(false);
 
   const [values, setValues] = useState<CarGeneralInfoInput>();
 
@@ -70,20 +71,25 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
     try {
       let response = await addEditCarGeneralInfo({
         variables: {
-          options: props.value,
+          options: values!,
           isEdit: props.isResume ? true : false,
-          // carId: props.carId,
+          carId: props.carId,
         },
       });
-      props.setActiveSlide(props.activeSlide + 1);
 
       if (response?.data?.addEditCarGeneralInfo.error) {
       } else if (response?.data?.addEditCarGeneralInfo.carId) {
-        props.setCompData(response.data.addEditCarGeneralInfo.car!);
-        sessionStorage.setItem(
-          "carId",
-          response.data.addEditCarGeneralInfo.car?.id?.toString()!
+        console.log(
+          "response.data.addEditCarGeneralInfo.car :>> ",
+          response.data.addEditCarGeneralInfo.car
         );
+        // props.setCompData(response.data.addEditCarGeneralInfo.car!);
+        if (!props.isResume) {
+          sessionStorage.setItem(
+            "carId",
+            response.data.addEditCarGeneralInfo.car?.id?.toString()!
+          );
+        }
         props.setCarId(response.data.addEditCarGeneralInfo.car?.id!);
         props.setActiveSlide(props.activeSlide + 1);
       }

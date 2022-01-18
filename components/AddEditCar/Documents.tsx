@@ -67,7 +67,10 @@ export const Documents: FC<DocumentsProps> = (props) => {
     try {
       const file = e.target.files?.[0];
       setId(title);
-      const response = await uploadFile({ variables: { file } });
+      const response = await uploadFile({
+        variables: { file },
+        fetchPolicy: "no-cache",
+      });
       if (response.data?.singleUpload.error) {
         console.log("error :>> ", response.data?.singleUpload.error);
       } else {
@@ -121,6 +124,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
             carId: props.carId!,
             input: { documents: tempDocuments },
           },
+          fetchPolicy: "no-cache",
         });
         setSecondaryLoading(false);
 
@@ -128,7 +132,10 @@ export const Documents: FC<DocumentsProps> = (props) => {
           !response2?.data?.editCarDocuments.error &&
           tempToDelete.file.public_id
         ) {
-          deleteFile({ variables: { id: tempToDelete?.file.public_id! } });
+          deleteFile({
+            variables: { id: tempToDelete?.file.public_id! },
+            fetchPolicy: "no-cache",
+          });
         }
       }
 
@@ -144,6 +151,18 @@ export const Documents: FC<DocumentsProps> = (props) => {
       // setError("Network Error!");
     }
   };
+
+  // [
+  //   {
+  //     file: {
+  //       url: "http://res.cloudinary.com/dybij6x3m/image/upload/v1642532632/hkuskemklbgvewuks3it.png",
+  //       public_id: "hkuskemklbgvewuks3it",
+  //       secure_url:
+  //         "https://res.cloudinary.com/dybij6x3m/image/upload/v1642532632/hkuskemklbgvewuks3it.png",
+  //     },
+  //     title: "national_id",
+  //   },
+  // ];
 
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -193,6 +212,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
     try {
       const response = await deleteFile({
         variables: { id: getFile(title)!.file.public_id! },
+        fetchPolicy: "no-cache",
       });
       if (response.data?.deleteUpload) {
         let tempDocuments = documents.documents.map((doc) => {
@@ -206,12 +226,13 @@ export const Documents: FC<DocumentsProps> = (props) => {
         });
         setDocuments({ documents: [...tempDocuments] });
         setSecondaryLoading(true);
-        // await editDocuments({
-        //   variables: {
-        //     // carId: props.carId!,
-        //     input: { documents: tempDocuments },
-        //   },
-        // });
+        await editDocuments({
+          variables: {
+            carId: props.carId!,
+            input: { documents: tempDocuments },
+          },
+          fetchPolicy: "no-cache",
+        });
         setSecondaryLoading(false);
       }
     } catch (error) {}

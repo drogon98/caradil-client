@@ -57,13 +57,13 @@ export const Features: FC<FeaturesProps> = (props) => {
     };
 
     try {
-      const carId = parseInt(sessionStorage.getItem("carId")!, 10);
+      // const carId = parseInt(sessionStorage.getItem("carId")!, 10);
       let response = await editFeatures({
-        variables: { carId: carId, input: payload! },
+        variables: { carId: props.carId!, input: payload! },
       });
       if (response.data?.editCarFeatures.error) {
       } else if (response.data?.editCarFeatures.carId) {
-        props.setCompData(response.data.editCarFeatures.car!);
+        // props.setCompData(response.data.editCarFeatures.car!);
         props.setActiveSlide(props.activeSlide + 1);
       }
     } catch (error) {

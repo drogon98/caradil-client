@@ -1,9 +1,9 @@
 import Head from "next/head";
 import React, { FC } from "react";
-import { FormWrapper } from "../../../components/AddEditCar/FormWrapper";
-import { AuthWrapper } from "../../../components/AuthWrapper";
-import CarDataStepForm from "../../../components/CarDataStepForm";
-import AccountLayout from "../../../components/layouts/AccountLayout";
+import { AuthWrapper } from "../../../../../components/AuthWrapper";
+import CarDataStepForm from "../../../../../components/CarDataStepForm";
+import AccountLayout from "../../../../../components/layouts/AccountLayout";
+import { Loading } from "../../../../../components/Loading";
 
 interface AddCarProps {}
 
@@ -12,10 +12,7 @@ interface AddCarProps {}
  * @function @AddCar
  **/
 
-const AddCar: FC<AddCarProps> = (props) => {
-  // const [currentOpenExpandable, setCurrentOpenExpandable] = useState<number>(0);
-  // console.log("currentOpenExpandable :>> ", currentOpenExpandable);
-
+const ResumeAddCar: FC<AddCarProps> = (props) => {
   return (
     <>
       <Head>
@@ -26,9 +23,14 @@ const AddCar: FC<AddCarProps> = (props) => {
       <AccountLayout>
         <AuthWrapper>
           <div className="p-2 mt-4">
+            <CarDataStepForm
+              //   data={data?.getCar.car}
+              //   carId={carId}
+              isResume
+            />
+
             {/* <h3 className="mb-3">Car Details</h3>
             <FormWrapper /> */}
-            <CarDataStepForm />
           </div>
         </AuthWrapper>
       </AccountLayout>
@@ -36,4 +38,4 @@ const AddCar: FC<AddCarProps> = (props) => {
   );
 };
 
-export default AddCar;
+export default ResumeAddCar;

@@ -35,6 +35,8 @@ export const Photos: FC<PhotosProps> = (props) => {
   const [secondaryLoading, setSecondaryLoading] = useState(false);
   const [values, setValues] = useState<CarPhotosInput>();
 
+  console.log("props.value.photos :>> ", props.value.photos);
+
   useEffect(() => {
     if (props.value.photos) {
       setValues({ photos: props.value.photos });
@@ -58,6 +60,7 @@ export const Photos: FC<PhotosProps> = (props) => {
       setSecondaryLoading(true);
       await editPhotos({
         variables: { carId: props.carId!, input: { photos } },
+        fetchPolicy: "no-cache",
       });
       setSecondaryLoading(false);
 
@@ -74,10 +77,16 @@ export const Photos: FC<PhotosProps> = (props) => {
     }
   };
 
+  console.log("photos :>> ", values);
+
   const deletePhoto = async (id: string) => {
+    console.log("Great :>> ");
     try {
       setSecondaryLoading(true);
-      let response = await deleteFile({ variables: { id } });
+      let response = await deleteFile({
+        variables: { id },
+        fetchPolicy: "no-cache",
+      });
       if (response.data?.deleteUpload) {
         const tempPhotos = values?.photos.filter(
           (photo) => photo.public_id !== id
@@ -89,6 +98,7 @@ export const Photos: FC<PhotosProps> = (props) => {
             carId: props.carId!,
             input: { photos: [...tempPhotos!] },
           },
+          fetchPolicy: "no-cache",
         });
         setSecondaryLoading(false);
       }
@@ -117,7 +127,7 @@ export const Photos: FC<PhotosProps> = (props) => {
       });
       if (response?.data?.editCarPhotos.error) {
       } else if (response?.data?.editCarPhotos.carId) {
-        props.setCompData(response.data.editCarPhotos.car!);
+        // props.setCompData(response.data.editCarPhotos.car!);
         props.setActiveSlide(props.activeSlide + 1);
       }
     } catch (error) {
