@@ -4,6 +4,7 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
+  useEffect,
   useState,
 } from "react";
 import { carMakes } from "../../data";
@@ -12,15 +13,18 @@ import {
   CarGeneralInfoInput,
   useAddEditCarGeneralInfoMutation,
 } from "../../graphql_types/generated/graphql";
-import { FormSaveButton } from "./FormSaveButton";
 
-interface NameAndRegNoProps {
+interface GeneralInfoProps {
   value: CarGeneralInfoInput;
-  setData: Dispatch<SetStateAction<CarGeneralInfoInput>>;
+  setActiveSlide: Dispatch<SetStateAction<number>>;
+  activeSlide: number;
+  setCompData: Dispatch<SetStateAction<Car | undefined>>;
+  isResume: boolean;
+  // setData: Dispatch<SetStateAction<CarGeneralInfoInput>>;
   setCarId: Dispatch<SetStateAction<number | undefined>>;
-  isEdit: boolean;
+  // isEdit: boolean;
   carId: number | undefined;
-  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
+  // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -28,43 +32,67 @@ interface NameAndRegNoProps {
  * @function @GeneralInfo
  **/
 
-export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
-  const [addEditCarMakeAndRegNo, { loading }] =
+export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
+  const [addEditCarGeneralInfo, { loading }] =
     useAddEditCarGeneralInfoMutation();
-  const [saved, setSaved] = useState(false);
+  // const [saved, setSaved] = useState(false);
+  const [isValid, setIsValid] = useState(false);
+
+  const [values, setValues] = useState<CarGeneralInfoInput>();
+
+  useEffect(() => {
+    let tempData = {
+      name: props.value.name,
+      reg_no: props.value.reg_no,
+      make: props.value.make,
+      odometer_reading: props.value.odometer_reading,
+    };
+
+    setValues({ ...tempData });
+  }, [props.value]);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     if (e.target.name === "reg_no") {
-      props.setData({
-        ...props.value,
+      setValues({
+        ...values!,
         [e.target.name]: e.target.value.trim().toUpperCase(),
       });
+    } else if (e.target.name === "odometer_reading") {
+      setValues({ ...values!, [e.target.name]: parseInt(e.target.value, 10) });
     } else {
-      props.setData({ ...props.value, [e.target.name]: e.target.value });
+      setValues({ ...values!, [e.target.name]: e.target.value });
     }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let response;
+
     try {
-      response = await addEditCarMakeAndRegNo({
+      let response = await addEditCarGeneralInfo({
         variables: {
-          options: props.value,
-          isEdit: props.carId ? true : false,
+          options: { ...values! },
+          isEdit: props.isResume ? true : false,
           carId: props.carId,
         },
       });
 
       if (response?.data?.addEditCarGeneralInfo.error) {
       } else if (response?.data?.addEditCarGeneralInfo.carId) {
-        props.setResponseCar(response.data.addEditCarGeneralInfo.car!);
-        props.setCarId(response?.data?.addEditCarGeneralInfo.carId);
-        setSaved(true);
-        setTimeout(() => {
-          setSaved(false);
-        }, 3000);
+        console.log(
+          "response.data.addEditCarGeneralInfo.car :>> ",
+          response.data.addEditCarGeneralInfo.car
+        );
+        // props.setCompData(response.data.addEditCarGeneralInfo.car!);
+        if (!props.isResume) {
+          sessionStorage.setItem(
+            "carId",
+            response.data.addEditCarGeneralInfo.car?.id?.toString()!
+          );
+        }
+        props.setCarId(response.data.addEditCarGeneralInfo.car?.id!);
+        props.setActiveSlide(props.activeSlide + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -79,9 +107,10 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
 
   return (
     <>
+      <h4>General Info</h4>
       <p className="mb-3">
-        Add your car name. Make it unique and only three words long eg.{" "}
-        <b>Subaru Forester 2016</b>.
+        Add your car name. Make it unique with minimum three words a maximum of
+        four words long eg. <b>Subaru Forester 2016</b>.
       </p>
       <form
         className="form-group"
@@ -97,11 +126,11 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
               type="text"
               name="name"
               className="form-control"
-              value={props.value.name ?? ""}
+              value={values?.name}
               required
               onChange={handleChange}
               placeholder="eg Subaru Forester 2016"
-              disabled={props.isEdit}
+              // disabled={props.isEdit}
             />
           </div>
           <div className="col">
@@ -110,9 +139,9 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
               className="form-select form-control"
               aria-label="Default select example"
               onChange={handleChange}
-              value={props.value.make ?? ""}
+              value={values?.make}
               name="make"
-              disabled={props.isEdit}
+              // disabled={props.isEdit}
               required
             >
               <option value={""}>Select Make</option>
@@ -131,35 +160,42 @@ export const GeneralInfo: FC<NameAndRegNoProps> = (props) => {
               type="text"
               name="reg_no"
               className="form-control"
-              value={props.value.reg_no ?? ""}
+              value={values?.reg_no}
               required
               onChange={handleChange}
               placeholder="eg KBA111C"
-              disabled={props.isEdit}
+              // disabled={props.isEdit}
             />
           </div>
           <div className="col-6">
             <label htmlFor="carName">Odometer Reading</label>
             <input
-              type="text"
+              type="number"
               name="odometer_reading"
               className="form-control"
-              value={props.value.odometer_reading ?? ""}
+              value={values?.odometer_reading}
               required
               onChange={handleChange}
               placeholder="eg 80000"
-              disabled={props.isEdit}
+              // disabled={props.isEdit}
             />
           </div>
         </div>
 
-        <FormSaveButton
+        <div className="d-flex justify-content-between mt-4">
+          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
+            Prev
+          </button>
+          <button type="submit">Next</button>
+        </div>
+
+        {/* <FormSaveButton
           loading={loading}
           saved={saved}
-          isEdit={props.isEdit}
-          carId={props.carId ?? 1}
+          // isEdit={props.isEdit}
+          // carId={props.carId ?? 1}
           // isGeneralInfo
-        />
+        /> */}
       </form>
     </>
   );

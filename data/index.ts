@@ -94,3 +94,11 @@ export const time24hrs = [
   "23:00",
   "23:30",
 ];
+
+export const features = [
+  "Bluetooth",
+  "USB Charger",
+  "USB Input",
+  "Wifi",
+  "Baby Chair",
+];

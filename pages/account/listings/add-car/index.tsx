@@ -1,8 +1,8 @@
 import Head from "next/head";
 import React, { FC } from "react";
-import { FormWrapper } from "../../../components/AddEditCar/FormWrapper";
-import { AuthWrapper } from "../../../components/AuthWrapper";
-import AccountLayout from "../../../components/layouts/AccountLayout";
+import { AuthWrapper } from "../../../../components/AuthWrapper";
+import CarDataStepForm from "../../../../components/CarDataStepForm";
+import AccountLayout from "../../../../components/layouts/AccountLayout";
 
 interface AddCarProps {}
 
@@ -12,9 +12,6 @@ interface AddCarProps {}
  **/
 
 const AddCar: FC<AddCarProps> = (props) => {
-  // const [currentOpenExpandable, setCurrentOpenExpandable] = useState<number>(0);
-  // console.log("currentOpenExpandable :>> ", currentOpenExpandable);
-
   return (
     <>
       <Head>
@@ -25,8 +22,7 @@ const AddCar: FC<AddCarProps> = (props) => {
       <AccountLayout>
         <AuthWrapper>
           <div className="p-2 mt-4">
-            <h3 className="mb-3">Car Details</h3>
-            <FormWrapper />
+            <CarDataStepForm />
           </div>
         </AuthWrapper>
       </AccountLayout>

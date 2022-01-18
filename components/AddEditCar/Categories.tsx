@@ -4,20 +4,26 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
+  useEffect,
   useState,
 } from "react";
-import { carCategories } from "../../data";
+import { carCategories, carVipAndLuxuryServices } from "../../data";
 import {
   Car,
+  CarCategoriesInput,
   useEditCarCategoriesMutation,
 } from "../../graphql_types/generated/graphql";
 import { FormSaveButton } from "./FormSaveButton";
 
 interface CategoryProps {
-  value: string[];
-  setData: Dispatch<SetStateAction<string[] | undefined>>;
+  value: CarCategoriesInput;
+  // setData: Dispatch<SetStateAction<string[] | undefined>>;
   carId: number | undefined;
-  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
+  // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
+
+  setActiveSlide: Dispatch<SetStateAction<number>>;
+  activeSlide: number;
+  setCompData: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -27,33 +33,77 @@ interface CategoryProps {
 
 export const Categories: FC<CategoryProps> = (props) => {
   const [editCategories, { loading }] = useEditCarCategoriesMutation();
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const isAdded = props.value?.find((val) => val === e.target.value);
-    if (isAdded) {
-      let tempValues = props.value?.filter((val) => val !== e.target.value);
-      props.setData([...tempValues]);
-    } else {
-      props.setData([...(props.value ?? []), e.target.value]);
+  const [values, setValues] = useState<CarCategoriesInput>();
+  const [hasVipAndLuxury, setHasVipAndLuxury] = useState(false);
+
+  useEffect(() => {
+    if (props.value) {
+      setValues({ ...props.value! });
     }
-    console.log("e.target.value :>> ", e.target.value);
+  }, [props.value]);
+
+  useEffect(() => {
+    const hasVip = values?.categories.some(
+      (cat) => cat === "Luxury & Vip".toLocaleLowerCase()
+    );
+    if (hasVip) {
+      setHasVipAndLuxury(true);
+    } else {
+      setHasVipAndLuxury(false);
+    }
+  }, [values?.categories]);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const isAdded = values?.categories?.find((val) => val === e.target.value);
+    if (isAdded) {
+      let tempValues = values?.categories?.filter(
+        (val) => val !== e.target.value
+      );
+      setValues({ ...values!, categories: [...tempValues!] });
+    } else {
+      setValues({
+        ...values!,
+        categories: [...(values?.categories ?? []), e.target.value],
+      });
+    }
+    // console.log("e.target.value :>> ", e.target.value);
     //   props.setData(e.target.value);
   };
-  const [saved, setSaved] = useState(false);
+
+  const handleLuxuryVipChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const isAdded = values?.luxury_and_vip_services?.find(
+      (val) => val === e.target.value
+    );
+    if (isAdded) {
+      let tempValues = values?.luxury_and_vip_services?.filter(
+        (val) => val !== e.target.value
+      );
+      setValues({ ...values!, luxury_and_vip_services: [...tempValues!] });
+    } else {
+      setValues({
+        ...values!,
+        luxury_and_vip_services: [
+          ...(values?.luxury_and_vip_services ?? []),
+          e.target.value,
+        ],
+      });
+    }
+    // console.log("e.target.value :>> ", e.target.value);
+    //   props.setData(e.target.value);
+  };
+  // const [saved, setSaved] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let response;
+    // let response;
     try {
-      response = await editCategories({
-        variables: { carId: props.carId!, input: { categories: props.value } },
+      let response = await editCategories({
+        variables: { carId: props.carId!, input: { ...values! } },
       });
       if (response?.data?.editCarCategories.error) {
       } else if (response.data?.editCarCategories.carId) {
-        props.setResponseCar(response.data.editCarCategories.car!);
-        setSaved(true);
-        setTimeout(() => {
-          setSaved(false);
-        }, 3000);
+        props.setCompData(response.data.editCarCategories.car!);
+        props.setActiveSlide(props.activeSlide + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -77,7 +127,7 @@ export const Categories: FC<CategoryProps> = (props) => {
       </p>
       <form onSubmit={handleSubmit}>
         {carCategories.map((category, idx) => {
-          const isSelected = props.value?.find(
+          const isSelected = values?.categories?.find(
             (cat) => cat === category.toLowerCase()
           );
           return (
@@ -96,13 +146,51 @@ export const Categories: FC<CategoryProps> = (props) => {
             </div>
           );
         })}
-        <FormSaveButton
+        {hasVipAndLuxury && (
+          <>
+            <p className="mt-5">
+              You selected vip and luxury. Which other luxury services do you
+              offer below
+            </p>
+            {carVipAndLuxuryServices.map((service, idx) => {
+              const isSelected = values?.categories?.find(
+                (ser) => ser === service
+              );
+              return (
+                <div className="form-check" key={idx}>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value={service}
+                    checked={isSelected ? true : false}
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                    {service}
+                  </label>
+                </div>
+              );
+            })}
+          </>
+        )}
+
+        <div className="d-flex justify-content-between mt-4">
+          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
+            Prev
+          </button>
+          <button type="submit">Next</button>
+        </div>
+        {/* <FormSaveButton
           loading={loading}
           saved={saved}
           isEdit={false}
           carId={props.carId!}
           disabled={props.value?.length === 0}
-        />
+        /> */}
       </form>
     </div>
   );

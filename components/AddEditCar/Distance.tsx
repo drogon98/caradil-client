@@ -4,6 +4,7 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
+  useEffect,
   useState,
 } from "react";
 import {
@@ -15,9 +16,13 @@ import { FormSaveButton } from "./FormSaveButton";
 
 interface DistanceProps {
   value: CarDistanceInput;
-  setData: Dispatch<SetStateAction<CarDistanceInput>>;
+  // setData: Dispatch<SetStateAction<CarDistanceInput>>;
   carId: number | undefined;
-  setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
+  // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
+
+  setActiveSlide: Dispatch<SetStateAction<number>>;
+  activeSlide: number;
+  setCompData: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -27,33 +32,41 @@ interface DistanceProps {
 
 export const Distance: FC<DistanceProps> = (props) => {
   const [editDistance, { loading }] = useEditCarDistanceMutation();
+  const [values, setValues] = useState<CarDistanceInput>();
+
+  useEffect(() => {
+    if (props.value) {
+      setValues({ ...props.value });
+    }
+  }, [props.value]);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "has_unlimited_distance") {
       if (e.target.value === "true") {
-        props.setData({
+        setValues({
           distance_per_day: 0,
           [e.target.name]: true,
         });
       } else {
-        props.setData({
+        setValues({
           ...props.value,
           [e.target.name]: false,
         });
       }
     } else {
-      props.setData({
+      setValues({
         ...props.value,
         [e.target.name]: parseInt(e.target.value.trim()),
       });
     }
   };
-  const [saved, setSaved] = useState(false);
+
+  // const [saved, setSaved] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let response;
     try {
-      response = await editDistance({
+      let response = await editDistance({
         variables: {
           carId: props.carId!,
           input: { ...props.value },
@@ -62,11 +75,13 @@ export const Distance: FC<DistanceProps> = (props) => {
 
       if (response.data?.editCarDistance.error) {
       } else if (response.data?.editCarDistance.carId) {
-        props.setResponseCar(response.data.editCarDistance.car!);
-        setSaved(true);
-        setTimeout(() => {
-          setSaved(false);
-        }, 3000);
+        props.setCompData(response.data.editCarDistance.car!);
+        props.setActiveSlide(props.activeSlide + 1);
+        // props.setResponseCar(response.data.editCarDistance.car!);
+        // setSaved(true);
+        // setTimeout(() => {
+        //   setSaved(false);
+        // }, 3000);
       }
     } catch (error) {
       let errorMessage = "";
@@ -92,9 +107,9 @@ export const Distance: FC<DistanceProps> = (props) => {
             className="form-check-input"
             type="checkbox"
             name="has_unlimited_distance"
-            value={props.value.has_unlimited_distance ? "false" : "true"}
+            value={values?.has_unlimited_distance ? "false" : "true"}
             id="has_unlimited_distance_input"
-            checked={props.value.has_unlimited_distance}
+            checked={values?.has_unlimited_distance}
             onChange={handleChange}
             // required
           />
@@ -111,16 +126,24 @@ export const Distance: FC<DistanceProps> = (props) => {
             type="number"
             name="distance_per_day"
             className="form-control"
-            value={props.value.distance_per_day}
+            value={values?.distance_per_day}
             // required
             onChange={handleChange}
             placeholder="eg 800"
             id="distance_per_day"
-            disabled={props.value.has_unlimited_distance}
+            disabled={values?.has_unlimited_distance}
             min={0}
           />
         </div>
-        <FormSaveButton
+
+        <div className="d-flex justify-content-between mt-4">
+          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
+            Prev
+          </button>
+          <button type="submit">Next</button>
+        </div>
+
+        {/* <FormSaveButton
           saved={saved}
           loading={loading}
           isEdit={false}
@@ -130,7 +153,7 @@ export const Distance: FC<DistanceProps> = (props) => {
           //     (b) => b === props.value.has_unlimited_distance
           //   ) || props.value.distance_per_day === 0
           // }
-        />
+        /> */}
       </form>
     </div>
   );

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 import { ButtonLoading } from "../Loading/ButtonLoading";
 import { Car } from "../../graphql_types/generated/graphql";
@@ -15,20 +15,34 @@ interface Props {
 }
 
 export default function SharedSections(props: Props): ReactElement {
+  console.log("props.car :>> ", props.car);
   const token = useAppSelector((state) => state.auth._id);
   const router = useRouter();
+  const [extraDistRate, setExtraDisRate] = useState(0);
+
+  useEffect(() => {
+    if (props.car.distance_per_day && props.car?.daily_rate) {
+      let tempRate = props.car?.daily_rate / props.car.distance_per_day;
+      setExtraDisRate(tempRate);
+    }
+  }, [props.car]);
   return (
     <>
       <div className="mt-3">
         <hr />
         <div className="d-flex justify-content-between">
           <h6>Distance included</h6>
-          <p>{props.car?.distance_per_day} KM</p>
+          {props.car.has_unlimited_distance ? (
+            <small className="fw-bolder">Unlimited</small>
+          ) : (
+            <p>{props.car?.distance_per_day} KM</p>
+          )}
         </div>
-        <small>
-          Ksh.{props.car?.extra_distance_rate} per km fee for additional
-          kilometres driven
-        </small>
+        {!props.car.has_unlimited_distance && (
+          <small>
+            Ksh.{extraDistRate} per km fee for additional kilometres driven
+          </small>
+        )}
       </div>
       <div className="mt-3">
         <hr />

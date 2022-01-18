@@ -1,11 +1,11 @@
-import React, { FC } from "react";
+import React, { FC, SyntheticEvent } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FileInput } from "../../graphql_types/generated/graphql";
 
 interface PhotoBoxProps {
   photo: FileInput;
   deletePhoto: (id: string) => void;
-  carVerified: boolean;
+  carVerified?: boolean;
 }
 
 /**
@@ -14,7 +14,8 @@ interface PhotoBoxProps {
  **/
 
 export const PhotoBox: FC<PhotoBoxProps> = (props) => {
-  const handleClick = () => {
+  const handleClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     props.deletePhoto(props.photo.public_id);
   };
   return (
