@@ -69,7 +69,7 @@ const BrowseByMake: FC<IProps> = (props) => {
       </Head>
       <Layout>
         <div style={{ backgroundColor: "#eaecee" }}>
-          <div className="customContainer">
+          <div className="customContainer mt-2">
             {!mainLoading && (
               <h1 className="m-0">
                 {title.replace(/\b\w/g, (l) => l.toUpperCase())} Rentals

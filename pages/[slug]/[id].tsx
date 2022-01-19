@@ -418,7 +418,12 @@ const Car: FC<CarProps> = (props) => {
                               fontSize: "14px",
                             }}
                           >
-                            <Link href="/">
+                            <Link
+                              href={{
+                                pathname: "/browse-cars/[make]",
+                                query: { make: car?.make! },
+                              }}
+                            >
                               <a>Check similar cars</a>
                             </Link>
                           </small>
@@ -455,7 +460,7 @@ const Car: FC<CarProps> = (props) => {
                         <button
                           className="btn bgOrange"
                           onClick={handleRouteNext}
-                          disabled={!validDates}
+                          disabled={!validDates || !car?.available}
                         >
                           {approvedLoading ? (
                             <ButtonLoading
@@ -506,7 +511,12 @@ const Car: FC<CarProps> = (props) => {
                       fontSize: "13px",
                     }}
                   >
-                    <Link href="/">
+                    <Link
+                      href={{
+                        pathname: "/browse-cars/[make]",
+                        query: { make: car?.make! },
+                      }}
+                    >
                       <a>Check similar cars</a>
                     </Link>
                   </small>
