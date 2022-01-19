@@ -21,8 +21,8 @@ interface LocationAndDeliveryProps {
   // setData: Dispatch<SetStateAction<string>>;
   carId: number | undefined;
   // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
-  setActiveSlide: Dispatch<SetStateAction<number>>;
-  activeSlide: number;
+  setActiveSlide?: Dispatch<SetStateAction<number>>;
+  activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
 }
 
@@ -68,7 +68,7 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
       if (response.data?.editCarLocationAndDelivery.error) {
       } else if (response.data?.editCarLocationAndDelivery.carId) {
         props.setCompData(response.data.editCarLocationAndDelivery.car!);
-        props.setActiveSlide(props.activeSlide + 1);
+        props.setActiveSlide!(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -118,8 +118,8 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
         <FormNextPrevButton
           loading={loading}
           disabled={loading}
-          setActiveSlide={props.setActiveSlide}
-          activeSlide={props.activeSlide}
+          setActiveSlide={props.setActiveSlide!}
+          activeSlide={props.activeSlide!}
         />
       </form>
     </div>

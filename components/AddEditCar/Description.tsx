@@ -24,8 +24,8 @@ const ReactQuill = dynamic(() => import("react-quill"), {
 
 interface DescriptionProps {
   value: CarDescriptionInput;
-  setActiveSlide: Dispatch<SetStateAction<number>>;
-  activeSlide: number;
+  setActiveSlide?: Dispatch<SetStateAction<number>>;
+  activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   // setData: Dispatch<SetStateAction<CarDescriptionInput>>;
   carId: number | undefined;
@@ -86,7 +86,7 @@ export const Description: FC<DescriptionProps> = (props) => {
   const handleSaveDescription = async (
     e: SyntheticEvent<HTMLButtonElement>
   ) => {
-    props.setActiveSlide(props.activeSlide + 1);
+    props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
 
     try {
       let response = await editCarDescription({
@@ -98,7 +98,7 @@ export const Description: FC<DescriptionProps> = (props) => {
       if (response?.data?.editCarDescription.error) {
       } else if (response?.data?.editCarDescription.carId) {
         props.setCompData(response.data.editCarDescription.car!);
-        props.setActiveSlide(props.activeSlide + 1);
+        props.setActiveSlide!(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -137,7 +137,7 @@ export const Description: FC<DescriptionProps> = (props) => {
           {props.activeSlide !== 0 && (
             <button
               className="btn bgOrange"
-              onClick={() => props.setActiveSlide(props.activeSlide - 1)}
+              onClick={() => props.setActiveSlide!(props.activeSlide! - 1)}
             >
               Prev
             </button>

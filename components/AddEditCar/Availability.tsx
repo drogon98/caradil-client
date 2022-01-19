@@ -20,8 +20,8 @@ interface AvailabilityProps {
   carId: number | undefined;
   // booked: boolean;
   // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
-  setActiveSlide: Dispatch<SetStateAction<number>>;
-  activeSlide: number;
+  setActiveSlide?: Dispatch<SetStateAction<number>>;
+  activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   manual: boolean;
 }
@@ -109,7 +109,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         );
       } else if (response.data?.editCarAvailability.carId) {
         props.setCompData(response.data.editCarAvailability.car!);
-        props.setActiveSlide(props.activeSlide + 1);
+        props.setActiveSlide!(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -371,8 +371,8 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         <FormNextPrevButton
           loading={loading}
           disabled={loading}
-          setActiveSlide={props.setActiveSlide}
-          activeSlide={props.activeSlide}
+          setActiveSlide={props.setActiveSlide!}
+          activeSlide={props.activeSlide!}
         />
       </form>
     </div>

@@ -17,15 +17,12 @@ import { FormNextPrevButton } from "./FormNextPrevButton";
 
 interface GeneralInfoProps {
   value: CarGeneralInfoInput;
-  setActiveSlide: Dispatch<SetStateAction<number>>;
-  activeSlide: number;
+  setActiveSlide?: Dispatch<SetStateAction<number>>;
+  activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
-  isResume: boolean;
-  // setData: Dispatch<SetStateAction<CarGeneralInfoInput>>;
-  setCarId: Dispatch<SetStateAction<number | undefined>>;
-  // isEdit: boolean;
+  isResume?: boolean;
+  setCarId?: Dispatch<SetStateAction<number | undefined>>;
   carId: number | undefined;
-  // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
 
 /**
@@ -92,8 +89,9 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             response.data.addEditCarGeneralInfo.car?.id?.toString()!
           );
         }
-        props.setCarId(response.data.addEditCarGeneralInfo.car?.id!);
-        props.setActiveSlide(props.activeSlide + 1);
+
+        props.setCarId!(response.data.addEditCarGeneralInfo.car?.id!);
+        props.setActiveSlide!(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -186,8 +184,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         <FormNextPrevButton
           loading={loading}
           disabled={loading}
-          setActiveSlide={props.setActiveSlide}
-          activeSlide={props.activeSlide}
+          setActiveSlide={props.setActiveSlide!}
+          activeSlide={props.activeSlide!}
         />
       </form>
     </>

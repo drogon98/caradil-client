@@ -88,9 +88,9 @@ const Listings: FC<ListingsProps> = (props) => {
                           <div className="col">
                             <p className="fw-bold m-0">Rate</p>
                           </div>
-                          <div className="col-1">
+                          {/* <div className="col-1">
                             <p className="fw-bold m-0">Action</p>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>

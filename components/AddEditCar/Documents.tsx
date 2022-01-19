@@ -25,12 +25,12 @@ interface DocumentsProps {
   value: CarDocumentsInput;
   // setData: Dispatch<SetStateAction<CarDocumentsInput>>;
   carId: number | undefined;
-  carVerified: boolean;
-  isEdit: boolean;
+  carVerified?: boolean;
+  isEdit?: boolean;
   // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
-  activeSlide: number;
-  setActiveSlide: Dispatch<SetStateAction<number>>;
+  activeSlide?: number;
+  setActiveSlide?: Dispatch<SetStateAction<number>>;
 }
 
 /**
@@ -167,7 +167,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
         // deleteFile({ variables: { id: toDelete?.file.public_id! } });
       } else if (response.data?.editCarDocuments.carId) {
         props.setCompData(response.data.editCarDocuments.car!);
-        props.setActiveSlide(props.activeSlide + 1);
+        props.setActiveSlide!(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -271,7 +271,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
                 </span>
               </div>
               <DocumentContent
-                isVerified={props.carVerified}
+                isVerified={props.carVerified!}
                 deleteHandler={handleDeleteDoc}
                 docUrl={documents.documents[0]?.file?.secure_url}
                 title="national_id"
@@ -308,7 +308,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
                 </span>
               </div>
               <DocumentContent
-                isVerified={props.carVerified}
+                isVerified={props.carVerified!}
                 deleteHandler={handleDeleteDoc}
                 docUrl={documents.documents[1]?.file?.secure_url}
                 title="logbook"
@@ -394,8 +394,8 @@ export const Documents: FC<DocumentsProps> = (props) => {
         <FormNextPrevButton
           loading={loading}
           disabled={loading}
-          setActiveSlide={props.setActiveSlide}
-          activeSlide={props.activeSlide}
+          setActiveSlide={props.setActiveSlide!}
+          activeSlide={props.activeSlide!}
         />
       </form>
     </>

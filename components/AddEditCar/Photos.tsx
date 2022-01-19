@@ -22,9 +22,9 @@ import { PhotoBox } from "./PhotoBox";
 interface PhotosProps {
   value: CarPhotosInput;
   carId: number | undefined;
-  carVerified: boolean;
-  setActiveSlide: Dispatch<SetStateAction<number>>;
-  activeSlide: number;
+  carVerified?: boolean;
+  setActiveSlide?: Dispatch<SetStateAction<number>>;
+  activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
 }
 
@@ -128,7 +128,7 @@ export const Photos: FC<PhotosProps> = (props) => {
       if (response?.data?.editCarPhotos.error) {
       } else if (response?.data?.editCarPhotos.carId) {
         props.setCompData(response.data.editCarPhotos.car!);
-        props.setActiveSlide(props.activeSlide + 1);
+        props.setActiveSlide!(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -187,8 +187,8 @@ export const Photos: FC<PhotosProps> = (props) => {
         <FormNextPrevButton
           loading={loading}
           disabled={loading}
-          setActiveSlide={props.setActiveSlide}
-          activeSlide={props.activeSlide}
+          setActiveSlide={props.setActiveSlide!}
+          activeSlide={props.activeSlide!}
         />
       </form>
     </>

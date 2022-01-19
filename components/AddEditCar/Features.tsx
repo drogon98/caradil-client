@@ -17,8 +17,8 @@ import { FormNextPrevButton } from "./FormNextPrevButton";
 
 interface FeaturesProps {
   value: CarFeaturesInput;
-  activeSlide: number;
-  setActiveSlide: Dispatch<SetStateAction<number>>;
+  activeSlide?: number;
+  setActiveSlide?: Dispatch<SetStateAction<number>>;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   carId: number | undefined;
 }
@@ -84,7 +84,7 @@ export const Features: FC<FeaturesProps> = (props) => {
       if (response.data?.editCarFeatures.error) {
       } else if (response.data?.editCarFeatures.carId) {
         props.setCompData(response.data.editCarFeatures.car!);
-        props.setActiveSlide(props.activeSlide + 1);
+        props.setActiveSlide!(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -209,8 +209,8 @@ export const Features: FC<FeaturesProps> = (props) => {
         <FormNextPrevButton
           loading={loading}
           disabled={loading}
-          setActiveSlide={props.setActiveSlide}
-          activeSlide={props.activeSlide}
+          setActiveSlide={props.setActiveSlide!}
+          activeSlide={props.activeSlide!}
         />
 
         {/* <FormSaveButton

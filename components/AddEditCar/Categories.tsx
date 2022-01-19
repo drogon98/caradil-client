@@ -21,8 +21,8 @@ interface CategoryProps {
   carId: number | undefined;
   // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 
-  setActiveSlide: Dispatch<SetStateAction<number>>;
-  activeSlide: number;
+  setActiveSlide?: Dispatch<SetStateAction<number>>;
+  activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
 }
 
@@ -103,7 +103,7 @@ export const Categories: FC<CategoryProps> = (props) => {
       if (response?.data?.editCarCategories.error) {
       } else if (response.data?.editCarCategories.carId) {
         props.setCompData(response.data.editCarCategories.car!);
-        props.setActiveSlide(props.activeSlide + 1);
+        props.setActiveSlide!(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -182,8 +182,8 @@ export const Categories: FC<CategoryProps> = (props) => {
         <FormNextPrevButton
           loading={loading}
           disabled={loading}
-          setActiveSlide={props.setActiveSlide}
-          activeSlide={props.activeSlide}
+          setActiveSlide={props.setActiveSlide!}
+          activeSlide={props.activeSlide!}
         />
       </form>
     </div>
