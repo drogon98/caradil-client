@@ -12,7 +12,7 @@ import {
   CarAvailabilityInput,
   useEditCarAvailabilityMutation,
 } from "../../graphql_types/generated/graphql";
-import { FormSaveButton } from "./FormSaveButton";
+import { FormNextPrevButton } from "./FormNextPrevButton";
 
 interface AvailabilityProps {
   value: CarAvailabilityInput;
@@ -368,19 +368,12 @@ export const Availability: FC<AvailabilityProps> = (props) => {
           </div>
         )}
 
-        <div className="d-flex justify-content-between mt-4">
-          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
-            Prev
-          </button>
-          <button type="submit">Next</button>
-        </div>
-
-        {/* <FormSaveButton
+        <FormNextPrevButton
           loading={loading}
-          saved={saved}
-          isEdit={false}
-          carId={props.carId!}
-        /> */}
+          disabled={loading}
+          setActiveSlide={props.setActiveSlide}
+          activeSlide={props.activeSlide}
+        />
       </form>
     </div>
   );

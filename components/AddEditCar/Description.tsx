@@ -133,40 +133,32 @@ export const Description: FC<DescriptionProps> = (props) => {
       />
 
       <div className="d-flex justify-content-between mt-4">
-        <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
-          Prev
+        <div>
+          {props.activeSlide !== 0 && (
+            <button
+              className="btn bgOrange"
+              onClick={() => props.setActiveSlide(props.activeSlide - 1)}
+            >
+              Prev
+            </button>
+          )}
+        </div>
+
+        <button
+          className="btn bgOrange"
+          type="submit"
+          disabled={loading}
+          onClick={handleSaveDescription}
+        >
+          {loading ? (
+            <ButtonLoading
+              spinnerColor="white"
+              dimensions={{ height: "18px", width: "18px" }}
+            />
+          ) : (
+            "Next"
+          )}
         </button>
-        <button onClick={handleSaveDescription}>Next</button>
-      </div>
-      <div className="d-flex justify-content-end align-items-center mt-3">
-        {/* {saved && (
-          <span style={{ width: "calc(100px - 2em)", marginRight: "1em" }}>
-            <div>
-              <Icon
-                icon="teenyicons:tick-circle-solid"
-                style={{ color: "green" }}
-              />
-              <span className="ml-2">Saved</span>
-            </div>
-          </span>
-        )} */}
-        {/* <div className="d-flex justify-content-end">
-          <button
-            className="btn bgOrange p-0 m-0"
-            disabled={loading || !props.carId || value.length < 100}
-            style={{ height: "35px", minWidth: "60px" }}
-            onClick={handleSaveDescription}
-          >
-            {loading ? (
-              <ButtonLoading
-                spinnerColor="white"
-                dimensions={{ height: "18px", width: "18px" }}
-              />
-            ) : (
-              "Save"
-            )}
-          </button>
-        </div> */}
       </div>
     </>
   );

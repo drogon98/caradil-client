@@ -14,7 +14,7 @@ import {
   useEditCarLocationAndDeliveryMutation,
 } from "../../graphql_types/generated/graphql";
 import { AutoComplete } from "../Location/AutoComplete";
-import { FormSaveButton } from "./FormSaveButton";
+import { FormNextPrevButton } from "./FormNextPrevButton";
 
 interface LocationAndDeliveryProps {
   value: CarLocationAndDeliveryInput;
@@ -114,18 +114,13 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
             I will deliver car to requested location
           </label>
         </div>
-        <div className="d-flex justify-content-between mt-4">
-          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
-            Prev
-          </button>
-          <button type="submit">Next</button>
-        </div>
-        {/* <FormSaveButton
+
+        <FormNextPrevButton
           loading={loading}
-          saved={saved}
-          isEdit={false}
-          carId={props.carId!}
-        /> */}
+          disabled={loading}
+          setActiveSlide={props.setActiveSlide}
+          activeSlide={props.activeSlide}
+        />
       </form>
     </div>
   );

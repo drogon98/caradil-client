@@ -13,7 +13,7 @@ import {
   CarCategoriesInput,
   useEditCarCategoriesMutation,
 } from "../../graphql_types/generated/graphql";
-import { FormSaveButton } from "./FormSaveButton";
+import { FormNextPrevButton } from "./FormNextPrevButton";
 
 interface CategoryProps {
   value: CarCategoriesInput;
@@ -179,19 +179,12 @@ export const Categories: FC<CategoryProps> = (props) => {
           </>
         )}
 
-        <div className="d-flex justify-content-between mt-4">
-          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
-            Prev
-          </button>
-          <button type="submit">Next</button>
-        </div>
-        {/* <FormSaveButton
+        <FormNextPrevButton
           loading={loading}
-          saved={saved}
-          isEdit={false}
-          carId={props.carId!}
-          disabled={props.value?.length === 0}
-        /> */}
+          disabled={loading}
+          setActiveSlide={props.setActiveSlide}
+          activeSlide={props.activeSlide}
+        />
       </form>
     </div>
   );

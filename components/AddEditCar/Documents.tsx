@@ -19,7 +19,7 @@ import {
 } from "../../graphql_types/generated/graphql";
 import { ButtonLoading } from "../Loading/ButtonLoading";
 import DocumentContent from "./DocumentContent";
-import { FormSaveButton } from "./FormSaveButton";
+import { FormNextPrevButton } from "./FormNextPrevButton";
 
 interface DocumentsProps {
   value: CarDocumentsInput;
@@ -106,17 +106,18 @@ export const Documents: FC<DocumentsProps> = (props) => {
             // Delete here
             // deleteFile({ variables: { id: toDelete.file.public_id } });
           }
-        } else if (title === "purchase_receipt") {
-          if (!tempDocuments[2]) {
-            tempDocuments[2] = newDocument;
-          } else {
-            // setToDelete(tempDocuments[2]);
-            tempToDelete = tempDocuments[2];
-            tempDocuments[2] = newDocument;
-            // Delete here
-            // deleteFile({ variables: { id: toDelete.file.public_id } });
-          }
         }
+        // else if (title === "purchase_receipt") {
+        //   if (!tempDocuments[2]) {
+        //     tempDocuments[2] = newDocument;
+        //   } else {
+        //     // setToDelete(tempDocuments[2]);
+        //     tempToDelete = tempDocuments[2];
+        //     tempDocuments[2] = newDocument;
+        //     // Delete here
+        //     // deleteFile({ variables: { id: toDelete.file.public_id } });
+        //   }
+        // }
         setDocuments({ documents: tempDocuments });
         setSecondaryLoading(true);
         const response2 = await editDocuments({
@@ -186,9 +187,10 @@ export const Documents: FC<DocumentsProps> = (props) => {
       return documents.documents[0];
     } else if (title === "logbook") {
       return documents.documents[1];
-    } else if (title === "purchase_receipt") {
-      return documents.documents[2];
     }
+    // else if (title === "purchase_receipt") {
+    //   return documents.documents[2];
+    // }
   };
 
   const handleDeleteDoc = async (
@@ -314,11 +316,10 @@ export const Documents: FC<DocumentsProps> = (props) => {
             </div>
           )}
         </div>
-        <br />
+
+        {/* <br />
         <label>Car Purchase Receipt (Optional)</label>
         <div>
-          {/* is edit and no receipt */}
-          {/* is not edit */}
           {!props.isEdit ? (
             <div className="d-flex align-items-start flex-column">
               {" "}
@@ -388,22 +389,14 @@ export const Documents: FC<DocumentsProps> = (props) => {
               )}
             </>
           )}
-        </div>
+        </div> */}
 
-        <div className="d-flex justify-content-between mt-4">
-          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
-            Prev
-          </button>
-          <button type="submit">Next</button>
-        </div>
-
-        {/* <FormSaveButton
-          loading={loading && !secondaryLoading}
-          saved={saved}
-          isEdit={props.isEdit}
-          carId={props.carId!}
-          disabled={props.value.documents.length < 2}
-        /> */}
+        <FormNextPrevButton
+          loading={loading}
+          disabled={loading}
+          setActiveSlide={props.setActiveSlide}
+          activeSlide={props.activeSlide}
+        />
       </form>
     </>
   );

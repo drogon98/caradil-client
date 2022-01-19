@@ -16,7 +16,7 @@ import {
   useUploadFileMutation,
 } from "../../graphql_types/generated/graphql";
 import { ButtonLoading } from "../Loading/ButtonLoading";
-import { FormSaveButton } from "./FormSaveButton";
+import { FormNextPrevButton } from "./FormNextPrevButton";
 import { PhotoBox } from "./PhotoBox";
 
 interface PhotosProps {
@@ -184,19 +184,12 @@ export const Photos: FC<PhotosProps> = (props) => {
             ))}
         </div>
 
-        <div className="d-flex justify-content-between mt-4">
-          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
-            Prev
-          </button>
-          <button type="submit">Next</button>
-        </div>
-        {/* <FormSaveButton
-          loading={loading && !secondaryLoading}
-          saved={saved}
-          isEdit={props.isEdit}
-          carId={props.carId!}
-          disabled={props.value.photos.length === 0}
-        /> */}
+        <FormNextPrevButton
+          loading={loading}
+          disabled={loading}
+          setActiveSlide={props.setActiveSlide}
+          activeSlide={props.activeSlide}
+        />
       </form>
     </>
   );

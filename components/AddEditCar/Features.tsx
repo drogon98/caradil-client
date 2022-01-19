@@ -13,6 +13,7 @@ import {
   CarFeaturesInput,
   useEditCarFeaturesMutation,
 } from "../../graphql_types/generated/graphql";
+import { FormNextPrevButton } from "./FormNextPrevButton";
 
 interface FeaturesProps {
   value: CarFeaturesInput;
@@ -205,12 +206,12 @@ export const Features: FC<FeaturesProps> = (props) => {
           );
         })}
 
-        <div className="d-flex justify-content-between mt-4">
-          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
-            Prev
-          </button>
-          <button type="submit">Next</button>
-        </div>
+        <FormNextPrevButton
+          loading={loading}
+          disabled={loading}
+          setActiveSlide={props.setActiveSlide}
+          activeSlide={props.activeSlide}
+        />
 
         {/* <FormSaveButton
           saved={saved}

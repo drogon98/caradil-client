@@ -13,6 +13,7 @@ import {
   CarGeneralInfoInput,
   useAddEditCarGeneralInfoMutation,
 } from "../../graphql_types/generated/graphql";
+import { FormNextPrevButton } from "./FormNextPrevButton";
 
 interface GeneralInfoProps {
   value: CarGeneralInfoInput;
@@ -182,20 +183,12 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           </div>
         </div>
 
-        <div className="d-flex justify-content-between mt-4">
-          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
-            Prev
-          </button>
-          <button type="submit">Next</button>
-        </div>
-
-        {/* <FormSaveButton
+        <FormNextPrevButton
           loading={loading}
-          saved={saved}
-          // isEdit={props.isEdit}
-          // carId={props.carId ?? 1}
-          // isGeneralInfo
-        /> */}
+          disabled={loading}
+          setActiveSlide={props.setActiveSlide}
+          activeSlide={props.activeSlide}
+        />
       </form>
     </>
   );

@@ -12,7 +12,7 @@ import {
   CarDistanceInput,
   useEditCarDistanceMutation,
 } from "../../graphql_types/generated/graphql";
-import { FormSaveButton } from "./FormSaveButton";
+import { FormNextPrevButton } from "./FormNextPrevButton";
 
 interface DistanceProps {
   value: CarDistanceInput;
@@ -184,24 +184,12 @@ export const Distance: FC<DistanceProps> = (props) => {
           </>
         )}
 
-        <div className="d-flex justify-content-between mt-4">
-          <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
-            Prev
-          </button>
-          <button type="submit">Next</button>
-        </div>
-
-        {/* <FormSaveButton
-          saved={saved}
+        <FormNextPrevButton
           loading={loading}
-          isEdit={false}
-          carId={props.carId!}
-          // disabled={
-          //   ![true, false].some(
-          //     (b) => b === values!.has_unlimited_distance
-          //   ) || values!.distance_per_day === 0
-          // }
-        /> */}
+          disabled={loading}
+          setActiveSlide={props.setActiveSlide}
+          activeSlide={props.activeSlide}
+        />
       </form>
     </div>
   );
