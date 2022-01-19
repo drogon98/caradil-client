@@ -23,6 +23,7 @@ interface AvailabilityProps {
   setActiveSlide: Dispatch<SetStateAction<number>>;
   activeSlide: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
+  manual: boolean;
 }
 
 export const Availability: FC<AvailabilityProps> = (props) => {
@@ -60,6 +61,19 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         ...values!,
         [e.target.name]: e.target.value,
       });
+    } else if (e.target.name === "driver_mode") {
+      if (e.target.value === "2") {
+        setValues({
+          ...values!,
+          manual_transmission_test: false,
+          [e.target.name]: parseInt(e.target.value, 10),
+        });
+      } else {
+        setValues({
+          ...values!,
+          [e.target.name]: parseInt(e.target.value, 10),
+        });
+      }
     } else {
       setValues({
         ...values!,
@@ -81,6 +95,8 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             available: values?.available!,
             custom_availability: values?.custom_availability!,
             custom_availability_data: values?.custom_availability_data!,
+            driver_mode: values?.driver_mode!,
+            manual_transmission_test: values?.manual_transmission_test!,
           },
         },
       });
@@ -133,6 +149,85 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         you set. Whatever Daily availability you set, we’ll apply to all your
         vehicle listings.{" "} */}
       </p>
+      <div className="mb-3">
+        <p className="mb-2">
+          This is how you want guests to drive your car. Some guests want to
+          drive the car themselves while others want to be driven. Select the
+          mode of driving for your car.
+        </p>
+        <div className="form-check mb-2">
+          <input
+            className="form-check-input"
+            type="radio"
+            name="driver_mode"
+            id="self_drive_only"
+            value={1}
+            checked={values?.driver_mode === 1}
+            onChange={handleChange}
+            // required
+          />
+          <label className="form-check-label" htmlFor="self_drive_only">
+            Self Drive Only (Guest will have to be the driver)
+          </label>
+        </div>
+        <div className="form-check mb-2">
+          <input
+            className="form-check-input"
+            type="radio"
+            name="driver_mode"
+            id="private_driver_only"
+            value={2}
+            checked={values?.driver_mode === 2}
+            onChange={handleChange}
+            // required
+          />
+          <label className="form-check-label" htmlFor="private_driver_only">
+            My Driver/Chauffeur Only ( This driver can be you)
+          </label>
+        </div>
+        <div className="form-check mb-2">
+          <input
+            className="form-check-input"
+            type="radio"
+            name="driver_mode"
+            id="both_self_drive_and_private_driver"
+            value={3}
+            checked={values?.driver_mode === 3}
+            onChange={handleChange}
+            // required
+          />
+          <label
+            className="form-check-label"
+            htmlFor="both_self_drive_and_private_driver"
+          >
+            Both Self Drive and Private Driver
+          </label>
+        </div>
+        {(values?.driver_mode === 1 || values?.driver_mode === 3) &&
+          props.manual && (
+            <div className="px-3">
+              <p className="mb-2">
+                Some drivers are not that proficient with manual cars. Check the
+                box below if you want to test the guest's gear shift skills
+                before handing them your car.
+              </p>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value={values?.manual_transmission_test ? "false" : "true"}
+                  id="provide-driver"
+                  checked={values?.manual_transmission_test}
+                  onChange={handleChange}
+                  name="manual_transmission_test"
+                />
+                <label className="form-check-label" htmlFor="provide-driver">
+                  Yes,I need to test the driver gear shift skills
+                </label>
+              </div>
+            </div>
+          )}
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="form-check mb-3">
           <input

@@ -89,6 +89,8 @@ export type CarAvailabilityInput = {
   car_has_other_use: Scalars['Boolean'];
   custom_availability: Scalars['Boolean'];
   custom_availability_data?: InputMaybe<CustomAvailabilityDataInput>;
+  driver_mode: Scalars['Float'];
+  manual_transmission_test: Scalars['Boolean'];
 };
 
 export type CarCategoriesInput = {

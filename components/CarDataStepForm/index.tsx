@@ -64,7 +64,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
     }
   }, [router.query]);
 
-  console.log("carId :>> ", carId);
+  // console.log("carId :>> ", carId);
 
   useEffect(() => {
     if (carId) {
@@ -133,6 +133,8 @@ export default function CarDataStepForm(props: Props): ReactElement {
         available: compData?.available ?? false,
         custom_availability: compData?.custom_availability ?? false,
         custom_availability_data: tempCustomAvailabilityData,
+        driver_mode: compData.driver_mode ?? 3,
+        manual_transmission_test: compData.manual_transmission_test ?? true,
       };
 
       setAvailabilityData({ ...tempAvailableData });
@@ -228,21 +230,12 @@ export default function CarDataStepForm(props: Props): ReactElement {
     setProgress(step * activeSlide);
   }, [activeSlide]);
 
-  console.log("compData :>> ", compData);
-
-  const getData = (data: any) => {
-    delete data.__typename;
-    return {
-      ...data,
-    };
-  };
-
   //   useEffect(() => {
   //     // Have compData here to determine our current step
   //     // The components should perform individual compData validation and update the compData
   //   }, [compData]);
 
-  console.log("activeSlide :>> ", activeSlide);
+  // console.log("activeSlide :>> ", activeSlide);
 
   if (mainLoading) {
     return <Loading />;
@@ -397,6 +390,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
             value={{
               ...availabilityData!,
             }}
+            manual={compData?.transmission === "manual"}
           />
         </div>
       )}
