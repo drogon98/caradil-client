@@ -152,18 +152,6 @@ export const Documents: FC<DocumentsProps> = (props) => {
     }
   };
 
-  // [
-  //   {
-  //     file: {
-  //       url: "http://res.cloudinary.com/dybij6x3m/image/upload/v1642532632/hkuskemklbgvewuks3it.png",
-  //       public_id: "hkuskemklbgvewuks3it",
-  //       secure_url:
-  //         "https://res.cloudinary.com/dybij6x3m/image/upload/v1642532632/hkuskemklbgvewuks3it.png",
-  //     },
-  //     title: "national_id",
-  //   },
-  // ];
-
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {

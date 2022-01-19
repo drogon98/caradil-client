@@ -24,6 +24,7 @@ interface RatesProps {
   setActiveSlide: Dispatch<SetStateAction<number>>;
   activeSlide: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
+  compData: Car;
 }
 
 /**
@@ -144,35 +145,35 @@ export const Rates: FC<RatesProps> = (props) => {
           </div>
         )} */}
 
-        {/* {values?.has_driver && (
+        {props.compData?.has_driver && (
           <div>
             <label htmlFor="discount_days">Driver Daily Rate</label>
             <input
               type="number"
               name="driver_daily_rate"
               className="form-control"
-              value={values.driver_daily_rate!}
+              value={values?.driver_daily_rate!}
               // required
-              // onChange={handleChange}
+              onChange={handleChange}
               placeholder="eg 200"
             />
           </div>
-        )} */}
+        )}
 
-        {/* {values?.delivery && (
+        {props.compData?.delivery && (
           <div>
             <label htmlFor="discount_days">Delivery Rate</label>
             <input
               type="number"
               name="delivery_rate"
               className="form-control"
-              value={props.value.delivery_rate!}
+              value={values?.delivery_rate!}
               // required
               // onChange={handleChange}
               placeholder="eg 200"
             />
           </div>
-        )} */}
+        )}
 
         <div className="d-flex justify-content-between mt-4">
           <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>

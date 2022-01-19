@@ -82,7 +82,7 @@ export const Features: FC<FeaturesProps> = (props) => {
       });
       if (response.data?.editCarFeatures.error) {
       } else if (response.data?.editCarFeatures.carId) {
-        // props.setCompData(response.data.editCarFeatures.car!);
+        props.setCompData(response.data.editCarFeatures.car!);
         props.setActiveSlide(props.activeSlide + 1);
       }
     } catch (error) {

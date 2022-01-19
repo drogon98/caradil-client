@@ -84,7 +84,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           "response.data.addEditCarGeneralInfo.car :>> ",
           response.data.addEditCarGeneralInfo.car
         );
-        // props.setCompData(response.data.addEditCarGeneralInfo.car!);
+        props.setCompData(response.data.addEditCarGeneralInfo.car!);
         if (!props.isResume) {
           sessionStorage.setItem(
             "carId",

@@ -45,7 +45,6 @@ fragment carInfo on Car {
   make
   location
   distance_per_day
-  # extra_distance_rate
   besties {
     id
   }
@@ -64,4 +63,5 @@ fragment carInfo on Car {
   driver_mode
   advance_book_period
   manual_transmission_test
+  charge_extra_distance_travelled
 }

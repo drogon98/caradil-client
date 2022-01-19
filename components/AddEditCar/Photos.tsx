@@ -127,7 +127,7 @@ export const Photos: FC<PhotosProps> = (props) => {
       });
       if (response?.data?.editCarPhotos.error) {
       } else if (response?.data?.editCarPhotos.carId) {
-        // props.setCompData(response.data.editCarPhotos.car!);
+        props.setCompData(response.data.editCarPhotos.car!);
         props.setActiveSlide(props.activeSlide + 1);
       }
     } catch (error) {

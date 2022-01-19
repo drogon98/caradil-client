@@ -381,6 +381,8 @@ export default function CarDataStepForm(props: Props): ReactElement {
             value={{
               has_unlimited_distance: compData?.has_unlimited_distance ?? false,
               distance_per_day: compData?.distance_per_day ?? 0,
+              charge_extra_distance_travelled:
+                compData?.charge_extra_distance_travelled ?? false,
             }}
           />
         </div>
@@ -414,13 +416,14 @@ export default function CarDataStepForm(props: Props): ReactElement {
               driver_daily_rate: compData?.driver_daily_rate ?? 0,
               hourly_rate: compData?.hourly_rate ?? 0,
             }}
+            compData={compData!}
           />
         </div>
       )}
 
       {activeSlide === 10 && (
         <div className="col-md-7 col-lg-6 mx-auto mt-5">
-          <Finish />
+          <Finish carId={carId} />
         </div>
       )}
     </div>

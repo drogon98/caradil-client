@@ -33,12 +33,21 @@ interface DistanceProps {
 export const Distance: FC<DistanceProps> = (props) => {
   const [editDistance, { loading }] = useEditCarDistanceMutation();
   const [values, setValues] = useState<CarDistanceInput>();
+  const [showExtraDistanceText, setShowExtraDistanceText] = useState(false);
 
   useEffect(() => {
-    if (props.value) {
-      setValues({ ...props.value });
+    if (values!) {
+      setValues({ ...values! });
     }
-  }, [props.value]);
+  }, [values!]);
+
+  useEffect(() => {
+    if (values?.charge_extra_distance_travelled) {
+      setShowExtraDistanceText(true);
+    } else {
+      setShowExtraDistanceText(false);
+    }
+  }, [values?.charge_extra_distance_travelled]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "has_unlimited_distance") {
@@ -46,16 +55,23 @@ export const Distance: FC<DistanceProps> = (props) => {
         setValues({
           distance_per_day: 0,
           [e.target.name]: true,
+          charge_extra_distance_travelled: false,
         });
       } else {
         setValues({
-          ...props.value,
+          ...values!,
           [e.target.name]: false,
         });
       }
+    } else if (e.target.name === "charge_extra_distance_travelled") {
+      setValues({
+        ...values!,
+        charge_extra_distance_travelled:
+          e.target.value === "true" ? true : false,
+      });
     } else {
       setValues({
-        ...props.value,
+        ...values!,
         [e.target.name]: parseInt(e.target.value.trim()),
       });
     }
@@ -69,7 +85,7 @@ export const Distance: FC<DistanceProps> = (props) => {
       let response = await editDistance({
         variables: {
           carId: props.carId!,
-          input: { ...props.value },
+          input: { ...values! },
         },
       });
 
@@ -94,7 +110,7 @@ export const Distance: FC<DistanceProps> = (props) => {
     }
   };
 
-  // console.log("props.value :>> ", props.value);
+  // console.log("values! :>> ", values!);
 
   return (
     <div>
@@ -136,6 +152,39 @@ export const Distance: FC<DistanceProps> = (props) => {
           />
         </div>
 
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="charge_extra_distance_travelled"
+            value={values?.charge_extra_distance_travelled ? "false" : "true"}
+            id="charge_extra_distance_travelled_input"
+            checked={values?.charge_extra_distance_travelled}
+            onChange={handleChange}
+            disabled={values?.has_unlimited_distance}
+            // required
+          />
+          <label
+            className="form-check-label"
+            htmlFor="charge_extra_distance_travelled_input"
+          >
+            I want to charge a fee for extra distance travelled
+          </label>
+        </div>
+        {showExtraDistanceText && (
+          <>
+            <p className="my-3">
+              This is how we calculate this fee. If your daily rate is ksh.3000
+              and you have a distance per day of 100km, then the extra distance
+              fee is <b>3000/100 = Ksh. 30</b> per km. This fee will be made
+              known to the guest to be aware of it on booking. On returning the
+              vehicle, you and the guest will determine if there was extra
+              distance travelled. We are not part of this transaction. Its
+              between you and the guest.
+            </p>
+          </>
+        )}
+
         <div className="d-flex justify-content-between mt-4">
           <button onClick={() => props.setActiveSlide(props.activeSlide - 1)}>
             Prev
@@ -150,8 +199,8 @@ export const Distance: FC<DistanceProps> = (props) => {
           carId={props.carId!}
           // disabled={
           //   ![true, false].some(
-          //     (b) => b === props.value.has_unlimited_distance
-          //   ) || props.value.distance_per_day === 0
+          //     (b) => b === values!.has_unlimited_distance
+          //   ) || values!.distance_per_day === 0
           // }
         /> */}
       </form>

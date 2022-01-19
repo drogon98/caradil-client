@@ -150,7 +150,7 @@ export const Categories: FC<CategoryProps> = (props) => {
           <>
             <p className="mt-5">
               You selected vip and luxury. Which other luxury services do you
-              offer below
+              offer?
             </p>
             {carVipAndLuxuryServices.map((service, idx) => {
               const isSelected = values?.categories?.find(
@@ -164,7 +164,7 @@ export const Categories: FC<CategoryProps> = (props) => {
                     value={service}
                     checked={isSelected ? true : false}
                     id="flexCheckDefault"
-                    onChange={handleChange}
+                    onChange={handleLuxuryVipChange}
                   />
                   <label
                     className="form-check-label"

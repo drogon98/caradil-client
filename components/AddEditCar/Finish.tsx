@@ -1,9 +1,31 @@
-import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
+import { useEditCarVerificationInProgressMutation } from "../../graphql_types/generated/graphql";
+import { ButtonLoading } from "../Loading/ButtonLoading";
 
-interface Props {}
+interface Props {
+  carId: number | undefined;
+}
 
 export default function Finish(props: Props): ReactElement {
+  const [editCarVerificationInProgress, { loading }] =
+    useEditCarVerificationInProgressMutation();
+  const router = useRouter();
+  // / account / listings;
+
+  const handleClick = async (e: any) => {
+    try {
+      const response = await editCarVerificationInProgress({
+        variables: { carId: props.carId! },
+      });
+
+      if (response.data?.editCarVerificationInProgress) {
+        router.replace("/account/listings");
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
   return (
     <div>
       <h3 className="text-success">Yey!!!!!</h3>
@@ -19,9 +41,20 @@ export default function Finish(props: Props): ReactElement {
       </div>
 
       <div className="d-grid gap-2 mt-4">
-        <Link href="/account/listings">
-          <a className="btn bgOrange">Manage My Listings</a>
-        </Link>
+        <button
+          className="btn bgOrange"
+          disabled={loading}
+          onClick={handleClick}
+        >
+          {loading ? (
+            <ButtonLoading
+              spinnerColor="white"
+              dimensions={{ height: "24px", width: "24px" }}
+            />
+          ) : (
+            "Manage My Listings"
+          )}
+        </button>
       </div>
     </div>
   );
