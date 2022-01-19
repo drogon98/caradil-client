@@ -95,7 +95,7 @@ export const time24hrs = [
   "23:30",
 ];
 
-export const features = [
+export const carFeatures = [
   "Bluetooth",
   "USB Charger",
   "USB Input",

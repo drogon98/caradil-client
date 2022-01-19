@@ -40,6 +40,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
   const [documentsData, setDocumentsData] = useState<DocumentInput[]>();
   const [availabilityData, setAvailabilityData] =
     useState<CarAvailabilityInput>();
+  const [featuresData, setFeaturesData] = useState<FeatureInput[]>();
 
   const { data, loading } = useGetPrivateCarQuery({
     variables: { carId: carId! },
@@ -145,6 +146,18 @@ export default function CarDataStepForm(props: Props): ReactElement {
   }, [compData]);
 
   useEffect(() => {
+    if (compData?.features) {
+      let tempFeatures = compData?.features?.map((ft) => {
+        return { title: ft.title };
+      });
+
+      setFeaturesData([...(tempFeatures as FeatureInput[])]);
+    } else {
+      setFeaturesData([]);
+    }
+  }, [compData]);
+
+  useEffect(() => {
     const checkProgress = (initialData: Car) => {
       if (!initialData?.name) {
         console.log("x");
@@ -237,6 +250,8 @@ export default function CarDataStepForm(props: Props): ReactElement {
 
   // console.log("activeSlide :>> ", activeSlide);
 
+  // console.log("compData :>> ", compData);
+
   if (mainLoading) {
     return <Loading />;
   }
@@ -286,7 +301,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
               color: compData?.color ?? "",
               doors: compData?.doors ?? 0,
               seats: compData?.seats ?? 0,
-              features: (compData?.features as FeatureInput[]) ?? [],
+              features: featuresData ?? [],
             }}
           />
         </div>

@@ -35,11 +35,14 @@ export const Distance: FC<DistanceProps> = (props) => {
   const [values, setValues] = useState<CarDistanceInput>();
   const [showExtraDistanceText, setShowExtraDistanceText] = useState(false);
 
+  // console.log("props.value :>> ", props.value);
+  // console.log("values :>> ", values);
+
   useEffect(() => {
-    if (values!) {
-      setValues({ ...values! });
+    if (props.value) {
+      setValues({ ...props.value! });
     }
-  }, [values!]);
+  }, [props.value]);
 
   useEffect(() => {
     if (values?.charge_extra_distance_travelled) {
@@ -93,11 +96,6 @@ export const Distance: FC<DistanceProps> = (props) => {
       } else if (response.data?.editCarDistance.carId) {
         props.setCompData(response.data.editCarDistance.car!);
         props.setActiveSlide(props.activeSlide + 1);
-        // props.setResponseCar(response.data.editCarDistance.car!);
-        // setSaved(true);
-        // setTimeout(() => {
-        //   setSaved(false);
-        // }, 3000);
       }
     } catch (error) {
       let errorMessage = "";
@@ -114,6 +112,7 @@ export const Distance: FC<DistanceProps> = (props) => {
 
   return (
     <div>
+      <h3>Distance</h3>
       <p className="mb-2">
         This is the distance your car should cover in one day of a trip.
       </p>

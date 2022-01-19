@@ -15,10 +15,11 @@ interface Props {
 }
 
 export default function SharedSections(props: Props): ReactElement {
-  console.log("props.car :>> ", props.car);
+  // console.log("props.car :>> ", props.car);
   const token = useAppSelector((state) => state.auth._id);
-  const router = useRouter();
   const [extraDistRate, setExtraDisRate] = useState(0);
+
+  // console.log("extraDistRate :>> ", extraDistRate);
 
   useEffect(() => {
     if (props.car.distance_per_day && props.car?.daily_rate) {

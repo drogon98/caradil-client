@@ -80,6 +80,7 @@ export const Rates: FC<RatesProps> = (props) => {
   };
   return (
     <div>
+      <h3>Rates</h3>
       <form onSubmit={handleSubmit}>
         {/* <div>
           <label htmlFor="mileage">Hourly Rate</label>
@@ -169,7 +170,7 @@ export const Rates: FC<RatesProps> = (props) => {
               className="form-control"
               value={values?.delivery_rate!}
               // required
-              // onChange={handleChange}
+              onChange={handleChange}
               placeholder="eg 200"
             />
           </div>

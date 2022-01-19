@@ -84,6 +84,7 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
   };
   return (
     <div>
+      <h3>Location</h3>
       <p className="mb-2">
         This is the location of your car. If guests search for cars that match
         this location,it will appear in their search .

@@ -72,6 +72,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         setValues({
           ...values!,
           [e.target.name]: parseInt(e.target.value, 10),
+          manual_transmission_test: true,
         });
       }
     } else {
@@ -141,6 +142,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
 
   return (
     <div>
+      <h3>Availability</h3>
       <p>
         {/* When you list your car, we will automatically set your Daily availability
         to “I’m always available.” You can change your Daily availability at any

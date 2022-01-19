@@ -20,7 +20,8 @@ export default function Finish(props: Props): ReactElement {
       });
 
       if (response.data?.editCarVerificationInProgress) {
-        router.replace("/account/listings");
+        sessionStorage.removeItem("carId");
+        await router.replace("/account/listings");
       }
     } catch (error) {
       console.log("error :>> ", error);

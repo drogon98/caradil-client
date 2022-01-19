@@ -145,6 +145,7 @@ export const Photos: FC<PhotosProps> = (props) => {
 
   return (
     <>
+      <h3>Photos</h3>
       <p className="mb-3">
         We prefer <b>5+</b> photos. Ensure these photos are clear and your car
         is the main subject.

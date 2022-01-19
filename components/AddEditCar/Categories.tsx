@@ -120,6 +120,7 @@ export const Categories: FC<CategoryProps> = (props) => {
   // console.log("props.value :>> ", props.value);
   return (
     <div>
+      <h3>Categories</h3>
       <p className="mb-3">
         Select categories within which your car belong. Your car can belong to
         many categories. eg A subaru forester can belong to sports and 4wd

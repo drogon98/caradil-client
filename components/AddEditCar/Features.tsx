@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { carColors, features } from "../../data";
+import { carColors, carFeatures } from "../../data";
 import {
   Car,
   CarFeaturesInput,
@@ -184,7 +184,7 @@ export const Features: FC<FeaturesProps> = (props) => {
           </div>
         </div>
 
-        {features.map((feature, idx) => {
+        {carFeatures.map((feature, idx) => {
           const isSelected = values?.features?.find(
             (feat) => feat.title === feature
           );

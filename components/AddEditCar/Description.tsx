@@ -117,6 +117,7 @@ export const Description: FC<DescriptionProps> = (props) => {
 
   return (
     <>
+      <h3>Description</h3>
       <p className="mb-2">
         Describe your car in <b>100+</b> words. This is a chance to make a great
         impression to clients who will rent it. Ensure you space your content to

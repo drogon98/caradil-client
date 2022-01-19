@@ -230,6 +230,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
 
   return (
     <>
+      <h3>Documents</h3>
       <p className="mb-3">
         These documents will help us verify this car is yours. Ensure they are
         clear and original copies. Otherwise, your car will be rejected.
