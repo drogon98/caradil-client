@@ -21,14 +21,19 @@ export const PopularCars: FC<IProps> = (props) => {
   }, [data, loading]);
 
   return (
-    <div className="customContainer my-5">
-      <p className="text-center">Available Cars</p>
-      {/* <p className="text-center">Popular cars right now</p> */}
-      <h3 className="text-center">Explore the Top Cars</h3>
-      {/* <p className="mb-4 text-center">
-        We have various car classes. Search and select your perfect fit on our
-        app.
-      </p> */}
+    <div className="page-section customContainer">
+      <div className="text-center">
+        <small className="text-uppercase section-heading-top-heading">
+          Available Cars
+        </small>
+      </div>
+      <div className="d-flex justify-content-center">
+        <div className="section-heading-hr" />
+      </div>
+      <div className="text-center">
+        <h2 className="mb-5">Explore the Top Cars</h2>
+      </div>
+
       <div className={`${mainLoading && `popular-cars`}`}>
         {mainLoading ? (
           <FlexibleLoader />

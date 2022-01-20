@@ -27,9 +27,6 @@ export const BrowseByMake: FC<IProps> = (props) => {
 
   const { width } = useWindowDimensions();
 
-  // console.log("width :>> ", width);
-
-  // console.log("makes :>> ", makes);
   const settings = {
     // dots: true,
     autoplay: width <= 600 ? true : false,
@@ -65,16 +62,19 @@ export const BrowseByMake: FC<IProps> = (props) => {
 
   // console.log("makes :>> ", makes);
   return (
-    <div className="customContainer my-5">
-      {/* <Icon icon="eva:arrow-ios-forward-outline" /> */}
-      <p className="text-center">Choose your best ride</p>
-      <h3 className="text-center">Browse by make</h3>
-      <p className="mb-4 text-center">
-        We have various car makes. Search and select your perfect fit on our
-        app.
-      </p>
-      {/* <MyCarousel slidesContent={data} /> */}
-      {/* <div style={{ width: "80%", margin: "auto" }}> */}
+    <div className="page-section customContainer">
+      <div className="text-center">
+        <p className="text-uppercase section-heading-top-heading">
+          Choose your best ride
+        </p>
+      </div>
+      <div className="d-flex justify-content-center">
+        <div className="section-heading-hr" />
+      </div>
+      <div className="text-center">
+        <h2 className="mb-5">Browse by make</h2>
+      </div>
+
       <div className="makes-slider">
         {loading ? (
           <FlexibleLoader />
