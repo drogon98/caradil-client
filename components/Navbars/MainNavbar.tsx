@@ -34,7 +34,7 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
       }
       // className="mainNavbar bgWhite shadow"
     >
-      <div className="customContainer d-flex py-2">
+      <div className="customContainer d-flex py-2 my-auto">
         <div className="brand">
           <Link href="/">
             <a>
