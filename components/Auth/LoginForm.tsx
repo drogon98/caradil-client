@@ -86,6 +86,9 @@ export default function LoginForm(props: Props): ReactElement {
         errorMessage = error.message;
       }
 
+      if (errorMessage.includes("missing query")) {
+        await router.push("/");
+      }
       console.log("error :>> ", error);
       setError("Network Error!");
       setMainLoading(false);

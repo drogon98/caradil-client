@@ -19,11 +19,19 @@ export const tokenRefreshLink = new ApolloLink((operation, forward) => {
           fetch(`${baseUrl}refresh-token`, {
             method: "POST",
             credentials: "include",
-          }).then(async (res) => {
-            const data = await res.json();
-            let token = data.access_token;
-            store.dispatch(setToken(token));
-          });
+          })
+            .then(async (res) => {
+              const data = await res.json();
+              let token = data.access_token;
+              if (token) {
+                store.dispatch(setToken(token));
+              } else {
+                throw new Error("Invalid token from graphql operation!");
+              }
+            })
+            .catch((err) => {
+              console.log(`err`, err);
+            });
         }
       }
     } catch (error) {
