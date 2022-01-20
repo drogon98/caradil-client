@@ -30,8 +30,8 @@ interface GeneralInfoProps {
 export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
   const [addEditCarGeneralInfo, { loading }] =
     useAddEditCarGeneralInfoMutation();
-  // const [saved, setSaved] = useState(false);
   const [isValid, setIsValid] = useState(false);
+  const [invalidOdoReading, setInvalidOdReading] = useState(false);
 
   const [values, setValues] = useState<CarGeneralInfoInput>();
 
@@ -63,6 +63,11 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (values?.odometer_reading === 0) {
+      setInvalidOdReading(true);
+      return;
+    }
 
     try {
       let response = await addEditCarGeneralInfo({
@@ -101,6 +106,12 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
     }
   };
 
+  const handleFocus = () => {
+    if (invalidOdoReading) {
+      setInvalidOdReading(false);
+    }
+  };
+
   return (
     <>
       <h4>General Info</h4>
@@ -114,6 +125,11 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           handleSubmit(e);
         }}
       >
+        {invalidOdoReading && (
+          <small className="text-danger">
+            Odometer reading must be a value greater than 0!
+          </small>
+        )}
         <div className="row">
           <div className="col">
             <label htmlFor="name">Name</label>
@@ -173,6 +189,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               required
               onChange={handleChange}
               placeholder="eg 80000"
+              min={0}
+              onFocus={handleFocus}
               // disabled={props.isEdit}
             />
           </div>

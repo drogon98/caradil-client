@@ -27,8 +27,9 @@ interface FeaturesProps {
 
 export const Features: FC<FeaturesProps> = (props) => {
   const [editFeatures, { loading, error }] = useEditCarFeaturesMutation();
-
   const [values, setValues] = useState<CarFeaturesInput>();
+  const [invalidSeats, setInvalidSeats] = useState(false);
+  const [invalidDoors, setInvalidDoors] = useState(false);
 
   useEffect(() => {
     setValues({
@@ -69,6 +70,16 @@ export const Features: FC<FeaturesProps> = (props) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (parseInt(values?.doors as unknown as string, 10) === 0) {
+      setInvalidDoors(true);
+      return;
+    }
+
+    if (parseInt(values?.seats as unknown as string, 10) === 0) {
+      setInvalidSeats(true);
+      return;
+    }
+
     const payload = {
       transmission: values?.transmission!,
       gas: values?.gas!,
@@ -101,13 +112,29 @@ export const Features: FC<FeaturesProps> = (props) => {
     // console.log("response :>> ", response);
   };
 
-  console.log("values :>> ", values);
+  const handleFocus = () => {
+    if (invalidDoors || invalidSeats) {
+      setInvalidDoors(false);
+      setInvalidSeats(false);
+    }
+  };
 
   return (
     <div>
       {" "}
       <h3>Features</h3>
+      <p className="mb-3">Add features of your car below</p>
       <form onSubmit={handleSubmit}>
+        {invalidDoors && (
+          <small className="text-danger">
+            Doors must be a value greater than 0!
+          </small>
+        )}
+        {invalidSeats && (
+          <small className="text-danger">
+            Seats must be a value greater than 0!
+          </small>
+        )}
         <div className="row">
           <div className="col">
             <label htmlFor="gas">Gas</label>
@@ -169,6 +196,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               required
               onChange={handleChange}
               min={0}
+              onFocus={handleFocus}
               // placeholder="eg KBA765K"
             />
           </div>
@@ -184,31 +212,34 @@ export const Features: FC<FeaturesProps> = (props) => {
               required
               onChange={handleChange}
               min={0}
+              onFocus={handleFocus}
               // placeholder="eg KBA765K"
             />
           </div>
         </div>
 
-        {carFeatures.map((feature, idx) => {
-          const isSelected = values?.features?.find(
-            (feat) => feat.title === feature
-          );
-          return (
-            <div className="form-check" key={idx}>
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value={feature}
-                checked={isSelected ? true : false}
-                id="flexCheckDefault"
-                onChange={handleFeatureChange}
-              />
-              <label className="form-check-label" htmlFor="flexCheckDefault">
-                {feature}
-              </label>
-            </div>
-          );
-        })}
+        <div className="mt-3">
+          {carFeatures.map((feature, idx) => {
+            const isSelected = values?.features?.find(
+              (feat) => feat.title === feature
+            );
+            return (
+              <div className="form-check" key={idx}>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value={feature}
+                  checked={isSelected ? true : false}
+                  id="flexCheckDefault"
+                  onChange={handleFeatureChange}
+                />
+                <label className="form-check-label" htmlFor="flexCheckDefault">
+                  {feature}
+                </label>
+              </div>
+            );
+          })}
+        </div>
 
         {props.isManage ? (
           <UpdateBtn loading={loading} />

@@ -2,11 +2,6 @@ import React, { FC, SyntheticEvent, useState } from "react";
 
 interface ReadMoreProps {}
 
-/**
- * @author @CodeYourEmpire
- * @function @ReadMore
- **/
-
 export const ReadMore: FC<ReadMoreProps> = (props) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 

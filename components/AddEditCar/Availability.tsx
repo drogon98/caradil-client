@@ -26,6 +26,7 @@ interface AvailabilityProps {
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   manual: boolean;
   isManage?: boolean;
+  booked?: boolean;
 }
 
 export const Availability: FC<AvailabilityProps> = (props) => {
@@ -157,7 +158,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         <p className="mb-2">
           This is how you want guests to drive your car. Some guests want to
           drive the car themselves while others want to be driven. Select the
-          mode of driving for your car.
+          preferred mode of driving for your car.
         </p>
         <div className="form-check mb-2">
           <input
@@ -278,9 +279,9 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             // required
           />
           <label className="form-check-label" htmlFor="mySwitch">
-            {/* {props.booked
+            {props.booked
               ? "This car is booked. It's hence unavailable."
-              : "This car is available now"} */}
+              : "This car is available now"}
           </label>
         </div>
         <p>

@@ -177,11 +177,16 @@ export const Categories: FC<CategoryProps> = (props) => {
         )}
 
         {props.isManage ? (
-          <UpdateBtn loading={loading} />
+          <UpdateBtn
+            loading={loading}
+            disabled={values?.categories && values?.categories.length < 1}
+          />
         ) : (
           <FormNextPrevButton
             loading={loading}
-            disabled={loading}
+            disabled={
+              loading || (values?.categories && values?.categories.length < 1)
+            }
             setActiveSlide={props.setActiveSlide!}
             activeSlide={props.activeSlide!}
           />

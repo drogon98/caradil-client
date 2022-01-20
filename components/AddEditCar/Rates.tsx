@@ -37,6 +37,13 @@ interface RatesProps {
 export const Rates: FC<RatesProps> = (props) => {
   const [editRates, { loading }] = useEditCarRatesMutation();
   const [values, setValues] = useState<CarRatesInput>();
+  const [invalidDailyRate, setInvalidDailyRate] = useState(false);
+
+  const handleFocus = () => {
+    if (invalidDailyRate) {
+      setInvalidDailyRate(false);
+    }
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "discount") {
@@ -60,6 +67,10 @@ export const Rates: FC<RatesProps> = (props) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (values?.daily_rate === 0) {
+      setInvalidDailyRate(true);
+      return;
+    }
     try {
       let response = await editRates({
         variables: { carId: props.carId!, input: values! },
@@ -84,7 +95,17 @@ export const Rates: FC<RatesProps> = (props) => {
   return (
     <div>
       <h3>Rates</h3>
+      <p className="mb-2">
+        You are here to make money. Set your rates below. You can edit them
+        based on market and your preference.
+      </p>
       <form onSubmit={handleSubmit}>
+        {invalidDailyRate && (
+          <small className="text-danger">
+            Daily rate should be a value greater than zero!
+          </small>
+        )}
+
         {/* <div>
           <label htmlFor="mileage">Hourly Rate</label>
           <input
@@ -97,8 +118,11 @@ export const Rates: FC<RatesProps> = (props) => {
             placeholder="eg John Doe"
           />
         </div> */}
-        <div>
+        <div className="mb-4">
           <label htmlFor="mileage">Daily Rate</label>
+          <div>
+            <small>This is amount guest will pay for your car in a day</small>
+          </div>
           <input
             type="number"
             name="daily_rate"
@@ -106,11 +130,19 @@ export const Rates: FC<RatesProps> = (props) => {
             value={values?.daily_rate}
             required
             onChange={handleChange}
-            placeholder="eg John Doe"
+            min={0}
+            // placeholder="eg John Doe"
+            onFocus={handleFocus}
           />
         </div>
-        <div>
-          <label htmlFor="discount">Discount</label>
+        <div className="mb-4">
+          <label htmlFor="discount">Discount (Optional)</label>
+          <div>
+            <small>
+              You may want to give discount to your guests based on various
+              things. eg. No. of days they rent your car
+            </small>
+          </div>
           <input
             type="text"
             name="discount"
@@ -118,12 +150,19 @@ export const Rates: FC<RatesProps> = (props) => {
             value={values?.discount!}
             // required
             onChange={handleChange}
-            placeholder="eg John Doe"
+            placeholder="eg 2"
             id="discount"
           />
         </div>
-        <div>
-          <label htmlFor="discount_days">Discount Days</label>
+        <div className="mb-4">
+          <label htmlFor="discount_days">Discount Days (Optional)</label>
+          <div>
+            <small>
+              Add the minimum number of days which you will give the guest
+              discount above. eg 7 days. This means that if a guest rents your
+              car for 7+ days, the discount above will be applied.
+            </small>
+          </div>
           <input
             type="number"
             name="discount_days"
@@ -131,7 +170,7 @@ export const Rates: FC<RatesProps> = (props) => {
             value={values?.discount_days!}
             // required
             onChange={handleChange}
-            placeholder="eg 200"
+            // placeholder="eg 200"
           />
         </div>
         {/* {values?.has_unlimited_distance === false && (
@@ -150,31 +189,45 @@ export const Rates: FC<RatesProps> = (props) => {
         )} */}
 
         {props.compData?.has_driver && (
-          <div>
+          <div className="mb-4">
             <label htmlFor="discount_days">Driver Daily Rate</label>
+            <div>
+              <small>
+                You selected that you will provide a driver if a guest requires
+                one. Add the rate for the driver below.
+                <b>Note: This rate is daily.</b>
+              </small>
+            </div>
             <input
               type="number"
               name="driver_daily_rate"
               className="form-control"
               value={values?.driver_daily_rate!}
-              // required
+              required
               onChange={handleChange}
-              placeholder="eg 200"
+              // placeholder="eg 200"
             />
           </div>
         )}
 
         {props.compData?.delivery && (
-          <div>
+          <div className="mb-4">
             <label htmlFor="discount_days">Delivery Rate</label>
+            <div>
+              <small>
+                You selected that you will provide delivery if a guest requires
+                the car in a specific location. Add the rate for the delivery
+                below.
+              </small>
+            </div>
             <input
               type="number"
               name="delivery_rate"
               className="form-control"
               value={values?.delivery_rate!}
-              // required
+              required
               onChange={handleChange}
-              placeholder="eg 200"
+              // placeholder="eg 200"
             />
           </div>
         )}

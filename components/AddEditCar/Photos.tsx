@@ -148,10 +148,23 @@ export const Photos: FC<PhotosProps> = (props) => {
   return (
     <>
       <h3>Photos</h3>
-      <p className="mb-3">
-        We prefer <b>5+</b> photos. Ensure these photos are clear and your car
-        is the main subject.
+      <p className="mb-1">
+        <small>
+          {" "}
+          We prefer <b>5 photos minimum</b>. Photos of your car from all 4 views
+          and one inner view are enough. However, you can have as many photos as
+          possible.. Ensure these photos are clear and your car is the only
+          subject. Photos play an important role for the guests to make a
+          decision. <b>Make your car standout</b>.
+        </small>
       </p>
+
+      <div className="mb-3">
+        <small>
+          <b>Note:These photos should be real and exactly your car.</b>
+        </small>
+      </div>
+
       <form
         onSubmit={(e) => {
           handleSubmit(e);
@@ -187,11 +200,17 @@ export const Photos: FC<PhotosProps> = (props) => {
         </div>
 
         {props.isManage ? (
-          <UpdateBtn loading={loading && !secondaryLoading} />
+          <UpdateBtn
+            loading={loading && !secondaryLoading}
+            disabled={values?.photos && values?.photos?.length < 5}
+          />
         ) : (
           <FormNextPrevButton
             loading={loading && !secondaryLoading}
-            disabled={loading && !secondaryLoading}
+            disabled={
+              (loading && !secondaryLoading) ||
+              (values?.photos && values?.photos?.length < 5)
+            }
             setActiveSlide={props.setActiveSlide!}
             activeSlide={props.activeSlide!}
           />

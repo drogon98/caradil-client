@@ -33,6 +33,8 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
     useEditCarLocationAndDeliveryMutation();
   const [values, setValues] = useState<CarLocationAndDeliveryInput>();
 
+  console.log("props.value :>> ", props.value);
+
   useEffect(() => {
     if (props.value) {
       setValues({
@@ -59,8 +61,12 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      const payload = {
+        ...values!,
+        delivery: values!.delivery === undefined ? false : values!.delivery,
+      };
       let response = await editLocationAndDelivery({
-        variables: { carId: props.carId!, input: { ...values! } },
+        variables: { carId: props.carId!, input: { ...payload! } },
       });
       if (response.data?.editCarLocationAndDelivery.error) {
       } else if (response.data?.editCarLocationAndDelivery.carId) {
@@ -95,9 +101,10 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
             inputRef={inputRef}
             name="location"
             value={values?.location!}
+            required={true}
           />
         </div>
-        <div className="form-check">
+        <div className="form-check mt-3">
           <input
             className="form-check-input"
             type="checkbox"
@@ -106,6 +113,7 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
             checked={values?.delivery}
             name="delivery"
             onChange={handleChange}
+            // required
           />
           <label className="form-check-label" htmlFor="provide-delivery">
             I will deliver car to requested location

@@ -121,7 +121,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
   }, [compData]);
 
   useEffect(() => {
-    if (compData?.available) {
+    if (compData?.id) {
       const tempCustomAvailabilityData = {
         startDate: compData?.custom_availability_data?.startDate,
         startTime: compData?.custom_availability_data?.startTime,
@@ -177,7 +177,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
         return;
       }
 
-      if (initialData?.photos?.length === 0) {
+      if (initialData?.photos && initialData?.photos.length < 5) {
         console.log("q");
         setActiveSlide(3);
         return;

@@ -4,11 +4,6 @@ interface ComingSoonProps {
   title: string;
 }
 
-/**
- * @author @CodeYourEmpire
- * @function @ComingSoon
- **/
-
 export const ComingSoon: FC<ComingSoonProps> = (props) => {
   return (
     <div

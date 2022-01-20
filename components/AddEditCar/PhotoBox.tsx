@@ -8,11 +8,6 @@ interface PhotoBoxProps {
   carVerified?: boolean;
 }
 
-/**
- * @author @CodeYourEmpire
- * @function @PhotoBox
- **/
-
 export const PhotoBox: FC<PhotoBoxProps> = (props) => {
   const handleClick = (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -25,7 +20,7 @@ export const PhotoBox: FC<PhotoBoxProps> = (props) => {
           props.photo.secure_url ? props.photo.secure_url : "/images/lambo.jpg"
         }
         width="100%"
-        height="250px"
+        height="200px"
         style={{ objectFit: "cover" }}
       />
       {!props.carVerified && (

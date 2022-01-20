@@ -394,11 +394,16 @@ export const Documents: FC<DocumentsProps> = (props) => {
         </div> */}
 
         {props.isManage ? (
-          <UpdateBtn loading={loading && !secondaryLoading} />
+          <UpdateBtn
+            loading={loading && !secondaryLoading}
+            disabled={documents.documents.length < 2}
+          />
         ) : (
           <FormNextPrevButton
             loading={loading && !secondaryLoading}
-            disabled={loading && !secondaryLoading}
+            disabled={
+              (loading && !secondaryLoading) || documents.documents.length < 2
+            }
             setActiveSlide={props.setActiveSlide!}
             activeSlide={props.activeSlide!}
           />

@@ -134,7 +134,7 @@ export const Distance: FC<DistanceProps> = (props) => {
             className="form-check-label"
             htmlFor="has_unlimited_distance_input"
           >
-            Unlimited Distance
+            Unlimited Distance (Guest can travel any distance.)
           </label>
         </div>
         <div>

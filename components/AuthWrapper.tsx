@@ -5,11 +5,6 @@ import { useAppSelector } from "../redux/hooks";
 
 interface AuthWrapperProps {}
 
-/**
- * @author @CodeYourEmpire
- * @function @AuthWrapper
- **/
-
 //  const res = await fetch(`${baseUrl}validate-user`, {
 //   // method: 'POST', // *GET, POST, PUT, DELETE, etc.
 //   // mode: 'cors', // no-cors, *cors, same-origin

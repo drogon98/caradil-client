@@ -140,7 +140,7 @@ export default function ManageCar(props: Props): ReactElement {
   }, [carData]);
 
   useEffect(() => {
-    if (carData?.available) {
+    if (carData?.id) {
       const tempCustomAvailabilityData = {
         startDate: carData?.custom_availability_data?.startDate,
         startTime: carData?.custom_availability_data?.startTime,
@@ -331,6 +331,7 @@ export default function ManageCar(props: Props): ReactElement {
                       ...availabilityData!,
                     }}
                     manual={carData?.transmission === "manual"}
+                    booked={carData?.booked!}
                   />
                 )}
 

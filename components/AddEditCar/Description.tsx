@@ -44,8 +44,8 @@ const modules = {
       { indent: "-1" },
       { indent: "+1" },
     ],
-    ["link", "image", "video"],
-    ["clean"],
+    // ["link", "image", "video"],
+    // ["clean"],
   ],
   clipboard: {
     // toggle to add extra line breaks when pasting HTML:
@@ -65,9 +65,9 @@ const formats = [
   "list",
   "bullet",
   "indent",
-  "link",
-  "image",
-  "video",
+  // "link",
+  // "image",
+  // "video",
 ];
 
 export const Description: FC<DescriptionProps> = (props) => {
@@ -111,14 +111,49 @@ export const Description: FC<DescriptionProps> = (props) => {
     setValue(value);
   };
 
+  // console.log("value :>> ", value);
+
   return (
     <>
       <h3>Description</h3>
       <p className="mb-2">
-        Describe your car in <b>100+</b> words. This is a chance to make a great
-        impression to clients who will rent it. Ensure you space your content to
-        make it readable to the guests.
+        Describe your car below. This is a chance to make a great impression to
+        guests who will rent it. Here are tips to help you have a catchy
+        description.
       </p>
+      <ul>
+        <li>
+          <small>Explain why your car is the best.</small>
+        </li>
+        <li>
+          <small>
+            State what your guest should expect on getting this car.
+          </small>
+        </li>
+        <li>
+          <small>
+            State whether you are available for help to the quest in case eny
+            help is needed.
+          </small>
+        </li>
+        <li>
+          <small>
+            List your requirements on how this car should be handled eg. No
+            smoking,no pets,cleanliness measures,fueling requirements etc.
+          </small>
+        </li>
+
+        {/* <li><small></small></li> */}
+      </ul>
+      <div className="mb-2">
+        <small>
+          <b>
+            {" "}
+            Use the editor below to add the description. Make it spacious and
+            readable by using bullets and block headings.
+          </b>{" "}
+        </small>
+      </div>
       <ReactQuill
         value={value}
         // name="description"
@@ -133,7 +168,7 @@ export const Description: FC<DescriptionProps> = (props) => {
           <button
             type="submit"
             className="btn bgOrange"
-            disabled={loading}
+            disabled={loading || !value}
             onClick={handleSaveDescription}
           >
             {loading ? (
@@ -162,7 +197,7 @@ export const Description: FC<DescriptionProps> = (props) => {
           <button
             className="btn bgOrange"
             type="submit"
-            disabled={loading}
+            disabled={loading || !value}
             onClick={handleSaveDescription}
           >
             {loading ? (
