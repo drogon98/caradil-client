@@ -1,5 +1,8 @@
 import React, { FC } from "react";
 import { Icon } from "@iconify/react";
+import { AiOutlineProfile } from "react-icons/ai";
+import { CgProfile } from "react-icons/cg";
+import { MdOutlineManageSearch, MdPlaylistAddCheck } from "react-icons/md";
 
 interface IProps {}
 
@@ -10,87 +13,56 @@ interface IProps {}
 
 export const HowItWorks: FC<IProps> = (props) => {
   return (
-    <div className="customContainer my-5">
-      <p className="text-center mb-2">How it works?</p>
-      <h3 className="text-center mb-4">
-        Its Easy to Create a Caradil Business Account
-      </h3>
+    <div className="page-section customContainer">
+      <div className="text-center">
+        <small className="text-uppercase section-heading-top-heading">
+          How it works?
+        </small>
+      </div>
+      <div className="d-flex justify-content-center">
+        <div className="section-heading-hr" />
+      </div>
+      <div className="text-center">
+        <h2 className="mb-5">Its Easy to Create a Host Business Account</h2>
+      </div>
+      <div className="row m-0">
+        <div className="col-md-4 how-it-works-box">
+          <div className="d-flex justify-content-center">
+            <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
+              <CgProfile className="how-it-works-icon" />
+            </div>
+          </div>
+          <h4 className="mt-4 text-center">Create Host Profile</h4>
+          <p className="mt-4 text-center">
+            Its simple to create a host profile. All you need is your profile
+            photo,your names and phone number.
+          </p>
+        </div>
+        <div className="col-md-4 how-it-works-box">
+          <div className="d-flex justify-content-center">
+            <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
+              <MdPlaylistAddCheck className="how-it-works-icon" />
+            </div>
+          </div>
 
-      <div className="row">
-        <div className="col-lg-4 p-2">
-          <div className="d-flex justify-content-center mb-3">
-            <div className="icon-wrapper">
-              <Icon
-                icon="akar-icons:search"
-                className="color-orange home-how-it-works-icon"
-              />
-            </div>
-          </div>
-          <div className="text-center">
-            <span className="how-it-works-lead font-weight-bold mb-3">
-              Create host Profile
-            </span>
-            <div>
-              <small>
-                Create a caradil host account by clicking the 'Get started'
-                button above. This wil require you to have an email address that
-                you will verify to continue. After verifying your email create
-                your profile.
-              </small>
-            </div>
-          </div>
+          <h4 className="mt-4 text-center">List Your Car</h4>
+          <p className="mt-4 text-center">
+            With atleast 5 photos of your car,natioanl id and car logbook
+            copies,you are ready to list your car.
+          </p>
         </div>
-        <div className="col-lg-4 p-2">
-          <div className="d-flex justify-content-center mb-3">
-            <div className="icon-wrapper">
-              <Icon
-                icon="akar-icons:question"
-                className="color-orange home-how-it-works-icon"
-              />
+        <div className="col-md-4 how-it-works-box">
+          <div className="d-flex justify-content-center">
+            <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
+              <MdOutlineManageSearch className="how-it-works-icon" />
             </div>
           </div>
-          <div className="text-center">
-            <span className="how-it-works-lead font-weight-bold mb-3">
-              List your Car
-            </span>
-            <div>
-              <small>
-                Ensure you have the necessary car documents before starting this
-                process. Fill in the required information about your car. Your
-                car information will then be verified by our team and once it is
-                successful,you will be notified to proceed to publish or do some
-                correction.
-              </small>
-            </div>
-          </div>
+          <h4 className="mt-4 text-center">Scale Your Business</h4>
+          <p className="mt-4 text-center">
+            As far as you meet caradil terms of service you can expand your
+            business. You can list more cars too.
+          </p>
         </div>
-        <div className="col-lg-4 p-2">
-          <div className="d-flex justify-content-center mb-3">
-            <div className="icon-wrapper">
-              <Icon
-                icon="cil:address-book"
-                className="color-orange home-how-it-works-icon"
-              />
-            </div>
-          </div>
-          <div className="text-center">
-            <span className="how-it-works-lead font-weight-bold mb-3">
-              Publish Car{" "}
-            </span>
-            <div>
-              <small>
-                Your car has been accepted into the system but its not public
-                yet. At this stage you will fill vital information like daily
-                rates,pick-up location and so much more based on your car. After
-                this,you can now publish your car and it will immediately be
-                made public to potential clients.
-              </small>
-            </div>
-          </div>
-        </div>
-        {/* {listCarHowItWorksData.map((car) => (
-          <HowItWorksBox data={car} />
-        ))} */}
       </div>
     </div>
   );

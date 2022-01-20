@@ -21,7 +21,7 @@ export function HeroBottom(props: HeroBottomProps) {
         <h2 className="mb-5">Carsharing Has Never Been That Easy</h2>
       </div>
 
-      <div className="row">
+      <div className="row m-0">
         <div className="col-md-4 how-it-works-box">
           <div className="d-flex justify-content-center">
             <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
@@ -40,7 +40,7 @@ export function HeroBottom(props: HeroBottomProps) {
             </div>
           </div>
 
-          <h4 className="mt-4 text-center">Enjoy your trip</h4>
+          <h4 className="mt-4 text-center">Enjoy Your Trip</h4>
           <p className="mt-4 text-center">
             Get the car from the host and embark on your trip.
           </p>
