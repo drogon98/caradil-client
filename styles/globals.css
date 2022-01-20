@@ -521,10 +521,10 @@ label {
     display: block;
   }
 
-  .account-content,
+  /* .account-content,
   .admin-content {
     top: 25px;
-  }
+  } */
 }
 
 .sm-side-menu {
@@ -1350,7 +1350,7 @@ car-input-container select:focus {
   grid-template-columns: 1fr 7fr;
 }
 
-.manage-car-wrapper-top {
+.manage-car-wrapper-top-lg {
   height: 60px;
   padding-top: 20px;
   border-bottom: 1px solid #dcdcdc;
@@ -1374,6 +1374,45 @@ car-input-container select:focus {
 
 .manage-car-right {
   overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.manage-car-wrapper-top-sm {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .manage-car-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .manage-car-wrapper-top-lg {
+    display: none;
+  }
+
+  .manage-car-left {
+    display: none !important;
+  }
+
+  .manage-car-wrapper-top-sm {
+    display: flex !important;
+    margin: 10px 0px;
+  }
+
+  .manage-car-burger-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .manage-car-burger-content {
+    position: absolute;
+    width: 150px;
+    background-color: #fff;
+    z-index: 999;
+    height: 55vh;
+    top: 100%;
+  }
 }
 
 /* =================================END MANAGE CAR STYLES================================= */

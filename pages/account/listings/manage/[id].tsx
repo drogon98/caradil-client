@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { Availability } from "../../../../components/AddEditCar/Availability";
 import { Categories } from "../../../../components/AddEditCar/Categories";
@@ -24,6 +24,8 @@ import {
   FileInput,
   useGetPrivateCarQuery,
 } from "../../../../graphql_types/generated/graphql";
+import { ImMenu3 } from "react-icons/im";
+import { useOutsideClickHandler } from "../../../../components/hooks/useOutsideClickHandler";
 
 interface Props {}
 
@@ -39,6 +41,11 @@ export default function ManageCar(props: Props): ReactElement {
   const [documentsData, setDocumentsData] = useState<DocumentInput[]>();
   const [availabilityData, setAvailabilityData] =
     useState<CarAvailabilityInput>();
+  const [showBurgerDropdown, setShowBurgerDropdown] = useState(false);
+
+  const burgerButtonRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  useOutsideClickHandler(dropdownRef, setShowBurgerDropdown, burgerButtonRef);
 
   useEffect(() => {
     if (router.query && router.query.active) {
@@ -164,10 +171,15 @@ export default function ManageCar(props: Props): ReactElement {
     // }
   }, [carData]);
 
-  const handleClick = async (e: any, idx: number) => {
+  const handleClick = async (e: any, idx: number, hideSidebar: any) => {
     if (activeSection === idx) {
       return;
     }
+
+    if (hideSidebar) {
+      hideSidebar(false);
+    }
+
     setActiveSection(idx);
     await router.push(
       {
@@ -177,6 +189,10 @@ export default function ManageCar(props: Props): ReactElement {
       `/account/listings/manage/${carId}?active=${idx}`,
       { shallow: true }
     );
+  };
+
+  const handleBurgerClick = () => {
+    setShowBurgerDropdown(!showBurgerDropdown);
   };
 
   if (mainLoading) {
@@ -193,7 +209,7 @@ export default function ManageCar(props: Props): ReactElement {
       <AccountLayout>
         <AuthWrapper>
           <div>
-            <div className="manage-car-wrapper-top">
+            <div className="manage-car-wrapper-top-lg">
               <div>
                 <button
                   className="btn m-0 p-0 pl-2"
@@ -205,6 +221,39 @@ export default function ManageCar(props: Props): ReactElement {
                 </button>
               </div>
               <h3>Manage Car</h3>
+            </div>
+            <div className="manage-car-wrapper-top-sm p-2 py-0">
+              <div>
+                <button
+                  className="btn m-0 p-0 pl-2"
+                  onClick={() => {
+                    router.replace("/account/listings");
+                  }}
+                >
+                  <BsArrowLeft size={"30px"} />
+                </button>
+              </div>
+              <div className="manage-car-burger-wrapper">
+                <button
+                  className="btn py-0"
+                  onClick={handleBurgerClick}
+                  ref={burgerButtonRef}
+                >
+                  <ImMenu3 size={"35px"} />
+                </button>
+                {showBurgerDropdown && (
+                  <div
+                    className="manage-car-burger-content p-3 py-4 shadow d-flex flex-column justify-content-evenly"
+                    ref={dropdownRef}
+                  >
+                    <Menu
+                      activeSection={activeSection!}
+                      handleClick={handleClick}
+                      setShowBurgerDropdown={setShowBurgerDropdown}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
             <div className="manage-car-wrapper">
               <div className="manage-car-left d-flex flex-column justify-content-evenly p-2">
