@@ -13,6 +13,7 @@ import {
   useEditCarAvailabilityMutation,
 } from "../../graphql_types/generated/graphql";
 import { FormNextPrevButton } from "./FormNextPrevButton";
+import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface AvailabilityProps {
   value: CarAvailabilityInput;
@@ -24,6 +25,7 @@ interface AvailabilityProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   manual: boolean;
+  isManage?: boolean;
 }
 
 export const Availability: FC<AvailabilityProps> = (props) => {
@@ -109,7 +111,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         );
       } else if (response.data?.editCarAvailability.carId) {
         props.setCompData(response.data.editCarAvailability.car!);
-        props.setActiveSlide!(props.activeSlide! + 1);
+        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -368,12 +370,16 @@ export const Availability: FC<AvailabilityProps> = (props) => {
           </div>
         )}
 
-        <FormNextPrevButton
-          loading={loading}
-          disabled={loading}
-          setActiveSlide={props.setActiveSlide!}
-          activeSlide={props.activeSlide!}
-        />
+        {props.isManage ? (
+          <UpdateBtn loading={loading} />
+        ) : (
+          <FormNextPrevButton
+            loading={loading}
+            disabled={loading}
+            setActiveSlide={props.setActiveSlide!}
+            activeSlide={props.activeSlide!}
+          />
+        )}
       </form>
     </div>
   );

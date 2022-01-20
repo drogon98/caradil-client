@@ -2,7 +2,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { ReactElement, useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import { MdKeyboardArrowRight } from "react-icons/md";
 import { Availability } from "../../../../components/AddEditCar/Availability";
 import { Categories } from "../../../../components/AddEditCar/Categories";
 import { Description } from "../../../../components/AddEditCar/Description";
@@ -92,6 +91,18 @@ export default function ManageCar(props: Props): ReactElement {
       setCarData({ ...data.getCar.car });
     }
   }, [data]);
+
+  useEffect(() => {
+    if (carData?.features) {
+      let tempFeatures = carData?.features?.map((ft) => {
+        return { title: ft.title };
+      });
+
+      setFeaturesData([...(tempFeatures as FeatureInput[])]);
+    } else {
+      setFeaturesData([]);
+    }
+  }, [carData]);
 
   useEffect(() => {
     if (carData?.photos) {
@@ -215,12 +226,14 @@ export default function ManageCar(props: Props): ReactElement {
                       }!
                     }
                     setCompData={setCarData}
+                    isManage
                   />
                 )}
 
                 {activeSection === 2 && (
                   <Features
                     setCompData={setCarData}
+                    isManage
                     carId={carId}
                     value={{
                       transmission: carData?.transmission ?? "",
@@ -236,6 +249,7 @@ export default function ManageCar(props: Props): ReactElement {
                 {activeSection === 3 && (
                   <Description
                     setCompData={setCarData}
+                    isManage
                     carId={carId}
                     value={{
                       description: carData?.description ?? "",
@@ -246,6 +260,7 @@ export default function ManageCar(props: Props): ReactElement {
                 {activeSection === 4 && (
                   <Photos
                     setCompData={setCarData}
+                    isManage
                     carVerified={carData?.verified ?? false}
                     carId={carId}
                     value={{
@@ -257,6 +272,7 @@ export default function ManageCar(props: Props): ReactElement {
                 {activeSection === 5 && (
                   <Documents
                     setCompData={setCarData}
+                    isManage
                     carVerified={carData?.verified ?? false}
                     isEdit={true}
                     carId={carId}
@@ -269,6 +285,7 @@ export default function ManageCar(props: Props): ReactElement {
                 {activeSection === 6 && (
                   <Location
                     setCompData={setCarData}
+                    isManage
                     carId={carId}
                     value={{
                       location: carData?.location ?? "",
@@ -279,6 +296,7 @@ export default function ManageCar(props: Props): ReactElement {
 
                 {activeSection === 7 && (
                   <Categories
+                    isManage
                     setCompData={setCarData}
                     carId={carId}
                     value={{
@@ -292,6 +310,7 @@ export default function ManageCar(props: Props): ReactElement {
                 {activeSection === 8 && (
                   <Distance
                     setCompData={setCarData}
+                    isManage
                     carId={carId}
                     value={{
                       has_unlimited_distance:
@@ -306,6 +325,7 @@ export default function ManageCar(props: Props): ReactElement {
                 {activeSection === 9 && (
                   <Availability
                     setCompData={setCarData}
+                    isManage
                     carId={carId}
                     value={{
                       ...availabilityData!,
@@ -317,6 +337,7 @@ export default function ManageCar(props: Props): ReactElement {
                 {activeSection === 10 && (
                   <Rates
                     setCompData={setCarData}
+                    isManage
                     carId={carId}
                     value={{
                       daily_rate: carData?.daily_rate ?? 0,

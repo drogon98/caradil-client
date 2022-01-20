@@ -22,10 +22,13 @@ export const PopularCars: FC<IProps> = (props) => {
 
   return (
     <div className="customContainer my-5">
-      <p className="text-center">Popular cars right now</p>
-      <h3 className="mb-4 text-center">
-        Find great deals from top-rated hosts
-      </h3>
+      <p className="text-center">Available Cars</p>
+      {/* <p className="text-center">Popular cars right now</p> */}
+      <h3 className="text-center">Explore the Top Cars</h3>
+      {/* <p className="mb-4 text-center">
+        We have various car classes. Search and select your perfect fit on our
+        app.
+      </p> */}
       <div className={`${mainLoading && `popular-cars`}`}>
         {mainLoading ? (
           <FlexibleLoader />

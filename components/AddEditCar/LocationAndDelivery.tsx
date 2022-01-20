@@ -15,6 +15,7 @@ import {
 } from "../../graphql_types/generated/graphql";
 import { AutoComplete } from "../Location/AutoComplete";
 import { FormNextPrevButton } from "./FormNextPrevButton";
+import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface LocationAndDeliveryProps {
   value: CarLocationAndDeliveryInput;
@@ -24,12 +25,8 @@ interface LocationAndDeliveryProps {
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
+  isManage?: boolean;
 }
-
-/**
- * @author @CodeYourEmpire
- * @function @Location
- **/
 
 export const Location: FC<LocationAndDeliveryProps> = (props) => {
   const [editLocationAndDelivery, { loading }] =
@@ -68,7 +65,7 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
       if (response.data?.editCarLocationAndDelivery.error) {
       } else if (response.data?.editCarLocationAndDelivery.carId) {
         props.setCompData(response.data.editCarLocationAndDelivery.car!);
-        props.setActiveSlide!(props.activeSlide! + 1);
+        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -115,12 +112,16 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
           </label>
         </div>
 
-        <FormNextPrevButton
-          loading={loading}
-          disabled={loading}
-          setActiveSlide={props.setActiveSlide!}
-          activeSlide={props.activeSlide!}
-        />
+        {props.isManage ? (
+          <UpdateBtn loading={loading} />
+        ) : (
+          <FormNextPrevButton
+            loading={loading}
+            disabled={loading}
+            setActiveSlide={props.setActiveSlide!}
+            activeSlide={props.activeSlide!}
+          />
+        )}
       </form>
     </div>
   );

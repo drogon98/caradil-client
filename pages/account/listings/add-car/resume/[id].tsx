@@ -3,7 +3,6 @@ import React, { FC } from "react";
 import { AuthWrapper } from "../../../../../components/AuthWrapper";
 import CarDataStepForm from "../../../../../components/CarDataStepForm";
 import AccountLayout from "../../../../../components/layouts/AccountLayout";
-import { Loading } from "../../../../../components/Loading";
 
 interface AddCarProps {}
 
@@ -23,14 +22,7 @@ const ResumeAddCar: FC<AddCarProps> = (props) => {
       <AccountLayout>
         <AuthWrapper>
           <div className="p-2 mt-4">
-            <CarDataStepForm
-              //   data={data?.getCar.car}
-              //   carId={carId}
-              isResume
-            />
-
-            {/* <h3 className="mb-3">Car Details</h3>
-            <FormWrapper /> */}
+            <CarDataStepForm isResume />
           </div>
         </AuthWrapper>
       </AccountLayout>

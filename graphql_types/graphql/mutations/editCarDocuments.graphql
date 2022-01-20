@@ -4,7 +4,7 @@ mutation EditCarDocuments($carId: Float!, $input: CarDocumentsInput!) {
     carId
     verified
     car {
-      ...carInfo
+      ...carPrivateInfo
     }
   }
 }

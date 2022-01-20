@@ -29,13 +29,9 @@ interface DescriptionProps {
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   // setData: Dispatch<SetStateAction<CarDescriptionInput>>;
   carId: number | undefined;
+  isManage?: boolean;
   // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 }
-
-/**
- * @author @CodeYourEmpire
- * @function @Description
- **/
 
 const modules = {
   toolbar: [
@@ -132,34 +128,54 @@ export const Description: FC<DescriptionProps> = (props) => {
         placeholder="Type description here"
       />
 
-      <div className="d-flex justify-content-between mt-4">
-        <div>
-          {props.activeSlide !== 0 && (
-            <button
-              className="btn bgOrange"
-              onClick={() => props.setActiveSlide!(props.activeSlide! - 1)}
-            >
-              Prev
-            </button>
-          )}
+      {props.isManage ? (
+        <div className="d-grid gap-2 mt-4">
+          <button
+            type="submit"
+            className="btn bgOrange"
+            disabled={loading}
+            onClick={handleSaveDescription}
+          >
+            {loading ? (
+              <ButtonLoading
+                spinnerColor="white"
+                dimensions={{ height: "24px", width: "24px" }}
+              />
+            ) : (
+              "Update"
+            )}
+          </button>
         </div>
+      ) : (
+        <div className="d-flex justify-content-between mt-4">
+          <div>
+            {props.activeSlide !== 0 && (
+              <button
+                className="btn bgOrange"
+                onClick={() => props.setActiveSlide!(props.activeSlide! - 1)}
+              >
+                Prev
+              </button>
+            )}
+          </div>
 
-        <button
-          className="btn bgOrange"
-          type="submit"
-          disabled={loading}
-          onClick={handleSaveDescription}
-        >
-          {loading ? (
-            <ButtonLoading
-              spinnerColor="white"
-              dimensions={{ height: "18px", width: "18px" }}
-            />
-          ) : (
-            "Next"
-          )}
-        </button>
-      </div>
+          <button
+            className="btn bgOrange"
+            type="submit"
+            disabled={loading}
+            onClick={handleSaveDescription}
+          >
+            {loading ? (
+              <ButtonLoading
+                spinnerColor="white"
+                dimensions={{ height: "18px", width: "18px" }}
+              />
+            ) : (
+              "Next"
+            )}
+          </button>
+        </div>
+      )}
     </>
   );
 };

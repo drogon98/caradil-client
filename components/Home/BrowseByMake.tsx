@@ -68,7 +68,11 @@ export const BrowseByMake: FC<IProps> = (props) => {
     <div className="customContainer my-5">
       {/* <Icon icon="eva:arrow-ios-forward-outline" /> */}
       <p className="text-center">Choose your best ride</p>
-      <h3 className="mb-3 text-center">Browse by make</h3>
+      <h3 className="text-center">Browse by make</h3>
+      <p className="mb-4 text-center">
+        We have various car makes. Search and select your perfect fit on our
+        app.
+      </p>
       {/* <MyCarousel slidesContent={data} /> */}
       {/* <div style={{ width: "80%", margin: "auto" }}> */}
       <div className="makes-slider">

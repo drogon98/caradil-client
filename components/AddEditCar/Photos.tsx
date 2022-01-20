@@ -17,6 +17,7 @@ import {
 } from "../../graphql_types/generated/graphql";
 import { ButtonLoading } from "../Loading/ButtonLoading";
 import { FormNextPrevButton } from "./FormNextPrevButton";
+import UpdateBtn from "./ManageCar/UpdateBtn";
 import { PhotoBox } from "./PhotoBox";
 
 interface PhotosProps {
@@ -26,6 +27,7 @@ interface PhotosProps {
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
+  isManage?: boolean;
 }
 
 export const Photos: FC<PhotosProps> = (props) => {
@@ -35,7 +37,7 @@ export const Photos: FC<PhotosProps> = (props) => {
   const [secondaryLoading, setSecondaryLoading] = useState(false);
   const [values, setValues] = useState<CarPhotosInput>();
 
-  console.log("props.value.photos :>> ", props.value.photos);
+  // console.log("props.value.photos :>> ", props.value.photos);
 
   useEffect(() => {
     if (props.value.photos) {
@@ -77,10 +79,10 @@ export const Photos: FC<PhotosProps> = (props) => {
     }
   };
 
-  console.log("photos :>> ", values);
+  // console.log("photos :>> ", values);
 
   const deletePhoto = async (id: string) => {
-    console.log("Great :>> ");
+    // console.log("Great :>> ");
     try {
       setSecondaryLoading(true);
       let response = await deleteFile({
@@ -128,7 +130,7 @@ export const Photos: FC<PhotosProps> = (props) => {
       if (response?.data?.editCarPhotos.error) {
       } else if (response?.data?.editCarPhotos.carId) {
         props.setCompData(response.data.editCarPhotos.car!);
-        props.setActiveSlide!(props.activeSlide! + 1);
+        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -184,12 +186,16 @@ export const Photos: FC<PhotosProps> = (props) => {
             ))}
         </div>
 
-        <FormNextPrevButton
-          loading={loading}
-          disabled={loading}
-          setActiveSlide={props.setActiveSlide!}
-          activeSlide={props.activeSlide!}
-        />
+        {props.isManage ? (
+          <UpdateBtn loading={loading && !secondaryLoading} />
+        ) : (
+          <FormNextPrevButton
+            loading={loading && !secondaryLoading}
+            disabled={loading && !secondaryLoading}
+            setActiveSlide={props.setActiveSlide!}
+            activeSlide={props.activeSlide!}
+          />
+        )}
       </form>
     </>
   );

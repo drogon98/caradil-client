@@ -20,6 +20,7 @@ import {
 import { ButtonLoading } from "../Loading/ButtonLoading";
 import DocumentContent from "./DocumentContent";
 import { FormNextPrevButton } from "./FormNextPrevButton";
+import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface DocumentsProps {
   value: CarDocumentsInput;
@@ -31,6 +32,7 @@ interface DocumentsProps {
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   activeSlide?: number;
   setActiveSlide?: Dispatch<SetStateAction<number>>;
+  isManage?: boolean;
 }
 
 /**
@@ -41,7 +43,7 @@ interface DocumentsProps {
 export const Documents: FC<DocumentsProps> = (props) => {
   const [uploadFile, { loading: uploading }] = useUploadFileMutation();
   const [editDocuments, { loading }] = useEditCarDocumentsMutation();
-  const [deleteFile] = useDeleteFileMutation();
+  const [deleteFile, { loading: deleteLoading }] = useDeleteFileMutation();
   // const [toDelete, setToDelete] = useState<DocumentInput>();
   const [secondaryLoading, setSecondaryLoading] = useState(false);
 
@@ -53,7 +55,6 @@ export const Documents: FC<DocumentsProps> = (props) => {
 
   useEffect(() => {
     if (props.value) {
-      console.log("  props.value :>> ", props.value);
       setDocuments({ ...props.value });
     }
   }, [props.value]);
@@ -167,7 +168,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
         // deleteFile({ variables: { id: toDelete?.file.public_id! } });
       } else if (response.data?.editCarDocuments.carId) {
         props.setCompData(response.data.editCarDocuments.car!);
-        props.setActiveSlide!(props.activeSlide! + 1);
+        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -200,6 +201,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
     e.preventDefault();
 
     try {
+      setId(title);
       const response = await deleteFile({
         variables: { id: getFile(title)!.file.public_id! },
         fetchPolicy: "no-cache",
@@ -262,7 +264,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
                   // disabled={saving}
                 />
                 <span>
-                  {uploading && id === "national_id" && (
+                  {(uploading || deleteLoading) && id === "national_id" && (
                     <ButtonLoading
                       spinnerColor="orange"
                       dimensions={{ height: "18px", width: "18px" }}
@@ -299,7 +301,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
                   // disabled={saving}
                 />
                 <span>
-                  {uploading && id === "logbook" && (
+                  {(uploading || deleteLoading) && id === "logbook" && (
                     <ButtonLoading
                       spinnerColor="orange"
                       dimensions={{ height: "18px", width: "18px" }}
@@ -391,12 +393,16 @@ export const Documents: FC<DocumentsProps> = (props) => {
           )}
         </div> */}
 
-        <FormNextPrevButton
-          loading={loading}
-          disabled={loading}
-          setActiveSlide={props.setActiveSlide!}
-          activeSlide={props.activeSlide!}
-        />
+        {props.isManage ? (
+          <UpdateBtn loading={loading && !secondaryLoading} />
+        ) : (
+          <FormNextPrevButton
+            loading={loading && !secondaryLoading}
+            disabled={loading && !secondaryLoading}
+            setActiveSlide={props.setActiveSlide!}
+            activeSlide={props.activeSlide!}
+          />
+        )}
       </form>
     </>
   );

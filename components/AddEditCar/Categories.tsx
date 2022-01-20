@@ -14,6 +14,7 @@ import {
   useEditCarCategoriesMutation,
 } from "../../graphql_types/generated/graphql";
 import { FormNextPrevButton } from "./FormNextPrevButton";
+import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface CategoryProps {
   value: CarCategoriesInput;
@@ -24,12 +25,8 @@ interface CategoryProps {
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
+  isManage?: boolean;
 }
-
-/**
- * @author @CodeYourEmpire
- * @function @Location
- **/
 
 export const Categories: FC<CategoryProps> = (props) => {
   const [editCategories, { loading }] = useEditCarCategoriesMutation();
@@ -103,7 +100,7 @@ export const Categories: FC<CategoryProps> = (props) => {
       if (response?.data?.editCarCategories.error) {
       } else if (response.data?.editCarCategories.carId) {
         props.setCompData(response.data.editCarCategories.car!);
-        props.setActiveSlide!(props.activeSlide! + 1);
+        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -179,12 +176,16 @@ export const Categories: FC<CategoryProps> = (props) => {
           </>
         )}
 
-        <FormNextPrevButton
-          loading={loading}
-          disabled={loading}
-          setActiveSlide={props.setActiveSlide!}
-          activeSlide={props.activeSlide!}
-        />
+        {props.isManage ? (
+          <UpdateBtn loading={loading} />
+        ) : (
+          <FormNextPrevButton
+            loading={loading}
+            disabled={loading}
+            setActiveSlide={props.setActiveSlide!}
+            activeSlide={props.activeSlide!}
+          />
+        )}
       </form>
     </div>
   );

@@ -13,6 +13,7 @@ import {
   useEditCarRatesMutation,
 } from "../../graphql_types/generated/graphql";
 import { FormNextPrevButton } from "./FormNextPrevButton";
+import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface RatesProps {
   value: CarRatesInput;
@@ -25,6 +26,7 @@ interface RatesProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   compData: Car;
+  isManage?: boolean;
 }
 
 /**
@@ -66,7 +68,7 @@ export const Rates: FC<RatesProps> = (props) => {
       if (response.data?.editCarRates.error) {
       } else if (response.data?.editCarRates.carId) {
         props.setCompData(response.data.editCarRates.car!);
-        props.setActiveSlide!(props.activeSlide! + 1);
+        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -78,6 +80,7 @@ export const Rates: FC<RatesProps> = (props) => {
       // setError("Network Error!");
     }
   };
+
   return (
     <div>
       <h3>Rates</h3>
@@ -176,12 +179,16 @@ export const Rates: FC<RatesProps> = (props) => {
           </div>
         )}
 
-        <FormNextPrevButton
-          loading={loading}
-          disabled={loading}
-          setActiveSlide={props.setActiveSlide!}
-          activeSlide={props.activeSlide!}
-        />
+        {props.isManage ? (
+          <UpdateBtn loading={loading} />
+        ) : (
+          <FormNextPrevButton
+            loading={loading}
+            disabled={loading}
+            setActiveSlide={props.setActiveSlide!}
+            activeSlide={props.activeSlide!}
+          />
+        )}
       </form>
     </div>
   );

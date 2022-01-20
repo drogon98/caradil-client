@@ -13,6 +13,7 @@ import {
   useEditCarDistanceMutation,
 } from "../../graphql_types/generated/graphql";
 import { FormNextPrevButton } from "./FormNextPrevButton";
+import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface DistanceProps {
   value: CarDistanceInput;
@@ -23,6 +24,7 @@ interface DistanceProps {
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
+  isManage?: boolean;
 }
 
 /**
@@ -95,7 +97,7 @@ export const Distance: FC<DistanceProps> = (props) => {
       if (response.data?.editCarDistance.error) {
       } else if (response.data?.editCarDistance.carId) {
         props.setCompData(response.data.editCarDistance.car!);
-        props.setActiveSlide!(props.activeSlide! + 1);
+        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -184,12 +186,16 @@ export const Distance: FC<DistanceProps> = (props) => {
           </>
         )}
 
-        <FormNextPrevButton
-          loading={loading}
-          disabled={loading}
-          setActiveSlide={props.setActiveSlide!}
-          activeSlide={props.activeSlide!}
-        />
+        {props.isManage ? (
+          <UpdateBtn loading={loading} />
+        ) : (
+          <FormNextPrevButton
+            loading={loading}
+            disabled={loading}
+            setActiveSlide={props.setActiveSlide!}
+            activeSlide={props.activeSlide!}
+          />
+        )}
       </form>
     </div>
   );

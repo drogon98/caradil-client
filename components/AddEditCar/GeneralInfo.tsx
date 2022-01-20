@@ -14,6 +14,7 @@ import {
   useAddEditCarGeneralInfoMutation,
 } from "../../graphql_types/generated/graphql";
 import { FormNextPrevButton } from "./FormNextPrevButton";
+import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface GeneralInfoProps {
   value: CarGeneralInfoInput;
@@ -23,12 +24,8 @@ interface GeneralInfoProps {
   isResume?: boolean;
   setCarId?: Dispatch<SetStateAction<number | undefined>>;
   carId: number | undefined;
+  isManage?: boolean;
 }
-
-/**
- * @author @CodeYourEmpire
- * @function @GeneralInfo
- **/
 
 export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
   const [addEditCarGeneralInfo, { loading }] =
@@ -91,7 +88,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         }
 
         props.setCarId!(response.data.addEditCarGeneralInfo.car?.id!);
-        props.setActiveSlide!(props.activeSlide! + 1);
+        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
       }
     } catch (error) {
       let errorMessage = "";
@@ -181,12 +178,16 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           </div>
         </div>
 
-        <FormNextPrevButton
-          loading={loading}
-          disabled={loading}
-          setActiveSlide={props.setActiveSlide!}
-          activeSlide={props.activeSlide!}
-        />
+        {props.isManage ? (
+          <UpdateBtn loading={loading} />
+        ) : (
+          <FormNextPrevButton
+            loading={loading}
+            disabled={loading}
+            setActiveSlide={props.setActiveSlide!}
+            activeSlide={props.activeSlide!}
+          />
+        )}
       </form>
     </>
   );

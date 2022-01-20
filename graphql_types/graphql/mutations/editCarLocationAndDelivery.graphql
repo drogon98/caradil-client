@@ -6,7 +6,7 @@ mutation EditCarLocationAndDelivery(
     error
     carId
     car {
-      ...carInfo
+      ...carPrivateInfo
     }
   }
 }

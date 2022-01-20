@@ -3,7 +3,7 @@ mutation EditCarCategories($carId: Float!, $input: CarCategoriesInput!) {
     carId
     error
     car {
-      ...carInfo
+      ...carPrivateInfo
     }
   }
 }
