@@ -5,6 +5,7 @@ import { AuthWrapper } from "../../components/AuthWrapper";
 import Summary from "../../components/Checkout/Summary";
 import Layout from "../../components/layouts/Layout";
 import { Loading } from "../../components/Loading";
+import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import {
   useCheckIfDriverIsApprovedToDriveQuery,
   useGetAuthUserQuery,
@@ -32,7 +33,7 @@ interface PayData {
 
 const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
   const router = useRouter();
-  const [mainLoading, setMainLoading] = useState(true);
+  const [mainLoading, setMainLoading] = useState(false);
   const [skip, setSkip] = useState(true);
   const [error, setError] = useState("");
   // Make a request to check if driver is approved
@@ -196,6 +197,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     e.preventDefault();
     let response;
     try {
+      setMainLoading(true);
       response = await fetch(`${baseUrl}ipay-pay`, {
         method: "POST",
         headers: {
@@ -207,6 +209,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
           ttl: getTotal(),
         }),
       });
+      setMainLoading(false);
     } catch (error) {
       return;
     }
@@ -220,19 +223,27 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
   };
 
   const getTotal = () => {
-    let tempTtl = ttl + deliverTtl + driverTtl;
-    if (discountEligible) {
-      if (data?.getCar.car?.discount_days) {
-        if (tripDays >= data?.getCar.car?.discount_days) {
-          return (
-            (tempTtl * (100 - parseFloat(data.getCar.car?.discount!))) / 100
-          );
+    try {
+      let tempTtl = ttl + deliverTtl + driverTtl;
+      if (discountEligible) {
+        if (data?.getCar.car?.discount_days) {
+          if (tripDays >= data?.getCar.car?.discount_days) {
+            return Math.round(
+              (tempTtl * (100 - parseFloat(data.getCar.car?.discount!))) / 100
+            );
+          }
+          return Math.round(tempTtl);
         }
-        return tempTtl;
+        return (
+          Math.round(
+            tempTtl * (100 - parseFloat(data?.getCar.car?.discount!))
+          ) / 100
+        );
+      } else {
+        return Math.round(tempTtl);
       }
-      return (tempTtl * (100 - parseFloat(data?.getCar.car?.discount!))) / 100;
-    } else {
-      return tempTtl;
+    } catch (error) {
+      console.log("error :>> ", error);
     }
   };
 
@@ -362,8 +373,16 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                         <button
                           type="submit"
                           className="btn bgOrange fw-bolder"
+                          disabled={mainLoading}
                         >
-                          {`Pay Ksh.${getTotal().toLocaleString()}`}
+                          {mainLoading ? (
+                            <ButtonLoading
+                              spinnerColor="white"
+                              dimensions={{ height: "24px", width: "24px" }}
+                            />
+                          ) : (
+                            `Pay Ksh.${getTotal()!.toLocaleString()}`
+                          )}
                         </button>
                       </div>
                     </div>
@@ -375,7 +394,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                       discountEligible={discountEligible}
                       discountDays={data?.getCar.car?.discount_days!}
                       discount={data?.getCar.car?.discount!}
-                      totalCharge={getTotal()}
+                      totalCharge={getTotal()!}
                       tripDays={tripDays}
                       dailyRate={data?.getCar.car?.daily_rate!}
                       car={data?.getCar.car!}
@@ -383,8 +402,19 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                   </div>
                   <div className="sm-screen-checkout-btn mt-4 d-md-none">
                     <div className="d-grid gap-2">
-                      <button type="submit" className="btn bgOrange fw-bolder">
-                        {`Pay Ksh.${getTotal().toLocaleString()}`}
+                      <button
+                        type="submit"
+                        className="btn bgOrange fw-bolder"
+                        disabled={mainLoading}
+                      >
+                        {mainLoading ? (
+                          <ButtonLoading
+                            spinnerColor="white"
+                            dimensions={{ height: "24px", width: "24px" }}
+                          />
+                        ) : (
+                          `Pay Ksh.${getTotal()!.toLocaleString()}`
+                        )}
                       </button>
                     </div>
                   </div>

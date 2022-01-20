@@ -16,11 +16,8 @@ interface Props {
 export default function Summary(props: Props): ReactElement {
   return (
     <div>
-      <h6>Summary</h6>
-      <p>
-        Plan Your Trip With Caradil. Rent a Car Online Today & Enjoy the Best
-        Deals.
-      </p>
+      <h6>Checkout Summary</h6>
+
       <hr />
       <div className="mb-2 d-flex justify-content-between">
         <p>Daily Rate</p>

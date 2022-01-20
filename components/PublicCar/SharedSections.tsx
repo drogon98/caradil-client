@@ -1,11 +1,9 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { ReactElement, useEffect, useState } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
-import { ButtonLoading } from "../Loading/ButtonLoading";
 import { Car } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 import LoginWithModal from "../Auth/LoginWithModal";
+import { ButtonLoading } from "../Loading/ButtonLoading";
 
 interface Props {
   car: Car;
@@ -23,10 +21,15 @@ export default function SharedSections(props: Props): ReactElement {
 
   useEffect(() => {
     if (props.car.distance_per_day && props.car?.daily_rate) {
-      let tempRate = props.car?.daily_rate / props.car.distance_per_day;
-      setExtraDisRate(tempRate);
+      try {
+        let tempRate = props.car?.daily_rate / props.car.distance_per_day;
+        setExtraDisRate(Math.round(tempRate));
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
     }
   }, [props.car]);
+
   return (
     <>
       <div className="mt-3">
