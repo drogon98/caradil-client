@@ -42,10 +42,17 @@ const ContactUs: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className="customContainer my-5">
-          <div className="row">
-            <div className="col-md-7 col-lg-5 mx-auto">
-              <h3>Reach Out</h3>
+        <div className="mb-5">
+          <div className="contact-hero d-flex align-items-center justify-content-center">
+            <div className="contact-overlay" />
+            <div className="contact-hero-content colorOrange text-center">
+              <h1>How can we help?</h1>
+              <p>Send us a message</p>
+            </div>
+          </div>
+          <div className="row m-0">
+            <div className="col-md-7 col-lg-5  mt-3 mx-auto">
+              {/* <h3>Reach Out</h3> */}
 
               <form
                 className="form-group mt-3"

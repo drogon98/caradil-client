@@ -48,6 +48,19 @@ const FAQS: NextPage = () => {
               </div>
             ))}
           </div>
+
+          <div className="mt-3">
+            <p>
+              Couldn't find what you are looking for?
+              <Link href="/contact-us">
+                <a className="colorOrange">
+                  <small>
+                    <b>Contact Us</b>
+                  </small>
+                </a>
+              </Link>
+            </p>
+          </div>
         </div>
       </Layout>
     </>

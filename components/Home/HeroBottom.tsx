@@ -25,7 +25,7 @@ export function HeroBottom(props: HeroBottomProps) {
         <div className="col-md-4 how-it-works-box">
           <div className="d-flex justify-content-center">
             <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
-              <BsBookmarkCheck size={"30px"} />
+              <BsBookmarkCheck className="how-it-works-icon" />
             </div>
           </div>
           <h4 className="mt-4 text-center">Book A Car</h4>
@@ -36,7 +36,7 @@ export function HeroBottom(props: HeroBottomProps) {
         <div className="col-md-4 how-it-works-box">
           <div className="d-flex justify-content-center">
             <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
-              <GiSteeringWheel size={"30px"} />
+              <GiSteeringWheel className="how-it-works-icon" />
             </div>
           </div>
 
@@ -48,7 +48,7 @@ export function HeroBottom(props: HeroBottomProps) {
         <div className="col-md-4 how-it-works-box">
           <div className="d-flex justify-content-center">
             <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
-              <MdOutlineAssignmentReturned size={"30px"} />
+              <MdOutlineAssignmentReturned className="how-it-works-icon" />
             </div>
           </div>
           <h4 className="mt-4 text-center">Return Car</h4>

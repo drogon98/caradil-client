@@ -213,8 +213,6 @@ label {
 
 .section-heading-hr {
   width: 40px;
-  /* height: 10px;
-  background-color: ; */
   border-top: 5px solid var(--orange) !important;
   margin: 10px 0;
 }
@@ -230,6 +228,10 @@ label {
   margin-bottom: 100px;
 }
 
+.how-it-works-icon {
+  font-size: 30px;
+}
+
 @media screen and (max-width: 500px) {
   * {
     font-size: 17px;
@@ -242,6 +244,19 @@ label {
 
   .how-it-works-box {
     margin-bottom: 40px;
+  }
+
+  .page-section {
+    margin-bottom: 70px;
+  }
+
+  .how-it-works-icon {
+    font-size: 20px;
+  }
+
+  .section-heading-top-heading {
+    font-size: 10px;
+    font-weight: bold;
   }
 }
 
@@ -1462,6 +1477,42 @@ car-input-container select:focus {
 }
 
 /* =================================END MANAGE CAR STYLES================================= */
+
+/* =================================CONTACT STYLES================================= */
+
+.contact-hero {
+  height: 400px;
+  background-image: url("../public/images/contact.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.contact-overlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 400px;
+  z-index: 0;
+}
+
+.contact-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+@media screen and (max-width: 500px) {
+  .contact-hero {
+    height: 200px;
+  }
+
+  .contact-overlay {
+    height: 200px;
+  }
+}
+
+/* =================================END CONTACT STYLES================================= */
 
 #upload-btn-label {
   background-color: var(--orange);
