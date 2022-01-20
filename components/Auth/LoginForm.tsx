@@ -85,6 +85,8 @@ export default function LoginForm(props: Props): ReactElement {
       if (error instanceof Error) {
         errorMessage = error.message;
       }
+
+      console.log("error :>> ", error);
       setError("Network Error!");
       setMainLoading(false);
       return;
