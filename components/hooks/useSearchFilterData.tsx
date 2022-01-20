@@ -69,6 +69,10 @@ export function useSearchFilterData(props: SearchFilterDataProps) {
           output.gas = props.router.query.gas as string;
         }
 
+        if (props.router.query.subject) {
+          output.subject = parseInt(props.router.query.subject, 10);
+        }
+
         if (props.router.query.more_filters) {
           let filtersArray = JSON.parse(
             props.router.query.more_filters as string
@@ -76,13 +80,9 @@ export function useSearchFilterData(props: SearchFilterDataProps) {
           // Create a template for destructuring this aray into an object
           let obj = searchDataArrayToObject(filtersArray);
 
-          // console.log("obj :>> ", obj);
-
           output.more_filters_client = obj;
         } else {
           let obj = searchDataArrayToObject(["", "", "", "", "", "", "", ""]);
-
-          // console.log("obj :>> ", obj);
 
           output.more_filters_client = obj;
         }
@@ -102,6 +102,7 @@ export function useSearchFilterData(props: SearchFilterDataProps) {
             color: output.color,
             gas: output.gas,
             name: output.name,
+            subject: output.subject ? output.subject : 0,
             more_filters: JSON.parse(props.router.query.more_filters), // This one should be converted to an array on submit
           });
         } else {
@@ -112,6 +113,7 @@ export function useSearchFilterData(props: SearchFilterDataProps) {
             color: output.color,
             gas: output.gas,
             name: output.name,
+            subject: output.subject ? output.subject : 0,
             more_filters: ["", "", "", "", "", "", "", ""],
           });
         }

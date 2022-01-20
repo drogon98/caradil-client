@@ -468,6 +468,7 @@ export type SearchInput = {
   make?: InputMaybe<Scalars['String']>;
   more_filters?: InputMaybe<Array<Scalars['String']>>;
   name?: InputMaybe<Scalars['String']>;
+  subject?: InputMaybe<Scalars['Float']>;
 };
 
 export type TokenResponse = {

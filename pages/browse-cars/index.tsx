@@ -19,6 +19,7 @@ export interface SearchData {
   car_make: string;
   color: string;
   gas: string;
+  subject?: number;
   more_filters: string[];
   more_filters_client: MoreFiltersStruct;
 }

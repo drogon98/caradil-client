@@ -421,7 +421,14 @@ const Car: FC<CarProps> = (props) => {
                             <Link
                               href={{
                                 pathname: "/browse-cars/[make]",
-                                query: { make: car?.make! },
+                                query: {
+                                  make: car?.make!,
+                                  categories: JSON.stringify(car?.categories),
+                                  color: car?.color,
+                                  gas: car?.gas,
+                                  location: car?.location,
+                                  subject: car?.id,
+                                },
                               }}
                             >
                               <a>Check similar cars</a>
@@ -514,7 +521,16 @@ const Car: FC<CarProps> = (props) => {
                     <Link
                       href={{
                         pathname: "/browse-cars/[make]",
-                        query: { make: car?.make! },
+                        query: {
+                          make: car?.make!,
+                          categories: JSON.stringify(car?.categories),
+                          color: car?.color,
+                          gas: car?.gas,
+                          location: car?.location,
+                          subject: car?.id,
+
+                          // name: "",
+                        },
                       }}
                     >
                       <a>Check similar cars</a>
