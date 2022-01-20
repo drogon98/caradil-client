@@ -12,6 +12,7 @@ import { useRole } from "../../components/hooks/useRole";
 import AccountLayout from "../../components/layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
+import Save from "../../components/Toast/Save";
 import {
   EditProfileInput,
   FileInput,
@@ -73,6 +74,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
     fetchPolicy: "network-only",
   });
   const [deleteFile, { loading: deletingPhoto }] = useDeleteFileMutation();
+  const [showSaveToast, setShowSaveToast] = useState(false);
 
   useEffect(() => {
     if (data?.getUser.user) {
@@ -141,6 +143,9 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
 
     try {
       let response = await editProfile({ variables: { input: payload } });
+      if (response.data?.editProfile) {
+        setShowSaveToast(true);
+      }
     } catch (error) {
       let errorMessage = "";
       if (error instanceof Error) {
@@ -199,6 +204,13 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
           ) : (
             <div className="p-2">
               {" "}
+              {showSaveToast && (
+                <Save
+                  setShow={setShowSaveToast}
+                  message={"Profile updated successfully!"}
+                  show={showSaveToast}
+                />
+              )}
               <h3 className="text-center my-3">Personal Details</h3>
               <div className="container my-5">
                 <form
