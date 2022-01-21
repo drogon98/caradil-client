@@ -31,7 +31,7 @@ export default function LoginForm(props: Props): ReactElement {
   const [login, { loading }] = useLoginMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    setValues({ ...values, [e.target.name]: e.target.value.trim() });
   };
 
   const router = useRouter();

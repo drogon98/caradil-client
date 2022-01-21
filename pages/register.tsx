@@ -15,13 +15,6 @@ interface CustomRegisterInput extends RegisterInput {
   confirmPassword?: string | "";
 }
 
-// type CustomRegisterInput=RegisterInput & {confirmPassword?: string | "";}
-
-/**
- * @author
- * @function @Register
- **/
-
 const Register: FC<IProps> = (props) => {
   const [values, setValues] = useState<CustomRegisterInput>({
     first_name: "",
@@ -57,7 +50,7 @@ const Register: FC<IProps> = (props) => {
   const [register, { loading, error: registerError }] = useRegisterMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    setValues({ ...values, [e.target.name]: e.target.value.trim() });
   };
 
   const handleFocus = (e: SyntheticEvent) => {

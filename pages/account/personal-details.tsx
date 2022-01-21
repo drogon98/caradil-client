@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React, {
   ChangeEvent,
   FC,
@@ -24,11 +25,6 @@ import {
 import { useAppSelector } from "../../redux/hooks";
 
 interface PersonalDetailsProps {}
-
-/**
- * @author @CodeYourEmpire
- * @function @PersonalDetails
- **/
 
 const uploadButton = (
   uploadHandler: any,
@@ -75,6 +71,14 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
   });
   const [deleteFile, { loading: deletingPhoto }] = useDeleteFileMutation();
   const [showSaveToast, setShowSaveToast] = useState(false);
+  const [isInitial, setIsInitial] = useState<boolean>();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query && router.query.initial) {
+      setIsInitial(true);
+    }
+  }, [router.query]);
 
   useEffect(() => {
     if (data?.getUser.user) {
@@ -102,7 +106,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
   }, [data, loading]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value.trim() });
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -145,6 +149,15 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
       let response = await editProfile({ variables: { input: payload } });
       if (response.data?.editProfile) {
         setShowSaveToast(true);
+
+        if (isInitial) {
+          setTimeout(async () => {
+            await router.push({
+              pathname: "/account",
+              query: { to_car: true },
+            });
+          }, 3200);
+        }
       }
     } catch (error) {
       let errorMessage = "";

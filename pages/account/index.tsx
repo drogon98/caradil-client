@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { useRole } from "../../components/hooks/useRole";
@@ -22,12 +23,22 @@ interface IProps {}
 const Account: FC<IProps> = (props) => {
   const [mainLoading, setMainLoading] = useState(true);
   const { data, loading } = useGetAuthUserQuery({
-    fetchPolicy: "network-only",
+    fetchPolicy: "no-cache",
   });
   const [user, setUser] = useState<User>();
   const [hasCompleteProfile, setHasCompleteProfile] = useState(true);
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
+  const [isToCar, setIsToCar] = useState<boolean>();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query && router.query.to_car) {
+      if (role === 2) {
+        setIsToCar(true);
+      }
+    }
+  }, [router.query, role]);
 
   useEffect(() => {
     if (data?.getUser.user) {
@@ -95,11 +106,32 @@ const Account: FC<IProps> = (props) => {
                 <>
                   <small>Let's get you started.</small>
                   <div>
-                    <Link href="/account/personal-details">
+                    <Link
+                      href={{
+                        pathname: "/account/personal-details",
+                        query: { initial: true },
+                      }}
+                    >
                       <a>
                         <small className="colorOrange">
                           Complete Your Profile
                         </small>
+                      </a>
+                    </Link>
+                  </div>
+                </>
+              )}
+              {isToCar && (
+                <>
+                  <small>List your first car.</small>
+                  <div>
+                    <Link
+                      href={{
+                        pathname: "/account/listings",
+                      }}
+                    >
+                      <a>
+                        <small className="colorOrange">Go to list car</small>
                       </a>
                     </Link>
                   </div>
