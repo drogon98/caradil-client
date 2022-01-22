@@ -47,7 +47,7 @@ export const HowItWorks: FC<IProps> = (props) => {
 
           <h4 className="mt-4 text-center">List Your Car</h4>
           <p className="mt-4 text-center">
-            With atleast 5 photos of your car,natioanl id and car logbook
+            With atleast 5 photos of your car,national id and car logbook
             copies,you are ready to list your car.
           </p>
         </div>

@@ -36,7 +36,7 @@ export const CarDetailsHost: FC<CarDetailsHostProps> = (props) => {
             <h4 className="m-0">{`${props.data?.first_name} ${props.data?.last_name}`}</h4>
           )}
 
-          <h6 className="m-0">All star host</h6>
+          {/* <h6 className="m-0">All star host</h6> */}
           <p className="m-0">
             Joined{" "}
             {new Date(props.data?.created_at)

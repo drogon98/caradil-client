@@ -57,6 +57,10 @@ export default function RequestEditModal(props: Props): ReactElement {
             After editing,your car will undergo verification to assess the
             validity of the informantion edited.
           </li>
+          <li>
+            Only after your car passes the verification process,will it be
+            visible to the public again.
+          </li>
         </ul>
         <div className="mb-3">
           {props.booked ? (
