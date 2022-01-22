@@ -284,6 +284,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
               reg_no: compData?.reg_no ?? "",
               make: compData?.make ?? "",
               odometer_reading: compData?.odometer_reading ?? 0,
+              is_gps_enabled: compData?.is_gps_enabled ?? true,
             }}
           />
         </div>

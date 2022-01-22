@@ -65,4 +65,5 @@ fragment carPrivateInfo on Car {
   manual_transmission_test
   odometer_reading
   charge_extra_distance_travelled
+  is_gps_enabled
 }

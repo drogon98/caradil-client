@@ -30,7 +30,6 @@ interface GeneralInfoProps {
 export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
   const [addEditCarGeneralInfo, { loading }] =
     useAddEditCarGeneralInfoMutation();
-  const [isValid, setIsValid] = useState(false);
   const [invalidOdoReading, setInvalidOdReading] = useState(false);
 
   const [values, setValues] = useState<CarGeneralInfoInput>();
@@ -41,6 +40,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
       reg_no: props.value.reg_no,
       make: props.value.make,
       odometer_reading: props.value.odometer_reading,
+      is_gps_enabled: props.value.is_gps_enabled,
     };
 
     setValues({ ...tempData });
@@ -56,6 +56,11 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
       });
     } else if (e.target.name === "odometer_reading") {
       setValues({ ...values!, [e.target.name]: parseInt(e.target.value, 10) });
+    } else if (e.target.name === "is_gps_enabled") {
+      setValues({
+        ...values!,
+        [e.target.name]: e.target.value === "true" ? true : false,
+      });
     } else {
       setValues({ ...values!, [e.target.name]: e.target.value });
     }
@@ -72,7 +77,13 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
     try {
       let response = await addEditCarGeneralInfo({
         variables: {
-          options: { ...values! },
+          options: {
+            ...values!,
+            is_gps_enabled:
+              values?.is_gps_enabled === undefined
+                ? false
+                : values.is_gps_enabled,
+          },
           isEdit: props.isResume ? true : false,
           carId: props.carId,
         },
@@ -111,6 +122,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
       setInvalidOdReading(false);
     }
   };
+
+  console.log("values :>> ", values);
 
   return (
     <>
@@ -195,13 +208,38 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             />
           </div>
         </div>
+        <div className="row m-0">
+          <div className="form-check mt-3">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value={values?.is_gps_enabled ? "false" : "true"}
+              id="gps-enabled"
+              checked={values?.is_gps_enabled}
+              name="is_gps_enabled"
+              onChange={handleChange}
+            />
+            <label className="form-check-label" htmlFor="gps-enabled">
+              Is GPS Enabled?
+            </label>
+          </div>
+        </div>
+        {!values?.is_gps_enabled && (
+          <div>
+            <small>
+              Listing a car that is not GPS enabled is at your own risk. GPS
+              will help track your car in case of any complication.{" "}
+              <b>We only list cars that are GPS enabled.</b>
+            </small>
+          </div>
+        )}
 
         {props.isManage ? (
           <UpdateBtn loading={loading} />
         ) : (
           <FormNextPrevButton
             loading={loading}
-            disabled={loading}
+            disabled={loading || !values?.is_gps_enabled}
             setActiveSlide={props.setActiveSlide!}
             activeSlide={props.activeSlide!}
           />
