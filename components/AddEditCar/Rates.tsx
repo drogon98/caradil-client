@@ -95,7 +95,7 @@ export const Rates: FC<RatesProps> = (props) => {
         You are here to make money. Set your rates below. You can edit them
         based on market and your preference.
       </p>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="mb-3">
         {invalidDailyRate && (
           <small className="text-danger">
             Daily rate should be a value greater than zero!

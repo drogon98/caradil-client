@@ -34,7 +34,7 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
     useEditCarLocationAndDeliveryMutation();
   const [values, setValues] = useState<CarLocationAndDeliveryInput>();
 
-  console.log("props.value :>> ", props.value);
+  // console.log("props.value :>> ", props.value);
 
   useEffect(() => {
     if (props.value) {
@@ -93,7 +93,7 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
         This is the location of your car. If guests search for cars that match
         this location,it will appear in their search .
       </p>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="mb-3">
         <div>
           <label htmlFor="mileage">Where is your car located?</label>
           <AutoComplete

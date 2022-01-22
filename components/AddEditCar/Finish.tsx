@@ -19,7 +19,7 @@ export default function Finish(props: Props): ReactElement {
         variables: { carId: props.carId! },
       });
 
-      if (!response.data?.editCarVerificationInProgress.car?.id) {
+      if (response.data?.editCarVerificationInProgress.car?.id) {
         sessionStorage.removeItem("carId");
         await router.replace("/account/listings");
       }

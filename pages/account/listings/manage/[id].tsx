@@ -210,9 +210,9 @@ export default function ManageCar(props: Props): ReactElement {
 
   // console.log("carData :>> ", carData);
 
-  if (mainLoading) {
-    return <Loading />;
-  }
+  // if (mainLoading) {
+  //   return <Loading />;
+  // }
 
   return (
     <>
@@ -223,53 +223,20 @@ export default function ManageCar(props: Props): ReactElement {
       </Head>
       <AccountLayout>
         <AuthWrapper>
-          <div>
-            {showRequestVerificationModal && (
-              <RequestVerificationModal
-                carId={carData?.id!}
-                showModal={showRequestVerificationModal}
-                handleClose={() => setShowRequestVerificationModal(false)}
-                setCarData={setCarData}
-              />
-            )}
+          {mainLoading ? (
+            <Loading />
+          ) : (
+            <div>
+              {showRequestVerificationModal && (
+                <RequestVerificationModal
+                  carId={carData?.id!}
+                  showModal={showRequestVerificationModal}
+                  handleClose={() => setShowRequestVerificationModal(false)}
+                  setCarData={setCarData}
+                />
+              )}
 
-            <div className="manage-car-wrapper-top-lg px-2">
-              <div>
-                <button
-                  className="btn m-0 p-0 pl-2"
-                  onClick={() => {
-                    router.replace("/account/listings");
-                  }}
-                >
-                  <BsArrowLeft size={"30px"} />
-                </button>
-              </div>
-              <h3>Manage Car</h3>
-              <div className="d-flex justify-content-end">
-                {carData?.being_edited && (
-                  <button
-                    className="btn bgOrange py-0"
-                    onClick={handleRequestVerify}
-                  >
-                    Request Verification
-                  </button>
-                )}
-                {carData?.verification_in_progress && (
-                  <button
-                    className="btn bg-success color-white m-0 py-0"
-                    style={{ height: "40px" }}
-                    // disabled={true}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    Verification In Progress
-                  </button>
-                )}
-              </div>
-            </div>
-            <div className="manage-car-wrapper-top-sm p-2 py-0">
-              <div className="d-flex align-items-center">
+              <div className="manage-car-wrapper-top-lg px-2">
                 <div>
                   <button
                     className="btn m-0 p-0 pl-2"
@@ -280,240 +247,277 @@ export default function ManageCar(props: Props): ReactElement {
                     <BsArrowLeft size={"30px"} />
                   </button>
                 </div>
-                <div className="manage-car-burger-wrapper">
-                  <button
-                    className="btn py-0"
-                    onClick={handleBurgerClick}
-                    ref={burgerButtonRef}
-                  >
-                    <ImMenu3 size={"35px"} />
-                  </button>
-                  {showBurgerDropdown && (
-                    <div
-                      className="manage-car-burger-content p-3 py-4 shadow d-flex flex-column justify-content-evenly"
-                      ref={dropdownRef}
+                <h3>Manage Car</h3>
+                <div className="d-flex justify-content-end">
+                  {carData?.being_edited && (
+                    <button
+                      className="btn bgOrange py-0"
+                      onClick={handleRequestVerify}
                     >
-                      <Menu
-                        activeSection={activeSection!}
-                        handleClick={handleClick}
-                        setShowBurgerDropdown={setShowBurgerDropdown}
-                      />
-                    </div>
+                      Request Verification
+                    </button>
+                  )}
+                  {carData?.verification_in_progress && (
+                    <button
+                      className="btn bg-success color-white m-0 py-0"
+                      style={{ height: "40px" }}
+                      // disabled={true}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      Verification In Progress
+                    </button>
                   )}
                 </div>
               </div>
-              <div>
-                {carData?.being_edited && (
-                  <button
-                    className="btn bgOrange"
-                    onClick={handleRequestVerify}
-                  >
-                    Request Verification
-                  </button>
-                )}
-                {carData?.verification_in_progress && (
-                  <button
-                    className="btn bg-success color-white py-0"
-                    // disabled={true}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    Verification In Progress
-                  </button>
-                )}
+              <div className="manage-car-wrapper-top-sm p-2 py-0">
+                <div className="d-flex align-items-center">
+                  <div>
+                    <button
+                      className="btn m-0 p-0 pl-2"
+                      onClick={() => {
+                        router.replace("/account/listings");
+                      }}
+                    >
+                      <BsArrowLeft size={"30px"} />
+                    </button>
+                  </div>
+                  <div className="manage-car-burger-wrapper">
+                    <button
+                      className="btn py-0"
+                      onClick={handleBurgerClick}
+                      ref={burgerButtonRef}
+                    >
+                      <ImMenu3 size={"35px"} />
+                    </button>
+                    {showBurgerDropdown && (
+                      <div
+                        className="manage-car-burger-content p-3 py-4 shadow d-flex flex-column justify-content-evenly"
+                        ref={dropdownRef}
+                      >
+                        <Menu
+                          activeSection={activeSection!}
+                          handleClick={handleClick}
+                          setShowBurgerDropdown={setShowBurgerDropdown}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  {carData?.being_edited && (
+                    <button
+                      className="btn bgOrange"
+                      onClick={handleRequestVerify}
+                    >
+                      Request Verification
+                    </button>
+                  )}
+                  {carData?.verification_in_progress && (
+                    <button
+                      className="btn bg-success color-white py-0"
+                      // disabled={true}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      Verification In Progress
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className="manage-car-wrapper">
+                <div className="manage-car-left d-flex flex-column justify-content-evenly p-2">
+                  <Menu
+                    activeSection={activeSection!}
+                    handleClick={handleClick}
+                  />
+                </div>
+                <div className="manage-car-right p-2">
+                  {activeSection === 1 && (
+                    <GeneralInfo
+                      carId={carId}
+                      value={
+                        {
+                          name: carData?.name ?? "",
+                          reg_no: carData?.reg_no ?? "",
+                          make: carData?.make ?? "",
+                          odometer_reading: carData?.odometer_reading ?? 0,
+                          is_gps_enabled: carData?.is_gps_enabled ?? true,
+                        }!
+                      }
+                      setCompData={setCarData}
+                      isManage
+                      isEdit={carData?.being_edited ?? false}
+                      booked={carData?.booked ?? false}
+                      hasEditRequest={carData?.has_edit_request ?? false}
+                      verificationInProgress={
+                        carData?.verification_in_progress ?? false
+                      }
+                    />
+                  )}
+
+                  {activeSection === 2 && (
+                    <Features
+                      setCompData={setCarData}
+                      isManage
+                      carId={carId}
+                      isEdit={carData?.being_edited ?? false}
+                      booked={carData?.booked ?? false}
+                      hasEditRequest={carData?.has_edit_request ?? false}
+                      value={{
+                        transmission: carData?.transmission ?? "",
+                        gas: carData?.gas ?? "",
+                        color: carData?.color ?? "",
+                        doors: carData?.doors ?? 0,
+                        seats: carData?.seats ?? 0,
+                        features: featuresData ?? [],
+                      }}
+                      verificationInProgress={
+                        carData?.verification_in_progress ?? false
+                      }
+                    />
+                  )}
+
+                  {activeSection === 3 && (
+                    <Description
+                      setCompData={setCarData}
+                      isManage
+                      carId={carId}
+                      value={{
+                        description: carData?.description ?? "",
+                      }}
+                      verificationInProgress={
+                        carData?.verification_in_progress ?? false
+                      }
+                    />
+                  )}
+
+                  {activeSection === 4 && (
+                    <Photos
+                      setCompData={setCarData}
+                      isManage
+                      carVerified={carData?.verified ?? false}
+                      carId={carId}
+                      isEdit={carData?.being_edited ?? false}
+                      booked={carData?.booked ?? false}
+                      hasEditRequest={carData?.has_edit_request ?? false}
+                      value={{
+                        photos: photosData!,
+                      }}
+                      verificationInProgress={
+                        carData?.verification_in_progress ?? false
+                      }
+                    />
+                  )}
+
+                  {activeSection === 5 && (
+                    <Documents
+                      setCompData={setCarData}
+                      isManage
+                      carVerified={carData?.verified ?? false}
+                      carId={carId}
+                      isEdit={carData?.being_edited ?? false}
+                      booked={carData?.booked ?? false}
+                      hasEditRequest={carData?.has_edit_request ?? false}
+                      value={{
+                        documents: documentsData!,
+                      }}
+                      verificationInProgress={
+                        carData?.verification_in_progress ?? false
+                      }
+                    />
+                  )}
+
+                  {activeSection === 6 && (
+                    <Location
+                      setCompData={setCarData}
+                      isManage
+                      carId={carId}
+                      value={{
+                        location: carData?.location ?? "",
+                        delivery: carData?.delivery ?? false,
+                      }}
+                      verificationInProgress={
+                        carData?.verification_in_progress ?? false
+                      }
+                    />
+                  )}
+
+                  {activeSection === 7 && (
+                    <Categories
+                      isManage
+                      setCompData={setCarData}
+                      carId={carId}
+                      value={{
+                        categories: carData?.categories ?? [],
+                        luxury_and_vip_services:
+                          carData?.luxury_vip_services ?? [],
+                      }}
+                      verificationInProgress={
+                        carData?.verification_in_progress ?? false
+                      }
+                    />
+                  )}
+
+                  {activeSection === 8 && (
+                    <Distance
+                      setCompData={setCarData}
+                      isManage
+                      carId={carId}
+                      value={{
+                        has_unlimited_distance:
+                          carData?.has_unlimited_distance ?? false,
+                        distance_per_day: carData?.distance_per_day ?? 0,
+                        charge_extra_distance_travelled:
+                          carData?.charge_extra_distance_travelled ?? false,
+                      }}
+                      verificationInProgress={
+                        carData?.verification_in_progress ?? false
+                      }
+                    />
+                  )}
+
+                  {activeSection === 9 && (
+                    <Availability
+                      setCompData={setCarData}
+                      isManage
+                      carId={carId}
+                      value={{
+                        ...availabilityData!,
+                      }}
+                      manual={carData?.transmission === "manual"}
+                      booked={carData?.booked!}
+                      verificationInProgress={
+                        carData?.verification_in_progress ?? false
+                      }
+                    />
+                  )}
+
+                  {activeSection === 10 && (
+                    <Rates
+                      setCompData={setCarData}
+                      isManage
+                      carId={carId}
+                      value={{
+                        daily_rate: carData?.daily_rate ?? 0,
+                        delivery_rate: carData?.delivery_rate ?? 0,
+                        discount: carData?.discount ?? "",
+                        discount_days: carData?.discount_days ?? 0,
+                        driver_daily_rate: carData?.driver_daily_rate ?? 0,
+                        hourly_rate: carData?.hourly_rate ?? 0,
+                      }}
+                      compData={carData!}
+                      verificationInProgress={
+                        carData?.verification_in_progress ?? false
+                      }
+                    />
+                  )}
+                </div>
               </div>
             </div>
-            <div className="manage-car-wrapper">
-              <div className="manage-car-left d-flex flex-column justify-content-evenly p-2">
-                <Menu
-                  activeSection={activeSection!}
-                  handleClick={handleClick}
-                />
-              </div>
-              <div className="manage-car-right p-2">
-                {activeSection === 1 && (
-                  <GeneralInfo
-                    carId={carId}
-                    value={
-                      {
-                        name: carData?.name ?? "",
-                        reg_no: carData?.reg_no ?? "",
-                        make: carData?.make ?? "",
-                        odometer_reading: carData?.odometer_reading ?? 0,
-                        is_gps_enabled: carData?.is_gps_enabled ?? true,
-                      }!
-                    }
-                    setCompData={setCarData}
-                    isManage
-                    isEdit={carData?.being_edited ?? false}
-                    booked={carData?.booked ?? false}
-                    hasEditRequest={carData?.has_edit_request ?? false}
-                    verificationInProgress={
-                      carData?.verification_in_progress ?? false
-                    }
-                  />
-                )}
-
-                {activeSection === 2 && (
-                  <Features
-                    setCompData={setCarData}
-                    isManage
-                    carId={carId}
-                    isEdit={carData?.being_edited ?? false}
-                    booked={carData?.booked ?? false}
-                    hasEditRequest={carData?.has_edit_request ?? false}
-                    value={{
-                      transmission: carData?.transmission ?? "",
-                      gas: carData?.gas ?? "",
-                      color: carData?.color ?? "",
-                      doors: carData?.doors ?? 0,
-                      seats: carData?.seats ?? 0,
-                      features: featuresData ?? [],
-                    }}
-                    verificationInProgress={
-                      carData?.verification_in_progress ?? false
-                    }
-                  />
-                )}
-
-                {activeSection === 3 && (
-                  <Description
-                    setCompData={setCarData}
-                    isManage
-                    carId={carId}
-                    value={{
-                      description: carData?.description ?? "",
-                    }}
-                    verificationInProgress={
-                      carData?.verification_in_progress ?? false
-                    }
-                  />
-                )}
-
-                {activeSection === 4 && (
-                  <Photos
-                    setCompData={setCarData}
-                    isManage
-                    carVerified={carData?.verified ?? false}
-                    carId={carId}
-                    isEdit={carData?.being_edited ?? false}
-                    booked={carData?.booked ?? false}
-                    hasEditRequest={carData?.has_edit_request ?? false}
-                    value={{
-                      photos: photosData!,
-                    }}
-                    verificationInProgress={
-                      carData?.verification_in_progress ?? false
-                    }
-                  />
-                )}
-
-                {activeSection === 5 && (
-                  <Documents
-                    setCompData={setCarData}
-                    isManage
-                    carVerified={carData?.verified ?? false}
-                    carId={carId}
-                    isEdit={carData?.being_edited ?? false}
-                    booked={carData?.booked ?? false}
-                    hasEditRequest={carData?.has_edit_request ?? false}
-                    value={{
-                      documents: documentsData!,
-                    }}
-                    verificationInProgress={
-                      carData?.verification_in_progress ?? false
-                    }
-                  />
-                )}
-
-                {activeSection === 6 && (
-                  <Location
-                    setCompData={setCarData}
-                    isManage
-                    carId={carId}
-                    value={{
-                      location: carData?.location ?? "",
-                      delivery: carData?.delivery ?? false,
-                    }}
-                    verificationInProgress={
-                      carData?.verification_in_progress ?? false
-                    }
-                  />
-                )}
-
-                {activeSection === 7 && (
-                  <Categories
-                    isManage
-                    setCompData={setCarData}
-                    carId={carId}
-                    value={{
-                      categories: carData?.categories ?? [],
-                      luxury_and_vip_services:
-                        carData?.luxury_vip_services ?? [],
-                    }}
-                    verificationInProgress={
-                      carData?.verification_in_progress ?? false
-                    }
-                  />
-                )}
-
-                {activeSection === 8 && (
-                  <Distance
-                    setCompData={setCarData}
-                    isManage
-                    carId={carId}
-                    value={{
-                      has_unlimited_distance:
-                        carData?.has_unlimited_distance ?? false,
-                      distance_per_day: carData?.distance_per_day ?? 0,
-                      charge_extra_distance_travelled:
-                        carData?.charge_extra_distance_travelled ?? false,
-                    }}
-                    verificationInProgress={
-                      carData?.verification_in_progress ?? false
-                    }
-                  />
-                )}
-
-                {activeSection === 9 && (
-                  <Availability
-                    setCompData={setCarData}
-                    isManage
-                    carId={carId}
-                    value={{
-                      ...availabilityData!,
-                    }}
-                    manual={carData?.transmission === "manual"}
-                    booked={carData?.booked!}
-                    verificationInProgress={
-                      carData?.verification_in_progress ?? false
-                    }
-                  />
-                )}
-
-                {activeSection === 10 && (
-                  <Rates
-                    setCompData={setCarData}
-                    isManage
-                    carId={carId}
-                    value={{
-                      daily_rate: carData?.daily_rate ?? 0,
-                      delivery_rate: carData?.delivery_rate ?? 0,
-                      discount: carData?.discount ?? "",
-                      discount_days: carData?.discount_days ?? 0,
-                      driver_daily_rate: carData?.driver_daily_rate ?? 0,
-                      hourly_rate: carData?.hourly_rate ?? 0,
-                    }}
-                    compData={carData!}
-                    verificationInProgress={
-                      carData?.verification_in_progress ?? false
-                    }
-                  />
-                )}
-              </div>
-            </div>
-          </div>
+          )}
         </AuthWrapper>
       </AccountLayout>
     </>

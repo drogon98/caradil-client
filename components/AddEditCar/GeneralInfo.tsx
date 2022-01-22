@@ -152,7 +152,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         four words long eg. <b>Subaru Forester 2016</b>.
       </p>
       <form
-        className="form-group"
+        className="form-group mb-3"
         onSubmit={(e) => {
           handleSubmit(e);
         }}
@@ -253,7 +253,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           </div>
         )}
 
-        {!props.isEdit && (
+        {!props.isEdit && props.isManage && (
           <div className="mt-3">
             <small>
               This information is only editable with permisson from the admin.{" "}

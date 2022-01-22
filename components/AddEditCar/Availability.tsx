@@ -147,7 +147,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
   return (
     <div>
       <h3>Availability</h3>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="mb-3">
         <div className="mb-5">
           <p className="mb-2">
             This is how you want guests to drive your car. Some guests want to

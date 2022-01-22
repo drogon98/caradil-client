@@ -859,6 +859,10 @@ car-input-container select:focus {
     width: 80px;
     height: 80px;
   }
+
+  .car-input-width {
+    width: 180px !important;
+  }
 }
 
 @media screen and (max-width: 600px) {

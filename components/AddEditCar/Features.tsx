@@ -147,7 +147,7 @@ export const Features: FC<FeaturesProps> = (props) => {
       )}{" "}
       <h3>Features</h3>
       <p className="mb-3">Add features of your car below</p>
-      <form onSubmit={handleSubmit}>
+      <form className="mb-3" onSubmit={handleSubmit}>
         {invalidDoors && (
           <small className="text-danger">
             Doors must be a value greater than 0!
@@ -192,7 +192,7 @@ export const Features: FC<FeaturesProps> = (props) => {
             </select>
           </div>
         </div>
-        <div className="row mt-2">
+        <div className="row m-0 mt-2">
           <div className="col">
             <label htmlFor="carName">Color</label>
             <select
@@ -227,7 +227,7 @@ export const Features: FC<FeaturesProps> = (props) => {
             />
           </div>
         </div>
-        <div className="row mt-2">
+        <div className="row m-0 mt-2">
           <div className="col-6">
             <label htmlFor="carName">Doors</label>
             <input
@@ -244,7 +244,7 @@ export const Features: FC<FeaturesProps> = (props) => {
           </div>
         </div>
 
-        {!props.isEdit && (
+        {!props.isEdit && props.isManage && (
           <div className="mt-3">
             <small>
               This information above is only editable with permisson from the

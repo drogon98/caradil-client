@@ -35,6 +35,7 @@ export default function index(props: Props): ReactElement {
       setMainLoading(false);
     }
   }, [bookings, loading]);
+
   return (
     <>
       <Head>

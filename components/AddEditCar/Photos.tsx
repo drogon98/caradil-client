@@ -193,6 +193,7 @@ export const Photos: FC<PhotosProps> = (props) => {
         onSubmit={(e) => {
           handleSubmit(e);
         }}
+        className="mb-3"
       >
         <div className="d-flex align-items-center">
           <input
@@ -230,7 +231,7 @@ export const Photos: FC<PhotosProps> = (props) => {
             ))}
         </div>
 
-        {!props.isEdit && (
+        {!props.isEdit && props.isManage && (
           <div className="mt-3">
             <small>
               This information is only editable with permisson from the admin.{" "}

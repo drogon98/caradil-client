@@ -124,7 +124,7 @@ export const Categories: FC<CategoryProps> = (props) => {
         many categories. eg A subaru forester can belong to sports and 4wd
         category.
       </p>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="mb-3">
         {carCategories.map((category, idx) => {
           const isSelected = values?.categories?.find(
             (cat) => cat === category.toLowerCase()

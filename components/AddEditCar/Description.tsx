@@ -113,7 +113,7 @@ export const Description: FC<DescriptionProps> = (props) => {
   // console.log("value :>> ", value);
 
   return (
-    <>
+    <div className="mb-3">
       <h3>Description</h3>
       <p className="mb-2">
         Describe your car below. This is a chance to make a great impression to
@@ -210,6 +210,6 @@ export const Description: FC<DescriptionProps> = (props) => {
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 };

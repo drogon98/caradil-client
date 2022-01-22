@@ -259,6 +259,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
         onSubmit={(e) => {
           handleSave(e);
         }}
+        className="mb-3"
       >
         <label>Car Owner National Id</label>
         <div>
@@ -342,7 +343,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
           )}
         </div>
 
-        {!props.isEdit && (
+        {!props.isEdit && props.isManage && (
           <div className="mt-3">
             <small>
               This information is only editable with permisson from the admin.{" "}

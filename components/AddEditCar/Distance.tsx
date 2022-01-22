@@ -17,10 +17,7 @@ import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface DistanceProps {
   value: CarDistanceInput;
-  // setData: Dispatch<SetStateAction<CarDistanceInput>>;
   carId: number | undefined;
-  // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
-
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
@@ -32,9 +29,6 @@ export const Distance: FC<DistanceProps> = (props) => {
   const [editDistance, { loading }] = useEditCarDistanceMutation();
   const [values, setValues] = useState<CarDistanceInput>();
   const [showExtraDistanceText, setShowExtraDistanceText] = useState(false);
-
-  // console.log("props.value :>> ", props.value);
-  // console.log("values :>> ", values);
 
   useEffect(() => {
     if (props.value) {
@@ -78,8 +72,6 @@ export const Distance: FC<DistanceProps> = (props) => {
     }
   };
 
-  // const [saved, setSaved] = useState(false);
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -106,15 +98,13 @@ export const Distance: FC<DistanceProps> = (props) => {
     }
   };
 
-  // console.log("values! :>> ", values!);
-
   return (
     <div>
       <h3>Distance</h3>
       <p className="mb-2">
         This is the distance your car should cover in one day of a trip.
       </p>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="mb-3">
         <div>
           <label htmlFor="distance_per_day">Distance (KM)</label>
           <div className="input-group car-input-width mb-3">
