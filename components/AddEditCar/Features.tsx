@@ -244,7 +244,7 @@ export const Features: FC<FeaturesProps> = (props) => {
           </div>
         </div>
 
-        {!props.isEdit && props.isManage && (
+        {!props.isEdit && props.isManage && !props.verificationInProgress && (
           <div className="mt-3">
             <small>
               This information above is only editable with permisson from the

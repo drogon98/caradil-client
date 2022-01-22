@@ -148,8 +148,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
       )}
       <h4>General Info</h4>
       <p className="mb-3">
-        Add your car name. Make it unique with minimum three words a maximum of
-        four words long eg. <b>Subaru Forester 2016</b>.
+        Add your car name. Make it unique with minimum and maximum of three
+        words long eg. <b>Subaru Forester 2016</b>.
       </p>
       <form
         className="form-group mb-3"
