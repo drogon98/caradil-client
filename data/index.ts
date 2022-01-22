@@ -44,7 +44,7 @@ export const carMakes: string[] = [
   "Audi",
 ];
 
-export const time24hrs = [
+export const time24hrs: string[] = [
   "00:00",
   "00:30",
   "01:00",
@@ -95,10 +95,11 @@ export const time24hrs = [
   "23:30",
 ];
 
-export const carFeatures = [
+export const carFeatures: string[] = [
   "Bluetooth",
   "USB Charger",
   "USB Input",
   "Wifi",
   "Baby Chair",
+  "GPS",
 ];

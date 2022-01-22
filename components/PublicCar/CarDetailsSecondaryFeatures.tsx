@@ -5,6 +5,7 @@ import { FiBluetooth } from "react-icons/fi";
 import { AiOutlineUsb, AiOutlineWifi } from "react-icons/ai";
 import { FaWheelchair } from "react-icons/fa";
 import { BiUsb } from "react-icons/bi";
+import { MdOutlineGpsFixed } from "react-icons/md";
 
 interface CarDetailsSecondaryFeaturesProps {
   data: Maybe<FeatureObj[]> | undefined;
@@ -30,10 +31,10 @@ FeatureIconMap.set(
   <AiOutlineUsb className="secondary-feature-icon" />
 );
 
-/**
- * @author @CodeYourEmpire
- * @function @CarDetailsFeatures
- **/
+FeatureIconMap.set(
+  "GPS",
+  <MdOutlineGpsFixed className="secondary-feature-icon" />
+);
 
 export const CarDetailsSecondaryFeatures: FC<
   CarDetailsSecondaryFeaturesProps

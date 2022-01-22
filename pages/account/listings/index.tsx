@@ -21,7 +21,7 @@ interface ListingsProps {}
 const Listings: FC<ListingsProps> = (props) => {
   const [mainLoading, setMainLoading] = useState(true);
   const { data, loading } = useGetHostCarsQuery({
-    fetchPolicy: "network-only",
+    fetchPolicy: "no-cache",
   });
   // console.log("data :>> ", data);
 
@@ -39,7 +39,7 @@ const Listings: FC<ListingsProps> = (props) => {
     }
   }, [cars, loading]);
 
-  console.log("cars :>> ", cars);
+  // console.log("cars :>> ", cars);
 
   return (
     <>
