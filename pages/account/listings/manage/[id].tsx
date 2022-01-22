@@ -272,6 +272,7 @@ export default function ManageCar(props: Props): ReactElement {
                         reg_no: carData?.reg_no ?? "",
                         make: carData?.make ?? "",
                         odometer_reading: carData?.odometer_reading ?? 0,
+                        is_gps_enabled: carData?.is_gps_enabled ?? true,
                       }!
                     }
                     setCompData={setCarData}
