@@ -84,7 +84,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
                 ? false
                 : values.is_gps_enabled,
           },
-          isEdit: props.isResume ? true : false,
+          isEdit: props.isResume || props.isManage ? true : false,
           carId: props.carId,
         },
       });
