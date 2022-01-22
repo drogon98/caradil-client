@@ -253,7 +253,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           </div>
         )}
 
-        {!props.isEdit && props.isManage && (
+        {!props.isEdit && props.isManage && !props.verificationInProgress && (
           <div className="mt-3">
             <small>
               This information is only editable with permisson from the admin.{" "}
