@@ -29,7 +29,7 @@ interface DescriptionProps {
 
   carId: number | undefined;
   isManage?: boolean;
-  verificationInProgress: boolean;
+  verificationInProgress?: boolean;
 }
 
 const modules = {

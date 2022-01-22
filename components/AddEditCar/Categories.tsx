@@ -26,7 +26,7 @@ interface CategoryProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   isManage?: boolean;
-  verificationInProgress: boolean;
+  verificationInProgress?: boolean;
 }
 
 export const Categories: FC<CategoryProps> = (props) => {

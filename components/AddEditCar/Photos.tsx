@@ -33,7 +33,7 @@ interface PhotosProps {
   isEdit?: boolean; // Under Manage
   booked?: boolean;
   hasEditRequest?: boolean;
-  verificationInProgress: boolean;
+  verificationInProgress?: boolean;
 }
 
 export const Photos: FC<PhotosProps> = (props) => {

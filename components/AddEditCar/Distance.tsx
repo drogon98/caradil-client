@@ -25,7 +25,7 @@ interface DistanceProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   isManage?: boolean;
-  verificationInProgress: boolean;
+  verificationInProgress?: boolean;
 }
 
 export const Distance: FC<DistanceProps> = (props) => {

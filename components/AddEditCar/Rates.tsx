@@ -27,13 +27,8 @@ interface RatesProps {
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   compData: Car;
   isManage?: boolean;
-  verificationInProgress: boolean;
+  verificationInProgress?: boolean;
 }
-
-/**
- * @author @CodeYourEmpire
- * @function @Rates
- **/
 
 export const Rates: FC<RatesProps> = (props) => {
   const [editRates, { loading }] = useEditCarRatesMutation();

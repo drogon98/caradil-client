@@ -34,7 +34,7 @@ interface DocumentsProps {
   isManage?: boolean;
   booked?: boolean;
   hasEditRequest?: boolean;
-  verificationInProgress: boolean;
+  verificationInProgress?: boolean;
 }
 
 export const Documents: FC<DocumentsProps> = (props) => {

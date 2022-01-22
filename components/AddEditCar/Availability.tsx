@@ -27,7 +27,7 @@ interface AvailabilityProps {
   manual: boolean;
   isManage?: boolean;
   booked?: boolean;
-  verificationInProgress: boolean;
+  verificationInProgress?: boolean;
 }
 
 export const Availability: FC<AvailabilityProps> = (props) => {

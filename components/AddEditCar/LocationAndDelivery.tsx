@@ -26,7 +26,7 @@ interface LocationAndDeliveryProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   isManage?: boolean;
-  verificationInProgress: boolean;
+  verificationInProgress?: boolean;
 }
 
 export const Location: FC<LocationAndDeliveryProps> = (props) => {

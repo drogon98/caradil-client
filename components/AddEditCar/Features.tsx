@@ -28,7 +28,7 @@ interface FeaturesProps {
   isEdit?: boolean;
   booked?: boolean;
   hasEditRequest?: boolean;
-  verificationInProgress: boolean;
+  verificationInProgress?: boolean;
 }
 
 export const Features: FC<FeaturesProps> = (props) => {
