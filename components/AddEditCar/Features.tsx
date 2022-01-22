@@ -4,6 +4,7 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
+  SyntheticEvent,
   useEffect,
   useState,
 } from "react";
@@ -14,6 +15,7 @@ import {
   useEditCarFeaturesMutation,
 } from "../../graphql_types/generated/graphql";
 import { FormNextPrevButton } from "./FormNextPrevButton";
+import RequestEditModal from "./ManageCar/RequestEditModal";
 import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface FeaturesProps {
@@ -23,6 +25,9 @@ interface FeaturesProps {
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   carId: number | undefined;
   isManage?: boolean;
+  isEdit?: boolean;
+  booked?: boolean;
+  hasEditRequest?: boolean;
 }
 
 export const Features: FC<FeaturesProps> = (props) => {
@@ -30,6 +35,7 @@ export const Features: FC<FeaturesProps> = (props) => {
   const [values, setValues] = useState<CarFeaturesInput>();
   const [invalidSeats, setInvalidSeats] = useState(false);
   const [invalidDoors, setInvalidDoors] = useState(false);
+  const [showRequestEditModal, setShowRequestEditModal] = useState(false);
 
   useEffect(() => {
     setValues({
@@ -119,9 +125,25 @@ export const Features: FC<FeaturesProps> = (props) => {
     }
   };
 
+  const handleRequestEditClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (props.hasEditRequest) {
+      return;
+    }
+    setShowRequestEditModal(true);
+  };
+
   return (
     <div>
-      {" "}
+      {showRequestEditModal && (
+        <RequestEditModal
+          booked={props.booked!}
+          showModal={showRequestEditModal}
+          handleClose={() => setShowRequestEditModal(false)}
+          carId={props.carId!}
+          setCarData={props.setCompData}
+        />
+      )}{" "}
       <h3>Features</h3>
       <p className="mb-3">Add features of your car below</p>
       <form onSubmit={handleSubmit}>
@@ -145,6 +167,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               value={values?.gas}
               name="gas"
               required
+              disabled={props.isManage && !props.isEdit}
             >
               <option value={""}>Select Gas</option>
               <option value="petrol">Petrol</option>
@@ -160,6 +183,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               value={values?.transmission}
               name="transmission"
               required
+              disabled={props.isManage && !props.isEdit}
             >
               <option value={""}>Select Transmission</option>
               <option value="manual">Manual</option>
@@ -177,6 +201,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               value={values?.color}
               name="color"
               required
+              disabled={props.isManage && !props.isEdit}
             >
               <option value={""}>Select Color</option>
               {carColors.map((color, idx) => (
@@ -197,7 +222,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               onChange={handleChange}
               min={0}
               onFocus={handleFocus}
-              // placeholder="eg KBA765K"
+              disabled={props.isManage && !props.isEdit}
             />
           </div>
         </div>
@@ -213,10 +238,31 @@ export const Features: FC<FeaturesProps> = (props) => {
               onChange={handleChange}
               min={0}
               onFocus={handleFocus}
-              // placeholder="eg KBA765K"
+              disabled={props.isManage && !props.isEdit}
             />
           </div>
         </div>
+
+        {!props.isEdit && (
+          <div className="mt-3">
+            <small>
+              This information above is only editable with permisson from the
+              admin.{" "}
+              <button
+                className="btn colorOrange p-0"
+                onClick={handleRequestEditClick}
+              >
+                {props.hasEditRequest ? (
+                  <small className="text-success fw-bold">
+                    Edit Request Sent!
+                  </small>
+                ) : (
+                  <small>Request Edit</small>
+                )}
+              </button>
+            </small>
+          </div>
+        )}
 
         <div className="mt-3">
           {carFeatures.map((feature, idx) => {

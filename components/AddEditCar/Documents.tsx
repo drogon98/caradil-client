@@ -20,25 +20,21 @@ import {
 import { ButtonLoading } from "../Loading/ButtonLoading";
 import DocumentContent from "./DocumentContent";
 import { FormNextPrevButton } from "./FormNextPrevButton";
+import RequestEditModal from "./ManageCar/RequestEditModal";
 import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface DocumentsProps {
   value: CarDocumentsInput;
-  // setData: Dispatch<SetStateAction<CarDocumentsInput>>;
   carId: number | undefined;
   carVerified?: boolean;
   isEdit?: boolean;
-  // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   activeSlide?: number;
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   isManage?: boolean;
+  booked?: boolean;
+  hasEditRequest?: boolean;
 }
-
-/**
- * @author @CodeYourEmpire
- * @function @Documents
- **/
 
 export const Documents: FC<DocumentsProps> = (props) => {
   const [uploadFile, { loading: uploading }] = useUploadFileMutation();
@@ -46,6 +42,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
   const [deleteFile, { loading: deleteLoading }] = useDeleteFileMutation();
   // const [toDelete, setToDelete] = useState<DocumentInput>();
   const [secondaryLoading, setSecondaryLoading] = useState(false);
+  const [showRequestEditModal, setShowRequestEditModal] = useState(false);
 
   // const [saved, setSaved] = useState(false);
   const [id, setId] = useState<string>();
@@ -230,10 +227,27 @@ export const Documents: FC<DocumentsProps> = (props) => {
     } catch (error) {}
   };
 
+  const handleRequestEditClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (props.hasEditRequest) {
+      return;
+    }
+    setShowRequestEditModal(true);
+  };
+
   // console.log("props.value :>> ", props.value);
 
   return (
     <>
+      {showRequestEditModal && (
+        <RequestEditModal
+          booked={props.booked!}
+          showModal={showRequestEditModal}
+          handleClose={() => setShowRequestEditModal(false)}
+          carId={props.carId!}
+          setCarData={props.setCompData}
+        />
+      )}
       <h3>Documents</h3>
       <p className="mb-3">
         These documents will help us verify this car is yours. Ensure they are
@@ -261,6 +275,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
                   type="file"
                   accept="image/*,.pdf"
                   onChange={(e) => handleUpload(e, "national_id")}
+                  disabled={props.isManage && !props.isEdit}
                   // disabled={saving}
                 />
                 <span>
@@ -298,6 +313,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
                   type="file"
                   accept="image/*,.pdf"
                   onChange={(e) => handleUpload(e, "logbook")}
+                  disabled={props.isManage && !props.isEdit}
                   // disabled={saving}
                 />
                 <span>
@@ -318,6 +334,26 @@ export const Documents: FC<DocumentsProps> = (props) => {
             </div>
           )}
         </div>
+
+        {!props.isEdit && (
+          <div className="mt-3">
+            <small>
+              This information is only editable with permisson from the admin.{" "}
+              <button
+                className="btn colorOrange p-0"
+                onClick={handleRequestEditClick}
+              >
+                {props.hasEditRequest ? (
+                  <small className="text-success fw-bold">
+                    Edit Request Sent!
+                  </small>
+                ) : (
+                  <small>Request Edit</small>
+                )}
+              </button>
+            </small>
+          </div>
+        )}
 
         {/* <br />
         <label>Car Purchase Receipt (Optional)</label>

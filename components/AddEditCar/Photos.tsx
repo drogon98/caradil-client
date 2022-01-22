@@ -4,6 +4,7 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
+  SyntheticEvent,
   useEffect,
   useState,
 } from "react";
@@ -17,6 +18,7 @@ import {
 } from "../../graphql_types/generated/graphql";
 import { ButtonLoading } from "../Loading/ButtonLoading";
 import { FormNextPrevButton } from "./FormNextPrevButton";
+import RequestEditModal from "./ManageCar/RequestEditModal";
 import UpdateBtn from "./ManageCar/UpdateBtn";
 import { PhotoBox } from "./PhotoBox";
 
@@ -28,6 +30,9 @@ interface PhotosProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   isManage?: boolean;
+  isEdit?: boolean; // Under Manage
+  booked?: boolean;
+  hasEditRequest?: boolean;
 }
 
 export const Photos: FC<PhotosProps> = (props) => {
@@ -36,6 +41,7 @@ export const Photos: FC<PhotosProps> = (props) => {
   const [deleteFile, { loading: deleteLoading }] = useDeleteFileMutation();
   const [secondaryLoading, setSecondaryLoading] = useState(false);
   const [values, setValues] = useState<CarPhotosInput>();
+  const [showRequestEditModal, setShowRequestEditModal] = useState(false);
 
   // console.log("props.value.photos :>> ", props.value.photos);
 
@@ -143,10 +149,27 @@ export const Photos: FC<PhotosProps> = (props) => {
     }
   };
 
+  const handleRequestEditClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (props.hasEditRequest) {
+      return;
+    }
+    setShowRequestEditModal(true);
+  };
+
   // console.log("props.value.photos :>> ", props.value.photos);
 
   return (
     <>
+      {showRequestEditModal && (
+        <RequestEditModal
+          booked={props.booked!}
+          showModal={showRequestEditModal}
+          handleClose={() => setShowRequestEditModal(false)}
+          carId={props.carId!}
+          setCarData={props.setCompData}
+        />
+      )}
       <h3>Photos</h3>
       <p className="mb-1">
         <small>
@@ -171,7 +194,12 @@ export const Photos: FC<PhotosProps> = (props) => {
         }}
       >
         <div className="d-flex align-items-center">
-          <input type="file" accept="image/*" onChange={handleUpload} />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleUpload}
+            disabled={props.isManage && !props.isEdit}
+          />
           <span>
             {(uploading || deleteLoading) && (
               <ButtonLoading
@@ -198,6 +226,26 @@ export const Photos: FC<PhotosProps> = (props) => {
               />
             ))}
         </div>
+
+        {!props.isEdit && (
+          <div className="mt-3">
+            <small>
+              This information is only editable with permisson from the admin.{" "}
+              <button
+                className="btn colorOrange p-0"
+                onClick={handleRequestEditClick}
+              >
+                {props.hasEditRequest ? (
+                  <small className="text-success fw-bold">
+                    Edit Request Sent!
+                  </small>
+                ) : (
+                  <small>Request Edit</small>
+                )}
+              </button>
+            </small>
+          </div>
+        )}
 
         {props.isManage ? (
           <UpdateBtn

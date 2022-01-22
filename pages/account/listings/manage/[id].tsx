@@ -277,6 +277,9 @@ export default function ManageCar(props: Props): ReactElement {
                     }
                     setCompData={setCarData}
                     isManage
+                    isEdit={carData?.being_edited ?? false}
+                    booked={carData?.booked ?? false}
+                    hasEditRequest={carData?.has_edit_request ?? false}
                   />
                 )}
 
@@ -285,6 +288,9 @@ export default function ManageCar(props: Props): ReactElement {
                     setCompData={setCarData}
                     isManage
                     carId={carId}
+                    isEdit={carData?.being_edited ?? false}
+                    booked={carData?.booked ?? false}
+                    hasEditRequest={carData?.has_edit_request ?? false}
                     value={{
                       transmission: carData?.transmission ?? "",
                       gas: carData?.gas ?? "",
@@ -313,6 +319,9 @@ export default function ManageCar(props: Props): ReactElement {
                     isManage
                     carVerified={carData?.verified ?? false}
                     carId={carId}
+                    isEdit={carData?.being_edited ?? false}
+                    booked={carData?.booked ?? false}
+                    hasEditRequest={carData?.has_edit_request ?? false}
                     value={{
                       photos: photosData!,
                     }}
@@ -324,8 +333,10 @@ export default function ManageCar(props: Props): ReactElement {
                     setCompData={setCarData}
                     isManage
                     carVerified={carData?.verified ?? false}
-                    isEdit={true}
                     carId={carId}
+                    isEdit={carData?.being_edited ?? false}
+                    booked={carData?.booked ?? false}
+                    hasEditRequest={carData?.has_edit_request ?? false}
                     value={{
                       documents: documentsData!,
                     }}

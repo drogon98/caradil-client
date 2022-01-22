@@ -65,4 +65,5 @@ fragment carInfo on Car {
   manual_transmission_test
   charge_extra_distance_travelled
   is_gps_enabled
+  being_edited
 }

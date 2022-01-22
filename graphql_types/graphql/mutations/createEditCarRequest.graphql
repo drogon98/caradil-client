@@ -1,0 +1,8 @@
+mutation CreateEditCarRequest($carId: Float!) {
+  createEditRequest(carId: $carId) {
+    car {
+      ...carPrivateInfo
+    }
+    error
+  }
+}

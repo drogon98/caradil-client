@@ -4,6 +4,7 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
+  SyntheticEvent,
   useEffect,
   useState,
 } from "react";
@@ -14,6 +15,7 @@ import {
   useAddEditCarGeneralInfoMutation,
 } from "../../graphql_types/generated/graphql";
 import { FormNextPrevButton } from "./FormNextPrevButton";
+import RequestEditModal from "./ManageCar/RequestEditModal";
 import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface GeneralInfoProps {
@@ -25,12 +27,16 @@ interface GeneralInfoProps {
   setCarId?: Dispatch<SetStateAction<number | undefined>>;
   carId: number | undefined;
   isManage?: boolean;
+  isEdit?: boolean; // Under Manage
+  booked?: boolean;
+  hasEditRequest?: boolean;
 }
 
 export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
   const [addEditCarGeneralInfo, { loading }] =
     useAddEditCarGeneralInfoMutation();
   const [invalidOdoReading, setInvalidOdReading] = useState(false);
+  const [showRequestEditModal, setShowRequestEditModal] = useState(false);
 
   const [values, setValues] = useState<CarGeneralInfoInput>();
 
@@ -91,10 +97,6 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
 
       if (response?.data?.addEditCarGeneralInfo.error) {
       } else if (response?.data?.addEditCarGeneralInfo.carId) {
-        console.log(
-          "response.data.addEditCarGeneralInfo.car :>> ",
-          response.data.addEditCarGeneralInfo.car
-        );
         props.setCompData(response.data.addEditCarGeneralInfo.car!);
         if (!props.isResume) {
           sessionStorage.setItem(
@@ -123,10 +125,26 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
     }
   };
 
-  console.log("values :>> ", values);
+  const handleRequestEditClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (props.hasEditRequest) {
+      return;
+    }
+    setShowRequestEditModal(true);
+  };
+  // console.log("values :>> ", values);
 
   return (
     <>
+      {showRequestEditModal && (
+        <RequestEditModal
+          booked={props.booked!}
+          showModal={showRequestEditModal}
+          handleClose={() => setShowRequestEditModal(false)}
+          carId={props.carId!}
+          setCarData={props.setCompData}
+        />
+      )}
       <h4>General Info</h4>
       <p className="mb-3">
         Add your car name. Make it unique with minimum three words a maximum of
@@ -234,10 +252,30 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           </div>
         )}
 
+        {!props.isEdit && (
+          <div className="mt-3">
+            <small>
+              This information is only editable with permisson from the admin.{" "}
+              <button
+                className="btn colorOrange p-0"
+                onClick={handleRequestEditClick}
+              >
+                {props.hasEditRequest ? (
+                  <small className="text-success fw-bold">
+                    Edit Request Sent!
+                  </small>
+                ) : (
+                  <small>Request Edit</small>
+                )}
+              </button>
+            </small>
+          </div>
+        )}
+
         {props.isManage ? (
           <UpdateBtn
             loading={loading}
-            disabled={loading || !values?.is_gps_enabled}
+            disabled={loading || !values?.is_gps_enabled || props.isManage}
           />
         ) : (
           <FormNextPrevButton
