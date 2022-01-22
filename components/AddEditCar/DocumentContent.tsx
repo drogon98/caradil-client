@@ -6,7 +6,11 @@ interface DocumentContentProps {
   title: string;
   deleteHandler: any;
   docUrl: string;
-  isVerified: boolean;
+  // isVerified: boolean;
+  verificationInProgress?: boolean;
+  isManage?: boolean;
+  isEdit?: boolean;
+  deleteLoading: boolean;
 }
 
 export default function DocumentContent(
@@ -51,12 +55,14 @@ export default function DocumentContent(
           )}
           <small>{processFileName(props.docUrl)}</small>
           <>
-            {!props.isVerified && (
+            {(!props.verificationInProgress ||
+              (props.isManage && !props.isEdit)) && (
               <small>
                 <button
                   title="Delete file"
                   className="btn"
                   onClick={(e) => props.deleteHandler(e, props.title)}
+                  disabled={props.deleteLoading}
                 >
                   <FaTrash />
                 </button>

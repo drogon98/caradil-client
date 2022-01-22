@@ -226,7 +226,9 @@ export const Photos: FC<PhotosProps> = (props) => {
                 photo={photo}
                 deletePhoto={deletePhoto}
                 key={photo.public_id}
-                // carVerified={props.carVerified}
+                verificationInProgress={props.verificationInProgress}
+                isEdit={props.isEdit}
+                isManage={props.isManage}
               />
             ))}
         </div>

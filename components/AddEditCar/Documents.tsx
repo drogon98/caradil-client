@@ -265,10 +265,14 @@ export const Documents: FC<DocumentsProps> = (props) => {
         <div>
           {props.carVerified ? (
             <DocumentContent
-              isVerified={props.carVerified}
+              // isVerified={props.carVerified}
               deleteHandler={handleDeleteDoc}
               docUrl={documents.documents[0]?.file?.secure_url}
               title="national_id"
+              verificationInProgress={props.verificationInProgress}
+              isEdit={props.isEdit}
+              isManage={props.isManage}
+              deleteLoading={deleteLoading}
             />
           ) : (
             <div className="d-flex align-items-start flex-column">
@@ -293,10 +297,14 @@ export const Documents: FC<DocumentsProps> = (props) => {
                 </span>
               </div>
               <DocumentContent
-                isVerified={props.carVerified!}
+                // isVerified={props.carVerified!}
+                verificationInProgress={props.verificationInProgress}
+                isEdit={props.isEdit}
+                isManage={props.isManage}
                 deleteHandler={handleDeleteDoc}
                 docUrl={documents.documents[0]?.file?.secure_url}
                 title="national_id"
+                deleteLoading={deleteLoading}
               />
             </div>
           )}
@@ -306,8 +314,12 @@ export const Documents: FC<DocumentsProps> = (props) => {
         <div>
           {props.carVerified ? (
             <DocumentContent
-              isVerified={props.carVerified}
+              // isVerified={props.carVerified}
+              verificationInProgress={props.verificationInProgress}
+              isEdit={props.isEdit}
+              isManage={props.isManage}
               deleteHandler={handleDeleteDoc}
+              deleteLoading={deleteLoading}
               docUrl={documents.documents[1]?.file?.secure_url}
               title="logbook"
             />
@@ -334,10 +346,14 @@ export const Documents: FC<DocumentsProps> = (props) => {
                 </span>
               </div>
               <DocumentContent
-                isVerified={props.carVerified!}
+                // isVerified={props.carVerified!}
+                verificationInProgress={props.verificationInProgress}
+                isEdit={props.isEdit}
+                isManage={props.isManage}
                 deleteHandler={handleDeleteDoc}
                 docUrl={documents.documents[1]?.file?.secure_url}
                 title="logbook"
+                deleteLoading={deleteLoading}
               />
             </div>
           )}

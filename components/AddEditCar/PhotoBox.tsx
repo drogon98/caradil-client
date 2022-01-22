@@ -5,7 +5,9 @@ import { FileInput } from "../../graphql_types/generated/graphql";
 interface PhotoBoxProps {
   photo: FileInput;
   deletePhoto: (id: string) => void;
-  carVerified?: boolean;
+  verificationInProgress?: boolean;
+  isManage?: boolean;
+  isEdit?: boolean;
 }
 
 export const PhotoBox: FC<PhotoBoxProps> = (props) => {
@@ -23,9 +25,13 @@ export const PhotoBox: FC<PhotoBoxProps> = (props) => {
         height="200px"
         style={{ objectFit: "cover" }}
       />
-      {!props.carVerified && (
+      {(!props.verificationInProgress || (props.isManage && !props.isEdit)) && (
         <span className="photo-box-delete-wrapper">
-          <button className="btn p-0 m-0" onClick={handleClick}>
+          <button
+            className="btn p-0 m-0"
+            onClick={handleClick}
+            disabled={props.verificationInProgress}
+          >
             <FaTrash style={{ color: "orange" }} />
           </button>
         </span>
