@@ -30,6 +30,7 @@ interface GeneralInfoProps {
   isEdit?: boolean; // Under Manage
   booked?: boolean;
   hasEditRequest?: boolean;
+  verificationInProgress?: boolean;
 }
 
 export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
@@ -168,7 +169,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               id="name"
               type="text"
               name="name"
-              className="form-control"
+              className="form-control car-input-width"
               value={values?.name}
               required
               onChange={handleChange}
@@ -179,7 +180,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           <div className="col">
             <label htmlFor="carMake">Make</label>
             <select
-              className="form-select form-control"
+              className="form-select form-control car-input-width"
               aria-label="Default select example"
               onChange={handleChange}
               value={values?.make}
@@ -202,7 +203,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             <input
               type="text"
               name="reg_no"
-              className="form-control"
+              className="form-control car-input-width"
               value={values?.reg_no}
               required
               onChange={handleChange}
@@ -215,7 +216,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             <input
               type="number"
               name="odometer_reading"
-              className="form-control"
+              className="form-control car-input-width"
               value={values?.odometer_reading}
               required
               onChange={handleChange}
@@ -275,7 +276,12 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         {props.isManage ? (
           <UpdateBtn
             loading={loading}
-            disabled={loading || !values?.is_gps_enabled || props.isManage}
+            disabled={
+              loading ||
+              !values?.is_gps_enabled ||
+              props.isManage ||
+              props.verificationInProgress
+            }
           />
         ) : (
           <FormNextPrevButton

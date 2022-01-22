@@ -19,7 +19,7 @@ export default function Finish(props: Props): ReactElement {
         variables: { carId: props.carId! },
       });
 
-      if (response.data?.editCarVerificationInProgress) {
+      if (!response.data?.editCarVerificationInProgress.car?.id) {
         sessionStorage.removeItem("carId");
         await router.replace("/account/listings");
       }
@@ -29,7 +29,7 @@ export default function Finish(props: Props): ReactElement {
   };
   return (
     <div>
-      <h3 className="text-success">Yey!!!!!</h3>
+      <h3 className="text-success">Hooray!!!!!</h3>
 
       <div>
         <p>

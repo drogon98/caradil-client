@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import React, {
   Dispatch,
   FC,
@@ -13,8 +14,6 @@ import {
   CarDescriptionInput,
   useEditCarDescriptionMutation,
 } from "../../graphql_types/generated/graphql";
-import dynamic from "next/dynamic";
-import { Icon } from "@iconify/react";
 import { ButtonLoading } from "../Loading/ButtonLoading";
 
 const ReactQuill = dynamic(() => import("react-quill"), {
@@ -27,10 +26,10 @@ interface DescriptionProps {
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
-  // setData: Dispatch<SetStateAction<CarDescriptionInput>>;
+
   carId: number | undefined;
   isManage?: boolean;
-  // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
+  verificationInProgress: boolean;
 }
 
 const modules = {
@@ -168,7 +167,7 @@ export const Description: FC<DescriptionProps> = (props) => {
           <button
             type="submit"
             className="btn bgOrange"
-            disabled={loading || !value}
+            disabled={loading || !value || props.verificationInProgress}
             onClick={handleSaveDescription}
           >
             {loading ? (

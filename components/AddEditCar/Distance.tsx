@@ -25,12 +25,8 @@ interface DistanceProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   isManage?: boolean;
+  verificationInProgress: boolean;
 }
-
-/**
- * @author
- * @function @Miles
- **/
 
 export const Distance: FC<DistanceProps> = (props) => {
   const [editDistance, { loading }] = useEditCarDistanceMutation();
@@ -119,27 +115,24 @@ export const Distance: FC<DistanceProps> = (props) => {
         This is the distance your car should cover in one day of a trip.
       </p>
       <form onSubmit={handleSubmit}>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            name="has_unlimited_distance"
-            value={values?.has_unlimited_distance ? "false" : "true"}
-            id="has_unlimited_distance_input"
-            checked={values?.has_unlimited_distance}
-            onChange={handleChange}
-            // required
-          />
-          <label
-            className="form-check-label"
-            htmlFor="has_unlimited_distance_input"
-          >
-            Unlimited Distance (Guest can travel any distance.)
-          </label>
-        </div>
         <div>
           <label htmlFor="distance_per_day">Distance (KM)</label>
-          <input
+          <div className="input-group car-input-width mb-3">
+            <input
+              type="number"
+              name="distance_per_day"
+              className="form-control "
+              value={values?.distance_per_day}
+              // required
+              onChange={handleChange}
+              placeholder="eg 800"
+              id="distance_per_day"
+              disabled={values?.has_unlimited_distance}
+              min={0}
+            />
+            <span className="input-group-text">KM</span>
+          </div>
+          {/* <input
             type="number"
             name="distance_per_day"
             className="form-control"
@@ -150,10 +143,10 @@ export const Distance: FC<DistanceProps> = (props) => {
             id="distance_per_day"
             disabled={values?.has_unlimited_distance}
             min={0}
-          />
+          /> */}
         </div>
 
-        <div className="form-check">
+        <div className="form-check mt-2">
           <input
             className="form-check-input"
             type="checkbox"
@@ -172,22 +165,47 @@ export const Distance: FC<DistanceProps> = (props) => {
             I want to charge a fee for extra distance travelled
           </label>
         </div>
+
         {showExtraDistanceText && (
           <>
-            <p className="my-3">
-              This is how we calculate this fee. If your daily rate is ksh.3000
-              and you have a distance per day of 100km, then the extra distance
-              fee is <b>3000/100 = Ksh. 30</b> per km. This fee will be made
-              known to the guest to be aware of it on booking. On returning the
-              vehicle, you and the guest will determine if there was extra
-              distance travelled. We are not part of this transaction. Its
-              between you and the guest.
-            </p>
+            <div className="mt-2 mb-5">
+              <small>
+                This is how we calculate this fee. If your daily rate is
+                ksh.3000 and you have a distance per day of 100km, then the
+                extra distance fee is <b>3000/100 = Ksh. 30</b> per km. This fee
+                will be made known to the guest to be aware of it on booking. On
+                returning the vehicle, you and the guest will determine if there
+                was extra distance travelled. We are not part of this
+                transaction. Its between you and the guest.
+              </small>
+            </div>
           </>
         )}
 
+        <div className="form-check mb-4">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="has_unlimited_distance"
+            value={values?.has_unlimited_distance ? "false" : "true"}
+            id="has_unlimited_distance_input"
+            checked={values?.has_unlimited_distance}
+            onChange={handleChange}
+            // required
+          />
+          <label
+            className="form-check-label"
+            htmlFor="has_unlimited_distance_input"
+          >
+            Unlimited Distance (Guest can travel any distance.)
+          </label>
+        </div>
+
         {props.isManage ? (
-          <UpdateBtn loading={loading} />
+          <UpdateBtn
+            loading={loading}
+            disabled={props.verificationInProgress}
+          />
         ) : (
           <FormNextPrevButton
             loading={loading}

@@ -797,6 +797,10 @@ car-input-container select:focus {
   font-size: 28px;
 }
 
+.car-input-width {
+  width: 200px !important;
+}
+
 @media screen and (max-width: 800px) {
   .carDetailsChargeCard {
     display: none !important;
@@ -1412,11 +1416,11 @@ car-input-container select:focus {
 }
 
 .manage-car-wrapper-top-lg {
-  height: 60px;
+  height: 70px;
   padding-top: 20px;
   border-bottom: 1px solid #dcdcdc;
   display: grid;
-  grid-template-columns: 1fr 7fr;
+  grid-template-columns: 1fr 5fr 2fr;
   position: -webkit-sticky;
   position: sticky;
   top: calc(var(--navbar-height));
@@ -1425,10 +1429,10 @@ car-input-container select:focus {
 }
 
 .manage-car-left {
-  height: calc(100vh - var(--navbar-height) - 60px);
+  height: calc(100vh - var(--navbar-height) - 70px);
   position: -webkit-sticky;
   position: sticky;
-  top: calc(var(--navbar-height) + 60px);
+  top: calc(var(--navbar-height) + 70px);
   width: 100%;
   border-right: 1px solid #dcdcdc;
 }
@@ -1458,6 +1462,8 @@ car-input-container select:focus {
   .manage-car-wrapper-top-sm {
     display: flex !important;
     margin: 10px 0px;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .manage-car-burger-wrapper {

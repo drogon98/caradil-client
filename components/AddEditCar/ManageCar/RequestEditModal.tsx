@@ -58,13 +58,19 @@ export default function RequestEditModal(props: Props): ReactElement {
             validity of the informantion edited.
           </li>
         </ul>
-
-        {props.booked && (
-          <small>
-            Your car is on a trip. You will be able to make the edit request
-            when the trip is over. If the trip is over, mark it as over here.
-          </small>
-        )}
+        <div className="mb-3">
+          {props.booked ? (
+            <small className="text-danger">
+              Your car is on a trip. You will be able to make the edit request
+              when the trip is over. If the trip is over, mark it as over here.
+            </small>
+          ) : (
+            <small>
+              When the admin grants you request to edit your car,you will be
+              notified via email to start the edit.
+            </small>
+          )}
+        </div>
 
         <div className="d-grid gap-2">
           <button

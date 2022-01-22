@@ -1,6 +1,12 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { ReactElement, useEffect, useRef, useState } from "react";
+import React, {
+  ReactElement,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { Availability } from "../../../../components/AddEditCar/Availability";
 import { Categories } from "../../../../components/AddEditCar/Categories";
@@ -26,6 +32,7 @@ import {
 } from "../../../../graphql_types/generated/graphql";
 import { ImMenu3 } from "react-icons/im";
 import { useOutsideClickHandler } from "../../../../components/hooks/useOutsideClickHandler";
+import RequestVerificationModal from "../../../../components/AddEditCar/ManageCar/RequestVerificationModal";
 
 interface Props {}
 
@@ -42,7 +49,8 @@ export default function ManageCar(props: Props): ReactElement {
   const [availabilityData, setAvailabilityData] =
     useState<CarAvailabilityInput>();
   const [showBurgerDropdown, setShowBurgerDropdown] = useState(false);
-
+  const [showRequestVerificationModal, setShowRequestVerificationModal] =
+    useState(false);
   const burgerButtonRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   useOutsideClickHandler(dropdownRef, setShowBurgerDropdown, burgerButtonRef);
@@ -195,6 +203,13 @@ export default function ManageCar(props: Props): ReactElement {
     setShowBurgerDropdown(!showBurgerDropdown);
   };
 
+  const handleRequestVerify = (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setShowRequestVerificationModal(true);
+  };
+
+  // console.log("carData :>> ", carData);
+
   if (mainLoading) {
     return <Loading />;
   }
@@ -209,7 +224,16 @@ export default function ManageCar(props: Props): ReactElement {
       <AccountLayout>
         <AuthWrapper>
           <div>
-            <div className="manage-car-wrapper-top-lg">
+            {showRequestVerificationModal && (
+              <RequestVerificationModal
+                carId={carData?.id!}
+                showModal={showRequestVerificationModal}
+                handleClose={() => setShowRequestVerificationModal(false)}
+                setCarData={setCarData}
+              />
+            )}
+
+            <div className="manage-car-wrapper-top-lg px-2">
               <div>
                 <button
                   className="btn m-0 p-0 pl-2"
@@ -221,37 +245,82 @@ export default function ManageCar(props: Props): ReactElement {
                 </button>
               </div>
               <h3>Manage Car</h3>
+              <div className="d-flex justify-content-end">
+                {carData?.being_edited && (
+                  <button
+                    className="btn bgOrange py-0"
+                    onClick={handleRequestVerify}
+                  >
+                    Request Verification
+                  </button>
+                )}
+                {carData?.verification_in_progress && (
+                  <button
+                    className="btn bg-success color-white m-0 py-0"
+                    style={{ height: "40px" }}
+                    // disabled={true}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    Verification In Progress
+                  </button>
+                )}
+              </div>
             </div>
             <div className="manage-car-wrapper-top-sm p-2 py-0">
-              <div>
-                <button
-                  className="btn m-0 p-0 pl-2"
-                  onClick={() => {
-                    router.replace("/account/listings");
-                  }}
-                >
-                  <BsArrowLeft size={"30px"} />
-                </button>
-              </div>
-              <div className="manage-car-burger-wrapper">
-                <button
-                  className="btn py-0"
-                  onClick={handleBurgerClick}
-                  ref={burgerButtonRef}
-                >
-                  <ImMenu3 size={"35px"} />
-                </button>
-                {showBurgerDropdown && (
-                  <div
-                    className="manage-car-burger-content p-3 py-4 shadow d-flex flex-column justify-content-evenly"
-                    ref={dropdownRef}
+              <div className="d-flex align-items-center">
+                <div>
+                  <button
+                    className="btn m-0 p-0 pl-2"
+                    onClick={() => {
+                      router.replace("/account/listings");
+                    }}
                   >
-                    <Menu
-                      activeSection={activeSection!}
-                      handleClick={handleClick}
-                      setShowBurgerDropdown={setShowBurgerDropdown}
-                    />
-                  </div>
+                    <BsArrowLeft size={"30px"} />
+                  </button>
+                </div>
+                <div className="manage-car-burger-wrapper">
+                  <button
+                    className="btn py-0"
+                    onClick={handleBurgerClick}
+                    ref={burgerButtonRef}
+                  >
+                    <ImMenu3 size={"35px"} />
+                  </button>
+                  {showBurgerDropdown && (
+                    <div
+                      className="manage-car-burger-content p-3 py-4 shadow d-flex flex-column justify-content-evenly"
+                      ref={dropdownRef}
+                    >
+                      <Menu
+                        activeSection={activeSection!}
+                        handleClick={handleClick}
+                        setShowBurgerDropdown={setShowBurgerDropdown}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div>
+                {carData?.being_edited && (
+                  <button
+                    className="btn bgOrange"
+                    onClick={handleRequestVerify}
+                  >
+                    Request Verification
+                  </button>
+                )}
+                {carData?.verification_in_progress && (
+                  <button
+                    className="btn bg-success color-white py-0"
+                    // disabled={true}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    Verification In Progress
+                  </button>
                 )}
               </div>
             </div>
@@ -280,6 +349,9 @@ export default function ManageCar(props: Props): ReactElement {
                     isEdit={carData?.being_edited ?? false}
                     booked={carData?.booked ?? false}
                     hasEditRequest={carData?.has_edit_request ?? false}
+                    verificationInProgress={
+                      carData?.verification_in_progress ?? false
+                    }
                   />
                 )}
 
@@ -299,6 +371,9 @@ export default function ManageCar(props: Props): ReactElement {
                       seats: carData?.seats ?? 0,
                       features: featuresData ?? [],
                     }}
+                    verificationInProgress={
+                      carData?.verification_in_progress ?? false
+                    }
                   />
                 )}
 
@@ -310,6 +385,9 @@ export default function ManageCar(props: Props): ReactElement {
                     value={{
                       description: carData?.description ?? "",
                     }}
+                    verificationInProgress={
+                      carData?.verification_in_progress ?? false
+                    }
                   />
                 )}
 
@@ -325,6 +403,9 @@ export default function ManageCar(props: Props): ReactElement {
                     value={{
                       photos: photosData!,
                     }}
+                    verificationInProgress={
+                      carData?.verification_in_progress ?? false
+                    }
                   />
                 )}
 
@@ -340,6 +421,9 @@ export default function ManageCar(props: Props): ReactElement {
                     value={{
                       documents: documentsData!,
                     }}
+                    verificationInProgress={
+                      carData?.verification_in_progress ?? false
+                    }
                   />
                 )}
 
@@ -352,6 +436,9 @@ export default function ManageCar(props: Props): ReactElement {
                       location: carData?.location ?? "",
                       delivery: carData?.delivery ?? false,
                     }}
+                    verificationInProgress={
+                      carData?.verification_in_progress ?? false
+                    }
                   />
                 )}
 
@@ -365,6 +452,9 @@ export default function ManageCar(props: Props): ReactElement {
                       luxury_and_vip_services:
                         carData?.luxury_vip_services ?? [],
                     }}
+                    verificationInProgress={
+                      carData?.verification_in_progress ?? false
+                    }
                   />
                 )}
 
@@ -380,6 +470,9 @@ export default function ManageCar(props: Props): ReactElement {
                       charge_extra_distance_travelled:
                         carData?.charge_extra_distance_travelled ?? false,
                     }}
+                    verificationInProgress={
+                      carData?.verification_in_progress ?? false
+                    }
                   />
                 )}
 
@@ -393,6 +486,9 @@ export default function ManageCar(props: Props): ReactElement {
                     }}
                     manual={carData?.transmission === "manual"}
                     booked={carData?.booked!}
+                    verificationInProgress={
+                      carData?.verification_in_progress ?? false
+                    }
                   />
                 )}
 
@@ -410,6 +506,9 @@ export default function ManageCar(props: Props): ReactElement {
                       hourly_rate: carData?.hourly_rate ?? 0,
                     }}
                     compData={carData!}
+                    verificationInProgress={
+                      carData?.verification_in_progress ?? false
+                    }
                   />
                 )}
               </div>

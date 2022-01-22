@@ -66,4 +66,6 @@ fragment carInfo on Car {
   charge_extra_distance_travelled
   is_gps_enabled
   being_edited
+  has_edit_request
+  verification_in_progress
 }

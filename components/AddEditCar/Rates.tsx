@@ -27,6 +27,7 @@ interface RatesProps {
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   compData: Car;
   isManage?: boolean;
+  verificationInProgress: boolean;
 }
 
 /**
@@ -123,7 +124,22 @@ export const Rates: FC<RatesProps> = (props) => {
           <div>
             <small>This is amount guest will pay for your car in a day</small>
           </div>
-          <input
+
+          <div className="input-group car-input-width mb-3">
+            <input
+              type="number"
+              name="daily_rate"
+              className="form-control"
+              value={values?.daily_rate}
+              required
+              onChange={handleChange}
+              min={0}
+              // placeholder="eg John Doe"
+              onFocus={handleFocus}
+            />
+            <span className="input-group-text">KSH</span>
+          </div>
+          {/* <input
             type="number"
             name="daily_rate"
             className="form-control"
@@ -133,7 +149,7 @@ export const Rates: FC<RatesProps> = (props) => {
             min={0}
             // placeholder="eg John Doe"
             onFocus={handleFocus}
-          />
+          /> */}
         </div>
         <div className="mb-4">
           <label htmlFor="discount">Discount (Optional)</label>
@@ -143,7 +159,20 @@ export const Rates: FC<RatesProps> = (props) => {
               things. eg. No. of days they rent your car
             </small>
           </div>
-          <input
+          <div className="input-group car-input-width mb-3">
+            <input
+              type="text"
+              name="discount"
+              className="form-control"
+              value={values?.discount!}
+              // required
+              onChange={handleChange}
+              placeholder="eg 2"
+              id="discount"
+            />
+            <span className="input-group-text">%</span>
+          </div>
+          {/* <input
             type="text"
             name="discount"
             className="form-control"
@@ -152,18 +181,30 @@ export const Rates: FC<RatesProps> = (props) => {
             onChange={handleChange}
             placeholder="eg 2"
             id="discount"
-          />
+          /> */}
         </div>
         <div className="mb-4">
           <label htmlFor="discount_days">Discount Days (Optional)</label>
           <div>
             <small>
-              Add the minimum number of days which you will give the guest
+              Add the minimum number of days which you will give the guest the
               discount above. eg 7 days. This means that if a guest rents your
               car for 7+ days, the discount above will be applied.
             </small>
           </div>
-          <input
+          <div className="input-group car-input-width mb-3">
+            <input
+              type="number"
+              name="discount_days"
+              className="form-control"
+              value={values?.discount_days!}
+              // required
+              onChange={handleChange}
+              // placeholder="eg 200"
+            />
+            <span className="input-group-text">days</span>
+          </div>
+          {/* <input
             type="number"
             name="discount_days"
             className="form-control"
@@ -171,7 +212,7 @@ export const Rates: FC<RatesProps> = (props) => {
             // required
             onChange={handleChange}
             // placeholder="eg 200"
-          />
+          /> */}
         </div>
         {/* {values?.has_unlimited_distance === false && (
           <div>
@@ -198,7 +239,18 @@ export const Rates: FC<RatesProps> = (props) => {
                 <b>Note: This rate is daily.</b>
               </small>
             </div>
-            <input
+            <div className="input-group car-input-width mb-3">
+              <input
+                type="number"
+                name="driver_daily_rate"
+                className="form-control"
+                value={values?.driver_daily_rate!}
+                required
+                onChange={handleChange}
+              />
+              <span className="input-group-text">KSH</span>
+            </div>
+            {/* <input
               type="number"
               name="driver_daily_rate"
               className="form-control"
@@ -206,7 +258,7 @@ export const Rates: FC<RatesProps> = (props) => {
               required
               onChange={handleChange}
               // placeholder="eg 200"
-            />
+            /> */}
           </div>
         )}
 
@@ -220,7 +272,18 @@ export const Rates: FC<RatesProps> = (props) => {
                 below.
               </small>
             </div>
-            <input
+            <div className="input-group car-input-width mb-3">
+              <input
+                type="number"
+                name="delivery_rate"
+                className="form-control"
+                value={values?.delivery_rate!}
+                required
+                onChange={handleChange}
+              />
+              <span className="input-group-text">KSH</span>
+            </div>
+            {/* <input
               type="number"
               name="delivery_rate"
               className="form-control"
@@ -228,12 +291,15 @@ export const Rates: FC<RatesProps> = (props) => {
               required
               onChange={handleChange}
               // placeholder="eg 200"
-            />
+            /> */}
           </div>
         )}
 
         {props.isManage ? (
-          <UpdateBtn loading={loading} />
+          <UpdateBtn
+            loading={loading}
+            disabled={props.verificationInProgress}
+          />
         ) : (
           <FormNextPrevButton
             loading={loading}

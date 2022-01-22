@@ -26,6 +26,7 @@ interface CategoryProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   isManage?: boolean;
+  verificationInProgress: boolean;
 }
 
 export const Categories: FC<CategoryProps> = (props) => {
@@ -179,7 +180,10 @@ export const Categories: FC<CategoryProps> = (props) => {
         {props.isManage ? (
           <UpdateBtn
             loading={loading}
-            disabled={values?.categories && values?.categories.length < 1}
+            disabled={
+              (values?.categories && values?.categories.length < 1) ||
+              props.verificationInProgress
+            }
           />
         ) : (
           <FormNextPrevButton

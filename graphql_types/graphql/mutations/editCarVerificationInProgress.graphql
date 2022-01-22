@@ -1,3 +1,8 @@
 mutation EditCarVerificationInProgress($carId: Float!) {
-  editCarVerificationInProgress(carId: $carId)
+  editCarVerificationInProgress(carId: $carId) {
+    car {
+      ...carPrivateInfo
+    }
+    error
+  }
 }

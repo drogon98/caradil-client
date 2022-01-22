@@ -28,6 +28,7 @@ interface FeaturesProps {
   isEdit?: boolean;
   booked?: boolean;
   hasEditRequest?: boolean;
+  verificationInProgress: boolean;
 }
 
 export const Features: FC<FeaturesProps> = (props) => {
@@ -161,7 +162,7 @@ export const Features: FC<FeaturesProps> = (props) => {
           <div className="col">
             <label htmlFor="gas">Gas</label>
             <select
-              className="form-select form-control"
+              className="form-select form-control car-input-width"
               aria-label="Default select example"
               onChange={handleChange}
               value={values?.gas}
@@ -177,7 +178,7 @@ export const Features: FC<FeaturesProps> = (props) => {
           <div className="col">
             <label htmlFor="carName">Transmission</label>
             <select
-              className="form-select form-control"
+              className="form-select form-control car-input-width"
               aria-label="Default select example"
               onChange={handleChange}
               value={values?.transmission}
@@ -195,7 +196,7 @@ export const Features: FC<FeaturesProps> = (props) => {
           <div className="col">
             <label htmlFor="carName">Color</label>
             <select
-              className="form-select form-control"
+              className="form-select form-control car-input-width"
               aria-label="Default select example"
               onChange={handleChange}
               value={values?.color}
@@ -216,7 +217,7 @@ export const Features: FC<FeaturesProps> = (props) => {
             <input
               type="number"
               name="seats"
-              className="form-control"
+              className="form-control car-input-width"
               value={values?.seats}
               required
               onChange={handleChange}
@@ -232,7 +233,7 @@ export const Features: FC<FeaturesProps> = (props) => {
             <input
               type="number"
               name="doors"
-              className="form-control"
+              className="form-control car-input-width"
               value={values?.doors}
               required
               onChange={handleChange}
@@ -288,7 +289,10 @@ export const Features: FC<FeaturesProps> = (props) => {
         </div>
 
         {props.isManage ? (
-          <UpdateBtn loading={loading} />
+          <UpdateBtn
+            loading={loading}
+            disabled={props.verificationInProgress}
+          />
         ) : (
           <FormNextPrevButton
             loading={loading}

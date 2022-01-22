@@ -27,6 +27,7 @@ interface AvailabilityProps {
   manual: boolean;
   isManage?: boolean;
   booked?: boolean;
+  verificationInProgress: boolean;
 }
 
 export const Availability: FC<AvailabilityProps> = (props) => {
@@ -146,95 +147,87 @@ export const Availability: FC<AvailabilityProps> = (props) => {
   return (
     <div>
       <h3>Availability</h3>
-      <p>
-        {/* When you list your car, we will automatically set your Daily availability
-        to “I’m always available.” You can change your Daily availability at any
-        time by setting the hours you’re available during each day of the week.
-        You’ll only receive trip requests that start and end within the times
-        you set. Whatever Daily availability you set, we’ll apply to all your
-        vehicle listings.{" "} */}
-      </p>
-      <div className="mb-3">
-        <p className="mb-2">
-          This is how you want guests to drive your car. Some guests want to
-          drive the car themselves while others want to be driven. Select the
-          preferred mode of driving for your car.
-        </p>
-        <div className="form-check mb-2">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="driver_mode"
-            id="self_drive_only"
-            value={1}
-            checked={values?.driver_mode === 1}
-            onChange={handleChange}
-            // required
-          />
-          <label className="form-check-label" htmlFor="self_drive_only">
-            Self Drive Only (Guest will have to be the driver)
-          </label>
-        </div>
-        <div className="form-check mb-2">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="driver_mode"
-            id="private_driver_only"
-            value={2}
-            checked={values?.driver_mode === 2}
-            onChange={handleChange}
-            // required
-          />
-          <label className="form-check-label" htmlFor="private_driver_only">
-            My Driver/Chauffeur Only ( This driver can be you)
-          </label>
-        </div>
-        <div className="form-check mb-2">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="driver_mode"
-            id="both_self_drive_and_private_driver"
-            value={3}
-            checked={values?.driver_mode === 3}
-            onChange={handleChange}
-            // required
-          />
-          <label
-            className="form-check-label"
-            htmlFor="both_self_drive_and_private_driver"
-          >
-            Both Self Drive and Private Driver
-          </label>
-        </div>
-        {(values?.driver_mode === 1 || values?.driver_mode === 3) &&
-          props.manual && (
-            <div className="px-3">
-              <p className="mb-2">
-                Some drivers are not that proficient with manual cars. Check the
-                box below if you want to test the guest's gear shift skills
-                before handing them your car.
-              </p>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  value={values?.manual_transmission_test ? "false" : "true"}
-                  id="provide-driver"
-                  checked={values?.manual_transmission_test}
-                  onChange={handleChange}
-                  name="manual_transmission_test"
-                />
-                <label className="form-check-label" htmlFor="provide-driver">
-                  Yes,I need to test the driver gear shift skills
-                </label>
-              </div>
-            </div>
-          )}
-      </div>
       <form onSubmit={handleSubmit}>
-        <div className="form-check mb-3">
+        <div className="mb-5">
+          <p className="mb-2">
+            This is how you want guests to drive your car. Some guests want to
+            drive the car themselves while others want to be driven. Select the
+            preferred mode of driving for your car.
+          </p>
+          <div className="form-check mb-2">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="driver_mode"
+              id="self_drive_only"
+              value={1}
+              checked={values?.driver_mode === 1}
+              onChange={handleChange}
+              // required
+            />
+            <label className="form-check-label" htmlFor="self_drive_only">
+              Self Drive Only (Guest will have to be the driver)
+            </label>
+          </div>
+          <div className="form-check mb-2">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="driver_mode"
+              id="private_driver_only"
+              value={2}
+              checked={values?.driver_mode === 2}
+              onChange={handleChange}
+              // required
+            />
+            <label className="form-check-label" htmlFor="private_driver_only">
+              My Driver/Chauffeur Only ( This driver can be you)
+            </label>
+          </div>
+          <div className="form-check mb-2">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="driver_mode"
+              id="both_self_drive_and_private_driver"
+              value={3}
+              checked={values?.driver_mode === 3}
+              onChange={handleChange}
+              // required
+            />
+            <label
+              className="form-check-label"
+              htmlFor="both_self_drive_and_private_driver"
+            >
+              Both Self Drive and Private Driver
+            </label>
+          </div>
+          {(values?.driver_mode === 1 || values?.driver_mode === 3) &&
+            props.manual && (
+              <div className="px-3">
+                <p className="mb-2">
+                  Some drivers are not that proficient with manual cars. Check
+                  the box below if you want to test the guest's gear shift
+                  skills before handing them your car.
+                </p>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value={values?.manual_transmission_test ? "false" : "true"}
+                    id="provide-driver"
+                    checked={values?.manual_transmission_test}
+                    onChange={handleChange}
+                    name="manual_transmission_test"
+                  />
+                  <label className="form-check-label" htmlFor="provide-driver">
+                    Yes,I need to test the driver gear shift skills
+                  </label>
+                </div>
+              </div>
+            )}
+        </div>
+        <div className="form-check mb-5">
           <input
             className="form-check-input"
             type="checkbox"
@@ -249,7 +242,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             I use this car for personal reasons
           </label>
         </div>
-        <div className="mb-3">
+        <div className="mb-5">
           <label>How advance do you want to be notified of a trip</label>
           <div>
             <select
@@ -266,7 +259,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             </select>
           </div>
         </div>
-        <div className="form-check form-switch mb-3">
+        <div className="form-check form-switch mb-5">
           <input
             className="form-check-input"
             type="checkbox"
@@ -284,10 +277,13 @@ export const Availability: FC<AvailabilityProps> = (props) => {
               : "This car is available now"}
           </label>
         </div>
-        <p>
-          Add availability date and time. Note; not filling the fields below
-          your car can be rented any date and time
-        </p>
+        <small>
+          Add custom availability date and time.{" "}
+          <b>
+            Note: not adding custom date and time means your car can be rented
+            any date and time
+          </b>
+        </small>
         <div className="form-check">
           <input
             className="form-check-input"
@@ -304,67 +300,73 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         </div>
 
         {values?.custom_availability && (
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="d-flex">
-                <div className="w-50">
-                  <input
-                    type="date"
-                    className="w-100 car-date-time-input-location"
-                    name="startDate"
-                    onChange={handleChange}
-                    value={values?.custom_availability_data?.startDate ?? ""}
-                    required
-                  />
-                </div>
+          <div>
+            <p className="mb-3">
+              The date and time you select here is the time your car will be
+              available for hire.
+            </p>
+            <div className="row">
+              <div className="col-lg-6">
+                <div className="d-flex">
+                  <div className="w-50">
+                    <input
+                      type="date"
+                      className="w-100 car-date-time-input-location"
+                      name="startDate"
+                      onChange={handleChange}
+                      value={values?.custom_availability_data?.startDate ?? ""}
+                      required
+                    />
+                  </div>
 
-                <div className="w-50">
-                  <select
-                    className="w-100"
-                    name="startTime"
-                    onChange={handleChange}
-                    value={values?.custom_availability_data?.startTime ?? ""}
-                    required
-                  >
-                    <option value={""}>Start Time</option>
-                    {time24hrs.map((t, idx) => (
-                      <option key={idx} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="w-50">
+                    <select
+                      className="w-100"
+                      name="startTime"
+                      onChange={handleChange}
+                      value={values?.custom_availability_data?.startTime ?? ""}
+                      required
+                    >
+                      <option value={""}>Start Time</option>
+                      {time24hrs.map((t, idx) => (
+                        <option key={idx} value={t}>
+                          {t}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="d-flex mt-2">
-                <div className="w-50">
-                  <input
-                    type="date"
-                    className="w-100 car-date-time-input-location"
-                    name="endDate"
-                    onChange={handleChange}
-                    value={values?.custom_availability_data?.endDate ?? ""}
-                    required
-                    min={getMinDate(
-                      values?.custom_availability_data?.startDate ?? ""
-                    )}
-                  />
-                </div>
+                <div className="d-flex mt-2">
+                  <div className="w-50">
+                    <input
+                      type="date"
+                      className="w-100 car-date-time-input-location"
+                      name="endDate"
+                      onChange={handleChange}
+                      value={values?.custom_availability_data?.endDate ?? ""}
+                      required
+                      min={getMinDate(
+                        values?.custom_availability_data?.startDate ?? ""
+                      )}
+                    />
+                  </div>
 
-                <div className="w-50">
-                  <select
-                    className="w-100"
-                    name="endTime"
-                    onChange={handleChange}
-                    value={values?.custom_availability_data?.endTime ?? ""}
-                    required
-                  >
-                    <option value={""}>End Time</option>
-                    {time24hrs.map((t, idx) => (
-                      <option key={idx} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="w-50">
+                    <select
+                      className="w-100"
+                      name="endTime"
+                      onChange={handleChange}
+                      value={values?.custom_availability_data?.endTime ?? ""}
+                      required
+                    >
+                      <option value={""}>End Time</option>
+                      {time24hrs.map((t, idx) => (
+                        <option key={idx} value={t}>
+                          {t}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -372,7 +374,10 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         )}
 
         {props.isManage ? (
-          <UpdateBtn loading={loading} />
+          <UpdateBtn
+            loading={loading}
+            disabled={props.verificationInProgress}
+          />
         ) : (
           <FormNextPrevButton
             loading={loading}

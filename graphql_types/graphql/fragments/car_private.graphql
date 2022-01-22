@@ -68,4 +68,5 @@ fragment carPrivateInfo on Car {
   is_gps_enabled
   being_edited
   has_edit_request
+  verification_in_progress
 }

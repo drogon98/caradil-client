@@ -34,6 +34,7 @@ interface DocumentsProps {
   isManage?: boolean;
   booked?: boolean;
   hasEditRequest?: boolean;
+  verificationInProgress: boolean;
 }
 
 export const Documents: FC<DocumentsProps> = (props) => {
@@ -275,7 +276,10 @@ export const Documents: FC<DocumentsProps> = (props) => {
                   type="file"
                   accept="image/*,.pdf"
                   onChange={(e) => handleUpload(e, "national_id")}
-                  disabled={props.isManage && !props.isEdit}
+                  disabled={
+                    (props.isManage && !props.isEdit) ||
+                    props.verificationInProgress
+                  }
                   // disabled={saving}
                 />
                 <span>
@@ -313,7 +317,10 @@ export const Documents: FC<DocumentsProps> = (props) => {
                   type="file"
                   accept="image/*,.pdf"
                   onChange={(e) => handleUpload(e, "logbook")}
-                  disabled={props.isManage && !props.isEdit}
+                  disabled={
+                    (props.isManage && !props.isEdit) ||
+                    props.verificationInProgress
+                  }
                   // disabled={saving}
                 />
                 <span>
@@ -432,7 +439,9 @@ export const Documents: FC<DocumentsProps> = (props) => {
         {props.isManage ? (
           <UpdateBtn
             loading={loading && !secondaryLoading}
-            disabled={documents.documents.length < 2}
+            disabled={
+              documents.documents.length < 2 || props.verificationInProgress
+            }
           />
         ) : (
           <FormNextPrevButton
