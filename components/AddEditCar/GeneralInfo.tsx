@@ -235,7 +235,10 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         )}
 
         {props.isManage ? (
-          <UpdateBtn loading={loading} />
+          <UpdateBtn
+            loading={loading}
+            disabled={loading || !values?.is_gps_enabled}
+          />
         ) : (
           <FormNextPrevButton
             loading={loading}
