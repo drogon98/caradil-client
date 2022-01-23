@@ -91,6 +91,11 @@ export const Availability: FC<AvailabilityProps> = (props) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!values?.advance_book_period) {
+      setInvalidAdvanceData(true);
+      return;
+    }
+
     try {
       let response = await editAvailability({
         variables: {
