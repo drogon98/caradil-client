@@ -8,7 +8,7 @@ import { CustomJwtPayload } from "../utils/interfaces";
 export const tokenRefreshLink = new ApolloLink((operation, forward) => {
   const token = store.getState().auth._id;
 
-  // Make request to server to validate
+  // Make request to server to validate. Might not happen as validation is done 10 seconds before
 
   if (token) {
     try {

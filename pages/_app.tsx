@@ -33,30 +33,51 @@ function MyApp({ Component, pageProps }: AppProps) {
       if (token) {
         try {
           const { exp } = jwtDecode<CustomJwtPayload>(token);
-          // console.log("exp :>> ", exp);
-          // console.log("Date.now() :>> ", Date.now());
+
           if (exp) {
             if (Date.now() >= (exp - 10) * 1000) {
-              fetch(`${baseUrl}refresh-token`, {
+              let fetchRes = await fetch(`${baseUrl}refresh-token`, {
                 method: "POST",
                 credentials: "include",
-              }).then(async (res) => {
-                const data = await res.json();
-                let token = data.access_token;
-                // console.log("token2 :>> ", token);
-                if (token) {
-                  store.dispatch(setToken(token));
-                } else {
-                  store.dispatch(unsetToken());
-                  await router.push({
-                    pathname: "/login",
-                    query: {
-                      next: router.pathname,
-                      nextQuery: JSON.stringify(router.query),
-                    },
-                  });
-                }
               });
+
+              let resData = await fetchRes.json();
+
+              let token = resData.access_token;
+              // console.log("token2 :>> ", token);
+              if (token) {
+                store.dispatch(setToken(token));
+              } else {
+                store.dispatch(unsetToken());
+                await router.push({
+                  pathname: "/login",
+                  query: {
+                    next: router.pathname,
+                    nextQuery: JSON.stringify(router.query),
+                  },
+                });
+              }
+
+              // fetch(`${baseUrl}refresh-token`, {
+              //   method: "POST",
+              //   credentials: "include",
+              // }).then(async (res) => {
+              //   const data = await res.json();
+              //   let token = data.access_token;
+              //   // console.log("token2 :>> ", token);
+              //   if (token) {
+              //     store.dispatch(setToken(token));
+              //   } else {
+              //     store.dispatch(unsetToken());
+              //     await router.push({
+              //       pathname: "/login",
+              //       query: {
+              //         next: router.pathname,
+              //         nextQuery: JSON.stringify(router.query),
+              //       },
+              //     });
+              //   }
+              // });
             }
           }
         } catch (error) {
@@ -77,6 +98,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     return () => clearInterval(intervalId);
   }, []);
+
   return (
     <ApolloProvider client={client}>
       <Provider store={store}>

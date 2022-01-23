@@ -25,7 +25,7 @@ export const PhotoBox: FC<PhotoBoxProps> = (props) => {
         height="200px"
         style={{ objectFit: "cover" }}
       />
-      {(!props.verificationInProgress || (props.isManage && !props.isEdit)) && (
+      {(!props.isManage || (props.isManage && props.isEdit)) && (
         <span className="photo-box-delete-wrapper">
           <button
             className="btn p-0 m-0"

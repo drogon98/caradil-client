@@ -44,6 +44,7 @@ export default function DocumentContent(
       return "";
     }
   };
+
   return (
     <div>
       {props.docUrl && (
@@ -55,8 +56,7 @@ export default function DocumentContent(
           )}
           <small>{processFileName(props.docUrl)}</small>
           <>
-            {(!props.verificationInProgress ||
-              (props.isManage && !props.isEdit)) && (
+            {(!props.isManage || (props.isManage && props.isEdit)) && (
               <small>
                 <button
                   title="Delete file"

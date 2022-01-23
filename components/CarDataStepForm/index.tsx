@@ -20,6 +20,7 @@ import { Rates } from "../AddEditCar/Rates";
 import { useRouter } from "next/router";
 import { Loading } from "../Loading";
 import Finish from "../AddEditCar/Finish";
+import { BsArrowLeft } from "react-icons/bs";
 
 interface Props {
   data?: any;
@@ -243,21 +244,23 @@ export default function CarDataStepForm(props: Props): ReactElement {
     setProgress(step * activeSlide);
   }, [activeSlide]);
 
-  //   useEffect(() => {
-  //     // Have compData here to determine our current step
-  //     // The components should perform individual compData validation and update the compData
-  //   }, [compData]);
-
-  // console.log("activeSlide :>> ", activeSlide);
-
-  // console.log("compData :>> ", compData);
-
   if (mainLoading) {
     return <Loading />;
   }
 
   return (
     <div>
+      <div>
+        <button
+          className="btn m-0 p-0 pl-2 mb-3"
+          onClick={() => {
+            router.replace("/account/listings");
+          }}
+        >
+          <BsArrowLeft size={"30px"} />
+        </button>
+      </div>
+
       <div className="col-md-10 mx-auto">
         <div className="progress w-100">
           <div
@@ -271,7 +274,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
       {/* On posting first car replace the url to edit car,with the respective id */}
       {/* Or store the id in session storage and look it up there */}
       {activeSlide === 0 && (
-        <div className="col-md-7 col-lg-6 mx-auto mt-5">
+        <div className="col-md-7 mx-auto mt-5">
           <GeneralInfo
             setActiveSlide={setActiveSlide}
             activeSlide={activeSlide}
