@@ -205,8 +205,9 @@ export default function CarDataStepForm(props: Props): ReactElement {
       let bools = [true, false];
 
       if (
-        !bools.some((b) => b === initialData.has_unlimited_distance) ||
-        (initialData.distance_per_day && initialData.distance_per_day < 0)
+        !initialData.has_unlimited_distance &&
+        initialData.distance_per_day &&
+        initialData.distance_per_day === 0
       ) {
         console.log("l");
         setActiveSlide(7);
