@@ -82,6 +82,11 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
       return;
     }
 
+    let nameSections = values?.name.split(" ");
+    if (nameSections?.length !== 3) {
+      setInvalidCarName(true);
+    }
+
     if (invalidCarName) {
       return;
     }
@@ -126,11 +131,13 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
     }
   };
 
-  const handleFocus = () => {
+  const handleOdoFocus = () => {
     if (invalidOdoReading) {
       setInvalidOdReading(false);
     }
+  };
 
+  const handleNameFocus = () => {
     if (invalidCarName) {
       setInvalidCarName(false);
     }
@@ -163,7 +170,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
     try {
       let nameSections = values?.name.split(" ");
       if (nameSections) {
-        setInvalidCarName(nameSections.length > 3);
+        setInvalidCarName(nameSections.length < 3);
         return;
       } else {
         throw new Error("");
@@ -223,8 +230,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               placeholder="eg Subaru Forester 2016"
               onBlur={handleCarNameBlur}
               onKeyUp={handleNameType}
-              onFocus={handleFocus}
-              // disabled={props.isEdit}
+              onFocus={handleNameFocus}
+              disabled={props.isManage && !props.isEdit}
             />
           </div>
           <div className="col">
@@ -235,7 +242,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               onChange={handleChange}
               value={values?.make}
               name="make"
-              // disabled={props.isEdit}
+              disabled={props.isManage && !props.isEdit}
               required
             >
               <option value={""}>Select Make</option>
@@ -258,7 +265,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               required
               onChange={handleChange}
               placeholder="eg KBA111C"
-              // disabled={props.isEdit}
+              disabled={props.isManage && !props.isEdit}
             />
           </div>
           <div className="col-6">
@@ -272,8 +279,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               onChange={handleChange}
               placeholder="eg 80000"
               min={0}
-              onFocus={handleFocus}
-              // disabled={props.isEdit}
+              onFocus={handleOdoFocus}
+              disabled={props.isManage && !props.isEdit}
             />
           </div>
         </div>
@@ -287,6 +294,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               checked={values?.is_gps_enabled}
               name="is_gps_enabled"
               onChange={handleChange}
+              disabled={props.isManage && !props.isEdit}
             />
             <label className="form-check-label" htmlFor="gps-enabled">
               Is GPS Enabled?
