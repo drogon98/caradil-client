@@ -34,6 +34,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
   const [editAvailability, { loading }] = useEditCarAvailabilityMutation();
   // const [saved, setSaved] = useState(false);
   const [values, setValues] = useState<CarAvailabilityInput>();
+  const [invalidAdvanceData, setInvalidAdvanceData] = useState(false);
 
   useEffect(() => {
     if (props.value) {
@@ -144,6 +145,12 @@ export const Availability: FC<AvailabilityProps> = (props) => {
     }
   };
 
+  const handleFocus = () => {
+    if (invalidAdvanceData) {
+      setInvalidAdvanceData(false);
+    }
+  };
+
   return (
     <div>
       <h3>Availability</h3>
@@ -242,21 +249,35 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             I use this car for personal reasons
           </label>
         </div>
+        {invalidAdvanceData && (
+          <small className="text-danger">
+            Please select the advance period to be notified of a booked trip
+          </small>
+        )}
+
         <div className="mb-5">
-          <label>How advance do you want to be notified of a trip</label>
+          <label>How advance do you want to be notified of a booked trip</label>
           <div>
             <select
               name="advance_book_period"
               onChange={handleChange}
               value={values?.advance_book_period ?? ""}
               // required
+              onFocus={handleFocus}
             >
-              <option value="">Advance Duration</option>
+              <option value="">Advance Book Period</option>
+              <option value="Anytime">Anytime before the trip</option>
               <option value="3hrs">3hrs before the trip</option>
               <option value="6hrs">6hrs before the trip</option>
               <option value="12hrs">12hrs before the trip</option>
               <option value="24hrs">24hrs before the trip</option>
             </select>
+          </div>
+          <div>
+            <small>
+              Enough advance time will help you prepare your car for the guest.
+              eg Cleaning it,fueling it etc
+            </small>
           </div>
         </div>
         <div className="form-check form-switch mb-5">

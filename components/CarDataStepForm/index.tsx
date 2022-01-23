@@ -213,11 +213,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
         return;
       }
 
-      if (
-        !bools.some((b) => b === initialData.car_has_other_use) ||
-        !initialData.advance_book_period ||
-        !bools.some((b) => b === initialData.available)
-      ) {
+      if (!initialData.advance_book_period) {
         setActiveSlide(8);
         console.log("m");
         return;

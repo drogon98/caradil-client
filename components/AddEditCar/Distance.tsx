@@ -29,6 +29,7 @@ export const Distance: FC<DistanceProps> = (props) => {
   const [editDistance, { loading }] = useEditCarDistanceMutation();
   const [values, setValues] = useState<CarDistanceInput>();
   const [showExtraDistanceText, setShowExtraDistanceText] = useState(false);
+  const [invalidDistanceError, setInvalidDistanceError] = useState(false);
 
   useEffect(() => {
     if (props.value) {
@@ -74,6 +75,10 @@ export const Distance: FC<DistanceProps> = (props) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!values?.has_unlimited_distance && values?.distance_per_day === 0) {
+      setInvalidDistanceError(true);
+      return;
+    }
     try {
       let response = await editDistance({
         variables: {
@@ -98,6 +103,12 @@ export const Distance: FC<DistanceProps> = (props) => {
     }
   };
 
+  const handleFocus = () => {
+    if (invalidDistanceError) {
+      setInvalidDistanceError(false);
+    }
+  };
+
   return (
     <div>
       <h3>Distance</h3>
@@ -105,6 +116,12 @@ export const Distance: FC<DistanceProps> = (props) => {
         This is the distance your car should cover in one day of a trip.
       </p>
       <form onSubmit={handleSubmit} className="mb-3">
+        {invalidDistanceError && (
+          <small className="text-danger">
+            With unlimited distance false,distance per day should be a value
+            greater than 0.
+          </small>
+        )}
         <div>
           <label htmlFor="distance_per_day">Distance (KM)</label>
           <div className="input-group car-input-width mb-3">
@@ -119,6 +136,7 @@ export const Distance: FC<DistanceProps> = (props) => {
               id="distance_per_day"
               disabled={values?.has_unlimited_distance}
               min={0}
+              onFocus={handleFocus}
             />
             <span className="input-group-text">KM</span>
           </div>
