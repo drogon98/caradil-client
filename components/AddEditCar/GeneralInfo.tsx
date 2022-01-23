@@ -38,6 +38,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
     useAddEditCarGeneralInfoMutation();
   const [invalidOdoReading, setInvalidOdReading] = useState(false);
   const [showRequestEditModal, setShowRequestEditModal] = useState(false);
+  const [invalidCarName, setInvalidCarName] = useState(false);
 
   const [values, setValues] = useState<CarGeneralInfoInput>();
 
@@ -81,11 +82,16 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
       return;
     }
 
+    if (invalidCarName) {
+      return;
+    }
+
     try {
       let response = await addEditCarGeneralInfo({
         variables: {
           options: {
             ...values!,
+            name: values?.name.trim()!,
             is_gps_enabled:
               values?.is_gps_enabled === undefined
                 ? false
@@ -124,6 +130,10 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
     if (invalidOdoReading) {
       setInvalidOdReading(false);
     }
+
+    if (invalidCarName) {
+      setInvalidCarName(false);
+    }
   };
 
   const handleRequestEditClick = (e: SyntheticEvent<HTMLButtonElement>) => {
@@ -133,6 +143,36 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
     }
     setShowRequestEditModal(true);
   };
+
+  const handleCarNameBlur = (e: any) => {
+    try {
+      if (values?.name) {
+        let nameSections = values?.name.split(" ");
+        if (nameSections) {
+          setInvalidCarName(nameSections.length < 3);
+        } else {
+          throw new Error("");
+        }
+      }
+    } catch (error) {
+      setInvalidCarName(true);
+    }
+  };
+
+  const handleNameType = () => {
+    try {
+      let nameSections = values?.name.split(" ");
+      if (nameSections) {
+        setInvalidCarName(nameSections.length > 3);
+        return;
+      } else {
+        throw new Error("");
+      }
+    } catch (error) {
+      setInvalidCarName(true);
+    }
+  };
+
   // console.log("values :>> ", values);
 
   return (
@@ -162,8 +202,15 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             Odometer reading must be a value greater than 0!
           </small>
         )}
-        <div className="row">
+        <div className="row m-0">
           <div className="col">
+            <div>
+              {invalidCarName && (
+                <small className="text-danger">
+                  Name should be 3 words long!
+                </small>
+              )}
+            </div>
             <label htmlFor="name">Name</label>
             <input
               id="name"
@@ -174,6 +221,9 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               required
               onChange={handleChange}
               placeholder="eg Subaru Forester 2016"
+              onBlur={handleCarNameBlur}
+              onKeyUp={handleNameType}
+              onFocus={handleFocus}
               // disabled={props.isEdit}
             />
           </div>
@@ -197,7 +247,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             </select>
           </div>
         </div>
-        <div className="row mt-3">
+        <div className="row m-0 mt-3">
           <div className="col-6">
             <label htmlFor="carName">Registration No.</label>
             <input
