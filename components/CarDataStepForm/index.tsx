@@ -206,7 +206,6 @@ export default function CarDataStepForm(props: Props): ReactElement {
 
       if (
         !initialData.has_unlimited_distance &&
-        initialData.distance_per_day &&
         initialData.distance_per_day === 0
       ) {
         console.log("l");
