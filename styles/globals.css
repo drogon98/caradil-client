@@ -797,7 +797,8 @@ car-input-container select:focus {
   font-size: 28px;
 }
 
-.car-input-width {
+.car-input-width,
+.car-general-info-input-width {
   width: 200px !important;
 }
 
@@ -892,6 +893,10 @@ car-input-container select:focus {
 
   .secondary-feature-icon {
     font-size: 20px;
+  }
+
+  .car-general-info-input-width {
+    width: 100% !important;
   }
 }
 

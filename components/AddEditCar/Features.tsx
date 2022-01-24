@@ -192,7 +192,7 @@ export const Features: FC<FeaturesProps> = (props) => {
             </select>
           </div>
         </div>
-        <div className="row m-0 mt-2">
+        <div className="row mt-2">
           <div className="col">
             <label htmlFor="carName">Color</label>
             <select
@@ -227,7 +227,7 @@ export const Features: FC<FeaturesProps> = (props) => {
             />
           </div>
         </div>
-        <div className="row m-0 mt-2">
+        <div className="row mt-2">
           <div className="col-6">
             <label htmlFor="carName">Doors</label>
             <input
