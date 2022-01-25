@@ -1661,6 +1661,7 @@ car-input-container select:focus {
 
   .chat-messages-wrapper {
     height: calc(100vh - var(--navbar-height) - 70px);
+    margin-bottom: 70px;
   }
 
   .chat-box {
