@@ -1,16 +1,21 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import HamburgerMenu from "react-hamburger-menu";
 import { useAppSelector } from "../../redux/hooks";
 import { useRole } from "../hooks/useRole";
+import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import AccountNavbar from "../Navbars/AccountNavbar";
+import ChatNavbarMd from "../Navbars/ChatMdNavbar";
+import ChatNavbar from "../Navbars/ChatNavbar";
 import { AccountSideBarMenu } from "./AccountSideBarMenu";
 
 const AccountLayout: React.FC = ({ children }): JSX.Element => {
-  // const ctx = useContext(AuthContext);
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
   const [isHost, setIsHost] = useState(false);
-  // const [showSideMenu, setShowSideMenu] = useState<boolean>();
+  const router = useRouter();
+  const [isChatsPage, setIsChatsPage] = useState(false);
+  const [isChatsMdPage, setIsChatsMdPage] = useState(false);
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     if (role === 2) {
@@ -18,13 +23,30 @@ const AccountLayout: React.FC = ({ children }): JSX.Element => {
     }
   }, [role]);
 
-  // console.log("showSideMenu :>> ", showSideMenu);
+  useEffect(() => {
+    try {
+      if (router.pathname.includes("/chats")) {
+        setIsChatsPage(true);
+      }
+      if (router.pathname.includes("/chats/md")) {
+        setIsChatsMdPage(true);
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  }, [router]);
 
   return (
     <div id="accountLayoutWrapper">
       <div id="accountContentWrapper">
         <header>
-          <AccountNavbar />
+          {isChatsMdPage && width <= 800 ? (
+            <ChatNavbarMd />
+          ) : isChatsPage && width <= 800 ? (
+            <ChatNavbar />
+          ) : (
+            <AccountNavbar />
+          )}
         </header>
         <main>
           <div className="account-wrapper">

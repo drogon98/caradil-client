@@ -565,7 +565,7 @@ label {
   display: none;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
   .account-wrapper,
   .admin-wrapper {
     grid-template-columns: 1fr;
@@ -1528,6 +1528,133 @@ car-input-container select:focus {
 }
 
 /* =================================END CONTACT STYLES================================= */
+
+/*==================================CHAT STYLES========================================== */
+
+.chats-wrapper {
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+  column-gap: 10px;
+}
+
+.chat-top {
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.chat-user-profiles {
+  height: calc(100vh - calc(var(--navbar-height) + 100px));
+  overflow-y: auto;
+}
+
+.chat-messages-wrapper {
+  height: calc(100vh - calc(var(--navbar-height) + 180px));
+  overflow-y: auto;
+}
+
+.chat-box-sender,
+.chat-box-receiver {
+  display: flex;
+}
+
+.chat-box-sender {
+  justify-content: flex-end !important;
+}
+
+.chat-box-receiver {
+  justify-content: flex-start;
+}
+
+.chat-box {
+  max-width: 60%;
+  min-width: 15%;
+  display: flex;
+  align-items: flex-start;
+}
+
+.receiver-chat-tooltip {
+  border-radius: 10px;
+  background-color: var(--orange);
+  position: relative;
+  margin-left: 15px;
+  min-height: 30px !important;
+}
+
+.receiver-chat-tooltip::after {
+  content: " ";
+  position: absolute;
+  top: 16px;
+  right: 100%; /* To the left of the tooltip */
+  margin-top: -8px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent var(--orange) transparent transparent;
+}
+
+.sender-chat-tooltip {
+  border-radius: 10px;
+  background-color: #eaecee;
+  position: relative;
+  margin-right: 15px;
+  min-height: 30px !important;
+}
+
+.sender-chat-tooltip::after {
+  content: " ";
+  position: absolute;
+  top: 16px;
+  left: 100%; /* To the right of the tooltip */
+  margin-top: -8px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent transparent transparent #eaecee;
+}
+
+.chat-input-wrapper {
+  height: 80px;
+  padding: 0;
+  background-color: #eaecee;
+}
+
+.chat-textarea-send-wrapper {
+  display: grid;
+  grid-template-columns: 7fr 1fr;
+}
+
+.chat-sm-top {
+  display: none;
+}
+
+@media screen and (max-width: 800px) {
+  .chats-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-messages-lg-wrapper {
+    display: none;
+  }
+
+  .chat-top {
+    display: none !important;
+  }
+
+  .chat-sm-top {
+    display: block !important;
+    height: 20px;
+  }
+
+  .chat-user-profiles {
+    height: calc(100vh - var(--navbar-height));
+    overflow-y: auto;
+  }
+
+  .chat-messages-wrapper {
+    height: calc(100vh - var(--navbar-height) - 80px);
+  }
+}
+
+/*==================================END CHAT STYLES========================================== */
 
 #upload-btn-label {
   background-color: var(--orange);

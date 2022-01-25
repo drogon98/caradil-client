@@ -67,8 +67,6 @@ const AccountNavbar = (props: AccountNavbarProps): JSX.Element => {
     }
   }, [token]);
 
-  const { width, height } = useWindowDimensions();
-
   return (
     <div className={`accountNavbar bgWhite shadow`}>
       <div className="w100 h-100 d-flex p-2 align-items-center">
