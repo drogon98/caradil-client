@@ -5,23 +5,33 @@ import { ChatBox } from "./ChatBox";
 interface ChatsProps {}
 
 const chats = [
-  { sender: true, message: "The wuick brown fox jumped over the lazy dog" },
   {
+    id: 1,
+    sender: true,
+    message: "The wuick brown fox jumped over the lazy dog",
+  },
+  {
+    id: 2,
     sender: false,
     message:
       "The wuick brown fox jumped over the lazy dog The wuick brown fox jumped over the lazy dog The wuick brown fox jumped over the lazy dog The wuick brown fox jumped over the lazy dog The wuick brown fox jumped over the lazy dog",
   },
-  { sender: true, message: "Helloo World!" },
-  { sender: true, message: "The wuick brown fox jumped" },
-  { sender: false, message: "Helloo" },
-  { sender: false, message: "The wuick brown fox jumped over the lazy dog" },
-  { sender: true, message: "Helloo World!" },
+  { id: 3, sender: true, message: "Helloo World!" },
+  { id: 4, sender: true, message: "The wuick brown fox jumped" },
+  { id: 5, sender: false, message: "Helloo" },
   {
+    id: 6,
+    sender: false,
+    message: "The wuick brown fox jumped over the lazy dog",
+  },
+  { id: 7, sender: true, message: "Helloo World!" },
+  {
+    id: 8,
     sender: true,
     message:
       "The wuick brown fox jumped over the lazy dog The wuick brown fox jumped over the lazy dog The wuick brown fox jumped over the lazy dog The wuick brown fox jumped over the lazy dog The wuick brown fox jumped over the lazy dog",
   },
-  { sender: true, message: "Helloo World!" },
+  { id: 9, sender: true, message: "Helloo World!" },
 ];
 
 export const Messages = (props: ChatsProps) => {
@@ -37,8 +47,8 @@ export const Messages = (props: ChatsProps) => {
       </div>
       <div>
         <div className="chat-messages-wrapper p-2 pt-4">
-          {chats.map((chat, idx) => (
-            <ChatBox key={chat.id || idx} data={chat} />
+          {chats.map((chat) => (
+            <ChatBox key={chat.id} data={chat} />
           ))}
         </div>
         <form className="form-group chat-input-wrapper p-0">
