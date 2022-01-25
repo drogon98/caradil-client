@@ -1578,13 +1578,13 @@ car-input-container select:focus {
   background-color: var(--orange);
   position: relative;
   margin-left: 15px;
-  min-height: 30px !important;
+  min-height: 40px !important;
 }
 
 .receiver-chat-tooltip::after {
   content: " ";
   position: absolute;
-  top: 16px;
+  top: 20px;
   right: 100%; /* To the left of the tooltip */
   margin-top: -8px;
   border-width: 8px;
@@ -1597,13 +1597,13 @@ car-input-container select:focus {
   background-color: #eaecee;
   position: relative;
   margin-right: 15px;
-  min-height: 30px !important;
+  min-height: 40px !important;
 }
 
 .sender-chat-tooltip::after {
   content: " ";
   position: absolute;
-  top: 16px;
+  top: 20px;
   left: 100%; /* To the right of the tooltip */
   margin-top: -8px;
   border-width: 8px;
@@ -1649,8 +1649,18 @@ car-input-container select:focus {
     overflow-y: auto;
   }
 
+  .chat-input-wrapper {
+    height: 70px;
+    padding: 0;
+    background-color: #eaecee;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+  }
+
   .chat-messages-wrapper {
-    height: calc(100vh - var(--navbar-height) - 80px);
+    height: calc(100vh - var(--navbar-height) - 70px);
   }
 }
 
