@@ -60,9 +60,9 @@ const Trips: FC<TripsProps> = (props) => {
                     <div className="col-2">
                       <p className="fw-bold">Status</p>
                     </div>
-                    <div className="col-1">
+                    {/* <div className="col-1">
                       <p className="fw-bold">Action</p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 {trips.map((trip) => (

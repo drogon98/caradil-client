@@ -59,9 +59,9 @@ export default function index(props: Props): ReactElement {
                     <div className="col-2">
                       <p className="fw-bold">Status</p>
                     </div>
-                    <div className="col-1">
+                    {/* <div className="col-1">
                       <p className="fw-bold">Action</p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 {bookings.map((trip) => (
@@ -83,7 +83,7 @@ export default function index(props: Props): ReactElement {
               }}
               className="d-flex align-items-center justify-content-center"
             >
-              <h6>You have no trips yet!</h6>
+              <h6>You have no bookings yet!</h6>
             </div>
           )}
         </AccountLayout>

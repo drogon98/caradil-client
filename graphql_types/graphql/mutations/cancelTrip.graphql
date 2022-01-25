@@ -1,0 +1,8 @@
+mutation CancelTrip($tripId: Float!, $cancelReason: String!) {
+  cancelTrip(tripId: $tripId, cancelReason: $cancelReason) {
+    trip {
+      ...tripInfo
+    }
+    error
+  }
+}

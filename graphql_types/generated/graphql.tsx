@@ -167,6 +167,12 @@ export type CarVerifyRequestResponse = {
   error?: Maybe<Scalars['String']>;
 };
 
+export type ConfirmCancelTripResponse = {
+  __typename?: 'ConfirmCancelTripResponse';
+  error?: Maybe<Scalars['String']>;
+  trip?: Maybe<Trip>;
+};
+
 export type ContactInput = {
   email: Scalars['String'];
   message: Scalars['String'];
@@ -282,6 +288,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   addEditCarGeneralInfo: CarAddEditResponse;
   addMake: MakeResponse;
+  cancelTrip: ConfirmCancelTripResponse;
+  confirmTrip: ConfirmCancelTripResponse;
   contact: ContactResponse;
   createEditRequest: CreateCarEditRequestResponse;
   createTrip: CreateTripResponse;
@@ -317,6 +325,17 @@ export type MutationAddEditCarGeneralInfoArgs = {
 
 export type MutationAddMakeArgs = {
   input: MakeInput;
+};
+
+
+export type MutationCancelTripArgs = {
+  cancelReason: Scalars['String'];
+  tripId: Scalars['Float'];
+};
+
+
+export type MutationConfirmTripArgs = {
+  tripId: Scalars['Float'];
 };
 
 
@@ -533,6 +552,7 @@ export type Trip = {
   status?: Maybe<Scalars['String']>;
   transaction: Transaction;
   transaction_id?: Maybe<Scalars['Float']>;
+  trip_canceller?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['DateTime']>;
   why_cancel_trip?: Maybe<Scalars['String']>;
 };
@@ -612,6 +632,8 @@ export type CarPrivateInfoFragment = { __typename?: 'Car', id?: number | null | 
 
 export type FileInfoFragment = { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined };
 
+export type TripInfoFragment = { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined };
+
 export type UserInfoFragment = { __typename?: 'User', id?: number | null | undefined, user_name?: string | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined, phone?: string | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined };
 
 export type AddEditCarGeneralInfoMutationVariables = Exact<{
@@ -629,6 +651,21 @@ export type AddCarMakeMutationVariables = Exact<{
 
 
 export type AddCarMakeMutation = { __typename?: 'Mutation', addMake: { __typename?: 'MakeResponse', success: boolean } };
+
+export type CancelTripMutationVariables = Exact<{
+  tripId: Scalars['Float'];
+  cancelReason: Scalars['String'];
+}>;
+
+
+export type CancelTripMutation = { __typename?: 'Mutation', cancelTrip: { __typename?: 'ConfirmCancelTripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
+
+export type ConfirmTripMutationVariables = Exact<{
+  tripId: Scalars['Float'];
+}>;
+
+
+export type ConfirmTripMutation = { __typename?: 'Mutation', confirmTrip: { __typename?: 'ConfirmCancelTripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
 
 export type ContactMutationVariables = Exact<{
   input: ContactInput;
@@ -841,7 +878,7 @@ export type GetTripQueryVariables = Exact<{
 }>;
 
 
-export type GetTripQuery = { __typename?: 'Query', getTrip: { __typename?: 'TripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
+export type GetTripQuery = { __typename?: 'Query', getTrip: { __typename?: 'TripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
 
 export type GetUnVerifiedCarsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -996,6 +1033,34 @@ export const CarPrivateInfoFragmentDoc = gql`
   verification_in_progress
 }
     ${FileInfoFragmentDoc}`;
+export const TripInfoFragmentDoc = gql`
+    fragment tripInfo on Trip {
+  id
+  owner {
+    first_name
+    last_name
+  }
+  transaction {
+    channel
+    amount
+  }
+  car {
+    name
+    transmission
+    seats
+    doors
+    daily_rate
+    photos {
+      secure_url
+    }
+  }
+  start_date
+  end_date
+  start_time
+  end_time
+  status
+}
+    `;
 export const UserInfoFragmentDoc = gql`
     fragment userInfo on User {
   id
@@ -1083,6 +1148,79 @@ export function useAddCarMakeMutation(baseOptions?: Apollo.MutationHookOptions<A
 export type AddCarMakeMutationHookResult = ReturnType<typeof useAddCarMakeMutation>;
 export type AddCarMakeMutationResult = Apollo.MutationResult<AddCarMakeMutation>;
 export type AddCarMakeMutationOptions = Apollo.BaseMutationOptions<AddCarMakeMutation, AddCarMakeMutationVariables>;
+export const CancelTripDocument = gql`
+    mutation CancelTrip($tripId: Float!, $cancelReason: String!) {
+  cancelTrip(tripId: $tripId, cancelReason: $cancelReason) {
+    trip {
+      ...tripInfo
+    }
+    error
+  }
+}
+    ${TripInfoFragmentDoc}`;
+export type CancelTripMutationFn = Apollo.MutationFunction<CancelTripMutation, CancelTripMutationVariables>;
+
+/**
+ * __useCancelTripMutation__
+ *
+ * To run a mutation, you first call `useCancelTripMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCancelTripMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cancelTripMutation, { data, loading, error }] = useCancelTripMutation({
+ *   variables: {
+ *      tripId: // value for 'tripId'
+ *      cancelReason: // value for 'cancelReason'
+ *   },
+ * });
+ */
+export function useCancelTripMutation(baseOptions?: Apollo.MutationHookOptions<CancelTripMutation, CancelTripMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CancelTripMutation, CancelTripMutationVariables>(CancelTripDocument, options);
+      }
+export type CancelTripMutationHookResult = ReturnType<typeof useCancelTripMutation>;
+export type CancelTripMutationResult = Apollo.MutationResult<CancelTripMutation>;
+export type CancelTripMutationOptions = Apollo.BaseMutationOptions<CancelTripMutation, CancelTripMutationVariables>;
+export const ConfirmTripDocument = gql`
+    mutation ConfirmTrip($tripId: Float!) {
+  confirmTrip(tripId: $tripId) {
+    trip {
+      ...tripInfo
+    }
+    error
+  }
+}
+    ${TripInfoFragmentDoc}`;
+export type ConfirmTripMutationFn = Apollo.MutationFunction<ConfirmTripMutation, ConfirmTripMutationVariables>;
+
+/**
+ * __useConfirmTripMutation__
+ *
+ * To run a mutation, you first call `useConfirmTripMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useConfirmTripMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [confirmTripMutation, { data, loading, error }] = useConfirmTripMutation({
+ *   variables: {
+ *      tripId: // value for 'tripId'
+ *   },
+ * });
+ */
+export function useConfirmTripMutation(baseOptions?: Apollo.MutationHookOptions<ConfirmTripMutation, ConfirmTripMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ConfirmTripMutation, ConfirmTripMutationVariables>(ConfirmTripDocument, options);
+      }
+export type ConfirmTripMutationHookResult = ReturnType<typeof useConfirmTripMutation>;
+export type ConfirmTripMutationResult = Apollo.MutationResult<ConfirmTripMutation>;
+export type ConfirmTripMutationOptions = Apollo.BaseMutationOptions<ConfirmTripMutation, ConfirmTripMutationVariables>;
 export const ContactDocument = gql`
     mutation Contact($input: ContactInput!) {
   contact(input: $input) {
@@ -2217,29 +2355,12 @@ export const GetTripDocument = gql`
     query GetTrip($tripId: Float!) {
   getTrip(tripId: $tripId) {
     trip {
-      id
-      owner {
-        first_name
-      }
-      transaction {
-        channel
-        amount
-      }
-      car {
-        name
-        transmission
-        seats
-        doors
-        daily_rate
-        photos {
-          secure_url
-        }
-      }
+      ...tripInfo
     }
     error
   }
 }
-    `;
+    ${TripInfoFragmentDoc}`;
 
 /**
  * __useGetTripQuery__

@@ -1,24 +1,7 @@
 query GetTrip($tripId: Float!) {
   getTrip(tripId: $tripId) {
     trip {
-      id
-      owner {
-        first_name
-      }
-      transaction {
-        channel
-        amount
-      }
-      car {
-        name
-        transmission
-        seats
-        doors
-        daily_rate
-        photos {
-          secure_url
-        }
-      }
+      ...tripInfo
     }
     error
   }

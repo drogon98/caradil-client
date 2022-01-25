@@ -151,7 +151,11 @@ export const Rates: FC<RatesProps> = (props) => {
           <div>
             <small>
               You may want to give discount to your guests based on various
-              things. eg. No. of days they rent your car
+              things. eg. No. of days they rent your car{" "}
+              <b>
+                Note: This discount will be applied on the total amount of your
+                car
+              </b>
             </small>
           </div>
           <div className="input-group car-input-width mb-3">

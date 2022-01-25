@@ -145,7 +145,8 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
   useEffect(() => {
     if (data) {
       if (deliverToMe) {
-        let deliverTtl = data.getCar.car?.delivery_rate! * 2;
+        // let deliverTtl = data.getCar.car?.delivery_rate! * 2; // 2== KM
+        let deliverTtl = data.getCar.car?.delivery_rate!;
         setDeliverTtl(deliverTtl);
       } else {
         setDeliverTtl(0);

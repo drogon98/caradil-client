@@ -1,0 +1,26 @@
+fragment tripInfo on Trip {
+  id
+  owner {
+    first_name
+    last_name
+  }
+  transaction {
+    channel
+    amount
+  }
+  car {
+    name
+    transmission
+    seats
+    doors
+    daily_rate
+    photos {
+      secure_url
+    }
+  }
+  start_date
+  end_date
+  start_time
+  end_time
+  status
+}

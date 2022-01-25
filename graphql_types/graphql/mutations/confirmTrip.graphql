@@ -1,0 +1,8 @@
+mutation ConfirmTrip($tripId: Float!) {
+  confirmTrip(tripId: $tripId) {
+    trip {
+      ...tripInfo
+    }
+    error
+  }
+}
