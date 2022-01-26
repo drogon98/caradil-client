@@ -95,7 +95,7 @@ const Chats = (props: ChatsProps) => {
               </div>
               <div className="chat-messages-lg-wrapper">
                 <Messages
-                  senderId={userId!}
+                  // senderId={userId!}
                   chatMetaId={metaId}
                   receiverId={receiverId}
                 />
