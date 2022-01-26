@@ -1,0 +1,26 @@
+query GetUserChatMetas {
+  getUserChatMetas {
+    id
+
+    sender {
+      id
+      first_name
+      last_name
+      business_name
+      email
+      avatar {
+        secure_url
+      }
+    }
+    receiver {
+      id
+      first_name
+      last_name
+      business_name
+      email
+      avatar {
+        secure_url
+      }
+    }
+  }
+}

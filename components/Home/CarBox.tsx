@@ -47,7 +47,7 @@ export const CarBox: FC<CarBoxProps> = (props) => {
         opType: isFavourite ? "remove" : "add",
       },
     });
-    console.log("response :>> ", response);
+    // console.log("response :>> ", response);
     if (response.data?.updateFavourite.error) {
     } else {
       setIsFavourite(!isFavourite);

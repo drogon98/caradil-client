@@ -1579,6 +1579,9 @@ car-input-container select:focus {
   position: relative;
   margin-left: 15px;
   min-height: 40px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .receiver-chat-tooltip::after {
@@ -1598,6 +1601,9 @@ car-input-container select:focus {
   position: relative;
   margin-right: 15px;
   min-height: 40px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .sender-chat-tooltip::after {

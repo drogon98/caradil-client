@@ -1,0 +1,5 @@
+query GetChats($chatMetaId: Float!) {
+  getChats(chatMetaId: $chatMetaId) {
+    ...chatInfo
+  }
+}

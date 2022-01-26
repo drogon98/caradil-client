@@ -11,6 +11,7 @@ import React, {
 } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
+import LoginWithModal from "../../components/Auth/LoginWithModal";
 import { useOutsideClickHandler } from "../../components/hooks/useOutsideClickHandler";
 import { useRole } from "../../components/hooks/useRole";
 import { useUserId } from "../../components/hooks/useUserId";
@@ -24,10 +25,10 @@ import { CarDetailsHost } from "../../components/PublicCar/CarDetailsHost";
 import { CarDetailsSecondaryFeatures } from "../../components/PublicCar/CarDetailsSecondaryFeatures";
 // import { CarDetailsReviews } from "../../components/PublicCar/CarDetailsReviews";
 import { CarDetailsTop } from "../../components/PublicCar/CarDetailsTop";
+import SharedSections from "../../components/PublicCar/SharedSections";
 import { TripDates } from "../../components/PublicCar/TripDates";
 import {
   Car,
-  CustomAvailabilityDataInput,
   CustomAvailabilityObj,
   Maybe,
   useCheckIfDriverIsApprovedToDriveLazyQuery,
@@ -35,15 +36,8 @@ import {
   useUpdateCarFavouriteMutation,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
-import SharedSections from "../../components/PublicCar/SharedSections";
-import LoginWithModal from "../../components/Auth/LoginWithModal";
 
 interface CarProps {}
-
-/**
- * @author @CodeYourEmpire
- * @function @Car
- **/
 
 export const totalChargeCalculator = (
   car: Car,
@@ -58,8 +52,6 @@ export const totalChargeCalculator = (
 
   // To calculate the no. of days between two dates
   let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-
-  console.log("Difference_In_Days :>> ", Difference_In_Days);
 
   setTotalCharge(() => {
     let total = car?.daily_rate! * Difference_In_Days;
@@ -210,11 +202,6 @@ const Car: FC<CarProps> = (props) => {
       setSelectingDates(!selectingDates);
     }
   };
-
-  // console.log(`typeof router.query`, typeof router.query);
-  // console.log("router.query :>> ", router.query);
-
-  // console.log("car :>> ", car);
 
   return (
     <>

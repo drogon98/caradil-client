@@ -38,6 +38,7 @@ export default function ConfirmTripModal(props: Props): ReactElement {
 
       if (response.data?.confirmTrip.trip?.id) {
         props.setTrip(response.data?.confirmTrip.trip);
+        props.handleClose();
       }
     } catch (error) {
       console.log("error :>> ", error);
@@ -51,7 +52,7 @@ export default function ConfirmTripModal(props: Props): ReactElement {
       </Modal.Header>
       <Modal.Body>
         By confirming this trip you agree that you are ready to provide your car
-        in good condition on the specified dates in good condition.
+        on the specified dates in good condition.
         <form onSubmit={handleConfirmTrip}>
           <div className="d-grid gap-2">
             <button

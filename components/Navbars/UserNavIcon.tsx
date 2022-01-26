@@ -5,7 +5,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { RiArrowDropDownFill } from "react-icons/ri";
 import { unsetToken } from "../../redux/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
-import { baseUrl } from "../../utils/baseUrl";
+import { baseHttpDomain } from "../../utils/baseDomain";
 
 interface UserNavIconProps {}
 
@@ -29,7 +29,7 @@ export function UserNavIcon(props: UserNavIconProps) {
             onClick={async () => {
               try {
                 const response = await (
-                  await fetch(`${baseUrl}logout`, {
+                  await fetch(`${baseHttpDomain}logout`, {
                     credentials: "include",
                   })
                 ).json();

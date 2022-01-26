@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Chat } from "../../../graphql_types/generated/graphql";
+import { useAppSelector } from "../../../redux/hooks";
+import { useUserId } from "../../hooks/useUserId";
 
 interface ChatBoxProps {
-  data: any;
+  data: Chat;
 }
 
 export const ChatBox = (props: ChatBoxProps) => {
+  const token = useAppSelector((state) => state.auth._id);
+  const userId = useUserId(token);
+  const [isSender, setIsSender] = useState<boolean>();
+
+  useEffect(() => {
+    if (props.data && userId) {
+      setIsSender(props.data.sender_id === userId);
+    }
+  }, [props.data, userId]);
+
   return (
     <>
-      {props.data.sender ? (
+      {isSender ? (
         <div className="chat-box-sender my-5">
           <div className="chat-box">
             <div className="sender-chat-tooltip p-2">{props.data.message}</div>

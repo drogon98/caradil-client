@@ -15,6 +15,7 @@ import {
 } from "../../../graphql_types/generated/graphql";
 import { Loading } from "../../../components/Loading";
 import CancelTripMoal from "../bookings/CancelTripModal";
+import { useWindowDimensions } from "../../../components/hooks/useWindowDimensions";
 
 interface Props {}
 
@@ -45,6 +46,8 @@ export default function Trip(props: Props): ReactElement {
     }
   }, [tripId]);
 
+  const { width } = useWindowDimensions();
+
   const { data, loading } = useGetTripQuery({
     variables: { tripId: tripId! },
     fetchPolicy: "network-only",
@@ -71,6 +74,21 @@ export default function Trip(props: Props): ReactElement {
 
   const handleChat = (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    try {
+      if (width <= 800) {
+        router.push({
+          pathname: "/account/chats/md",
+          query: { meta_id: trip?.chat_meta_id },
+        });
+      } else {
+        router.push({
+          pathname: "/account/chats",
+          query: { meta_id: trip?.chat_meta_id },
+        });
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
   };
 
   console.log("trip :>> ", trip);

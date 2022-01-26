@@ -1,0 +1,10 @@
+fragment chatInfo on Chat {
+  id
+  message
+  receiver_id
+  sender_id
+  read
+  sender_deleted
+  receiver_deleted
+  created_at
+}

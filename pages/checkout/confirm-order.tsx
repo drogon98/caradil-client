@@ -12,7 +12,7 @@ import {
   useGetCarQuery,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
-import { baseUrl } from "../../utils/baseUrl";
+import { baseHttpDomain } from "../../utils/baseDomain";
 
 interface ConfirmOrderProps {}
 
@@ -199,7 +199,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     let response;
     try {
       setMainLoading(true);
-      response = await fetch(`${baseUrl}ipay-pay`, {
+      response = await fetch(`${baseHttpDomain}ipay-pay`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

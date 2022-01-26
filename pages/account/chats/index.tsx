@@ -1,10 +1,17 @@
 import Head from "next/head";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { ChatUserProfile } from "../../../components/Account/Chats/ChatUserProfile";
 import { Messages } from "../../../components/Account/Chats/Messages";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import { useRole } from "../../../components/hooks/useRole";
+import { useUserId } from "../../../components/hooks/useUserId";
 import AccountLayout from "../../../components/layouts/AccountLayout";
+import { Loading } from "../../../components/Loading";
+import {
+  ChatMeta,
+  useGetUserChatMetasQuery,
+} from "../../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../../redux/hooks";
 
 interface ChatsProps {}
@@ -12,6 +19,52 @@ interface ChatsProps {}
 const Chats = (props: ChatsProps) => {
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
+  const userId = useUserId(token);
+  const [skip, setSkip] = useState(true);
+  const [mainLoading, setMainLoading] = useState(true);
+  const [metaId, setMetaId] = useState<number>();
+  const [chatProfiles, setChatProfiles] = useState<ChatMeta[]>();
+  const [receiverId, setReceiverId] = useState<number>();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query && router.query.meta_id) {
+      try {
+        let metaId = parseInt(router.query.meta_id as string);
+        if (isNaN(metaId)) {
+          throw new Error("Invalid Meta Id");
+        }
+        setMetaId(metaId);
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
+    }
+  }, [router.query]);
+
+  const { data, loading } = useGetUserChatMetasQuery();
+
+  useEffect(() => {
+    if (data?.getUserChatMetas && !loading) {
+      setChatProfiles(data?.getUserChatMetas);
+      setMainLoading(false);
+    }
+  }, [data, loading]);
+
+  useEffect(() => {
+    if (chatProfiles && chatProfiles.length > 0) {
+      setReceiverId(chatProfiles[0].receiver?.id!);
+    }
+  }, [chatProfiles]);
+
+  // console.log("chatProfiles :>> ", chatProfiles);
+
+  // // const
+
+  // console.log("router :>> ", router);
+
+  // console.log("receiverId :>> ", receiverId);
+
   return (
     <>
       <Head>
@@ -21,30 +74,34 @@ const Chats = (props: ChatsProps) => {
       </Head>
       <AuthWrapper>
         <AccountLayout>
-          <div className="chats-wrapper">
-            <div>
-              <div className="chat-top p-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search chat user..."
+          {mainLoading ? (
+            <Loading />
+          ) : (
+            <div className="chats-wrapper">
+              <div>
+                <div className="chat-top p-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search chat user..."
+                  />
+                </div>
+                <div className="chat-user-profiles">
+                  <div className="chat-sm-top" />
+                  {chatProfiles?.map((cProfile) => (
+                    <ChatUserProfile key={cProfile.id} data={cProfile} />
+                  ))}
+                </div>
+              </div>
+              <div className="chat-messages-lg-wrapper">
+                <Messages
+                  senderId={userId!}
+                  chatMetaId={metaId}
+                  receiverId={receiverId}
                 />
               </div>
-              <div className="chat-user-profiles">
-                <div className="chat-sm-top" />
-                <ChatUserProfile />
-                <ChatUserProfile />
-                <ChatUserProfile />
-                <ChatUserProfile />
-                <ChatUserProfile />
-                <ChatUserProfile />
-                <ChatUserProfile />
-              </div>
             </div>
-            <div className="chat-messages-lg-wrapper">
-              <Messages />
-            </div>
-          </div>
+          )}
         </AccountLayout>
       </AuthWrapper>
     </>

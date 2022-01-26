@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { AuthWrapper } from "../../../components/AuthWrapper";
+import { useWindowDimensions } from "../../../components/hooks/useWindowDimensions";
 import AccountLayout from "../../../components/layouts/AccountLayout";
 import { Loading } from "../../../components/Loading";
 import {
@@ -54,6 +55,8 @@ export default function Booking(props: Props): ReactElement {
     skip,
   });
 
+  const { width } = useWindowDimensions();
+
   useEffect(() => {
     if (data?.getTrip.trip?.id) {
       setTrip(data.getTrip.trip);
@@ -77,11 +80,27 @@ export default function Booking(props: Props): ReactElement {
 
     setShowConfirmTripModal(true);
   };
-  const handleChat = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleChat = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    try {
+      if (width <= 800) {
+        router.push({
+          pathname: "/account/chats/md",
+          query: { meta_id: trip?.chat_meta_id },
+        });
+      } else {
+        router.push({
+          pathname: "/account/chats",
+          query: { meta_id: trip?.chat_meta_id },
+        });
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
   };
 
-  // console.log("trip :>> ", trip);
+  console.log("trip :>> ", trip);
 
   return (
     <>

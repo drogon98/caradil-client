@@ -23,4 +23,5 @@ fragment tripInfo on Trip {
   start_time
   end_time
   status
+  chat_meta_id
 }

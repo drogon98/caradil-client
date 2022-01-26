@@ -167,6 +167,39 @@ export type CarVerifyRequestResponse = {
   error?: Maybe<Scalars['String']>;
 };
 
+export type Chat = {
+  __typename?: 'Chat';
+  chat_meta?: Maybe<ChatMeta>;
+  chat_meta_id?: Maybe<Scalars['Float']>;
+  created_at?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']>;
+  read?: Maybe<Scalars['Boolean']>;
+  receiver_deleted?: Maybe<Scalars['Boolean']>;
+  receiver_id?: Maybe<Scalars['Float']>;
+  sender_deleted?: Maybe<Scalars['Boolean']>;
+  sender_id?: Maybe<Scalars['Float']>;
+  updated_at?: Maybe<Scalars['DateTime']>;
+};
+
+export type ChatInput = {
+  chat_meta_id: Scalars['Float'];
+  message: Scalars['String'];
+  receiver_id: Scalars['Float'];
+};
+
+export type ChatMeta = {
+  __typename?: 'ChatMeta';
+  chats?: Maybe<Chat>;
+  created_at?: Maybe<Scalars['DateTime']>;
+  guest_id?: Maybe<Scalars['Float']>;
+  host_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  receiver?: Maybe<User>;
+  sender?: Maybe<User>;
+  updated_at?: Maybe<Scalars['DateTime']>;
+};
+
 export type ConfirmCancelTripResponse = {
   __typename?: 'ConfirmCancelTripResponse';
   error?: Maybe<Scalars['String']>;
@@ -267,11 +300,11 @@ export type LoginInput = {
 
 export type Make = {
   __typename?: 'Make';
-  createdAt?: Maybe<Scalars['DateTime']>;
+  created_at?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Float']>;
   photo?: Maybe<FileObj>;
   title?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
+  updated_at?: Maybe<Scalars['DateTime']>;
 };
 
 export type MakeInput = {
@@ -291,6 +324,7 @@ export type Mutation = {
   cancelTrip: ConfirmCancelTripResponse;
   confirmTrip: ConfirmCancelTripResponse;
   contact: ContactResponse;
+  createChat: Scalars['Boolean'];
   createEditRequest: CreateCarEditRequestResponse;
   createTrip: CreateTripResponse;
   deleteUpload: Scalars['Boolean'];
@@ -341,6 +375,11 @@ export type MutationConfirmTripArgs = {
 
 export type MutationContactArgs = {
   input: ContactInput;
+};
+
+
+export type MutationCreateChatArgs = {
+  input: ChatInput;
 };
 
 
@@ -470,6 +509,7 @@ export type Query = {
   checkIfDriverIsApprovedToDrive: DriverIsApprovedResponse;
   getCar: CarResponse;
   getCars: Array<Car>;
+  getChats: Array<Chat>;
   getHostCars: Array<Car>;
   getMyBookings: Array<Trip>;
   getMyTrips: Array<Trip>;
@@ -477,6 +517,7 @@ export type Query = {
   getTrip: TripResponse;
   getUnVerifiedCars: Array<Car>;
   getUser: UserResponse;
+  getUserChatMetas: Array<ChatMeta>;
   makes: Array<Make>;
   trips: Array<Trip>;
   users: Array<User>;
@@ -490,6 +531,11 @@ export type QueryGetCarArgs = {
 
 export type QueryGetCarsArgs = {
   input: SearchInput;
+};
+
+
+export type QueryGetChatsArgs = {
+  chatMetaId: Scalars['Float'];
 };
 
 
@@ -517,6 +563,11 @@ export type SearchInput = {
   subject?: InputMaybe<Scalars['Float']>;
 };
 
+export type Subscription = {
+  __typename?: 'Subscription';
+  newChat: Chat;
+};
+
 export type TokenResponse = {
   __typename?: 'TokenResponse';
   access_token?: Maybe<Scalars['String']>;
@@ -541,6 +592,7 @@ export type Trip = {
   car?: Maybe<Car>;
   car_id?: Maybe<Scalars['Float']>;
   car_owner_id?: Maybe<Scalars['Float']>;
+  chat_meta_id?: Maybe<Scalars['Float']>;
   created_at?: Maybe<Scalars['DateTime']>;
   end_date?: Maybe<Scalars['DateTime']>;
   end_time?: Maybe<Scalars['String']>;
@@ -630,9 +682,11 @@ export type CarInfoFragment = { __typename?: 'Car', id?: number | null | undefin
 
 export type CarPrivateInfoFragment = { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined };
 
+export type ChatInfoFragment = { __typename?: 'Chat', id?: number | null | undefined, message?: string | null | undefined, receiver_id?: number | null | undefined, sender_id?: number | null | undefined, read?: boolean | null | undefined, sender_deleted?: boolean | null | undefined, receiver_deleted?: boolean | null | undefined, created_at?: any | null | undefined };
+
 export type FileInfoFragment = { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined };
 
-export type TripInfoFragment = { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined };
+export type TripInfoFragment = { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, chat_meta_id?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined };
 
 export type UserInfoFragment = { __typename?: 'User', id?: number | null | undefined, user_name?: string | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined, phone?: string | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined };
 
@@ -658,14 +712,14 @@ export type CancelTripMutationVariables = Exact<{
 }>;
 
 
-export type CancelTripMutation = { __typename?: 'Mutation', cancelTrip: { __typename?: 'ConfirmCancelTripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
+export type CancelTripMutation = { __typename?: 'Mutation', cancelTrip: { __typename?: 'ConfirmCancelTripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, chat_meta_id?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
 
 export type ConfirmTripMutationVariables = Exact<{
   tripId: Scalars['Float'];
 }>;
 
 
-export type ConfirmTripMutation = { __typename?: 'Mutation', confirmTrip: { __typename?: 'ConfirmCancelTripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
+export type ConfirmTripMutation = { __typename?: 'Mutation', confirmTrip: { __typename?: 'ConfirmCancelTripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, chat_meta_id?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
 
 export type ContactMutationVariables = Exact<{
   input: ContactInput;
@@ -673,6 +727,13 @@ export type ContactMutationVariables = Exact<{
 
 
 export type ContactMutation = { __typename?: 'Mutation', contact: { __typename?: 'ContactResponse', success: boolean } };
+
+export type CreateChatMutationVariables = Exact<{
+  input: ChatInput;
+}>;
+
+
+export type CreateChatMutation = { __typename?: 'Mutation', createChat: boolean };
 
 export type CreateEditCarRequestMutationVariables = Exact<{
   carId: Scalars['Float'];
@@ -841,6 +902,13 @@ export type GetCarsQueryVariables = Exact<{
 
 export type GetCarsQuery = { __typename?: 'Query', getCars: Array<{ __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, trips?: number | null | undefined, daily_rate?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined }> };
 
+export type GetChatsQueryVariables = Exact<{
+  chatMetaId: Scalars['Float'];
+}>;
+
+
+export type GetChatsQuery = { __typename?: 'Query', getChats: Array<{ __typename?: 'Chat', id?: number | null | undefined, message?: string | null | undefined, receiver_id?: number | null | undefined, sender_id?: number | null | undefined, read?: boolean | null | undefined, sender_deleted?: boolean | null | undefined, receiver_deleted?: boolean | null | undefined, created_at?: any | null | undefined }> };
+
 export type GetHostCarsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -878,12 +946,22 @@ export type GetTripQueryVariables = Exact<{
 }>;
 
 
-export type GetTripQuery = { __typename?: 'Query', getTrip: { __typename?: 'TripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
+export type GetTripQuery = { __typename?: 'Query', getTrip: { __typename?: 'TripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, chat_meta_id?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
 
 export type GetUnVerifiedCarsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUnVerifiedCarsQuery = { __typename?: 'Query', getUnVerifiedCars: Array<{ __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined }> };
+
+export type GetUserChatMetasQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserChatMetasQuery = { __typename?: 'Query', getUserChatMetas: Array<{ __typename?: 'ChatMeta', id?: number | null | undefined, sender?: { __typename?: 'User', id?: number | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, business_name?: string | null | undefined, email?: string | null | undefined, avatar?: { __typename?: 'FileObj', secure_url?: string | null | undefined } | null | undefined } | null | undefined, receiver?: { __typename?: 'User', id?: number | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, business_name?: string | null | undefined, email?: string | null | undefined, avatar?: { __typename?: 'FileObj', secure_url?: string | null | undefined } | null | undefined } | null | undefined }> };
+
+export type OnNewChatSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OnNewChatSubscription = { __typename?: 'Subscription', newChat: { __typename?: 'Chat', id?: number | null | undefined, message?: string | null | undefined, receiver_id?: number | null | undefined, sender_id?: number | null | undefined, read?: boolean | null | undefined, sender_deleted?: boolean | null | undefined, receiver_deleted?: boolean | null | undefined, created_at?: any | null | undefined } };
 
 export const FileInfoFragmentDoc = gql`
     fragment fileInfo on FileObj {
@@ -1033,6 +1111,18 @@ export const CarPrivateInfoFragmentDoc = gql`
   verification_in_progress
 }
     ${FileInfoFragmentDoc}`;
+export const ChatInfoFragmentDoc = gql`
+    fragment chatInfo on Chat {
+  id
+  message
+  receiver_id
+  sender_id
+  read
+  sender_deleted
+  receiver_deleted
+  created_at
+}
+    `;
 export const TripInfoFragmentDoc = gql`
     fragment tripInfo on Trip {
   id
@@ -1059,6 +1149,7 @@ export const TripInfoFragmentDoc = gql`
   start_time
   end_time
   status
+  chat_meta_id
 }
     `;
 export const UserInfoFragmentDoc = gql`
@@ -1254,6 +1345,37 @@ export function useContactMutation(baseOptions?: Apollo.MutationHookOptions<Cont
 export type ContactMutationHookResult = ReturnType<typeof useContactMutation>;
 export type ContactMutationResult = Apollo.MutationResult<ContactMutation>;
 export type ContactMutationOptions = Apollo.BaseMutationOptions<ContactMutation, ContactMutationVariables>;
+export const CreateChatDocument = gql`
+    mutation CreateChat($input: ChatInput!) {
+  createChat(input: $input)
+}
+    `;
+export type CreateChatMutationFn = Apollo.MutationFunction<CreateChatMutation, CreateChatMutationVariables>;
+
+/**
+ * __useCreateChatMutation__
+ *
+ * To run a mutation, you first call `useCreateChatMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateChatMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createChatMutation, { data, loading, error }] = useCreateChatMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateChatMutation(baseOptions?: Apollo.MutationHookOptions<CreateChatMutation, CreateChatMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateChatMutation, CreateChatMutationVariables>(CreateChatDocument, options);
+      }
+export type CreateChatMutationHookResult = ReturnType<typeof useCreateChatMutation>;
+export type CreateChatMutationResult = Apollo.MutationResult<CreateChatMutation>;
+export type CreateChatMutationOptions = Apollo.BaseMutationOptions<CreateChatMutation, CreateChatMutationVariables>;
 export const CreateEditCarRequestDocument = gql`
     mutation CreateEditCarRequest($carId: Float!) {
   createEditRequest(carId: $carId) {
@@ -2097,6 +2219,41 @@ export function useGetCarsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetCarsQueryHookResult = ReturnType<typeof useGetCarsQuery>;
 export type GetCarsLazyQueryHookResult = ReturnType<typeof useGetCarsLazyQuery>;
 export type GetCarsQueryResult = Apollo.QueryResult<GetCarsQuery, GetCarsQueryVariables>;
+export const GetChatsDocument = gql`
+    query GetChats($chatMetaId: Float!) {
+  getChats(chatMetaId: $chatMetaId) {
+    ...chatInfo
+  }
+}
+    ${ChatInfoFragmentDoc}`;
+
+/**
+ * __useGetChatsQuery__
+ *
+ * To run a query within a React component, call `useGetChatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChatsQuery({
+ *   variables: {
+ *      chatMetaId: // value for 'chatMetaId'
+ *   },
+ * });
+ */
+export function useGetChatsQuery(baseOptions: Apollo.QueryHookOptions<GetChatsQuery, GetChatsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetChatsQuery, GetChatsQueryVariables>(GetChatsDocument, options);
+      }
+export function useGetChatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetChatsQuery, GetChatsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetChatsQuery, GetChatsQueryVariables>(GetChatsDocument, options);
+        }
+export type GetChatsQueryHookResult = ReturnType<typeof useGetChatsQuery>;
+export type GetChatsLazyQueryHookResult = ReturnType<typeof useGetChatsLazyQuery>;
+export type GetChatsQueryResult = Apollo.QueryResult<GetChatsQuery, GetChatsQueryVariables>;
 export const GetHostCarsDocument = gql`
     query GetHostCars {
   getHostCars {
@@ -2440,3 +2597,86 @@ export function useGetUnVerifiedCarsLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type GetUnVerifiedCarsQueryHookResult = ReturnType<typeof useGetUnVerifiedCarsQuery>;
 export type GetUnVerifiedCarsLazyQueryHookResult = ReturnType<typeof useGetUnVerifiedCarsLazyQuery>;
 export type GetUnVerifiedCarsQueryResult = Apollo.QueryResult<GetUnVerifiedCarsQuery, GetUnVerifiedCarsQueryVariables>;
+export const GetUserChatMetasDocument = gql`
+    query GetUserChatMetas {
+  getUserChatMetas {
+    id
+    sender {
+      id
+      first_name
+      last_name
+      business_name
+      email
+      avatar {
+        secure_url
+      }
+    }
+    receiver {
+      id
+      first_name
+      last_name
+      business_name
+      email
+      avatar {
+        secure_url
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserChatMetasQuery__
+ *
+ * To run a query within a React component, call `useGetUserChatMetasQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserChatMetasQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserChatMetasQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserChatMetasQuery(baseOptions?: Apollo.QueryHookOptions<GetUserChatMetasQuery, GetUserChatMetasQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserChatMetasQuery, GetUserChatMetasQueryVariables>(GetUserChatMetasDocument, options);
+      }
+export function useGetUserChatMetasLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserChatMetasQuery, GetUserChatMetasQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserChatMetasQuery, GetUserChatMetasQueryVariables>(GetUserChatMetasDocument, options);
+        }
+export type GetUserChatMetasQueryHookResult = ReturnType<typeof useGetUserChatMetasQuery>;
+export type GetUserChatMetasLazyQueryHookResult = ReturnType<typeof useGetUserChatMetasLazyQuery>;
+export type GetUserChatMetasQueryResult = Apollo.QueryResult<GetUserChatMetasQuery, GetUserChatMetasQueryVariables>;
+export const OnNewChatDocument = gql`
+    subscription onNewChat {
+  newChat {
+    ...chatInfo
+  }
+}
+    ${ChatInfoFragmentDoc}`;
+
+/**
+ * __useOnNewChatSubscription__
+ *
+ * To run a query within a React component, call `useOnNewChatSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnNewChatSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOnNewChatSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOnNewChatSubscription(baseOptions?: Apollo.SubscriptionHookOptions<OnNewChatSubscription, OnNewChatSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<OnNewChatSubscription, OnNewChatSubscriptionVariables>(OnNewChatDocument, options);
+      }
+export type OnNewChatSubscriptionHookResult = ReturnType<typeof useOnNewChatSubscription>;
+export type OnNewChatSubscriptionResult = Apollo.SubscriptionResult<OnNewChatSubscription>;

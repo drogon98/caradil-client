@@ -1,24 +1,26 @@
 import Link from "next/link";
 import React from "react";
+import { ChatMeta } from "../../../graphql_types/generated/graphql";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { ChatUserProfileBox } from "./ChatUserProfileBox";
 
-interface ChatUserProfileProps {}
+interface ChatUserProfileProps {
+  data: ChatMeta;
+}
 
 export const ChatUserProfile = (props: ChatUserProfileProps) => {
-  // console.log("props.data :>> ", props.data);
   const { width } = useWindowDimensions();
 
   return (
     <div>
       {width < 800 ? (
-        <Link href={`/account/chats/md`}>
+        <Link href={{ pathname: `/account/chats/md`, query: {} }}>
           <a className="container">
-            <ChatUserProfileBox />
+            <ChatUserProfileBox data={props.data} />
           </a>
         </Link>
       ) : (
-        <ChatUserProfileBox />
+        <ChatUserProfileBox isLg data={props.data} />
       )}
     </div>
   );

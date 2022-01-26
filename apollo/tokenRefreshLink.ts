@@ -2,7 +2,7 @@ import { ApolloLink } from "@apollo/client";
 import jwtDecode from "jwt-decode";
 import { setToken } from "../redux/authSlice";
 import { store } from "../redux/store";
-import { baseUrl } from "../utils/baseUrl";
+import { baseHttpDomain } from "../utils/baseDomain";
 import { CustomJwtPayload } from "../utils/interfaces";
 
 export const tokenRefreshLink = new ApolloLink((operation, forward) => {
@@ -16,7 +16,7 @@ export const tokenRefreshLink = new ApolloLink((operation, forward) => {
       // console.log("exp :>> ", exp);
       if (exp) {
         if (Date.now() >= exp * 1000) {
-          fetch(`${baseUrl}refresh-token`, {
+          fetch(`${baseHttpDomain}refresh-token`, {
             method: "POST",
             credentials: "include",
           })

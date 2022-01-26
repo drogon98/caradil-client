@@ -1,19 +1,19 @@
 import { ApolloProvider } from "@apollo/client";
 import "bootstrap/dist/css/bootstrap.css";
+import jwtDecode from "jwt-decode";
 // import "bootstrap/dist/js/bootstrap.js";
 import type { AppProps } from "next/app";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { Provider } from "react-redux";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 import client from "../apollo";
+import { setToken, unsetToken } from "../redux/authSlice";
 import { store } from "../redux/store";
 import "../styles/globals.css";
-import { PersistGate } from "redux-persist/integration/react";
-import { persistStore } from "redux-persist";
-import { useEffect } from "react";
-import jwtDecode from "jwt-decode";
+import { baseHttpDomain } from "../utils/baseDomain";
 import { CustomJwtPayload } from "../utils/interfaces";
-import { setToken, unsetToken } from "../redux/authSlice";
-import { useRouter } from "next/router";
-import { baseUrl } from "../utils/baseUrl";
 
 let persistor = persistStore(store);
 
@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
           if (exp) {
             if (Date.now() >= (exp - 10) * 1000) {
-              let fetchRes = await fetch(`${baseUrl}refresh-token`, {
+              let fetchRes = await fetch(`${baseHttpDomain}refresh-token`, {
                 method: "POST",
                 credentials: "include",
               });
@@ -58,7 +58,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 });
               }
 
-              // fetch(`${baseUrl}refresh-token`, {
+              // fetch(`${baseHttpDomain}refresh-token`, {
               //   method: "POST",
               //   credentials: "include",
               // }).then(async (res) => {
