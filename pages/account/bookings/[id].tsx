@@ -87,7 +87,7 @@ export default function Booking(props: Props): ReactElement {
       if (width <= 800) {
         router.push({
           pathname: "/account/chats/md",
-          query: { meta_id: trip?.chat_meta_id },
+          query: { meta_id: trip?.chat_meta_id, rc_id: trip?.owner_id },
         });
       } else {
         router.push({

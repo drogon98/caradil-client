@@ -1568,7 +1568,7 @@ car-input-container select:focus {
 
 .chat-box {
   max-width: 60%;
-  min-width: 15%;
+  min-width: 100px;
   display: flex;
   align-items: flex-start;
 }

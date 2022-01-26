@@ -10,17 +10,17 @@ interface ChatBoxProps {
 export const ChatBox = (props: ChatBoxProps) => {
   const token = useAppSelector((state) => state.auth._id);
   const userId = useUserId(token);
-  const [isSender, setIsSender] = useState<boolean>();
+  // const [isSender, setIsSender] = useState<boolean>();
 
-  useEffect(() => {
-    if (props.data && userId) {
-      setIsSender(props.data.sender_id === userId);
-    }
-  }, [props.data, userId]);
+  // useEffect(() => {
+  //   if (props.data && userId) {
+  //     setIsSender(props.data.sender_id === userId);
+  //   }
+  // }, [props.data, userId]);
 
   return (
     <>
-      {isSender ? (
+      {props.data.sender_id === userId ? (
         <div className="chat-box-sender my-5">
           <div className="chat-box">
             <div className="sender-chat-tooltip p-2">{props.data.message}</div>

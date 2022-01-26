@@ -1,5 +1,11 @@
 import { useRouter } from "next/router";
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import {
   Chat,
@@ -13,7 +19,7 @@ import { ChatBox } from "./ChatBox";
 
 interface ChatsProps {
   chatMetaId?: number;
-  senderId?: number;
+  // senderId?: number;
   receiverId?: number;
 }
 
@@ -21,9 +27,14 @@ export const Messages = (props: ChatsProps) => {
   const [message, setMessage] = useState("");
   const [createChat, { loading: creatingChat }] = useCreateChatMutation();
   const router = useRouter();
-  const [chats, setChats] = useState<Chat[]>();
+  const [chats, setChats] = useState<Chat[]>([]);
   const [getChats, { data, loading: loadingChats, subscribeToMore }] =
     useGetChatsLazyQuery();
+  const msgBtmRef = useRef<HTMLDivElement>(null);
+  const [hasNewChat, setHasNewChat] = useState(false);
+  const [chatMetaId, setChatMetaId] = useState<number>();
+  const [receiverId, setReceiverId] = useState<number>();
+  // const [senderId, setSenderId] = useState<number>();
 
   useEffect(() => {
     const _getChats = async () => {
@@ -31,7 +42,21 @@ export const Messages = (props: ChatsProps) => {
         const isMdPage = router.pathname.includes("/chats/md");
         if (isMdPage) {
           // Small screens page
+          const tempChatMetaId = parseInt(router.query.meta_id as string, 10);
+          const tempReceiverId = parseInt(router.query.rc_id as string, 10);
+
+          setChatMetaId(tempChatMetaId);
+          setReceiverId(tempReceiverId);
+
+          if (tempChatMetaId) {
+            getChats({
+              variables: { chatMetaId: tempChatMetaId! },
+            });
+          }
         } else {
+          setChatMetaId(props.chatMetaId);
+          setReceiverId(props.receiverId);
+          // setSenderId(props.senderId);
           getChats({
             variables: { chatMetaId: props.chatMetaId! },
           });
@@ -68,9 +93,47 @@ export const Messages = (props: ChatsProps) => {
 
   useEffect(() => {
     if (data && data.getChats && !loadingChats) {
+      // Check if the last chat has changed in incoming array. If so,scroll top
+      let incomingChats = data.getChats;
+      let lastChatIdxInIncomingChats = incomingChats.length - 1;
+      if (chats && chats.length > 0) {
+        let lastChatIdxInCurrentChats = chats?.length - 1;
+        if (
+          incomingChats[lastChatIdxInIncomingChats].id !==
+          chats[lastChatIdxInCurrentChats].id
+        ) {
+          setHasNewChat(true);
+        } else {
+          setHasNewChat(false);
+        }
+      } else {
+        setHasNewChat(false);
+      }
       setChats([...data.getChats]);
     }
   }, [data, loadingChats]);
+
+  useEffect(() => {
+    if (msgBtmRef && msgBtmRef.current && chats && !hasNewChat) {
+      msgBtmRef.current.scrollIntoView({
+        behavior: "auto",
+        block: "end",
+      });
+    }
+  }, [msgBtmRef, chats, hasNewChat]);
+
+  useEffect(() => {
+    if (hasNewChat && msgBtmRef) {
+      if (msgBtmRef.current) {
+        msgBtmRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+        });
+      }
+
+      setHasNewChat(false);
+    }
+  }, [chats, msgBtmRef]);
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
@@ -80,9 +143,9 @@ export const Messages = (props: ChatsProps) => {
     e.preventDefault();
     try {
       const payload: ChatInput = {
-        chat_meta_id: props.chatMetaId!,
+        chat_meta_id: chatMetaId!,
         message,
-        receiver_id: props.receiverId!,
+        receiver_id: receiverId!,
       };
       const response = await createChat({ variables: { input: payload } });
       if (response.data?.createChat) {
@@ -92,8 +155,6 @@ export const Messages = (props: ChatsProps) => {
       }
     } catch (error) {}
   };
-
-  // console.log("chats :>> ", chats);
 
   return (
     <div>
@@ -110,7 +171,12 @@ export const Messages = (props: ChatsProps) => {
           {loadingChats ? (
             <FlexibleLoader />
           ) : (
-            chats?.map((chat) => <ChatBox key={chat.id} data={chat} />)
+            <>
+              {chats?.map((chat) => (
+                <ChatBox key={chat.id} data={chat} />
+              ))}
+              <div ref={msgBtmRef} />
+            </>
           )}
         </div>
 
@@ -124,6 +190,7 @@ export const Messages = (props: ChatsProps) => {
               className="form-control h-100"
               placeholder="Type message here..."
               onChange={handleChange}
+              value={message}
             />
             <div className="bg-successw-100 d-flex justify-content-center align-items-center">
               <button className="btn" type="submit" disabled={creatingChat}>
