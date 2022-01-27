@@ -21,7 +21,7 @@ interface ChatsProps {
   chatMetaId?: number;
   // senderId?: number;
   receiverId?: number;
-  activeChatId: number;
+  activeChatId?: number;
 }
 
 export const Messages = (props: ChatsProps) => {
