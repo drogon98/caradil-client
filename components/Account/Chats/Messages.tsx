@@ -13,6 +13,8 @@ import {
   OnNewChatDocument,
   useCreateChatMutation,
   useGetChatsLazyQuery,
+  useGetUserChatMetasLazyQuery,
+  User,
 } from "../../../graphql_types/generated/graphql";
 import FlexibleLoader from "../../Loading/FlexibleLoader";
 import { ChatBox } from "./ChatBox";
@@ -22,6 +24,8 @@ interface ChatsProps {
   // senderId?: number;
   receiverId?: number;
   activeChatId?: number;
+  receiverProfile?: User;
+  senderProfile?: User;
 }
 
 export const Messages = (props: ChatsProps) => {
@@ -31,11 +35,22 @@ export const Messages = (props: ChatsProps) => {
   const [chats, setChats] = useState<Chat[]>([]);
   const [getChats, { data, loading: loadingChats, subscribeToMore }] =
     useGetChatsLazyQuery();
+  const [
+    getChatMetaData,
+    {
+      data: chatMeta,
+      loading: loadingChatMeta,
+      subscribeToMore: subscribeToMoreMeta,
+    },
+  ] = useGetUserChatMetasLazyQuery();
   const msgBtmRef = useRef<HTMLDivElement>(null);
   const [hasNewChat, setHasNewChat] = useState(false);
   const [chatMetaId, setChatMetaId] = useState<number>();
   const [receiverId, setReceiverId] = useState<number>();
   // const [senderId, setSenderId] = useState<number>();
+  const [receiverProfile, setReceiverProfile] = useState<User>();
+  const [senderProfile, setSenderProfile] = useState<User>();
+  const [name, setName] = useState("");
 
   useEffect(() => {
     const _getChats = async () => {
@@ -43,6 +58,7 @@ export const Messages = (props: ChatsProps) => {
         const isMdPage = router.pathname.includes("/chats/md");
         if (isMdPage) {
           // Small screens page
+          getChatMetaData();
           const tempChatMetaId = parseInt(router.query.meta_id as string, 10);
           const tempReceiverId = parseInt(router.query.rc_id as string, 10);
 
@@ -57,10 +73,18 @@ export const Messages = (props: ChatsProps) => {
         } else {
           setChatMetaId(props.chatMetaId);
           setReceiverId(props.receiverId);
+          setReceiverProfile(props.receiverProfile);
+          setSenderProfile(props.senderProfile);
           // setSenderId(props.senderId);
-          getChats({
-            variables: { chatMetaId: props.chatMetaId! },
-          });
+          if (props.chatMetaId) {
+            getChats({
+              variables: { chatMetaId: props.chatMetaId! },
+            });
+          } else {
+            getChats({
+              variables: { chatMetaId: props.activeChatId! },
+            });
+          }
         }
       } catch (error) {
         console.log("error :>> ", error);
@@ -68,6 +92,14 @@ export const Messages = (props: ChatsProps) => {
     };
     _getChats();
   }, [router.query, props, props.activeChatId]);
+
+  useEffect(() => {
+    const isMdPage = router.pathname.includes("/chats/md");
+    if (isMdPage) {
+      setReceiverProfile(chatMeta?.getUserChatMetas[0].receiver!);
+      setSenderProfile(chatMeta?.getUserChatMetas[0].sender!);
+    }
+  }, [chatMeta]);
 
   useEffect(() => {
     let unsubscribeNewChat: { (): void; (): void };
@@ -157,15 +189,38 @@ export const Messages = (props: ChatsProps) => {
     } catch (error) {}
   };
 
+  useEffect(() => {
+    if (receiverProfile) {
+      if (receiverProfile?.business_name) {
+        setName(receiverProfile?.business_name);
+        return;
+      } else if (receiverProfile?.first_name) {
+        if (receiverProfile?.last_name) {
+          setName(
+            `${receiverProfile?.first_name} ${receiverProfile?.last_name
+              .charAt(0)
+              .toUpperCase()}`
+          );
+        }
+      } else {
+        setName(receiverProfile?.email!);
+      }
+    }
+  }, [receiverProfile]);
+
   return (
     <div>
       <div className="chat-top p-0 d-flex justify-content-center">
         <img
-          src="/images/mackenzi.png"
+          src={
+            receiverProfile?.avatar?.secure_url
+              ? receiverProfile?.avatar.secure_url
+              : "/images/mackenzi.png"
+          }
           style={{ objectFit: "cover", height: "55px", width: "55px" }}
           className="rounded-circle"
         />
-        <h6 className="m-0">John Doe</h6>
+        <h6 className="m-0">{name}</h6>
       </div>
       <div>
         <div className="chat-messages-wrapper p-2 pt-4">
@@ -174,7 +229,12 @@ export const Messages = (props: ChatsProps) => {
           ) : (
             <>
               {chats?.map((chat) => (
-                <ChatBox key={chat.id} data={chat} />
+                <ChatBox
+                  key={chat.id}
+                  data={chat}
+                  senderProfile={senderProfile!}
+                  receiverProfile={receiverProfile!}
+                />
               ))}
               <div ref={msgBtmRef} />
             </>

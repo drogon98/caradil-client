@@ -11,6 +11,7 @@ import { Loading } from "../../../components/Loading";
 import {
   ChatMeta,
   useGetUserChatMetasQuery,
+  User,
 } from "../../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../../redux/hooks";
 
@@ -26,6 +27,8 @@ const Chats = (props: ChatsProps) => {
   const [chatProfiles, setChatProfiles] = useState<ChatMeta[]>();
   const [receiverId, setReceiverId] = useState<number>();
   const [activeChatId, setActiveChatId] = useState<number>();
+  const [receiverProfile, setReceiverProfile] = useState<User>();
+  const [senderProfile, setSenderProfile] = useState<User>();
 
   const router = useRouter();
 
@@ -52,12 +55,12 @@ const Chats = (props: ChatsProps) => {
     }
   }, [data, loading]);
 
-  console.log("chatProfiles :>> ", chatProfiles);
-
   useEffect(() => {
     if (chatProfiles && chatProfiles.length > 0) {
       setReceiverId(chatProfiles[0].receiver?.id!);
       setActiveChatId(chatProfiles[0].id!);
+      setReceiverProfile(chatProfiles[0].receiver!);
+      setSenderProfile(chatProfiles[0].sender!);
     }
   }, [chatProfiles]);
 
@@ -124,6 +127,8 @@ const Chats = (props: ChatsProps) => {
                       chatMetaId={metaId}
                       receiverId={receiverId}
                       activeChatId={activeChatId!}
+                      senderProfile={senderProfile}
+                      receiverProfile={receiverProfile}
                     />
                   </div>
                 </div>

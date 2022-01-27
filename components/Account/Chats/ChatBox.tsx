@@ -1,10 +1,12 @@
 import React from "react";
-import { Chat } from "../../../graphql_types/generated/graphql";
+import { Chat, User } from "../../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../../redux/hooks";
 import { useUserId } from "../../hooks/useUserId";
 
 interface ChatBoxProps {
   data: Chat;
+  receiverProfile: User;
+  senderProfile: User;
 }
 
 export const ChatBox = (props: ChatBoxProps) => {
@@ -27,9 +29,11 @@ export const ChatBox = (props: ChatBoxProps) => {
     }
   };
 
+  // console.log("props.data :>> ", props.data);
+
   return (
     <>
-      {props.data.sender_id === userId ? (
+      {props.data.sender_id !== userId ? (
         <div className="chat-box-sender my-5">
           <div className="chat-box">
             <div className="sender-chat-tooltip p-2">
@@ -41,7 +45,11 @@ export const ChatBox = (props: ChatBoxProps) => {
               </div>
             </div>
             <img
-              src="/images/mackenzi.png"
+              src={
+                props.receiverProfile?.avatar?.secure_url
+                  ? props.receiverProfile?.avatar.secure_url
+                  : "/images/mackenzi.png"
+              }
               style={{ objectFit: "cover", height: "40px", width: "40px" }}
               className="rounded-circle"
             />
@@ -51,7 +59,11 @@ export const ChatBox = (props: ChatBoxProps) => {
         <div className="chat-box-receiver my-5">
           <div className="chat-box">
             <img
-              src="/images/mackenzi.png"
+              src={
+                props.senderProfile?.avatar?.secure_url
+                  ? props.senderProfile?.avatar.secure_url
+                  : "/images/mackenzi.png"
+              }
               style={{ objectFit: "cover", height: "40px", width: "40px" }}
               className="rounded-circle"
             />

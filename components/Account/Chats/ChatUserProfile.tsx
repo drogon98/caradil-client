@@ -15,11 +15,9 @@ export const ChatUserProfile = (props: ChatUserProfileProps) => {
   return (
     <div>
       {width < 800 ? (
-        <Link href={{ pathname: `/account/chats/md`, query: {} }}>
-          <a className="container">
-            <ChatUserProfileBox data={props.data} />
-          </a>
-        </Link>
+        <div className="container p-0">
+          <ChatUserProfileBox data={props.data} />
+        </div>
       ) : (
         <ChatUserProfileBox
           isLg

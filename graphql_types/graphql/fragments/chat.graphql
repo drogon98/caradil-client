@@ -7,4 +7,15 @@ fragment chatInfo on Chat {
   sender_deleted
   receiver_deleted
   created_at
+  # sender{
+  #   avatar{
+  #     secure_url
+  #   }
+  # }
+
+  # receiver{
+  #   avatar{
+  #     secure_url
+  #   }
+  # }
 }

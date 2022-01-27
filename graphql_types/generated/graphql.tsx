@@ -175,8 +175,10 @@ export type Chat = {
   id?: Maybe<Scalars['Float']>;
   message?: Maybe<Scalars['String']>;
   read?: Maybe<Scalars['Boolean']>;
+  receiver?: Maybe<User>;
   receiver_deleted?: Maybe<Scalars['Boolean']>;
   receiver_id?: Maybe<Scalars['Float']>;
+  sender?: Maybe<User>;
   sender_deleted?: Maybe<Scalars['Boolean']>;
   sender_id?: Maybe<Scalars['Float']>;
   updated_at?: Maybe<Scalars['DateTime']>;

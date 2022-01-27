@@ -35,20 +35,29 @@ export const ChatUserProfileBox = (props: ChatUserProfileBoxProps) => {
 
   const handleClick = async (e: any, id: Maybe<number> | undefined) => {
     if (!props.isLg) {
-      return;
-    }
-
-    props.setActiveChatId!(id as number);
-    await router.push(
-      {
-        pathname: `/account/chats`,
-        query: {
-          meta_id: id,
+      await router.push(
+        {
+          pathname: `/account/chats/md`,
+          query: {
+            meta_id: id,
+            rc_id: props.data.receiver?.id,
+          },
         },
-      },
-      `/account/chats/?meta_id=${id}`,
-      { shallow: true }
-    );
+        `/account/chats/md?meta_id=${id}&rc_id=${props.data.receiver?.id}`
+      );
+    } else {
+      props.setActiveChatId!(id as number);
+      await router.push(
+        {
+          pathname: `/account/chats`,
+          query: {
+            meta_id: id,
+          },
+        },
+        `/account/chats/?meta_id=${id}`,
+        { shallow: true }
+      );
+    }
   };
 
   return (

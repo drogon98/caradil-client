@@ -70,8 +70,8 @@ const ChatNavbarMd = (props: ChatNavbarMdProps): JSX.Element => {
         <div>
           <button
             className="btn m-0 p-0 pl-2"
-            onClick={() => {
-              router.replace("/account/chats");
+            onClick={async () => {
+              await router.push("/account/chats");
             }}
           >
             <BsArrowLeft size={"30px"} />
