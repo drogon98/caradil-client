@@ -21,6 +21,7 @@ interface ChatsProps {
   chatMetaId?: number;
   // senderId?: number;
   receiverId?: number;
+  activeChatId: number;
 }
 
 export const Messages = (props: ChatsProps) => {
@@ -66,7 +67,7 @@ export const Messages = (props: ChatsProps) => {
       }
     };
     _getChats();
-  }, [router.query]);
+  }, [router.query, props, props.activeChatId]);
 
   useEffect(() => {
     let unsubscribeNewChat: { (): void; (): void };
@@ -99,7 +100,7 @@ export const Messages = (props: ChatsProps) => {
       if (chats && chats.length > 0) {
         let lastChatIdxInCurrentChats = chats?.length - 1;
         if (
-          incomingChats[lastChatIdxInIncomingChats].id !==
+          incomingChats[lastChatIdxInIncomingChats]?.id !==
           chats[lastChatIdxInCurrentChats].id
         ) {
           setHasNewChat(true);
@@ -158,7 +159,7 @@ export const Messages = (props: ChatsProps) => {
 
   return (
     <div>
-      <div className="chat-top p-3 d-flex justify-content-center">
+      <div className="chat-top p-0 d-flex justify-content-center">
         <img
           src="/images/mackenzi.png"
           style={{ objectFit: "cover", height: "55px", width: "55px" }}
@@ -187,14 +188,14 @@ export const Messages = (props: ChatsProps) => {
           <div className="chat-textarea-send-wrapper h-100">
             <textarea
               required
-              className="form-control h-100"
+              className="form-control h-100 chat-textarea"
               placeholder="Type message here..."
               onChange={handleChange}
               value={message}
             />
             <div className="bg-successw-100 d-flex justify-content-center align-items-center">
               <button className="btn" type="submit" disabled={creatingChat}>
-                <RiSendPlane2Fill size={"40px"} />
+                <RiSendPlane2Fill size={"25px"} />
               </button>
             </div>
           </div>

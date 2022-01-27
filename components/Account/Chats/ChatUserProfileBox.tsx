@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ChatMeta, Maybe } from "../../../graphql_types/generated/graphql";
 
 interface ChatUserProfileBoxProps {
   isLg?: boolean;
   data: ChatMeta;
+  setActiveChatId?: Dispatch<SetStateAction<number | undefined>>;
 }
 
 export const ChatUserProfileBox = (props: ChatUserProfileBoxProps) => {
@@ -37,6 +38,7 @@ export const ChatUserProfileBox = (props: ChatUserProfileBoxProps) => {
       return;
     }
 
+    props.setActiveChatId!(id as number);
     await router.push(
       {
         pathname: `/account/chats`,
@@ -48,8 +50,6 @@ export const ChatUserProfileBox = (props: ChatUserProfileBoxProps) => {
       { shallow: true }
     );
   };
-
-  // console.log("props.data :>> ", props.data);
 
   return (
     <div

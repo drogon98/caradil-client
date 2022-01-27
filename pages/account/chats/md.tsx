@@ -1,17 +1,12 @@
 import Head from "next/head";
 import React from "react";
-import { ChatUserProfile } from "../../../components/Account/Chats/ChatUserProfile";
 import { Messages } from "../../../components/Account/Chats/Messages";
 import { AuthWrapper } from "../../../components/AuthWrapper";
-import { useRole } from "../../../components/hooks/useRole";
 import AccountLayout from "../../../components/layouts/AccountLayout";
-import { useAppSelector } from "../../../redux/hooks";
 
 interface ChatsProps {}
 
 const ChatMediumMessages = (props: ChatsProps) => {
-  const token = useAppSelector((state) => state.auth._id);
-  const role = useRole(token);
   return (
     <>
       <Head>
@@ -22,30 +17,6 @@ const ChatMediumMessages = (props: ChatsProps) => {
       <AuthWrapper>
         <AccountLayout>
           <Messages />
-          {/* <div className="chats-wrapper">
-            <div>
-              <div className="chat-top p-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search chat user..."
-                />
-              </div>
-              <div className="chat-user-profiles">
-                <div className="chat-sm-top" />
-                <ChatUserProfile />
-                <ChatUserProfile />
-                <ChatUserProfile />
-                <ChatUserProfile />
-                <ChatUserProfile />
-                <ChatUserProfile />
-                <ChatUserProfile />
-              </div>
-            </div>
-            <div className="chat-messages-lg-wrapper">
-              <Messages />
-            </div>
-          </div> */}
         </AccountLayout>
       </AuthWrapper>
     </>

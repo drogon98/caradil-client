@@ -1,11 +1,12 @@
 import Link from "next/link";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { ChatMeta } from "../../../graphql_types/generated/graphql";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { ChatUserProfileBox } from "./ChatUserProfileBox";
 
 interface ChatUserProfileProps {
   data: ChatMeta;
+  setActiveChatId: Dispatch<SetStateAction<number | undefined>>;
 }
 
 export const ChatUserProfile = (props: ChatUserProfileProps) => {
@@ -20,7 +21,11 @@ export const ChatUserProfile = (props: ChatUserProfileProps) => {
           </a>
         </Link>
       ) : (
-        <ChatUserProfileBox isLg data={props.data} />
+        <ChatUserProfileBox
+          isLg
+          data={props.data}
+          setActiveChatId={props.setActiveChatId}
+        />
       )}
     </div>
   );

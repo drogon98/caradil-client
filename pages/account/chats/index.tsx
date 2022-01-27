@@ -25,6 +25,7 @@ const Chats = (props: ChatsProps) => {
   const [metaId, setMetaId] = useState<number>();
   const [chatProfiles, setChatProfiles] = useState<ChatMeta[]>();
   const [receiverId, setReceiverId] = useState<number>();
+  const [activeChatId, setActiveChatId] = useState<number>();
 
   const router = useRouter();
 
@@ -51,19 +52,14 @@ const Chats = (props: ChatsProps) => {
     }
   }, [data, loading]);
 
+  console.log("chatProfiles :>> ", chatProfiles);
+
   useEffect(() => {
     if (chatProfiles && chatProfiles.length > 0) {
       setReceiverId(chatProfiles[0].receiver?.id!);
+      setActiveChatId(chatProfiles[0].id!);
     }
   }, [chatProfiles]);
-
-  // console.log("chatProfiles :>> ", chatProfiles);
-
-  // // const
-
-  // console.log("router :>> ", router);
-
-  // console.log("receiverId :>> ", receiverId);
 
   return (
     <>
@@ -77,29 +73,61 @@ const Chats = (props: ChatsProps) => {
           {mainLoading ? (
             <Loading />
           ) : (
-            <div className="chats-wrapper">
-              <div>
-                <div className="chat-top p-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Search chat user..."
-                  />
+            <div className="chats-main-wrapper">
+              {chatProfiles?.length === 0 ? (
+                <div className="h-100 w-100 d-flex align-items-center justify-content-center">
+                  {role === 2 ? (
+                    <>
+                      <h6>No Chats Yet.</h6>
+                      <div>
+                        <small>
+                          Once you have trips and bookings,chats will be
+                          activated.
+                        </small>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <h6>No Chats Yet.</h6>
+                      <div>
+                        <small>
+                          Once you have trips,chats will be activated.
+                        </small>
+                      </div>
+                    </>
+                  )}
                 </div>
-                <div className="chat-user-profiles">
-                  <div className="chat-sm-top" />
-                  {chatProfiles?.map((cProfile) => (
-                    <ChatUserProfile key={cProfile.id} data={cProfile} />
-                  ))}
+              ) : (
+                <div className="chats-wrapper">
+                  <div className="chats-left">
+                    <div className="chat-top p-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search chat user..."
+                      />
+                    </div>
+                    <div className="chat-user-profiles">
+                      <div className="chat-sm-top" />
+                      {chatProfiles?.map((cProfile) => (
+                        <ChatUserProfile
+                          key={cProfile.id}
+                          data={cProfile}
+                          setActiveChatId={setActiveChatId}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="chat-messages-lg-wrapper">
+                    <Messages
+                      // senderId={userId!}
+                      chatMetaId={metaId}
+                      receiverId={receiverId}
+                      activeChatId={activeChatId!}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="chat-messages-lg-wrapper">
-                <Messages
-                  // senderId={userId!}
-                  chatMetaId={metaId}
-                  receiverId={receiverId}
-                />
-              </div>
+              )}
             </div>
           )}
         </AccountLayout>

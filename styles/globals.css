@@ -191,7 +191,8 @@ p {
 
 input:focus,
 select:focus,
-button:focus {
+button:focus,
+textarea:focus {
   outline: none !important;
   box-shadow: none !important;
 }
@@ -1531,16 +1532,27 @@ car-input-container select:focus {
 
 /*==================================CHAT STYLES========================================== */
 
+.chats-main-wrapper {
+  height: calc(100vh - var(--navbar-height));
+}
+
 .chats-wrapper {
   display: grid;
   grid-template-columns: 2fr 4fr;
-  column-gap: 10px;
+  /* column-gap: 10px; */
+  height: calc(100vh - var(--navbar-height));
+}
+
+.chats-left {
+  border-right: 1px solid #dcdcdc;
+  /* height: calc(100vh - var(--navbar-height)); */
 }
 
 .chat-top {
   height: 100px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #dcdcdc;
 }
 
 .chat-user-profiles {
@@ -1582,6 +1594,7 @@ car-input-container select:focus {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 100px;
 }
 
 .receiver-chat-tooltip::after {
@@ -1604,6 +1617,7 @@ car-input-container select:focus {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 100px;
 }
 
 .sender-chat-tooltip::after {
@@ -1621,6 +1635,7 @@ car-input-container select:focus {
   height: 80px;
   padding: 0;
   background-color: #eaecee;
+  border-top: 1px solid #dcdcdc;
 }
 
 .chat-textarea-send-wrapper {
@@ -1628,8 +1643,17 @@ car-input-container select:focus {
   grid-template-columns: 7fr 1fr;
 }
 
+.chat-textarea {
+  border: none !important;
+  background-color: transparent !important;
+}
+
 .chat-sm-top {
   display: none;
+}
+
+.chat-time {
+  font-size: 10px;
 }
 
 @media screen and (max-width: 800px) {
