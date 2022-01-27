@@ -7,11 +7,6 @@ import { useAppSelector } from "../../redux/hooks";
 
 interface SettingsProps {}
 
-/**
- * @author @CodeYourEmpire
- * @function @Settings
- **/
-
 const Settings = (props: SettingsProps) => {
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
@@ -24,19 +19,136 @@ const Settings = (props: SettingsProps) => {
       </Head>
       <AuthWrapper>
         <AccountLayout>
-          <div className="p-2">
-            <h3>Your settings</h3>
+          <div className="row m-0">
+            <div className="col-lg-7 my-4 mb-5 mx-auto">
+              <h1 style={{ textDecoration: "underline" }}>Manage Account</h1>
 
-            {role === 1 && (
-              <div className="manageAccountWrapper">
-                <button disabled={true}>Upgrade Account</button>
+              <h3>Settings</h3>
+              <hr />
+              <h6>General Settings</h6>
+              <div className="mb-5">
+                <div className="settings-column d-flex align-items-start justify-content-between">
+                  <div className="d-flex flex-column">
+                    <p>I offer bulk car hire.</p>
+                    <div>
+                      <small>
+                        This means that a guest can rent out more than one car
+                        at once from you.{" "}
+                      </small>
+                    </div>
+                  </div>
+                  <div className="form-check form-switch">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="flexSwitchCheckDefault"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexSwitchCheckDefault"
+                      hidden
+                    />
+                  </div>
+                </div>
               </div>
-            )}
-            {role === 2 && (
-              <div className="manageAccountWrapper">
-                <button disabled={true}>Downgrade Account</button>
+              <h6>Notification Settings</h6>
+              <div className="mb-5">
+                <div className="settings-column d-flex align-items-start justify-content-between">
+                  <div className="d-flex flex-column">
+                    <p>Receive marketing emails from caradil</p>
+                  </div>
+                  <div className="form-check form-switch">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="flexSwitchCheckDefault"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexSwitchCheckDefault"
+                      hidden
+                    />
+                  </div>
+                </div>
               </div>
-            )}
+              <h6>Payment Settings</h6>
+              <div className="mb-5">
+                <p>Choose payment channel</p>
+
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="exampleRadios"
+                    id="exampleRadios1"
+                    value="option1"
+                    checked
+                  />
+                  <label className="form-check-label" htmlFor="exampleRadios1">
+                    Mpesa
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="exampleRadios"
+                    id="exampleRadios2"
+                    value="option2"
+                  />
+                  <label className="form-check-label" htmlFor="exampleRadios2">
+                    Bank Account
+                  </label>
+                </div>
+              </div>
+
+              <h3>Account</h3>
+              <hr />
+              <div className="settings-column d-flex align-items-start justify-content-between">
+                <div className="d-flex flex-column">
+                  <h6>Suspend Account</h6>
+                  <div className="pr-3">
+                    <small>
+                      {role === 2 ? (
+                        <>
+                          {" "}
+                          Do you want to take a break from the grind while
+                          retaining your account. Suspending it will make all
+                          your data <b>ie profile and listings</b>, hidden from
+                          the public. You can make it public later.
+                        </>
+                      ) : (
+                        <>
+                          {" "}
+                          Do you want to take a break from the grind while
+                          retaining your account. Suspending it will make all
+                          your profile data hidden from the public. You can make
+                          it public later.
+                        </>
+                      )}
+                    </small>
+                  </div>
+                </div>
+                <button className="btn account-action-btn btn-outline-secondary">
+                  Suspend Account
+                </button>
+              </div>
+
+              <div className="mt-5 settings-column d-flex align-items-start justify-content-between">
+                <div className="d-flex flex-column">
+                  <h6>Delete Account</h6>
+                  <div className="pr-3">
+                    <small>
+                      You may want to delete your account permanently from our
+                      system. This takes around 24hrs to wipe all your data.
+                    </small>
+                  </div>
+                </div>
+                <button className="btn account-action-btn btn-outline-danger">
+                  Delete Account
+                </button>
+              </div>
+            </div>
           </div>
         </AccountLayout>
       </AuthWrapper>

@@ -2,8 +2,6 @@ import Head from "next/head";
 import React, { ReactElement, useEffect, useState } from "react";
 import BookBox from "../../../components/Account/Bookings/BookBox";
 import SmBookBox from "../../../components/Account/Bookings/SmBookBox";
-import { SmTripBox } from "../../../components/Account/Trips/SmTripBox";
-import { TripBox } from "../../../components/Account/Trips/TripBox";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import AccountLayout from "../../../components/layouts/AccountLayout";
 import { Loading } from "../../../components/Loading";
@@ -11,7 +9,6 @@ import {
   Trip,
   useGetMyBookingsQuery,
 } from "../../../graphql_types/generated/graphql";
-import trips from "../trips";
 
 interface Props {}
 
@@ -47,7 +44,7 @@ export default function index(props: Props): ReactElement {
         <AccountLayout>
           {mainLoading ? (
             <Loading />
-          ) : trips && trips.length > 0 ? (
+          ) : bookings && bookings.length > 0 ? (
             <div className="p-2 mt-4">
               <div className="lg-tripboxes-wrapper">
                 <div className="container">

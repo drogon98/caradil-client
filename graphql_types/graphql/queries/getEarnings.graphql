@@ -1,0 +1,6 @@
+query GetEarnings {
+  getEarnings {
+    id
+    amount
+  }
+}

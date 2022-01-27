@@ -1704,6 +1704,20 @@ car-input-container select:focus {
 
 /*==================================END CHAT STYLES========================================== */
 
+/* =================================SETTINGS STYLES======================================== */
+
+.account-action-btn {
+  min-width: 150px;
+}
+
+@media screen and (max-width: 450px) {
+  .account-action-btn {
+    min-width: 100px;
+    font-size: 10px;
+  }
+}
+/* =================================END SETTINGS STYLES======================================== */
+
 #upload-btn-label {
   background-color: var(--orange);
   color: #000;

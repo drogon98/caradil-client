@@ -175,10 +175,8 @@ export type Chat = {
   id?: Maybe<Scalars['Float']>;
   message?: Maybe<Scalars['String']>;
   read?: Maybe<Scalars['Boolean']>;
-  receiver?: Maybe<User>;
   receiver_deleted?: Maybe<Scalars['Boolean']>;
   receiver_id?: Maybe<Scalars['Float']>;
-  sender?: Maybe<User>;
   sender_deleted?: Maybe<Scalars['Boolean']>;
   sender_id?: Maybe<Scalars['Float']>;
   updated_at?: Maybe<Scalars['DateTime']>;
@@ -262,6 +260,17 @@ export type DriverIsApprovedResponse = {
   approved?: Maybe<Scalars['Boolean']>;
   error?: Maybe<Scalars['String']>;
   notApprovedReason?: Maybe<Scalars['String']>;
+};
+
+export type Earning = {
+  __typename?: 'Earning';
+  amount?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  transaction_id?: Maybe<Scalars['Float']>;
+  trip_id?: Maybe<Scalars['Float']>;
+  updated_at?: Maybe<Scalars['DateTime']>;
+  user_id?: Maybe<Scalars['Float']>;
 };
 
 export type EditProfileInput = {
@@ -505,6 +514,17 @@ export type MutationUpdateFavouriteArgs = {
   opType: Scalars['String'];
 };
 
+export type Notification = {
+  __typename?: 'Notification';
+  created_at?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']>;
+  read?: Maybe<Scalars['Boolean']>;
+  receiver_id?: Maybe<Scalars['Float']>;
+  sender_id?: Maybe<Scalars['Float']>;
+  updated_at?: Maybe<Scalars['DateTime']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   cars: Array<Car>;
@@ -512,9 +532,11 @@ export type Query = {
   getCar: CarResponse;
   getCars: Array<Car>;
   getChats: Array<Chat>;
+  getEarnings: Array<Earning>;
   getHostCars: Array<Car>;
   getMyBookings: Array<Trip>;
   getMyTrips: Array<Trip>;
+  getNotifications: Array<Notification>;
   getPopularCars: Array<Car>;
   getTrip: TripResponse;
   getUnVerifiedCars: Array<Car>;
@@ -586,6 +608,7 @@ export type Transaction = {
   order_id?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
   transaction_code?: Maybe<Scalars['String']>;
+  transaction_type?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['DateTime']>;
 };
 
@@ -911,6 +934,11 @@ export type GetChatsQueryVariables = Exact<{
 
 export type GetChatsQuery = { __typename?: 'Query', getChats: Array<{ __typename?: 'Chat', id?: number | null | undefined, message?: string | null | undefined, receiver_id?: number | null | undefined, sender_id?: number | null | undefined, read?: boolean | null | undefined, sender_deleted?: boolean | null | undefined, receiver_deleted?: boolean | null | undefined, created_at?: any | null | undefined }> };
 
+export type GetEarningsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetEarningsQuery = { __typename?: 'Query', getEarnings: Array<{ __typename?: 'Earning', id?: number | null | undefined, amount?: string | null | undefined }> };
+
 export type GetHostCarsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -930,6 +958,11 @@ export type GetMyTripsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetMyTripsQuery = { __typename?: 'Query', getMyTrips: Array<{ __typename?: 'Trip', id?: number | null | undefined, owner_id?: number | null | undefined, start_date?: any | null | undefined, status?: string | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined } }> };
+
+export type GetNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetNotificationsQuery = { __typename?: 'Query', getNotifications: Array<{ __typename?: 'Notification', id?: number | null | undefined, message?: string | null | undefined, read?: boolean | null | undefined, created_at?: any | null | undefined }> };
 
 export type GetPopularCarsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2258,6 +2291,41 @@ export function useGetChatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetChatsQueryHookResult = ReturnType<typeof useGetChatsQuery>;
 export type GetChatsLazyQueryHookResult = ReturnType<typeof useGetChatsLazyQuery>;
 export type GetChatsQueryResult = Apollo.QueryResult<GetChatsQuery, GetChatsQueryVariables>;
+export const GetEarningsDocument = gql`
+    query GetEarnings {
+  getEarnings {
+    id
+    amount
+  }
+}
+    `;
+
+/**
+ * __useGetEarningsQuery__
+ *
+ * To run a query within a React component, call `useGetEarningsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEarningsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEarningsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetEarningsQuery(baseOptions?: Apollo.QueryHookOptions<GetEarningsQuery, GetEarningsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEarningsQuery, GetEarningsQueryVariables>(GetEarningsDocument, options);
+      }
+export function useGetEarningsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEarningsQuery, GetEarningsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEarningsQuery, GetEarningsQueryVariables>(GetEarningsDocument, options);
+        }
+export type GetEarningsQueryHookResult = ReturnType<typeof useGetEarningsQuery>;
+export type GetEarningsLazyQueryHookResult = ReturnType<typeof useGetEarningsLazyQuery>;
+export type GetEarningsQueryResult = Apollo.QueryResult<GetEarningsQuery, GetEarningsQueryVariables>;
 export const GetHostCarsDocument = gql`
     query GetHostCars {
   getHostCars {
@@ -2432,6 +2500,43 @@ export function useGetMyTripsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type GetMyTripsQueryHookResult = ReturnType<typeof useGetMyTripsQuery>;
 export type GetMyTripsLazyQueryHookResult = ReturnType<typeof useGetMyTripsLazyQuery>;
 export type GetMyTripsQueryResult = Apollo.QueryResult<GetMyTripsQuery, GetMyTripsQueryVariables>;
+export const GetNotificationsDocument = gql`
+    query GetNotifications {
+  getNotifications {
+    id
+    message
+    read
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useGetNotificationsQuery__
+ *
+ * To run a query within a React component, call `useGetNotificationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNotificationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNotificationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetNotificationsQuery(baseOptions?: Apollo.QueryHookOptions<GetNotificationsQuery, GetNotificationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNotificationsQuery, GetNotificationsQueryVariables>(GetNotificationsDocument, options);
+      }
+export function useGetNotificationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNotificationsQuery, GetNotificationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNotificationsQuery, GetNotificationsQueryVariables>(GetNotificationsDocument, options);
+        }
+export type GetNotificationsQueryHookResult = ReturnType<typeof useGetNotificationsQuery>;
+export type GetNotificationsLazyQueryHookResult = ReturnType<typeof useGetNotificationsLazyQuery>;
+export type GetNotificationsQueryResult = Apollo.QueryResult<GetNotificationsQuery, GetNotificationsQueryVariables>;
 export const GetPopularCarsDocument = gql`
     query GetPopularCars {
   getPopularCars {

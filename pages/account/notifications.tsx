@@ -1,17 +1,28 @@
 import Head from "next/head";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
-import { ComingSoon } from "../../components/ComingSoon";
 import AccountLayout from "../../components/layouts/AccountLayout";
+import { Loading } from "../../components/Loading";
+import {
+  Notification,
+  useGetNotificationsQuery,
+} from "../../graphql_types/generated/graphql";
 
 interface IProps {}
 
-/**
- * @author
- * @function @Notifications
- **/
-
 const Notifications: FC<IProps> = (props) => {
+  const [mainLoading, setMainLoading] = useState(true);
+  const [notifications, setNotifications] = useState<Notification[]>();
+
+  const { data, loading } = useGetNotificationsQuery();
+
+  useEffect(() => {
+    if (data?.getNotifications && !loading) {
+      setMainLoading(false);
+      setNotifications(data?.getNotifications);
+    }
+  }, [data, loading]);
+
   return (
     <>
       <Head>
@@ -21,9 +32,17 @@ const Notifications: FC<IProps> = (props) => {
       </Head>
       <AuthWrapper>
         <AccountLayout>
-          {/* <div className="p-2"></div> */}
-          {/* <h3>Your notifications</h3> */}
-          <ComingSoon title="All your notifications will appear here." />
+          {mainLoading ? (
+            <Loading />
+          ) : notifications?.length === 0 ? (
+            <div className="p-2 h-100 w-100 d-flex align-items-center justify-content-center flex-column">
+              <h6>You have no notifications yet!</h6>
+            </div>
+          ) : (
+            <div className="p-2">
+              <h3>Your Notifications</h3>
+            </div>
+          )}
         </AccountLayout>
       </AuthWrapper>
     </>

@@ -1,0 +1,9 @@
+query GetNotifications {
+  getNotifications {
+    id
+    message
+    # sender
+    read
+    created_at
+  }
+}

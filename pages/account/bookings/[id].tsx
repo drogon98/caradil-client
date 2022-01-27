@@ -100,8 +100,6 @@ export default function Booking(props: Props): ReactElement {
     }
   };
 
-  console.log("trip :>> ", trip);
-
   return (
     <>
       <Head>
