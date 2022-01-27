@@ -77,7 +77,7 @@ const Chats = (props: ChatsProps) => {
               {chatProfiles?.length === 0 ? (
                 <div className="h-100 w-100 d-flex align-items-center justify-content-center">
                   {role === 2 ? (
-                    <>
+                    <div className="h-100 w-100 d-flex align-items-center justify-content-center flex-column">
                       <h6>No Chats Yet.</h6>
                       <div>
                         <small>
@@ -85,16 +85,16 @@ const Chats = (props: ChatsProps) => {
                           activated.
                         </small>
                       </div>
-                    </>
+                    </div>
                   ) : (
-                    <>
+                    <div className="h-100 w-100 d-flex align-items-center justify-content-center flex-column">
                       <h6>No Chats Yet.</h6>
                       <div>
                         <small>
                           Once you have trips,chats will be activated.
                         </small>
                       </div>
-                    </>
+                    </div>
                   )}
                 </div>
               ) : (
