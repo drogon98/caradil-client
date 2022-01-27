@@ -19,6 +19,30 @@ export type Scalars = {
   Upload: any;
 };
 
+export type AccountSettings = {
+  __typename?: 'AccountSettings';
+  account_suspended?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  offer_bulk_hire?: Maybe<Scalars['Boolean']>;
+  payment_channel?: Maybe<Scalars['String']>;
+  receive_marketing_emails?: Maybe<Scalars['Boolean']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type AccountSettingsInput = {
+  account_suspended: Scalars['Boolean'];
+  offer_bulk_hire: Scalars['Boolean'];
+  payment_channel: Scalars['String'];
+  receive_marketing_emails: Scalars['Boolean'];
+};
+
+export type AccountSettingsResponse = {
+  __typename?: 'AccountSettingsResponse';
+  accountSettings?: Maybe<AccountSettings>;
+  error?: Maybe<Scalars['String']>;
+};
+
 export type Car = {
   __typename?: 'Car';
   advance_book_period?: Maybe<Scalars['String']>;
@@ -339,6 +363,7 @@ export type Mutation = {
   createEditRequest: CreateCarEditRequestResponse;
   createTrip: CreateTripResponse;
   deleteUpload: Scalars['Boolean'];
+  editAccountSettings: Scalars['Boolean'];
   editCarAvailability: CarAddEditResponse;
   editCarBeingEdited: Scalars['Boolean'];
   editCarCategories: CarAddEditResponse;
@@ -406,6 +431,11 @@ export type MutationCreateTripArgs = {
 
 export type MutationDeleteUploadArgs = {
   publicId: Scalars['String'];
+};
+
+
+export type MutationEditAccountSettingsArgs = {
+  input: AccountSettingsInput;
 };
 
 
@@ -529,6 +559,7 @@ export type Query = {
   __typename?: 'Query';
   cars: Array<Car>;
   checkIfDriverIsApprovedToDrive: DriverIsApprovedResponse;
+  getAccountSettings: AccountSettingsResponse;
   getCar: CarResponse;
   getCars: Array<Car>;
   getChats: Array<Chat>;
@@ -781,6 +812,13 @@ export type DeleteFileMutationVariables = Exact<{
 
 export type DeleteFileMutation = { __typename?: 'Mutation', deleteUpload: boolean };
 
+export type EditAccountSettingsMutationVariables = Exact<{
+  input: AccountSettingsInput;
+}>;
+
+
+export type EditAccountSettingsMutation = { __typename?: 'Mutation', editAccountSettings: boolean };
+
 export type EditCarAvailabilityMutationVariables = Exact<{
   carId: Scalars['Float'];
   input: CarAvailabilityInput;
@@ -907,6 +945,11 @@ export type CheckIfDriverIsApprovedToDriveQueryVariables = Exact<{ [key: string]
 
 
 export type CheckIfDriverIsApprovedToDriveQuery = { __typename?: 'Query', checkIfDriverIsApprovedToDrive: { __typename?: 'DriverIsApprovedResponse', notApprovedReason?: string | null | undefined, error?: string | null | undefined, approved?: boolean | null | undefined } };
+
+export type GetAccountSettingsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAccountSettingsQuery = { __typename?: 'Query', getAccountSettings: { __typename?: 'AccountSettingsResponse', error?: string | null | undefined, accountSettings?: { __typename?: 'AccountSettings', account_suspended?: boolean | null | undefined, receive_marketing_emails?: boolean | null | undefined, offer_bulk_hire?: boolean | null | undefined, payment_channel?: string | null | undefined } | null | undefined } };
 
 export type GetAuthUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1514,6 +1557,37 @@ export function useDeleteFileMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteFileMutationHookResult = ReturnType<typeof useDeleteFileMutation>;
 export type DeleteFileMutationResult = Apollo.MutationResult<DeleteFileMutation>;
 export type DeleteFileMutationOptions = Apollo.BaseMutationOptions<DeleteFileMutation, DeleteFileMutationVariables>;
+export const EditAccountSettingsDocument = gql`
+    mutation EditAccountSettings($input: AccountSettingsInput!) {
+  editAccountSettings(input: $input)
+}
+    `;
+export type EditAccountSettingsMutationFn = Apollo.MutationFunction<EditAccountSettingsMutation, EditAccountSettingsMutationVariables>;
+
+/**
+ * __useEditAccountSettingsMutation__
+ *
+ * To run a mutation, you first call `useEditAccountSettingsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditAccountSettingsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editAccountSettingsMutation, { data, loading, error }] = useEditAccountSettingsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEditAccountSettingsMutation(baseOptions?: Apollo.MutationHookOptions<EditAccountSettingsMutation, EditAccountSettingsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditAccountSettingsMutation, EditAccountSettingsMutationVariables>(EditAccountSettingsDocument, options);
+      }
+export type EditAccountSettingsMutationHookResult = ReturnType<typeof useEditAccountSettingsMutation>;
+export type EditAccountSettingsMutationResult = Apollo.MutationResult<EditAccountSettingsMutation>;
+export type EditAccountSettingsMutationOptions = Apollo.BaseMutationOptions<EditAccountSettingsMutation, EditAccountSettingsMutationVariables>;
 export const EditCarAvailabilityDocument = gql`
     mutation EditCarAvailability($carId: Float!, $input: CarAvailabilityInput!) {
   editCarAvailability(carId: $carId, input: $input) {
@@ -2135,6 +2209,46 @@ export function useCheckIfDriverIsApprovedToDriveLazyQuery(baseOptions?: Apollo.
 export type CheckIfDriverIsApprovedToDriveQueryHookResult = ReturnType<typeof useCheckIfDriverIsApprovedToDriveQuery>;
 export type CheckIfDriverIsApprovedToDriveLazyQueryHookResult = ReturnType<typeof useCheckIfDriverIsApprovedToDriveLazyQuery>;
 export type CheckIfDriverIsApprovedToDriveQueryResult = Apollo.QueryResult<CheckIfDriverIsApprovedToDriveQuery, CheckIfDriverIsApprovedToDriveQueryVariables>;
+export const GetAccountSettingsDocument = gql`
+    query GetAccountSettings {
+  getAccountSettings {
+    accountSettings {
+      account_suspended
+      receive_marketing_emails
+      offer_bulk_hire
+      payment_channel
+    }
+    error
+  }
+}
+    `;
+
+/**
+ * __useGetAccountSettingsQuery__
+ *
+ * To run a query within a React component, call `useGetAccountSettingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAccountSettingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAccountSettingsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAccountSettingsQuery(baseOptions?: Apollo.QueryHookOptions<GetAccountSettingsQuery, GetAccountSettingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAccountSettingsQuery, GetAccountSettingsQueryVariables>(GetAccountSettingsDocument, options);
+      }
+export function useGetAccountSettingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAccountSettingsQuery, GetAccountSettingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAccountSettingsQuery, GetAccountSettingsQueryVariables>(GetAccountSettingsDocument, options);
+        }
+export type GetAccountSettingsQueryHookResult = ReturnType<typeof useGetAccountSettingsQuery>;
+export type GetAccountSettingsLazyQueryHookResult = ReturnType<typeof useGetAccountSettingsLazyQuery>;
+export type GetAccountSettingsQueryResult = Apollo.QueryResult<GetAccountSettingsQuery, GetAccountSettingsQueryVariables>;
 export const GetAuthUserDocument = gql`
     query GetAuthUser {
   getUser {

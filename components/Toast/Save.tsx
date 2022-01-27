@@ -1,17 +1,19 @@
 import React, { Dispatch, ReactElement, SetStateAction } from "react";
 import { Col, Row, Toast, ToastContainer } from "react-bootstrap";
+import { ToastPosition } from "react-bootstrap/esm/ToastContainer";
 
 interface Props {
   setShow: Dispatch<SetStateAction<boolean>>;
   show: boolean;
   message: string;
+  position: ToastPosition | undefined;
 }
 
 export default function Save(props: Props): ReactElement {
   return (
     <Row>
       <Col xs={6}>
-        <ToastContainer position={"top-end"}>
+        <ToastContainer position={props.position}>
           <Toast
             onClose={() => props.setShow(false)}
             show={props.show}

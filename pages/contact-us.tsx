@@ -2,6 +2,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { ChangeEvent, FormEvent, useState } from "react";
 import Layout from "../components/layouts/Layout";
+import { ButtonLoading } from "../components/Loading/ButtonLoading";
+import Save from "../components/Toast/Save";
 import {
   ContactInput,
   useContactMutation,
@@ -13,6 +15,7 @@ const ContactUs: NextPage = () => {
     subject: "",
     message: "",
   });
+  const [showSaveToast, setShowSaveToast] = useState(false);
   const [contact, { loading }] = useContactMutation({
     variables: { input: values },
   });
@@ -29,6 +32,11 @@ const ContactUs: NextPage = () => {
       const response = await contact({
         variables: { input: values },
       });
+
+      if (response.data?.contact.success) {
+        setValues({ email: "", subject: "", message: "" });
+        setShowSaveToast(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -51,6 +59,14 @@ const ContactUs: NextPage = () => {
             </div>
           </div>
           <div className="row m-0">
+            {showSaveToast && (
+              <Save
+                setShow={setShowSaveToast}
+                show={showSaveToast}
+                message={"Message sent successfully!"}
+                position="bottom-center"
+              />
+            )}
             <div className="col-md-7 col-lg-5  mt-3 mx-auto">
               {/* <h3>Reach Out</h3> */}
 
@@ -105,7 +121,14 @@ const ContactUs: NextPage = () => {
                       className="btn bgOrange"
                       disabled={loading}
                     >
-                      Submit
+                      {loading ? (
+                        <ButtonLoading
+                          spinnerColor="white"
+                          dimensions={{ height: "24px", width: "24px" }}
+                        />
+                      ) : (
+                        "Submit"
+                      )}
                     </button>
                   </div>
                 </div>

@@ -222,6 +222,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                   setShow={setShowSaveToast}
                   message={"Profile updated successfully!"}
                   show={showSaveToast}
+                  position="top-end"
                 />
               )}
               <h3 className="text-center my-3">Personal Details</h3>
