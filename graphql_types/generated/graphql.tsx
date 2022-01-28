@@ -330,6 +330,7 @@ export type FileObj = {
 
 export type LoginInput = {
   email: Scalars['String'];
+  isAdmin: Scalars['Boolean'];
   password: Scalars['String'];
 };
 
@@ -560,6 +561,7 @@ export type Query = {
   cars: Array<Car>;
   checkIfDriverIsApprovedToDrive: DriverIsApprovedResponse;
   getAccountSettings: AccountSettingsResponse;
+  getAdminCars: Array<Car>;
   getCar: CarResponse;
   getCars: Array<Car>;
   getChats: Array<Chat>;
@@ -576,6 +578,11 @@ export type Query = {
   makes: Array<Make>;
   trips: Array<Trip>;
   users: Array<User>;
+};
+
+
+export type QueryGetAdminCarsArgs = {
+  type_: Scalars['String'];
 };
 
 
@@ -950,6 +957,13 @@ export type GetAccountSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetAccountSettingsQuery = { __typename?: 'Query', getAccountSettings: { __typename?: 'AccountSettingsResponse', error?: string | null | undefined, accountSettings?: { __typename?: 'AccountSettings', account_suspended?: boolean | null | undefined, receive_marketing_emails?: boolean | null | undefined, offer_bulk_hire?: boolean | null | undefined, payment_channel?: string | null | undefined } | null | undefined } };
+
+export type GetAdminCarsQueryVariables = Exact<{
+  type_: Scalars['String'];
+}>;
+
+
+export type GetAdminCarsQuery = { __typename?: 'Query', getAdminCars: Array<{ __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, daily_rate?: number | null | undefined, verified?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined }> };
 
 export type GetAuthUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2249,6 +2263,51 @@ export function useGetAccountSettingsLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type GetAccountSettingsQueryHookResult = ReturnType<typeof useGetAccountSettingsQuery>;
 export type GetAccountSettingsLazyQueryHookResult = ReturnType<typeof useGetAccountSettingsLazyQuery>;
 export type GetAccountSettingsQueryResult = Apollo.QueryResult<GetAccountSettingsQuery, GetAccountSettingsQueryVariables>;
+export const GetAdminCarsDocument = gql`
+    query GetAdminCars($type_: String!) {
+  getAdminCars(type_: $type_) {
+    id
+    name
+    reg_no
+    photos {
+      ...fileInfo
+    }
+    daily_rate
+    verified
+    being_edited
+    has_edit_request
+    verification_in_progress
+  }
+}
+    ${FileInfoFragmentDoc}`;
+
+/**
+ * __useGetAdminCarsQuery__
+ *
+ * To run a query within a React component, call `useGetAdminCarsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAdminCarsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAdminCarsQuery({
+ *   variables: {
+ *      type_: // value for 'type_'
+ *   },
+ * });
+ */
+export function useGetAdminCarsQuery(baseOptions: Apollo.QueryHookOptions<GetAdminCarsQuery, GetAdminCarsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAdminCarsQuery, GetAdminCarsQueryVariables>(GetAdminCarsDocument, options);
+      }
+export function useGetAdminCarsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAdminCarsQuery, GetAdminCarsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAdminCarsQuery, GetAdminCarsQueryVariables>(GetAdminCarsDocument, options);
+        }
+export type GetAdminCarsQueryHookResult = ReturnType<typeof useGetAdminCarsQuery>;
+export type GetAdminCarsLazyQueryHookResult = ReturnType<typeof useGetAdminCarsLazyQuery>;
+export type GetAdminCarsQueryResult = Apollo.QueryResult<GetAdminCarsQuery, GetAdminCarsQueryVariables>;
 export const GetAuthUserDocument = gql`
     query GetAuthUser {
   getUser {

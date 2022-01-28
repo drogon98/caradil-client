@@ -1,22 +1,20 @@
 import React, { FC, SyntheticEvent } from "react";
-import { useEditCarVerifiedMutation } from "../../../graphql_types/generated/graphql";
+import {
+  Car,
+  useEditCarVerifiedMutation,
+} from "../../../graphql_types/generated/graphql";
 
-interface ListBoxProps {
-  data: any;
+interface UnverifiedBoxProps {
+  data: Car;
 }
 
-/**
- * @author
- * @function @ListBox
- **/
-
-export const ListBox: FC<ListBoxProps> = (props) => {
+export const UnverifiedBox: FC<UnverifiedBoxProps> = (props) => {
   const [editVerified, { loading }] = useEditCarVerifiedMutation();
 
   const handleClick = async (e: SyntheticEvent<HTMLButtonElement>) => {
     console.log("e :>> ", e);
     const response = await editVerified({
-      variables: { carId: props.data.id },
+      variables: { carId: props.data.id! },
     });
     console.log("response :>> ", response);
   };

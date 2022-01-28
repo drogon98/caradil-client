@@ -1,0 +1,34 @@
+query GetAdminCars($type_: String!) {
+  getAdminCars(type_: $type_) {
+    id
+    name
+    reg_no
+    # description
+    # owner {
+    #   first_name
+    #   last_name
+    # }
+    # trips
+    # features {
+    #   title
+    # }
+    photos {
+      ...fileInfo
+    }
+    # documents {
+    #   title
+    #   file {
+    #     ...fileInfo
+    #   }
+    # }
+    # reviews
+    daily_rate
+    verified
+    being_edited
+    has_edit_request
+    verification_in_progress
+    # besties {
+    #   id
+    # }
+  }
+}

@@ -17,12 +17,14 @@ import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 interface Props {
   isModal?: boolean;
   close?: any;
+  isAdmin: boolean;
 }
 
 export default function LoginForm(props: Props): ReactElement {
   const [values, setValues] = useState<LoginInput>({
     email: "",
     password: "",
+    isAdmin: false,
   });
   const [error, setError] = useState<string>("");
   const [mainLoading, setMainLoading] = useState(false);
@@ -56,7 +58,9 @@ export default function LoginForm(props: Props): ReactElement {
     let response;
 
     try {
-      response = await login({ variables: { payload: values } });
+      let payload = { ...values!, isAdmin: props.isAdmin! };
+
+      response = await login({ variables: { payload: payload! } });
 
       if (response?.data?.login.error) {
         setError(response.data?.login.error);
@@ -67,16 +71,20 @@ export default function LoginForm(props: Props): ReactElement {
         if (props.isModal) {
           props.close();
         } else {
-          if (router.query.next) {
-            let pathname = router.query.next as string;
-            await router.push({
-              pathname,
-              query: JSON.parse(router.query.nextQuery! as string),
-            });
-            // }
+          if (props.isAdmin) {
+            await router.push("/root");
           } else {
-            // Check role
-            await router.push("/account");
+            if (router.query.next) {
+              let pathname = router.query.next as string;
+              await router.push({
+                pathname,
+                query: JSON.parse(router.query.nextQuery! as string),
+              });
+              // }
+            } else {
+              // Check role
+              await router.push("/account");
+            }
           }
         }
       }
@@ -151,22 +159,24 @@ export default function LoginForm(props: Props): ReactElement {
             </button>
           </div>
 
-          <div className="d-flex mt-3 justify-content-between">
-            <span>
-              <Link href="/forgot-password">
-                <a className="cursor-pointer">
-                  <small>Forgot Password?</small>
-                </a>
-              </Link>
-            </span>
-            <span>
-              <Link href="/register">
-                <a className="cursor-pointer">
-                  <small>Don't have account?</small>
-                </a>
-              </Link>
-            </span>
-          </div>
+          {!props.isAdmin && (
+            <div className="d-flex mt-3 justify-content-between">
+              <span>
+                <Link href="/forgot-password">
+                  <a className="cursor-pointer">
+                    <small>Forgot Password?</small>
+                  </a>
+                </Link>
+              </span>
+              <span>
+                <Link href="/register">
+                  <a className="cursor-pointer">
+                    <small>Don't have account?</small>
+                  </a>
+                </Link>
+              </span>
+            </div>
+          )}
         </div>
       </form>
     </>

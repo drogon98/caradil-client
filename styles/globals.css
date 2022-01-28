@@ -529,6 +529,10 @@ label {
   top: var(--navbar-height);
 }
 
+.admin-wrapper {
+  grid-template-columns: 220px auto;
+}
+
 .account-sidebar,
 .admin-sidebar {
   height: calc(100vh - var(--navbar-height));
@@ -538,6 +542,10 @@ label {
   top: var(--navbar-height);
   z-index: 1003;
 }
+
+/* .admin-sidebar {
+  width: 200px;
+} */
 
 .account-content,
 .admin-content {
@@ -1717,6 +1725,59 @@ car-input-container select:focus {
   }
 }
 /* =================================END SETTINGS STYLES======================================== */
+
+/* =================================LISTINGS STYLES===================================== */
+
+.listings-title {
+  padding-top: 20px;
+  height: 60px;
+  margin: 0;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.tabs-box {
+  position: sticky;
+  top: 60px;
+  background-color: #fff;
+  z-index: 1;
+  height: 42px;
+  margin-bottom: 8px;
+}
+
+.tab-content {
+  position: relative;
+  top: 0px;
+  z-index: 0;
+  min-height: 100%;
+  height: calc(100vh - var(--navbar-height) - 110px);
+  /* height: 100%; */
+  overflow-y: auto;
+}
+
+.listings-tab {
+  min-width: 150px;
+  color: #000;
+  position: relative;
+}
+
+.tab-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: orange;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+}
+
+.listings-tab .active {
+  color: var(--orange) !important;
+}
+
+/* =================================END LISTINGS STYLES===================================== */
 
 #upload-btn-label {
   background-color: var(--orange);

@@ -7,7 +7,9 @@ import { unsetToken } from "../../redux/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { baseHttpDomain } from "../../utils/baseDomain";
 
-interface UserNavIconProps {}
+interface UserNavIconProps {
+  isAdmin?: boolean;
+}
 
 export function UserNavIcon(props: UserNavIconProps) {
   const router = useRouter();
@@ -20,9 +22,12 @@ export function UserNavIcon(props: UserNavIconProps) {
       </span>
 
       <div className="account-tooltip-content shadow p-2">
-        <div>
-          <Link href="/account">Account</Link>
-        </div>
+        {!props.isAdmin && (
+          <div>
+            <Link href="/account">Account</Link>
+          </div>
+        )}
+
         <div>
           <button
             className="btn m-0 p-0 cursor-pointer"
@@ -35,7 +40,11 @@ export function UserNavIcon(props: UserNavIconProps) {
                 ).json();
 
                 if (response.success) {
-                  await router.push("/");
+                  if (props.isAdmin) {
+                    await router.push("/root/login");
+                  } else {
+                    await router.push("/");
+                  }
                   dispatch(unsetToken());
                 }
               } catch (error) {

@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import AccountNavbar from "../Navbars/AccountNavbar";
 import Link from "next/link";
-import { useRole } from "../hooks/useRole";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
+import { useRole } from "../hooks/useRole";
+import AdminNavbar from "../Navbars/AdminNavbar";
 
 interface AdminLayoutProps {
   isHome?: boolean;
@@ -40,54 +40,22 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
     <div id="accountLayoutWrapper">
       <div id="accountContentWrapper">
         <header>
-          <AccountNavbar />
+          <AdminNavbar />
         </header>
         <main>
           <div className="admin-wrapper">
             <div className="admin-sidebar">
-              <div className="admin-side-menu">
+              <div className="admin-side-menu pt-4">
                 <ul className="list-style-none pl-0 pl-3">
                   <li>
-                    <Link
-                      href="/account/personal-details"
-                      data-testid="test-link"
-                    >
-                      <a className="link black-link">Personal Details</a>
+                    <Link href="/root/listings">
+                      <a className="link black-link">Listings</a>
                     </Link>
                   </li>
-                  {role === 2 && (
-                    <li>
-                      <Link href="/root/listings">
-                        <a className="link black-link">Listings</a>
-                      </Link>
-                    </li>
-                  )}
 
                   <li>
                     <Link href="/root/car-makes">
                       <a className="link black-link">Car Makes</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/account/chats">
-                      <a className="link black-link">Chats</a>
-                    </Link>
-                  </li>
-                  {role === 2 && (
-                    <li>
-                      <Link href="/account/chats">
-                        <a className="link black-link">Earnings</a>
-                      </Link>
-                    </li>
-                  )}
-                  <li>
-                    <Link href="/account/notifications">
-                      <a className="link black-link">Notifications</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/account/settings">
-                      <a className="link black-link">Settings</a>
                     </Link>
                   </li>
                 </ul>
@@ -95,12 +63,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
             </div>
             <div className="admin-content">{children}</div>
           </div>
-          {/* {children} */}
         </main>
       </div>
-      {/* <footer id="footerWrapper">
-        <MainFooter />
-      </footer> */}
     </div>
   );
 };

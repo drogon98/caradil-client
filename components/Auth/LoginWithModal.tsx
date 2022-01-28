@@ -29,7 +29,7 @@ export default function LoginWithModal(props: Props): ReactElement {
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <LoginForm isModal close={handleClose} />
+          <LoginForm isModal close={handleClose} isAdmin={false} />
         </Modal.Body>
       </Modal>
     </>

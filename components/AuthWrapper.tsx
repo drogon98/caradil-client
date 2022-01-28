@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { FC, useEffect } from "react";
 import { useState } from "react";
 import { useAppSelector } from "../redux/hooks";
+import { useRole } from "./hooks/useRole";
 
 interface AuthWrapperProps {}
 
@@ -20,19 +21,21 @@ interface AuthWrapperProps {}
 // });
 
 export const AuthWrapper: FC = (props) => {
+  // Applies to guest and host
   const token = useAppSelector((state) => state.auth._id);
+  const role = useRole(token);
 
   const router = useRouter();
 
   const [isAuth, setIsAuth] = useState<boolean>();
 
   useEffect(() => {
-    if (token) {
+    if (token && role && role !== 3) {
       setIsAuth(true);
     } else {
       setIsAuth(false);
     }
-  }, [token]);
+  }, [token, role]);
 
   useEffect(() => {
     const redirect = async () => {

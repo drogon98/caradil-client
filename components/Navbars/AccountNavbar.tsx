@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import HamburgerMenu from "react-hamburger-menu";
 import { useAppSelector } from "../../redux/hooks";
 import { useRole } from "../hooks/useRole";
-import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import { AccountSideBarMenu } from "../layouts/AccountSideBarMenu";
 import { UserNavIcon } from "./UserNavIcon";
 
