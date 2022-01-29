@@ -13,10 +13,10 @@ export const UnverifiedBox: FC<UnverifiedBoxProps> = (props) => {
 
   const handleClick = async (e: SyntheticEvent<HTMLButtonElement>) => {
     console.log("e :>> ", e);
-    const response = await editVerified({
-      variables: { carId: props.data.id! },
-    });
-    console.log("response :>> ", response);
+    // const response = await editVerified({
+    //   variables: { carId: props.data.id! },
+    // });
+    // console.log("response :>> ", response);
   };
   return (
     <div className="shadow p-3 mb- d-flex align-items-center justify-content-between">
