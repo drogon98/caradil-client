@@ -1779,6 +1779,44 @@ car-input-container select:focus {
 
 /* =================================END LISTINGS STYLES===================================== */
 
+/* ==================================ROOT LISTINGS========================================== */
+.verify-modal-content {
+  height: 70vh !important;
+}
+
+.verify-modal-arrows {
+  position: relative;
+  /* top: calc(100% - 20px); */
+  bottom: 0;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100px;
+  margin: auto;
+}
+
+.verify-modal-content-wrapper {
+  height: calc(100% - 20px);
+  position: relative;
+  top: 0;
+}
+
+.photos-verify-heading {
+  height: 40px;
+  margin: 0;
+}
+
+.verify-photos-wrapper {
+  height: calc(100% - 40px);
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ==================================END ROOT LISTINGS========================================== */
+
 #upload-btn-label {
   background-color: var(--orange);
   color: #000;

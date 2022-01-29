@@ -3,6 +3,7 @@ query GetAdminCars($type_: String!) {
     id
     name
     reg_no
+
     # description
     # owner {
     #   first_name
@@ -15,20 +16,17 @@ query GetAdminCars($type_: String!) {
     photos {
       ...fileInfo
     }
-    # documents {
-    #   title
-    #   file {
-    #     ...fileInfo
-    #   }
-    # }
+    documents {
+      title
+      file {
+        ...fileInfo
+      }
+    }
     # reviews
-    daily_rate
+    # daily_rate
     verified
     being_edited
     has_edit_request
     verification_in_progress
-    # besties {
-    #   id
-    # }
   }
 }
