@@ -306,6 +306,25 @@ export type EditProfileInput = {
   user_name?: InputMaybe<Scalars['String']>;
 };
 
+export type Faq = {
+  __typename?: 'Faq';
+  answer?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  question?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['DateTime']>;
+};
+
+export type FaqInput = {
+  answer: Scalars['String'];
+  question: Scalars['String'];
+};
+
+export type FaqResponse = {
+  __typename?: 'FaqResponse';
+  success: Scalars['Boolean'];
+};
+
 export type FeatureInput = {
   title: Scalars['String'];
 };
@@ -356,6 +375,7 @@ export type MakeResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   addEditCarGeneralInfo: CarAddEditResponse;
+  addFaq: FaqResponse;
   addMake: MakeResponse;
   cancelTrip: ConfirmCancelTripResponse;
   confirmTrip: ConfirmCancelTripResponse;
@@ -391,6 +411,11 @@ export type MutationAddEditCarGeneralInfoArgs = {
   carId?: InputMaybe<Scalars['Float']>;
   input: CarGeneralInfoInput;
   isEdit?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type MutationAddFaqArgs = {
+  input: FaqInput;
 };
 
 
@@ -561,6 +586,7 @@ export type Query = {
   __typename?: 'Query';
   cars: Array<Car>;
   checkIfDriverIsApprovedToDrive: DriverIsApprovedResponse;
+  faqs: Array<Faq>;
   getAccountSettings: AccountSettingsResponse;
   getAdminCars: Array<Car>;
   getCar: CarResponse;
@@ -766,6 +792,13 @@ export type AddEditCarGeneralInfoMutationVariables = Exact<{
 
 
 export type AddEditCarGeneralInfoMutation = { __typename?: 'Mutation', addEditCarGeneralInfo: { __typename?: 'CarAddEditResponse', carId?: number | null | undefined, error?: string | null | undefined, verified?: boolean | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+
+export type AddFaqMutationVariables = Exact<{
+  input: FaqInput;
+}>;
+
+
+export type AddFaqMutation = { __typename?: 'Mutation', addFaq: { __typename?: 'FaqResponse', success: boolean } };
 
 export type AddCarMakeMutationVariables = Exact<{
   input: MakeInput;
@@ -1008,6 +1041,11 @@ export type GetEarningsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetEarningsQuery = { __typename?: 'Query', getEarnings: Array<{ __typename?: 'Earning', id?: number | null | undefined, amount?: string | null | undefined }> };
+
+export type GetFaqsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetFaqsQuery = { __typename?: 'Query', faqs: Array<{ __typename?: 'Faq', id?: number | null | undefined, question?: string | null | undefined, answer?: string | null | undefined }> };
 
 export type GetHostCarsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1308,6 +1346,39 @@ export function useAddEditCarGeneralInfoMutation(baseOptions?: Apollo.MutationHo
 export type AddEditCarGeneralInfoMutationHookResult = ReturnType<typeof useAddEditCarGeneralInfoMutation>;
 export type AddEditCarGeneralInfoMutationResult = Apollo.MutationResult<AddEditCarGeneralInfoMutation>;
 export type AddEditCarGeneralInfoMutationOptions = Apollo.BaseMutationOptions<AddEditCarGeneralInfoMutation, AddEditCarGeneralInfoMutationVariables>;
+export const AddFaqDocument = gql`
+    mutation AddFaq($input: FaqInput!) {
+  addFaq(input: $input) {
+    success
+  }
+}
+    `;
+export type AddFaqMutationFn = Apollo.MutationFunction<AddFaqMutation, AddFaqMutationVariables>;
+
+/**
+ * __useAddFaqMutation__
+ *
+ * To run a mutation, you first call `useAddFaqMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddFaqMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addFaqMutation, { data, loading, error }] = useAddFaqMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddFaqMutation(baseOptions?: Apollo.MutationHookOptions<AddFaqMutation, AddFaqMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddFaqMutation, AddFaqMutationVariables>(AddFaqDocument, options);
+      }
+export type AddFaqMutationHookResult = ReturnType<typeof useAddFaqMutation>;
+export type AddFaqMutationResult = Apollo.MutationResult<AddFaqMutation>;
+export type AddFaqMutationOptions = Apollo.BaseMutationOptions<AddFaqMutation, AddFaqMutationVariables>;
 export const AddCarMakeDocument = gql`
     mutation AddCarMake($input: MakeInput!) {
   addMake(input: $input) {
@@ -2544,6 +2615,42 @@ export function useGetEarningsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetEarningsQueryHookResult = ReturnType<typeof useGetEarningsQuery>;
 export type GetEarningsLazyQueryHookResult = ReturnType<typeof useGetEarningsLazyQuery>;
 export type GetEarningsQueryResult = Apollo.QueryResult<GetEarningsQuery, GetEarningsQueryVariables>;
+export const GetFaqsDocument = gql`
+    query GetFaqs {
+  faqs {
+    id
+    question
+    answer
+  }
+}
+    `;
+
+/**
+ * __useGetFaqsQuery__
+ *
+ * To run a query within a React component, call `useGetFaqsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFaqsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFaqsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetFaqsQuery(baseOptions?: Apollo.QueryHookOptions<GetFaqsQuery, GetFaqsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetFaqsQuery, GetFaqsQueryVariables>(GetFaqsDocument, options);
+      }
+export function useGetFaqsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFaqsQuery, GetFaqsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetFaqsQuery, GetFaqsQueryVariables>(GetFaqsDocument, options);
+        }
+export type GetFaqsQueryHookResult = ReturnType<typeof useGetFaqsQuery>;
+export type GetFaqsLazyQueryHookResult = ReturnType<typeof useGetFaqsLazyQuery>;
+export type GetFaqsQueryResult = Apollo.QueryResult<GetFaqsQuery, GetFaqsQueryVariables>;
 export const GetHostCarsDocument = gql`
     query GetHostCars {
   getHostCars {

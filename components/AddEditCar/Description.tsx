@@ -64,7 +64,7 @@ const formats = [
   "list",
   "bullet",
   "indent",
-  // "link",
+  "link",
   // "image",
   // "video",
 ];
@@ -153,14 +153,18 @@ export const Description: FC<DescriptionProps> = (props) => {
           </b>{" "}
         </small>
       </div>
-      <ReactQuill
-        value={value}
-        // name="description"
-        onChange={handleDescriptionChange}
-        modules={modules}
-        formats={formats}
-        placeholder="Type description here"
-      />
+      <div id="car-description-editor">
+        <ReactQuill
+          value={value}
+          // name="description"
+          onChange={handleDescriptionChange}
+          modules={modules}
+          formats={formats}
+          placeholder="Type description here"
+          bounds={"#car-description-editor"}
+          // theme="snow"
+        />
+      </div>
 
       {props.isManage ? (
         <div className="d-grid gap-2 mt-4">

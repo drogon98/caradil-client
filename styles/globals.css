@@ -1424,6 +1424,10 @@ car-input-container select:focus {
   background-color: #fff !important;
 }
 
+.faq-accordion-answer a {
+  color: var(--orange) !important;
+}
+
 /* =================================FAQ SUCCESS==================================== */
 
 /* =================================MANAGE CAR STYLES================================= */

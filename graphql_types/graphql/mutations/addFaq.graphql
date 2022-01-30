@@ -1,0 +1,5 @@
+mutation AddFaq($input: FaqInput!) {
+  addFaq(input: $input) {
+    success
+  }
+}

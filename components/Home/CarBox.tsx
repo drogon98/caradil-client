@@ -101,7 +101,10 @@ export const CarBox: FC<CarBoxProps> = (props) => {
             <hr />
             <div className="d-flex justify-content-end">
               <h6 className="fw-bolder">
-                Ksh.{props.data.daily_rate!.toLocaleString()}/day
+                Ksh.
+                {props.data?.daily_rate &&
+                  props.data?.daily_rate.toLocaleString()}
+                /day
               </h6>
             </div>
           </div>

@@ -1,11 +1,25 @@
+import parse from "html-react-parser";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Layout from "../components/layouts/Layout";
-import { faqs } from "../data/faqs";
-import parse from "html-react-parser";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import Layout from "../components/layouts/Layout";
+import { Loading } from "../components/Loading";
+import { Faq, useGetFaqsQuery } from "../graphql_types/generated/graphql";
 
 const FAQS: NextPage = () => {
+  const [faqs, setFaqs] = useState<Faq[]>();
+  const { data, loading } = useGetFaqsQuery({ fetchPolicy: "network-only" });
+  const [mainLoading, setMainLoading] = useState(true);
+
+  useEffect(() => {
+    if (data?.faqs && !loading) {
+      setFaqs(data.faqs);
+      setMainLoading(false);
+    }
+  }, [data]);
+
+  // console.log("data :>> ", data);
   return (
     <>
       <Head>
@@ -16,38 +30,44 @@ const FAQS: NextPage = () => {
       <Layout>
         <div className="customContainer my-4">
           <h3 className="my-5 text-center">FREQUENTLY ASKED QUESTIONS</h3>
-          <div className="accordion" id="accordionPanelsStayOpenExample">
-            {faqs.map((faq, idx) => (
-              <div className="accordion-item">
-                <h2
-                  className="accordion-header"
-                  id={`panelsStayOpen-heading${idx}`}
-                >
-                  <button
-                    className={`accordion-button faq-accordion-button ${
-                      idx !== 0 && `collapsed`
-                    }`}
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target={`#panelsStayOpen-collapse${idx}`}
-                    aria-expanded={idx === 0 ? true : false}
-                    aria-controls={`panelsStayOpen-collapse${idx}`}
+          {mainLoading ? (
+            <Loading />
+          ) : (
+            <div className="accordion" id="accordionPanelsStayOpenExample">
+              {faqs?.map((faq, idx) => (
+                <div className="accordion-item">
+                  <h2
+                    className="accordion-header"
+                    id={`panelsStayOpen-heading${idx}`}
                   >
-                    {faq.title}
-                  </button>
-                </h2>
-                <div
-                  id={`panelsStayOpen-collapse${idx}`}
-                  className={`accordion-collapse collapse ${
-                    idx === 0 && `show`
-                  }`}
-                  aria-labelledby={`panelsStayOpen-heading${idx}`}
-                >
-                  <div className="accordion-body">{parse(faq.content)}</div>
+                    <button
+                      className={`accordion-button faq-accordion-button ${
+                        idx !== 0 && `collapsed`
+                      }`}
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={`#panelsStayOpen-collapse${idx}`}
+                      aria-expanded={idx === 0 ? true : false}
+                      aria-controls={`panelsStayOpen-collapse${idx}`}
+                    >
+                      {faq.question}
+                    </button>
+                  </h2>
+                  <div
+                    id={`panelsStayOpen-collapse${idx}`}
+                    className={`accordion-collapse collapse ${
+                      idx === 0 && `show`
+                    }`}
+                    aria-labelledby={`panelsStayOpen-heading${idx}`}
+                  >
+                    <div className="accordion-body faq-accordion-answer">
+                      {parse(faq.answer!)}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           <div className="mt-3">
             <p>
