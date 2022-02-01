@@ -33,13 +33,7 @@ export const SmListBox: FC<SmListBoxProps> = (props) => {
               <div className="d-flex flex-column">
                 <h4 className="m-0">{props.data.name}</h4>
                 <p>{props.data.reg_no}</p>
-                <p>
-                  {props.data.verification_in_progress
-                    ? "Under Verification"
-                    : props.data.available
-                    ? "Available"
-                    : "Unavailable"}
-                </p>
+                <p>{props.data.published ? "Yes" : "No"}</p>
                 <p>
                   Ksh.
                   {props.data.daily_rate

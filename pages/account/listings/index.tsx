@@ -80,7 +80,7 @@ const Listings: FC<ListingsProps> = (props) => {
                           </div>
 
                           <div className="col">
-                            <p className="fw-bold m-0">Available</p>
+                            <p className="fw-bold m-0">Published</p>
                           </div>
                           <div className="col">
                             <p className="fw-bold m-0">Booked</p>

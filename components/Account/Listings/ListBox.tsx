@@ -37,13 +37,7 @@ export const ListBox: FC<ListBoxProps> = (props) => {
               <p>{props.data.reg_no}</p>
             </div>
             <div className="col">
-              <p>
-                {props.data.verification_in_progress
-                  ? "Under Verification"
-                  : props.data.available
-                  ? "Available"
-                  : "Unavailable"}
-              </p>
+              <p>{props.data.published ? "Yes" : "No"}</p>
             </div>
             <div className="col">
               <p>{props.data.booked ? "Booked" : "Not Booked"}</p>
