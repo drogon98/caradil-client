@@ -27,12 +27,12 @@ export default function Summary(props: Props): ReactElement {
         <p>Trip Days</p>
         <p>{props.tripDays}</p>
       </div>
-      {props.includeDriver && (
+      {/* {props.includeDriver && (
         <div className="mb-2 d-flex justify-content-between">
           <p>Driver Daily Rate</p>
           <p>Ksh.{props.car.driver_daily_rate}</p>
         </div>
-      )}
+      )} */}
 
       {props.deliverToMe && (
         <div className="mb-2 d-flex justify-content-between">
