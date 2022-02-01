@@ -6,7 +6,6 @@ mutation AddEditCarGeneralInfo(
   addEditCarGeneralInfo(input: $options, carId: $carId, isEdit: $isEdit) {
     carId
     error
-    verified
     car {
       ...carPrivateInfo
     }

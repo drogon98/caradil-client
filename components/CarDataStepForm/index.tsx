@@ -130,13 +130,14 @@ export default function CarDataStepForm(props: Props): ReactElement {
         endTime: compData?.custom_availability_data?.endTime,
       };
       const tempAvailableData = {
-        car_has_other_use: compData?.car_has_other_use ?? false,
+        // car_has_other_use: compData?.car_has_other_use ?? false,
         advance_book_period: compData?.advance_book_period ?? "",
-        available: compData?.available ?? false,
+        // available: compData?.available ?? false,
         custom_availability: compData?.custom_availability ?? false,
         custom_availability_data: tempCustomAvailabilityData,
-        driver_mode: compData.driver_mode ?? 3,
-        manual_transmission_test: compData.manual_transmission_test ?? true,
+        can_rent_hourly: compData?.can_rent_hourly ?? false,
+        // driver_mode: compData.driver_mode ?? 3,
+        // manual_transmission_test: compData.manual_transmission_test ?? true,
       };
 
       setAvailabilityData({ ...tempAvailableData });
@@ -283,7 +284,8 @@ export default function CarDataStepForm(props: Props): ReactElement {
               reg_no: compData?.reg_no ?? "",
               make: compData?.make ?? "",
               odometer_reading: compData?.odometer_reading ?? 0,
-              is_gps_enabled: compData?.is_gps_enabled ?? true,
+              has_driver: compData?.has_driver ?? true,
+              // is_gps_enabled: compData?.is_gps_enabled ?? true,
             }}
           />
         </div>
@@ -326,7 +328,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
             setActiveSlide={setActiveSlide}
             activeSlide={activeSlide}
             setCompData={setCompData}
-            carVerified={compData?.verified ?? false}
+            // carVerified={compData?.verified ?? false}
             carId={carId}
             value={{
               photos: photosData!,
@@ -341,7 +343,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
             setActiveSlide={setActiveSlide}
             activeSlide={activeSlide}
             setCompData={setCompData}
-            carVerified={compData?.verified ?? false}
+            // carVerified={compData?.verified ?? false}
             isEdit={true}
             carId={carId}
             value={{
@@ -405,7 +407,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
             value={{
               ...availabilityData!,
             }}
-            manual={compData?.transmission === "manual"}
+            // manual={compData?.transmission === "manual"}
           />
         </div>
       )}
@@ -422,7 +424,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
               delivery_rate: compData?.delivery_rate ?? 0,
               discount: compData?.discount ?? "",
               discount_days: compData?.discount_days ?? 0,
-              driver_daily_rate: compData?.driver_daily_rate ?? 0,
+              // driver_daily_rate: compData?.driver_daily_rate ?? 0,
               hourly_rate: compData?.hourly_rate ?? 0,
             }}
             compData={compData!}

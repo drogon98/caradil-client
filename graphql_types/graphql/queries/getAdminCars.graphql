@@ -24,9 +24,9 @@ query GetAdminCars($type_: String!) {
     }
     # reviews
     # daily_rate
-    verified
+    # verified
     being_edited
-    has_edit_request
-    verification_in_progress
+    # has_edit_request
+    # verification_in_progress
   }
 }

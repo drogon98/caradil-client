@@ -1,7 +1,0 @@
-query CheckIfDriverIsApprovedToDrive {
-  checkIfDriverIsApprovedToDrive {
-    notApprovedReason
-    error
-    approved
-  }
-}

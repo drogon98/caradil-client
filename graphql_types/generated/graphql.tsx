@@ -46,14 +46,11 @@ export type AccountSettingsResponse = {
 export type Car = {
   __typename?: 'Car';
   advance_book_period?: Maybe<Scalars['String']>;
-  available?: Maybe<Scalars['Boolean']>;
   bags?: Maybe<Scalars['Float']>;
   being_edited?: Maybe<Scalars['Boolean']>;
   besties?: Maybe<Array<User>>;
-  book_requests?: Maybe<Scalars['Boolean']>;
   booked?: Maybe<Scalars['Boolean']>;
   can_rent_hourly?: Maybe<Scalars['Boolean']>;
-  car_has_other_use?: Maybe<Scalars['Boolean']>;
   categories?: Maybe<Array<Scalars['String']>>;
   charge_extra_distance_travelled?: Maybe<Scalars['Boolean']>;
   color?: Maybe<Scalars['String']>;
@@ -69,36 +66,27 @@ export type Car = {
   distance_per_day?: Maybe<Scalars['Float']>;
   documents?: Maybe<Array<DocumentObj>>;
   doors?: Maybe<Scalars['Float']>;
-  driver_daily_rate?: Maybe<Scalars['Float']>;
-  driver_mode?: Maybe<Scalars['Float']>;
-  faqs?: Maybe<Scalars['Boolean']>;
   features?: Maybe<Array<FeatureObj>>;
   gas?: Maybe<Scalars['String']>;
-  guidelines?: Maybe<Scalars['Boolean']>;
   has_driver?: Maybe<Scalars['Boolean']>;
-  has_edit_request?: Maybe<Scalars['Boolean']>;
   has_unlimited_distance?: Maybe<Scalars['Boolean']>;
   hourly_rate?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
-  is_gps_enabled?: Maybe<Scalars['Boolean']>;
   location?: Maybe<Scalars['String']>;
   luxury_vip_services?: Maybe<Array<Scalars['String']>>;
   make?: Maybe<Scalars['String']>;
-  manual_transmission_test?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
   odometer_reading?: Maybe<Scalars['Float']>;
   owner?: Maybe<User>;
   owner_id?: Maybe<Scalars['Float']>;
   photos?: Maybe<Array<FileObj>>;
+  published?: Maybe<Scalars['Boolean']>;
   reg_no?: Maybe<Scalars['String']>;
-  rejection_reason?: Maybe<Scalars['String']>;
   reviews?: Maybe<Scalars['Boolean']>;
   seats?: Maybe<Scalars['Float']>;
   transmission?: Maybe<Scalars['String']>;
   trips?: Maybe<Scalars['Float']>;
   updated_at?: Maybe<Scalars['DateTime']>;
-  verification_in_progress?: Maybe<Scalars['Boolean']>;
-  verified?: Maybe<Scalars['Boolean']>;
 };
 
 export type CarAddEditResponse = {
@@ -106,17 +94,13 @@ export type CarAddEditResponse = {
   car?: Maybe<Car>;
   carId?: Maybe<Scalars['Float']>;
   error?: Maybe<Scalars['String']>;
-  verified?: Maybe<Scalars['Boolean']>;
 };
 
 export type CarAvailabilityInput = {
   advance_book_period: Scalars['String'];
-  available: Scalars['Boolean'];
-  car_has_other_use: Scalars['Boolean'];
+  can_rent_hourly: Scalars['Boolean'];
   custom_availability: Scalars['Boolean'];
   custom_availability_data?: InputMaybe<CustomAvailabilityDataInput>;
-  driver_mode: Scalars['Float'];
-  manual_transmission_test: Scalars['Boolean'];
 };
 
 export type CarCategoriesInput = {
@@ -154,7 +138,7 @@ export type CarFeaturesInput = {
 };
 
 export type CarGeneralInfoInput = {
-  is_gps_enabled: Scalars['Boolean'];
+  has_driver: Scalars['Boolean'];
   make: Scalars['String'];
   name: Scalars['String'];
   odometer_reading: Scalars['Float'];
@@ -175,18 +159,11 @@ export type CarRatesInput = {
   delivery_rate?: InputMaybe<Scalars['Float']>;
   discount?: InputMaybe<Scalars['String']>;
   discount_days?: InputMaybe<Scalars['Float']>;
-  driver_daily_rate?: InputMaybe<Scalars['Float']>;
   hourly_rate: Scalars['Float'];
 };
 
 export type CarResponse = {
   __typename?: 'CarResponse';
-  car?: Maybe<Car>;
-  error?: Maybe<Scalars['String']>;
-};
-
-export type CarVerifyRequestResponse = {
-  __typename?: 'CarVerifyRequestResponse';
   car?: Maybe<Car>;
   error?: Maybe<Scalars['String']>;
 };
@@ -277,13 +254,6 @@ export type DocumentObj = {
   __typename?: 'DocumentObj';
   file?: Maybe<FileObj>;
   title?: Maybe<Scalars['String']>;
-};
-
-export type DriverIsApprovedResponse = {
-  __typename?: 'DriverIsApprovedResponse';
-  approved?: Maybe<Scalars['Boolean']>;
-  error?: Maybe<Scalars['String']>;
-  notApprovedReason?: Maybe<Scalars['String']>;
 };
 
 export type Earning = {
@@ -381,12 +351,10 @@ export type Mutation = {
   confirmTrip: ConfirmCancelTripResponse;
   contact: ContactResponse;
   createChat: Scalars['Boolean'];
-  createEditRequest: CreateCarEditRequestResponse;
   createTrip: CreateTripResponse;
   deleteUpload: Scalars['Boolean'];
   editAccountSettings: Scalars['Boolean'];
   editCarAvailability: CarAddEditResponse;
-  editCarBeingEdited: Scalars['Boolean'];
   editCarCategories: CarAddEditResponse;
   editCarDescription: CarAddEditResponse;
   editCarDistance: CarAddEditResponse;
@@ -395,11 +363,11 @@ export type Mutation = {
   editCarFeatures: CarAddEditResponse;
   editCarLocationAndDelivery: CarAddEditResponse;
   editCarPhotos: CarAddEditResponse;
+  editCarPublished: Scalars['Boolean'];
   editCarRates: CarAddEditResponse;
-  editCarVerificationInProgress: CarVerifyRequestResponse;
-  editCarVerified: Scalars['Boolean'];
   editProfile: Scalars['Boolean'];
   login: TokenResponse;
+  makeCarEditable: CreateCarEditRequestResponse;
   register: TokenResponse;
   revokeUserRefreshToken: Scalars['Boolean'];
   singleUpload: UploadedFileResponse;
@@ -445,11 +413,6 @@ export type MutationCreateChatArgs = {
 };
 
 
-export type MutationCreateEditRequestArgs = {
-  carId: Scalars['Float'];
-};
-
-
 export type MutationCreateTripArgs = {
   input: TripInput;
 };
@@ -468,11 +431,6 @@ export type MutationEditAccountSettingsArgs = {
 export type MutationEditCarAvailabilityArgs = {
   carId: Scalars['Float'];
   input: CarAvailabilityInput;
-};
-
-
-export type MutationEditCarBeingEditedArgs = {
-  carId: Scalars['Float'];
 };
 
 
@@ -524,20 +482,14 @@ export type MutationEditCarPhotosArgs = {
 };
 
 
+export type MutationEditCarPublishedArgs = {
+  carId: Scalars['Float'];
+};
+
+
 export type MutationEditCarRatesArgs = {
   carId: Scalars['Float'];
   input: CarRatesInput;
-};
-
-
-export type MutationEditCarVerificationInProgressArgs = {
-  carId: Scalars['Float'];
-};
-
-
-export type MutationEditCarVerifiedArgs = {
-  carId: Scalars['Float'];
-  input: VerifyCarInput;
 };
 
 
@@ -548,6 +500,11 @@ export type MutationEditProfileArgs = {
 
 export type MutationLoginArgs = {
   input: LoginInput;
+};
+
+
+export type MutationMakeCarEditableArgs = {
+  carId: Scalars['Float'];
 };
 
 
@@ -585,7 +542,6 @@ export type Notification = {
 export type Query = {
   __typename?: 'Query';
   cars: Array<Car>;
-  checkIfDriverIsApprovedToDrive: DriverIsApprovedResponse;
   faqs: Array<Faq>;
   getAccountSettings: AccountSettingsResponse;
   getAdminCars: Array<Car>;
@@ -767,14 +723,9 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
-export type VerifyCarInput = {
-  rejection_reason: Scalars['String'];
-  verification_passed: Scalars['Boolean'];
-};
+export type CarInfoFragment = { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined };
 
-export type CarInfoFragment = { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined };
-
-export type CarPrivateInfoFragment = { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined };
+export type CarPrivateInfoFragment = { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined };
 
 export type ChatInfoFragment = { __typename?: 'Chat', id?: number | null | undefined, message?: string | null | undefined, receiver_id?: number | null | undefined, sender_id?: number | null | undefined, read?: boolean | null | undefined, sender_deleted?: boolean | null | undefined, receiver_deleted?: boolean | null | undefined, created_at?: any | null | undefined };
 
@@ -791,7 +742,7 @@ export type AddEditCarGeneralInfoMutationVariables = Exact<{
 }>;
 
 
-export type AddEditCarGeneralInfoMutation = { __typename?: 'Mutation', addEditCarGeneralInfo: { __typename?: 'CarAddEditResponse', carId?: number | null | undefined, error?: string | null | undefined, verified?: boolean | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+export type AddEditCarGeneralInfoMutation = { __typename?: 'Mutation', addEditCarGeneralInfo: { __typename?: 'CarAddEditResponse', carId?: number | null | undefined, error?: string | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type AddFaqMutationVariables = Exact<{
   input: FaqInput;
@@ -836,13 +787,6 @@ export type CreateChatMutationVariables = Exact<{
 
 export type CreateChatMutation = { __typename?: 'Mutation', createChat: boolean };
 
-export type CreateEditCarRequestMutationVariables = Exact<{
-  carId: Scalars['Float'];
-}>;
-
-
-export type CreateEditCarRequestMutation = { __typename?: 'Mutation', createEditRequest: { __typename?: 'CreateCarEditRequestResponse', error?: string | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
-
 export type CreateTripMutationVariables = Exact<{
   input: TripInput;
 }>;
@@ -870,14 +814,7 @@ export type EditCarAvailabilityMutationVariables = Exact<{
 }>;
 
 
-export type EditCarAvailabilityMutation = { __typename?: 'Mutation', editCarAvailability: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
-
-export type EditCarBeingEditedMutationVariables = Exact<{
-  carId: Scalars['Float'];
-}>;
-
-
-export type EditCarBeingEditedMutation = { __typename?: 'Mutation', editCarBeingEdited: boolean };
+export type EditCarAvailabilityMutation = { __typename?: 'Mutation', editCarAvailability: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type EditCarCategoriesMutationVariables = Exact<{
   carId: Scalars['Float'];
@@ -885,7 +822,7 @@ export type EditCarCategoriesMutationVariables = Exact<{
 }>;
 
 
-export type EditCarCategoriesMutation = { __typename?: 'Mutation', editCarCategories: { __typename?: 'CarAddEditResponse', carId?: number | null | undefined, error?: string | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+export type EditCarCategoriesMutation = { __typename?: 'Mutation', editCarCategories: { __typename?: 'CarAddEditResponse', carId?: number | null | undefined, error?: string | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type EditCarDescriptionMutationVariables = Exact<{
   carId: Scalars['Float'];
@@ -893,7 +830,7 @@ export type EditCarDescriptionMutationVariables = Exact<{
 }>;
 
 
-export type EditCarDescriptionMutation = { __typename?: 'Mutation', editCarDescription: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, verified?: boolean | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+export type EditCarDescriptionMutation = { __typename?: 'Mutation', editCarDescription: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type EditCarDistanceMutationVariables = Exact<{
   carId: Scalars['Float'];
@@ -901,7 +838,7 @@ export type EditCarDistanceMutationVariables = Exact<{
 }>;
 
 
-export type EditCarDistanceMutation = { __typename?: 'Mutation', editCarDistance: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+export type EditCarDistanceMutation = { __typename?: 'Mutation', editCarDistance: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type EditCarDocumentsMutationVariables = Exact<{
   carId: Scalars['Float'];
@@ -909,7 +846,7 @@ export type EditCarDocumentsMutationVariables = Exact<{
 }>;
 
 
-export type EditCarDocumentsMutation = { __typename?: 'Mutation', editCarDocuments: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, verified?: boolean | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+export type EditCarDocumentsMutation = { __typename?: 'Mutation', editCarDocuments: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type EditCarFeaturesMutationVariables = Exact<{
   carId: Scalars['Float'];
@@ -917,7 +854,7 @@ export type EditCarFeaturesMutationVariables = Exact<{
 }>;
 
 
-export type EditCarFeaturesMutation = { __typename?: 'Mutation', editCarFeatures: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, verified?: boolean | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+export type EditCarFeaturesMutation = { __typename?: 'Mutation', editCarFeatures: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type EditCarLocationAndDeliveryMutationVariables = Exact<{
   carId: Scalars['Float'];
@@ -925,7 +862,7 @@ export type EditCarLocationAndDeliveryMutationVariables = Exact<{
 }>;
 
 
-export type EditCarLocationAndDeliveryMutation = { __typename?: 'Mutation', editCarLocationAndDelivery: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+export type EditCarLocationAndDeliveryMutation = { __typename?: 'Mutation', editCarLocationAndDelivery: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type EditCarPhotosMutationVariables = Exact<{
   carId: Scalars['Float'];
@@ -933,7 +870,7 @@ export type EditCarPhotosMutationVariables = Exact<{
 }>;
 
 
-export type EditCarPhotosMutation = { __typename?: 'Mutation', editCarPhotos: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, verified?: boolean | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+export type EditCarPhotosMutation = { __typename?: 'Mutation', editCarPhotos: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type EditCarRatesMutationVariables = Exact<{
   carId: Scalars['Float'];
@@ -941,22 +878,7 @@ export type EditCarRatesMutationVariables = Exact<{
 }>;
 
 
-export type EditCarRatesMutation = { __typename?: 'Mutation', editCarRates: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
-
-export type EditCarVerificationInProgressMutationVariables = Exact<{
-  carId: Scalars['Float'];
-}>;
-
-
-export type EditCarVerificationInProgressMutation = { __typename?: 'Mutation', editCarVerificationInProgress: { __typename?: 'CarVerifyRequestResponse', error?: string | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
-
-export type EditCarVerifiedMutationVariables = Exact<{
-  carId: Scalars['Float'];
-  input: VerifyCarInput;
-}>;
-
-
-export type EditCarVerifiedMutation = { __typename?: 'Mutation', editCarVerified: boolean };
+export type EditCarRatesMutation = { __typename?: 'Mutation', editCarRates: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type EditProfileMutationVariables = Exact<{
   input: EditProfileInput;
@@ -971,6 +893,13 @@ export type LoginMutationVariables = Exact<{
 
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'TokenResponse', access_token?: string | null | undefined, error?: string | null | undefined } };
+
+export type MakeCarEditbaleMutationVariables = Exact<{
+  carId: Scalars['Float'];
+}>;
+
+
+export type MakeCarEditbaleMutation = { __typename?: 'Mutation', makeCarEditable: { __typename?: 'CreateCarEditRequestResponse', error?: string | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type RegisterMutationVariables = Exact<{
   payload: RegisterInput;
@@ -994,11 +923,6 @@ export type UploadFileMutationVariables = Exact<{
 
 export type UploadFileMutation = { __typename?: 'Mutation', singleUpload: { __typename?: 'UploadedFileResponse', error?: string | null | undefined, file?: { __typename?: 'UploadedFile', public_id: string, url: string, secure_url: string } | null | undefined } };
 
-export type CheckIfDriverIsApprovedToDriveQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type CheckIfDriverIsApprovedToDriveQuery = { __typename?: 'Query', checkIfDriverIsApprovedToDrive: { __typename?: 'DriverIsApprovedResponse', notApprovedReason?: string | null | undefined, error?: string | null | undefined, approved?: boolean | null | undefined } };
-
 export type GetAccountSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1009,7 +933,7 @@ export type GetAdminCarsQueryVariables = Exact<{
 }>;
 
 
-export type GetAdminCarsQuery = { __typename?: 'Query', getAdminCars: Array<{ __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, verified?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined }> };
+export type GetAdminCarsQuery = { __typename?: 'Query', getAdminCars: Array<{ __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, being_edited?: boolean | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined }> };
 
 export type GetAuthUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1021,7 +945,7 @@ export type GetCarQueryVariables = Exact<{
 }>;
 
 
-export type GetCarQuery = { __typename?: 'Query', getCar: { __typename?: 'CarResponse', car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+export type GetCarQuery = { __typename?: 'Query', getCar: { __typename?: 'CarResponse', car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type GetCarsQueryVariables = Exact<{
   input: SearchInput;
@@ -1050,7 +974,7 @@ export type GetFaqsQuery = { __typename?: 'Query', faqs: Array<{ __typename?: 'F
 export type GetHostCarsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetHostCarsQuery = { __typename?: 'Query', getHostCars: Array<{ __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, daily_rate?: number | null | undefined, booked?: boolean | null | undefined, available?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined }> };
+export type GetHostCarsQuery = { __typename?: 'Query', getHostCars: Array<{ __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, daily_rate?: number | null | undefined, booked?: boolean | null | undefined, published?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined }> };
 
 export type GetMakesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1082,7 +1006,7 @@ export type GetPrivateCarQueryVariables = Exact<{
 }>;
 
 
-export type GetPrivateCarQuery = { __typename?: 'Query', getCar: { __typename?: 'CarResponse', car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, verified?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, available?: boolean | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, driver_daily_rate?: number | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, car_has_other_use?: boolean | null | undefined, driver_mode?: number | null | undefined, advance_book_period?: string | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, has_edit_request?: boolean | null | undefined, verification_in_progress?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+export type GetPrivateCarQuery = { __typename?: 'Query', getCar: { __typename?: 'CarResponse', car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
 export type GetTripQueryVariables = Exact<{
   tripId: Scalars['Float'];
@@ -1131,7 +1055,7 @@ export const CarInfoFragmentDoc = gql`
     ...fileInfo
   }
   reviews
-  verified
+  published
   seats
   doors
   transmission
@@ -1139,7 +1063,6 @@ export const CarInfoFragmentDoc = gql`
   daily_rate
   discount
   discount_days
-  available
   custom_availability
   custom_availability_data {
     startDate
@@ -1158,21 +1081,14 @@ export const CarInfoFragmentDoc = gql`
   luxury_vip_services
   color
   has_driver
-  driver_daily_rate
   delivery
   delivery_rate
   can_rent_hourly
   hourly_rate
   has_unlimited_distance
-  car_has_other_use
-  driver_mode
   advance_book_period
-  manual_transmission_test
   charge_extra_distance_travelled
-  is_gps_enabled
   being_edited
-  has_edit_request
-  verification_in_progress
 }
     ${FileInfoFragmentDoc}`;
 export const CarPrivateInfoFragmentDoc = gql`
@@ -1204,7 +1120,7 @@ export const CarPrivateInfoFragmentDoc = gql`
     }
   }
   reviews
-  verified
+  published
   seats
   doors
   transmission
@@ -1212,7 +1128,6 @@ export const CarPrivateInfoFragmentDoc = gql`
   daily_rate
   discount
   discount_days
-  available
   custom_availability
   custom_availability_data {
     startDate
@@ -1231,22 +1146,15 @@ export const CarPrivateInfoFragmentDoc = gql`
   luxury_vip_services
   color
   has_driver
-  driver_daily_rate
   delivery
   delivery_rate
   can_rent_hourly
   hourly_rate
   has_unlimited_distance
-  car_has_other_use
-  driver_mode
   advance_book_period
-  manual_transmission_test
   odometer_reading
   charge_extra_distance_travelled
-  is_gps_enabled
   being_edited
-  has_edit_request
-  verification_in_progress
 }
     ${FileInfoFragmentDoc}`;
 export const ChatInfoFragmentDoc = gql`
@@ -1311,7 +1219,6 @@ export const AddEditCarGeneralInfoDocument = gql`
   addEditCarGeneralInfo(input: $options, carId: $carId, isEdit: $isEdit) {
     carId
     error
-    verified
     car {
       ...carPrivateInfo
     }
@@ -1549,42 +1456,6 @@ export function useCreateChatMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateChatMutationHookResult = ReturnType<typeof useCreateChatMutation>;
 export type CreateChatMutationResult = Apollo.MutationResult<CreateChatMutation>;
 export type CreateChatMutationOptions = Apollo.BaseMutationOptions<CreateChatMutation, CreateChatMutationVariables>;
-export const CreateEditCarRequestDocument = gql`
-    mutation CreateEditCarRequest($carId: Float!) {
-  createEditRequest(carId: $carId) {
-    car {
-      ...carPrivateInfo
-    }
-    error
-  }
-}
-    ${CarPrivateInfoFragmentDoc}`;
-export type CreateEditCarRequestMutationFn = Apollo.MutationFunction<CreateEditCarRequestMutation, CreateEditCarRequestMutationVariables>;
-
-/**
- * __useCreateEditCarRequestMutation__
- *
- * To run a mutation, you first call `useCreateEditCarRequestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateEditCarRequestMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createEditCarRequestMutation, { data, loading, error }] = useCreateEditCarRequestMutation({
- *   variables: {
- *      carId: // value for 'carId'
- *   },
- * });
- */
-export function useCreateEditCarRequestMutation(baseOptions?: Apollo.MutationHookOptions<CreateEditCarRequestMutation, CreateEditCarRequestMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateEditCarRequestMutation, CreateEditCarRequestMutationVariables>(CreateEditCarRequestDocument, options);
-      }
-export type CreateEditCarRequestMutationHookResult = ReturnType<typeof useCreateEditCarRequestMutation>;
-export type CreateEditCarRequestMutationResult = Apollo.MutationResult<CreateEditCarRequestMutation>;
-export type CreateEditCarRequestMutationOptions = Apollo.BaseMutationOptions<CreateEditCarRequestMutation, CreateEditCarRequestMutationVariables>;
 export const CreateTripDocument = gql`
     mutation CreateTrip($input: TripInput!) {
   createTrip(input: $input) {
@@ -1719,37 +1590,6 @@ export function useEditCarAvailabilityMutation(baseOptions?: Apollo.MutationHook
 export type EditCarAvailabilityMutationHookResult = ReturnType<typeof useEditCarAvailabilityMutation>;
 export type EditCarAvailabilityMutationResult = Apollo.MutationResult<EditCarAvailabilityMutation>;
 export type EditCarAvailabilityMutationOptions = Apollo.BaseMutationOptions<EditCarAvailabilityMutation, EditCarAvailabilityMutationVariables>;
-export const EditCarBeingEditedDocument = gql`
-    mutation EditCarBeingEdited($carId: Float!) {
-  editCarBeingEdited(carId: $carId)
-}
-    `;
-export type EditCarBeingEditedMutationFn = Apollo.MutationFunction<EditCarBeingEditedMutation, EditCarBeingEditedMutationVariables>;
-
-/**
- * __useEditCarBeingEditedMutation__
- *
- * To run a mutation, you first call `useEditCarBeingEditedMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useEditCarBeingEditedMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [editCarBeingEditedMutation, { data, loading, error }] = useEditCarBeingEditedMutation({
- *   variables: {
- *      carId: // value for 'carId'
- *   },
- * });
- */
-export function useEditCarBeingEditedMutation(baseOptions?: Apollo.MutationHookOptions<EditCarBeingEditedMutation, EditCarBeingEditedMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<EditCarBeingEditedMutation, EditCarBeingEditedMutationVariables>(EditCarBeingEditedDocument, options);
-      }
-export type EditCarBeingEditedMutationHookResult = ReturnType<typeof useEditCarBeingEditedMutation>;
-export type EditCarBeingEditedMutationResult = Apollo.MutationResult<EditCarBeingEditedMutation>;
-export type EditCarBeingEditedMutationOptions = Apollo.BaseMutationOptions<EditCarBeingEditedMutation, EditCarBeingEditedMutationVariables>;
 export const EditCarCategoriesDocument = gql`
     mutation EditCarCategories($carId: Float!, $input: CarCategoriesInput!) {
   editCarCategories(carId: $carId, input: $input) {
@@ -1793,7 +1633,6 @@ export const EditCarDescriptionDocument = gql`
   editCarDescription(carId: $carId, input: $input) {
     error
     carId
-    verified
     car {
       ...carPrivateInfo
     }
@@ -1870,7 +1709,6 @@ export const EditCarDocumentsDocument = gql`
   editCarDocuments(carId: $carId, input: $input) {
     error
     carId
-    verified
     car {
       ...carPrivateInfo
     }
@@ -1909,7 +1747,6 @@ export const EditCarFeaturesDocument = gql`
   editCarFeatures(carId: $carId, input: $input) {
     error
     carId
-    verified
     car {
       ...carPrivateInfo
     }
@@ -1986,7 +1823,6 @@ export const EditCarPhotosDocument = gql`
   editCarPhotos(carId: $carId, input: $input) {
     error
     carId
-    verified
     car {
       ...carPrivateInfo
     }
@@ -2058,74 +1894,6 @@ export function useEditCarRatesMutation(baseOptions?: Apollo.MutationHookOptions
 export type EditCarRatesMutationHookResult = ReturnType<typeof useEditCarRatesMutation>;
 export type EditCarRatesMutationResult = Apollo.MutationResult<EditCarRatesMutation>;
 export type EditCarRatesMutationOptions = Apollo.BaseMutationOptions<EditCarRatesMutation, EditCarRatesMutationVariables>;
-export const EditCarVerificationInProgressDocument = gql`
-    mutation EditCarVerificationInProgress($carId: Float!) {
-  editCarVerificationInProgress(carId: $carId) {
-    car {
-      ...carPrivateInfo
-    }
-    error
-  }
-}
-    ${CarPrivateInfoFragmentDoc}`;
-export type EditCarVerificationInProgressMutationFn = Apollo.MutationFunction<EditCarVerificationInProgressMutation, EditCarVerificationInProgressMutationVariables>;
-
-/**
- * __useEditCarVerificationInProgressMutation__
- *
- * To run a mutation, you first call `useEditCarVerificationInProgressMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useEditCarVerificationInProgressMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [editCarVerificationInProgressMutation, { data, loading, error }] = useEditCarVerificationInProgressMutation({
- *   variables: {
- *      carId: // value for 'carId'
- *   },
- * });
- */
-export function useEditCarVerificationInProgressMutation(baseOptions?: Apollo.MutationHookOptions<EditCarVerificationInProgressMutation, EditCarVerificationInProgressMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<EditCarVerificationInProgressMutation, EditCarVerificationInProgressMutationVariables>(EditCarVerificationInProgressDocument, options);
-      }
-export type EditCarVerificationInProgressMutationHookResult = ReturnType<typeof useEditCarVerificationInProgressMutation>;
-export type EditCarVerificationInProgressMutationResult = Apollo.MutationResult<EditCarVerificationInProgressMutation>;
-export type EditCarVerificationInProgressMutationOptions = Apollo.BaseMutationOptions<EditCarVerificationInProgressMutation, EditCarVerificationInProgressMutationVariables>;
-export const EditCarVerifiedDocument = gql`
-    mutation EditCarVerified($carId: Float!, $input: VerifyCarInput!) {
-  editCarVerified(carId: $carId, input: $input)
-}
-    `;
-export type EditCarVerifiedMutationFn = Apollo.MutationFunction<EditCarVerifiedMutation, EditCarVerifiedMutationVariables>;
-
-/**
- * __useEditCarVerifiedMutation__
- *
- * To run a mutation, you first call `useEditCarVerifiedMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useEditCarVerifiedMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [editCarVerifiedMutation, { data, loading, error }] = useEditCarVerifiedMutation({
- *   variables: {
- *      carId: // value for 'carId'
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useEditCarVerifiedMutation(baseOptions?: Apollo.MutationHookOptions<EditCarVerifiedMutation, EditCarVerifiedMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<EditCarVerifiedMutation, EditCarVerifiedMutationVariables>(EditCarVerifiedDocument, options);
-      }
-export type EditCarVerifiedMutationHookResult = ReturnType<typeof useEditCarVerifiedMutation>;
-export type EditCarVerifiedMutationResult = Apollo.MutationResult<EditCarVerifiedMutation>;
-export type EditCarVerifiedMutationOptions = Apollo.BaseMutationOptions<EditCarVerifiedMutation, EditCarVerifiedMutationVariables>;
 export const EditProfileDocument = gql`
     mutation EditProfile($input: EditProfileInput!) {
   editProfile(input: $input)
@@ -2191,6 +1959,42 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const MakeCarEditbaleDocument = gql`
+    mutation MakeCarEditbale($carId: Float!) {
+  makeCarEditable(carId: $carId) {
+    car {
+      ...carPrivateInfo
+    }
+    error
+  }
+}
+    ${CarPrivateInfoFragmentDoc}`;
+export type MakeCarEditbaleMutationFn = Apollo.MutationFunction<MakeCarEditbaleMutation, MakeCarEditbaleMutationVariables>;
+
+/**
+ * __useMakeCarEditbaleMutation__
+ *
+ * To run a mutation, you first call `useMakeCarEditbaleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMakeCarEditbaleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [makeCarEditbaleMutation, { data, loading, error }] = useMakeCarEditbaleMutation({
+ *   variables: {
+ *      carId: // value for 'carId'
+ *   },
+ * });
+ */
+export function useMakeCarEditbaleMutation(baseOptions?: Apollo.MutationHookOptions<MakeCarEditbaleMutation, MakeCarEditbaleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MakeCarEditbaleMutation, MakeCarEditbaleMutationVariables>(MakeCarEditbaleDocument, options);
+      }
+export type MakeCarEditbaleMutationHookResult = ReturnType<typeof useMakeCarEditbaleMutation>;
+export type MakeCarEditbaleMutationResult = Apollo.MutationResult<MakeCarEditbaleMutation>;
+export type MakeCarEditbaleMutationOptions = Apollo.BaseMutationOptions<MakeCarEditbaleMutation, MakeCarEditbaleMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($payload: RegisterInput!) {
   register(input: $payload) {
@@ -2298,42 +2102,6 @@ export function useUploadFileMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UploadFileMutationHookResult = ReturnType<typeof useUploadFileMutation>;
 export type UploadFileMutationResult = Apollo.MutationResult<UploadFileMutation>;
 export type UploadFileMutationOptions = Apollo.BaseMutationOptions<UploadFileMutation, UploadFileMutationVariables>;
-export const CheckIfDriverIsApprovedToDriveDocument = gql`
-    query CheckIfDriverIsApprovedToDrive {
-  checkIfDriverIsApprovedToDrive {
-    notApprovedReason
-    error
-    approved
-  }
-}
-    `;
-
-/**
- * __useCheckIfDriverIsApprovedToDriveQuery__
- *
- * To run a query within a React component, call `useCheckIfDriverIsApprovedToDriveQuery` and pass it any options that fit your needs.
- * When your component renders, `useCheckIfDriverIsApprovedToDriveQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCheckIfDriverIsApprovedToDriveQuery({
- *   variables: {
- *   },
- * });
- */
-export function useCheckIfDriverIsApprovedToDriveQuery(baseOptions?: Apollo.QueryHookOptions<CheckIfDriverIsApprovedToDriveQuery, CheckIfDriverIsApprovedToDriveQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CheckIfDriverIsApprovedToDriveQuery, CheckIfDriverIsApprovedToDriveQueryVariables>(CheckIfDriverIsApprovedToDriveDocument, options);
-      }
-export function useCheckIfDriverIsApprovedToDriveLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckIfDriverIsApprovedToDriveQuery, CheckIfDriverIsApprovedToDriveQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CheckIfDriverIsApprovedToDriveQuery, CheckIfDriverIsApprovedToDriveQueryVariables>(CheckIfDriverIsApprovedToDriveDocument, options);
-        }
-export type CheckIfDriverIsApprovedToDriveQueryHookResult = ReturnType<typeof useCheckIfDriverIsApprovedToDriveQuery>;
-export type CheckIfDriverIsApprovedToDriveLazyQueryHookResult = ReturnType<typeof useCheckIfDriverIsApprovedToDriveLazyQuery>;
-export type CheckIfDriverIsApprovedToDriveQueryResult = Apollo.QueryResult<CheckIfDriverIsApprovedToDriveQuery, CheckIfDriverIsApprovedToDriveQueryVariables>;
 export const GetAccountSettingsDocument = gql`
     query GetAccountSettings {
   getAccountSettings {
@@ -2389,10 +2157,7 @@ export const GetAdminCarsDocument = gql`
         ...fileInfo
       }
     }
-    verified
     being_edited
-    has_edit_request
-    verification_in_progress
   }
 }
     ${FileInfoFragmentDoc}`;
@@ -2666,8 +2431,7 @@ export const GetHostCarsDocument = gql`
     reg_no
     daily_rate
     booked
-    available
-    verification_in_progress
+    published
   }
 }
     `;

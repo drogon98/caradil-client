@@ -24,6 +24,7 @@ interface TripDatesProps {
   userDates: Maybe<CustomAvailabilityObj> | undefined;
   setTotalCharge: Dispatch<React.SetStateAction<number>>;
   car: Car;
+  hasCustomAvailability: boolean;
 }
 
 /**
@@ -47,7 +48,11 @@ export const TripDates: FC<TripDatesProps> = (props) => {
         date.getMonth().toString().length === 1
           ? `0${date.getMonth() + 1}`
           : date.getMonth()
-      }-${date.getDate()}`;
+      }-${
+        date.getDate().toString().length === 1
+          ? `0${date.getDate()}`
+          : date.getDate()
+      }`;
     }
   };
 
@@ -105,18 +110,23 @@ export const TripDates: FC<TripDatesProps> = (props) => {
   }, [values, props.car]);
 
   useEffect(() => {
-    if (
-      props.values?.startDate &&
-      props.values?.endDate &&
-      props.values?.startTime &&
-      props.values?.endTime
-    ) {
-      setMinDate(getMinDate(props.values.startDate)!);
-      setMaxDate(getMaxDate(props.values.endDate)!);
+    if (props.hasCustomAvailability) {
+      setMinDate(getMinDate(props.values?.startDate as string)!);
+      setMaxDate(getMaxDate(props.values?.endDate as string)!);
     } else {
       const date = new Date();
       setMinDate(createDateValue(date)!);
     }
+    // if (
+    //   props.values?.startDate &&
+    //   props.values?.endDate &&
+    //   props.values?.startTime &&
+    //   props.values?.endTime
+    // ) {
+
+    // } else {
+
+    // }
   }, [props.values]);
 
   const handleChange = (
@@ -129,7 +139,7 @@ export const TripDates: FC<TripDatesProps> = (props) => {
     props.setTripDates({ ...props.userDates, [e.target.name]: e.target.value });
   };
 
-  // console.log("minDate :>> ", minDate);
+  console.log("minDate :>> ", minDate);
   // console.log("maxDate :>> ", maxDate);
   // console.log("props.values :>> ", props.values);
 

@@ -26,7 +26,8 @@ fragment carInfo on Car {
   #     }
   #   }
   reviews
-  verified
+  # verified
+  published
   seats
   doors
   transmission
@@ -34,7 +35,7 @@ fragment carInfo on Car {
   daily_rate
   discount
   discount_days
-  available
+  # available
   custom_availability
   custom_availability_data {
     startDate
@@ -53,19 +54,19 @@ fragment carInfo on Car {
   luxury_vip_services
   color
   has_driver
-  driver_daily_rate
+  # driver_daily_rate
   delivery
   delivery_rate
   can_rent_hourly
   hourly_rate
   has_unlimited_distance
-  car_has_other_use
-  driver_mode
+  # car_has_other_use
+  # driver_mode
   advance_book_period
-  manual_transmission_test
+  # manual_transmission_test
   charge_extra_distance_travelled
-  is_gps_enabled
+  # is_gps_enabled
   being_edited
-  has_edit_request
-  verification_in_progress
+  # has_edit_request
+  # verification_in_progress
 }

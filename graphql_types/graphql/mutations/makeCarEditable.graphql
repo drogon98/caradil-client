@@ -1,0 +1,8 @@
+mutation MakeCarEditbale($carId: Float!) {
+  makeCarEditable(carId: $carId) {
+    car {
+      ...carPrivateInfo
+    }
+    error
+  }
+}

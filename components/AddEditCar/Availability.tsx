@@ -19,15 +19,14 @@ interface AvailabilityProps {
   value: CarAvailabilityInput;
   // setData: Dispatch<SetStateAction<CarAvailabilityInput>>;
   carId: number | undefined;
-  // booked: boolean;
   // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
-  manual: boolean;
+  // manual: boolean;
   isManage?: boolean;
-  booked?: boolean;
-  verificationInProgress?: boolean;
+  // booked?: boolean;
+  // verificationInProgress?: boolean;
 }
 
 export const Availability: FC<AvailabilityProps> = (props) => {
@@ -66,21 +65,24 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         ...values!,
         [e.target.name]: e.target.value,
       });
-    } else if (e.target.name === "driver_mode") {
-      if (e.target.value === "2") {
-        setValues({
-          ...values!,
-          manual_transmission_test: false,
-          [e.target.name]: parseInt(e.target.value, 10),
-        });
-      } else {
-        setValues({
-          ...values!,
-          [e.target.name]: parseInt(e.target.value, 10),
-          manual_transmission_test: true,
-        });
-      }
-    } else {
+    }
+    //  else if (e.target.name === "driver_mode") {
+    //   if (e.target.value === "2") {
+    //     setValues({
+    //       ...values!,
+    //       manual_transmission_test: false,
+    //       [e.target.name]: parseInt(e.target.value, 10),
+    //     });
+    //   }
+    //   else {
+    //     setValues({
+    //       ...values!,
+    //       [e.target.name]: parseInt(e.target.value, 10),
+    //       manual_transmission_test: true,
+    //     });
+    //   }
+    // }
+    else {
       setValues({
         ...values!,
         [e.target.name]: e.target.value === "true" ? true : false,
@@ -102,12 +104,13 @@ export const Availability: FC<AvailabilityProps> = (props) => {
           carId: props.carId!,
           input: {
             advance_book_period: values?.advance_book_period!,
-            car_has_other_use: values?.car_has_other_use!,
-            available: values?.available!,
+            // car_has_other_use: values?.car_has_other_use!,
+            // available: values?.available!,
             custom_availability: values?.custom_availability!,
             custom_availability_data: values?.custom_availability_data!,
-            driver_mode: values?.driver_mode!,
-            manual_transmission_test: values?.manual_transmission_test!,
+            can_rent_hourly: values.can_rent_hourly!,
+            // driver_mode: values?.driver_mode!,
+            // manual_transmission_test: values?.manual_transmission_test!,
           },
         },
       });
@@ -160,7 +163,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
     <div>
       <h3>Availability</h3>
       <form onSubmit={handleSubmit} className="mb-3">
-        <div className="mb-5">
+        {/* <div className="mb-5">
           <p className="mb-2">
             This is how you want guests to drive your car. Some guests want to
             drive the car themselves while others want to be driven. Select the
@@ -238,8 +241,23 @@ export const Availability: FC<AvailabilityProps> = (props) => {
                 </div>
               </div>
             )}
-        </div>
+        </div> */}
         <div className="form-check mb-5">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            value={values?.can_rent_hourly ? "false" : "true"}
+            id="can_rent_hourly"
+            name="can_rent_hourly"
+            checked={values?.can_rent_hourly}
+            onChange={handleChange}
+            // required
+          />
+          <label className="form-check-label" htmlFor="can_rent_hourly">
+            I can rent out this car for a period less than 24hrs
+          </label>
+        </div>
+        {/* <div className="form-check mb-5">
           <input
             className="form-check-input"
             type="checkbox"
@@ -253,12 +271,12 @@ export const Availability: FC<AvailabilityProps> = (props) => {
           <label className="form-check-label" htmlFor="car_has_other_use">
             I use this car for personal reasons
           </label>
-        </div>
-        {invalidAdvanceData && (
+        </div> */}
+        {/* {invalidAdvanceData && (
           <small className="text-danger">
             Please select the advance period to be notified of a booked trip
           </small>
-        )}
+        )} */}
 
         <div className="mb-5">
           <label>How advance do you want to be notified of a booked trip</label>
@@ -285,16 +303,17 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             </small>
           </div>
         </div>
-        <div className="form-check form-switch mb-5">
+
+        {/* <div className="form-check form-switch mb-5">
           <input
             className="form-check-input"
             type="checkbox"
             id="mySwitch"
             name="available"
-            value={values?.available ? "false" : "true"}
-            checked={values?.available}
-            onChange={handleChange}
-            // disabled={props.booked}
+            value={props.booked ? "false" : "true"}
+            checked={props.booked}
+            // onChange={handleChange}
+            disabled={props.booked}
             // required
           />
           <label className="form-check-label" htmlFor="mySwitch">
@@ -302,9 +321,9 @@ export const Availability: FC<AvailabilityProps> = (props) => {
               ? "This car is booked. It's hence unavailable."
               : "This car is available now"}
           </label>
-        </div>
-        <small>
-          Add custom availability date and time.{" "}
+        </div> */}
+        {/*<small>
+           Add custom availability date and time.{" "}
           <b>
             Note: not adding custom date and time means your car can be rented
             any date and time
@@ -319,8 +338,6 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             value="something"
             checked={values?.custom_availability ?? false}
             onChange={handleChange}
-            // disabled={props.booked}
-            // required
           />
           <label className="form-check-label">Custom Date</label>
         </div>
@@ -397,12 +414,12 @@ export const Availability: FC<AvailabilityProps> = (props) => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
         {props.isManage ? (
           <UpdateBtn
             loading={loading}
-            disabled={props.verificationInProgress}
+            // disabled={props.verificationInProgress}
           />
         ) : (
           <FormNextPrevButton

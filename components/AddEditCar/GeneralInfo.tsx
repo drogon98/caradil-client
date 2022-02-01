@@ -48,7 +48,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
       reg_no: props.value.reg_no,
       make: props.value.make,
       odometer_reading: props.value.odometer_reading,
-      is_gps_enabled: props.value.is_gps_enabled,
+      has_driver: props.value.has_driver,
+      // is_gps_enabled: props.value.is_gps_enabled,
     };
 
     setValues({ ...tempData });
@@ -64,7 +65,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
       });
     } else if (e.target.name === "odometer_reading") {
       setValues({ ...values!, [e.target.name]: parseInt(e.target.value, 10) });
-    } else if (e.target.name === "is_gps_enabled") {
+    } else if (e.target.name === "has_driver") {
       setValues({
         ...values!,
         [e.target.name]: e.target.value === "true" ? true : false,
@@ -97,10 +98,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           options: {
             ...values!,
             name: values?.name.trim()!,
-            is_gps_enabled:
-              values?.is_gps_enabled === undefined
-                ? false
-                : values.is_gps_enabled,
+            has_driver:
+              values?.has_driver === undefined ? false : values.has_driver,
           },
           isEdit: props.isResume || props.isManage ? true : false,
           carId: props.carId,
@@ -289,10 +288,10 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             <input
               className="form-check-input"
               type="checkbox"
-              value={values?.is_gps_enabled ? "false" : "true"}
+              value={values?.has_driver ? "false" : "true"}
               id="gps-enabled"
-              checked={values?.is_gps_enabled}
-              name="is_gps_enabled"
+              checked={values?.has_driver}
+              name="has_driver"
               onChange={handleChange}
               disabled={props.isManage && !props.isEdit}
             />
@@ -301,7 +300,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             </label>
           </div>
         </div>
-        {!values?.is_gps_enabled && (
+        {!values?.has_driver && (
           <div>
             <small>
               Listing a car that is not GPS enabled is at your own risk. GPS
@@ -336,7 +335,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             loading={loading}
             disabled={
               loading ||
-              !values?.is_gps_enabled ||
+              !values?.has_driver ||
               props.isManage ||
               props.verificationInProgress
             }
@@ -344,7 +343,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         ) : (
           <FormNextPrevButton
             loading={loading}
-            disabled={loading || !values?.is_gps_enabled}
+            disabled={loading || !values?.has_driver}
             setActiveSlide={props.setActiveSlide!}
             activeSlide={props.activeSlide!}
           />

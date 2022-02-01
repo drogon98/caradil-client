@@ -18,7 +18,8 @@ query GetHostCars {
     reg_no
     daily_rate
     booked
-    available
-    verification_in_progress
+    published
+    # available
+    # verification_in_progress
   }
 }

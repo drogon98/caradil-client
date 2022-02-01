@@ -102,9 +102,33 @@ export const Rates: FC<RatesProps> = (props) => {
           </small>
         )}
 
-        {/* <div>
+        {}
+
+        <div className="mb-4">
           <label htmlFor="mileage">Hourly Rate</label>
-          <input
+          <div>
+            <small>
+              This is amount guest will pay for your car in an hour. It should
+              include the driver fee
+            </small>
+          </div>
+
+          <div className="input-group car-input-width mb-3">
+            <input
+              type="number"
+              name="hourly_rate"
+              className="form-control"
+              value={props.value.hourly_rate}
+              required
+              onChange={handleChange}
+              placeholder="eg John Doe"
+              min={0}
+              // placeholder="eg John Doe"
+              onFocus={handleFocus}
+            />
+            <span className="input-group-text">KSH</span>
+          </div>
+          {/* <input
             type="number"
             name="hourly_rate"
             className="form-control"
@@ -112,12 +136,15 @@ export const Rates: FC<RatesProps> = (props) => {
             required
             onChange={handleChange}
             placeholder="eg John Doe"
-          />
-        </div> */}
+          /> */}
+        </div>
         <div className="mb-4">
           <label htmlFor="mileage">Daily Rate</label>
           <div>
-            <small>This is amount guest will pay for your car in a day</small>
+            <small>
+              This is amount guest will pay for your car in a day. It should
+              include the driver fee
+            </small>
           </div>
 
           <div className="input-group car-input-width mb-3">
@@ -238,7 +265,7 @@ export const Rates: FC<RatesProps> = (props) => {
                 <b>Note: This rate is daily.</b>
               </small>
             </div>
-            <div className="input-group car-input-width mb-3">
+            {/* <div className="input-group car-input-width mb-3">
               <input
                 type="number"
                 name="driver_daily_rate"
@@ -248,7 +275,7 @@ export const Rates: FC<RatesProps> = (props) => {
                 onChange={handleChange}
               />
               <span className="input-group-text">KSH</span>
-            </div>
+            </div> */}
             {/* <input
               type="number"
               name="driver_daily_rate"

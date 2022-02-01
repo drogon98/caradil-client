@@ -31,7 +31,7 @@ import {
   Car,
   CustomAvailabilityObj,
   Maybe,
-  useCheckIfDriverIsApprovedToDriveLazyQuery,
+  // useCheckIfDriverIsApprovedToDriveLazyQuery,
   useGetCarQuery,
   useUpdateCarFavouriteMutation,
 } from "../../graphql_types/generated/graphql";
@@ -90,12 +90,13 @@ const Car: FC<CarProps> = (props) => {
   const pickDatesRef = useRef<HTMLDivElement>(null);
   useOutsideClickHandler(pickDatesRef, setSelectingDates, pickDatesButtonRef);
 
-  const [
-    checkIfDriverIsApproved,
-    { data: approvedData, loading: approvedLoading },
-  ] = useCheckIfDriverIsApprovedToDriveLazyQuery({
-    fetchPolicy: "network-only",
-  });
+  // const [
+  //   checkIfDriverIsApproved,
+  //   { data: approvedData, loading: approvedLoading },
+  // ] = useCheckIfDriverIsApprovedToDriveLazyQuery({
+  //   fetchPolicy: "network-only",
+  // });
+
   const [updateFavourite, { loading: updatingFavourite }] =
     useUpdateCarFavouriteMutation();
 
@@ -103,25 +104,25 @@ const Car: FC<CarProps> = (props) => {
 
   const carId = parseInt(router.query.id as string, 10);
 
-  useEffect(() => {
-    const redirect = async () => {
-      if (approvedData?.checkIfDriverIsApprovedToDrive) {
-        if (approvedData?.checkIfDriverIsApprovedToDrive.error) {
-        } else if (approvedData?.checkIfDriverIsApprovedToDrive.approved) {
-          await router.push({
-            pathname: "/checkout/confirm-order",
-            query: { carId, ...userDates, approved: true },
-          });
-        } else if (!approvedData?.checkIfDriverIsApprovedToDrive.approved) {
-          await router.push({
-            pathname: "/checkout/approve-driver",
-            query: { carId, ...userDates, approved: false },
-          });
-        }
-      }
-    };
-    redirect();
-  }, [approvedData]);
+  // useEffect(() => {
+  //   const redirect = async () => {
+  //     if (approvedData?.checkIfDriverIsApprovedToDrive) {
+  //       if (approvedData?.checkIfDriverIsApprovedToDrive.error) {
+  //       } else if (approvedData?.checkIfDriverIsApprovedToDrive.approved) {
+  // await router.push({
+  //   pathname: "/checkout/confirm-order",
+  //   query: { carId, ...userDates, approved: true },
+  // });
+  //       } else if (!approvedData?.checkIfDriverIsApprovedToDrive.approved) {
+  //         await router.push({
+  //           pathname: "/checkout/approve-driver",
+  //           query: { carId, ...userDates, approved: false },
+  //         });
+  //       }
+  //     }
+  //   };
+  //   redirect();
+  // }, [approvedData]);
 
   useEffect(() => {
     if (carId) {
@@ -174,7 +175,11 @@ const Car: FC<CarProps> = (props) => {
   const handleRouteNext = async (e: SyntheticEvent<HTMLButtonElement>) => {
     // console.log("Helloo :>> ");
     e.preventDefault();
-    checkIfDriverIsApproved();
+    await router.push({
+      pathname: "/checkout/confirm-order",
+      query: { carId, ...userDates, approved: true },
+    });
+    // checkIfDriverIsApproved();
     // const response = checkIfDriverIsApproved();
     // console.log("response :>> ", response);
   };
@@ -393,7 +398,7 @@ const Car: FC<CarProps> = (props) => {
                 <div>
                   <div className="carDetailsChargeCard  px-2 py-3 shadow">
                     <div>
-                      {!car?.available && (
+                      {(car?.booked || !car?.published) && (
                         <>
                           <small className="fw-bolder text-danger">
                             This car is unavailable!
@@ -444,6 +449,7 @@ const Car: FC<CarProps> = (props) => {
                       userDates={userDates}
                       setTotalCharge={setTotalCharge}
                       car={car!}
+                      hasCustomAvailability={car?.custom_availability!}
                     />
 
                     <div className="d-grid gap-2">
@@ -454,16 +460,19 @@ const Car: FC<CarProps> = (props) => {
                         <button
                           className="btn bgOrange"
                           onClick={handleRouteNext}
-                          disabled={!validDates || !car?.available}
+                          disabled={
+                            !validDates || car?.booked || !car?.published
+                          }
                         >
-                          {approvedLoading ? (
+                          Continue
+                          {/* {approvedLoading ? (
                             <ButtonLoading
                               spinnerColor="white"
                               dimensions={{ height: "18px", width: "18px" }}
                             />
                           ) : (
                             "Continue"
-                          )}
+                          )} */}
                         </button>
                       ) : (
                         // </button>
@@ -490,7 +499,7 @@ const Car: FC<CarProps> = (props) => {
             </div>
             {/* </div> */}
             <div className="car-small-screen-bottom d-flex flex-column justify-content-around p-2">
-              {!car?.available && (
+              {(car?.booked || !car?.published) && (
                 <div
                   style={{ height: "10px", fontSize: "12px" }}
                   className="mb-3"
@@ -527,9 +536,7 @@ const Car: FC<CarProps> = (props) => {
               )}
 
               <div
-                className={`d-flex justify-content-between align-items-center ${
-                  car?.available && `h-100`
-                }`}
+                className={`d-flex justify-content-between align-items-center`}
               >
                 <div>
                   <h5 className="m-0">
@@ -539,7 +546,7 @@ const Car: FC<CarProps> = (props) => {
 
                 <button
                   onClick={handleSelectDates}
-                  disabled={!car?.available}
+                  disabled={car?.booked || !car?.published}
                   className="btn m-0 p-0"
                   style={{ fontSize: "500" }}
                   ref={pickDatesButtonRef}
@@ -572,6 +579,7 @@ const Car: FC<CarProps> = (props) => {
                     userDates={userDates}
                     setTotalCharge={setTotalCharge}
                     car={car!}
+                    hasCustomAvailability={car?.custom_availability!}
                   />
                   <div className="d-grid gap-2">
                     {token && role ? (
@@ -580,14 +588,15 @@ const Car: FC<CarProps> = (props) => {
                         onClick={handleRouteNext}
                         disabled={!validDates}
                       >
-                        {approvedLoading ? (
+                        Continue
+                        {/* {approvedLoading ? (
                           <ButtonLoading
                             spinnerColor="white"
                             dimensions={{ height: "18px", width: "18px" }}
                           />
                         ) : (
                           "Continue"
-                        )}
+                        )} */}
                       </button>
                     ) : (
                       <LoginWithModal>

@@ -7,7 +7,7 @@ interface DocumentContentProps {
   deleteHandler: any;
   docUrl: string;
   // isVerified: boolean;
-  verificationInProgress?: boolean;
+  // verificationInProgress?: boolean;
   isManage?: boolean;
   isEdit?: boolean;
   deleteLoading: boolean;

@@ -2,7 +2,6 @@ mutation EditCarPhotos($carId: Float!, $input: CarPhotosInput!) {
   editCarPhotos(carId: $carId, input: $input) {
     error
     carId
-    verified
     car {
       ...carPrivateInfo
     }
