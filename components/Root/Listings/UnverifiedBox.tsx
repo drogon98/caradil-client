@@ -1,7 +1,7 @@
 import React, { FC, SyntheticEvent } from "react";
 import {
   Car,
-  useEditCarVerifiedMutation,
+  // useEditCarVerifiedMutation,
 } from "../../../graphql_types/generated/graphql";
 
 interface UnverifiedBoxProps {
@@ -9,7 +9,7 @@ interface UnverifiedBoxProps {
 }
 
 export const UnverifiedBox: FC<UnverifiedBoxProps> = (props) => {
-  const [editVerified, { loading }] = useEditCarVerifiedMutation();
+  // const [editVerified, { loading }] = useEditCarVerifiedMutation();
 
   const handleClick = async (e: SyntheticEvent<HTMLButtonElement>) => {
     console.log("e :>> ", e);
