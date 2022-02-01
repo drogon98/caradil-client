@@ -7,7 +7,7 @@ import React, {
 import { Modal } from "react-bootstrap";
 import {
   Car,
-  useCreateEditCarRequestMutation,
+  // useCreateEditCarRequestMutation,
 } from "../../../graphql_types/generated/graphql";
 import { ButtonLoading } from "../../Loading/ButtonLoading";
 
@@ -20,19 +20,19 @@ interface Props {
 }
 
 export default function RequestEditModal(props: Props): ReactElement {
-  const [createEditRequest, { loading }] = useCreateEditCarRequestMutation();
+  // const [createEditRequest, { loading }] = useCreateEditCarRequestMutation();
 
   const handleRequestEdit = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     try {
-      const response = await createEditRequest({
-        variables: { carId: props.carId },
-      });
-      if (response.data?.createEditRequest.car?.id) {
-        props.setCarData(response.data?.createEditRequest.car);
-      }
-      props.handleClose();
+      // const response = await createEditRequest({
+      //   variables: { carId: props.carId },
+      // });
+      // if (response.data?.createEditRequest.car?.id) {
+      //   props.setCarData(response.data?.createEditRequest.car);
+      // }
+      // props.handleClose();
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -80,17 +80,17 @@ export default function RequestEditModal(props: Props): ReactElement {
           <button
             type="submit"
             className="btn bgOrange"
-            disabled={loading || props.booked}
+            // disabled={loading || props.booked}
             onClick={handleRequestEdit}
           >
-            {loading ? (
+            {/* {loading ? (
               <ButtonLoading
                 spinnerColor="white"
                 dimensions={{ height: "24px", width: "24px" }}
               />
             ) : (
               "Request Edit"
-            )}
+            )} */}
           </button>
         </div>
       </Modal.Body>
