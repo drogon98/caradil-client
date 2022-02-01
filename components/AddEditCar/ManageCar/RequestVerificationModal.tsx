@@ -7,7 +7,7 @@ import React, {
 import { Modal } from "react-bootstrap";
 import {
   Car,
-  useEditCarVerificationInProgressMutation,
+  // useEditCarVerificationInProgressMutation,
 } from "../../../graphql_types/generated/graphql";
 import { ButtonLoading } from "../../Loading/ButtonLoading";
 
@@ -19,21 +19,21 @@ interface Props {
 }
 
 export default function RequestVerificationModal(props: Props): ReactElement {
-  const [editCarVerificationInProgress, { loading }] =
-    useEditCarVerificationInProgressMutation();
+  // const [editCarVerificationInProgress, { loading }] =
+  //   useEditCarVerificationInProgressMutation();
 
   const handleRequestVerification = async (
     e: SyntheticEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
     try {
-      const response = await editCarVerificationInProgress({
-        variables: { carId: props.carId },
-      });
-      if (response.data?.editCarVerificationInProgress.car?.id) {
-        props.setCarData(response.data?.editCarVerificationInProgress.car);
-        props.handleClose();
-      }
+      // const response = await editCarVerificationInProgress({
+      //   variables: { carId: props.carId },
+      // });
+      // if (response.data?.editCarVerificationInProgress.car?.id) {
+      //   props.setCarData(response.data?.editCarVerificationInProgress.car);
+      //   props.handleClose();
+      // }
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -54,17 +54,17 @@ export default function RequestVerificationModal(props: Props): ReactElement {
           <button
             type="submit"
             className="btn bgOrange"
-            disabled={loading}
+            // disabled={loading}
             onClick={handleRequestVerification}
           >
-            {loading ? (
+            {/* {loading ? (
               <ButtonLoading
                 spinnerColor="white"
                 dimensions={{ height: "24px", width: "24px" }}
               />
             ) : (
               "Request Verification"
-            )}
+            )} */}
           </button>
         </div>
       </Modal.Body>

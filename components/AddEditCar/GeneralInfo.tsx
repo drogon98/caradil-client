@@ -30,7 +30,7 @@ interface GeneralInfoProps {
   isEdit?: boolean; // Under Manage
   booked?: boolean;
   hasEditRequest?: boolean;
-  verificationInProgress?: boolean;
+  // verificationInProgress?: boolean;
 }
 
 export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
@@ -310,7 +310,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           </div>
         )}
 
-        {!props.isEdit && props.isManage && !props.verificationInProgress && (
+        {!props.isEdit && props.isManage && (
           <div className="mt-3">
             <small>
               This information is only editable with permisson from the admin.{" "}
@@ -333,12 +333,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         {props.isManage ? (
           <UpdateBtn
             loading={loading}
-            disabled={
-              loading ||
-              !values?.has_driver ||
-              props.isManage ||
-              props.verificationInProgress
-            }
+            disabled={loading || !values?.has_driver || props.isManage}
           />
         ) : (
           <FormNextPrevButton

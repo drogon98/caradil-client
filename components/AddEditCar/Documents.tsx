@@ -34,7 +34,7 @@ interface DocumentsProps {
   isManage?: boolean;
   booked?: boolean;
   hasEditRequest?: boolean;
-  verificationInProgress?: boolean;
+  // verificationInProgress?: boolean;
 }
 
 export const Documents: FC<DocumentsProps> = (props) => {
@@ -269,7 +269,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
               deleteHandler={handleDeleteDoc}
               docUrl={documents.documents[0]?.file?.secure_url}
               title="national_id"
-              verificationInProgress={props.verificationInProgress}
+              // verificationInProgress={props.verificationInProgress}
               isEdit={props.isEdit}
               isManage={props.isManage}
               deleteLoading={deleteLoading}
@@ -281,10 +281,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
                   type="file"
                   accept="image/*,.pdf"
                   onChange={(e) => handleUpload(e, "national_id")}
-                  disabled={
-                    (props.isManage && !props.isEdit) ||
-                    props.verificationInProgress
-                  }
+                  disabled={props.isManage && !props.isEdit}
                   // disabled={saving}
                 />
                 <span>
@@ -298,7 +295,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
               </div>
               <DocumentContent
                 // isVerified={props.carVerified!}
-                verificationInProgress={props.verificationInProgress}
+                // verificationInProgress={props.verificationInProgress}
                 isEdit={props.isEdit}
                 isManage={props.isManage}
                 deleteHandler={handleDeleteDoc}
@@ -315,7 +312,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
           {props.carVerified ? (
             <DocumentContent
               // isVerified={props.carVerified}
-              verificationInProgress={props.verificationInProgress}
+              // verificationInProgress={props.verificationInProgress}
               isEdit={props.isEdit}
               isManage={props.isManage}
               deleteHandler={handleDeleteDoc}
@@ -330,10 +327,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
                   type="file"
                   accept="image/*,.pdf"
                   onChange={(e) => handleUpload(e, "logbook")}
-                  disabled={
-                    (props.isManage && !props.isEdit) ||
-                    props.verificationInProgress
-                  }
+                  disabled={props.isManage && !props.isEdit}
                   // disabled={saving}
                 />
                 <span>
@@ -347,7 +341,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
               </div>
               <DocumentContent
                 // isVerified={props.carVerified!}
-                verificationInProgress={props.verificationInProgress}
+                // verificationInProgress={props.verificationInProgress}
                 isEdit={props.isEdit}
                 isManage={props.isManage}
                 deleteHandler={handleDeleteDoc}
@@ -359,7 +353,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
           )}
         </div>
 
-        {!props.isEdit && props.isManage && !props.verificationInProgress && (
+        {!props.isEdit && props.isManage && (
           <div className="mt-3">
             <small>
               This information is only editable with permisson from the admin.{" "}
@@ -456,9 +450,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
         {props.isManage ? (
           <UpdateBtn
             loading={loading && !secondaryLoading}
-            disabled={
-              documents.documents.length < 2 || props.verificationInProgress
-            }
+            disabled={documents.documents.length < 2}
           />
         ) : (
           <FormNextPrevButton

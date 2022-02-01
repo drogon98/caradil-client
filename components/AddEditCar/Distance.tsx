@@ -22,7 +22,7 @@ interface DistanceProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   isManage?: boolean;
-  verificationInProgress?: boolean;
+  // verificationInProgress?: boolean;
 }
 
 export const Distance: FC<DistanceProps> = (props) => {
@@ -212,7 +212,7 @@ export const Distance: FC<DistanceProps> = (props) => {
         {props.isManage ? (
           <UpdateBtn
             loading={loading}
-            disabled={props.verificationInProgress}
+            // disabled={props.verificationInProgress}
           />
         ) : (
           <FormNextPrevButton

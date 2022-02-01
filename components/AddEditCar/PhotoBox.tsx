@@ -5,7 +5,7 @@ import { FileInput } from "../../graphql_types/generated/graphql";
 interface PhotoBoxProps {
   photo: FileInput;
   deletePhoto: (id: string) => void;
-  verificationInProgress?: boolean;
+  // verificationInProgress?: boolean;
   isManage?: boolean;
   isEdit?: boolean;
 }
@@ -30,7 +30,7 @@ export const PhotoBox: FC<PhotoBoxProps> = (props) => {
           <button
             className="btn p-0 m-0"
             onClick={handleClick}
-            disabled={props.verificationInProgress}
+            // disabled={props.verificationInProgress}
           >
             <FaTrash style={{ color: "orange" }} />
           </button>

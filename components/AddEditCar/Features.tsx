@@ -28,7 +28,7 @@ interface FeaturesProps {
   isEdit?: boolean;
   booked?: boolean;
   hasEditRequest?: boolean;
-  verificationInProgress?: boolean;
+  // verificationInProgress?: boolean;
 }
 
 export const Features: FC<FeaturesProps> = (props) => {
@@ -244,7 +244,7 @@ export const Features: FC<FeaturesProps> = (props) => {
           </div>
         </div>
 
-        {!props.isEdit && props.isManage && !props.verificationInProgress && (
+        {!props.isEdit && props.isManage && (
           <div className="mt-3">
             <small>
               This information above is only editable with permisson from the
@@ -291,7 +291,7 @@ export const Features: FC<FeaturesProps> = (props) => {
         {props.isManage ? (
           <UpdateBtn
             loading={loading}
-            disabled={props.verificationInProgress}
+            // disabled={props.verificationInProgress}
           />
         ) : (
           <FormNextPrevButton

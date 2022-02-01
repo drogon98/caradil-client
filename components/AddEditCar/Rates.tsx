@@ -27,7 +27,7 @@ interface RatesProps {
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   compData: Car;
   isManage?: boolean;
-  verificationInProgress?: boolean;
+  // verificationInProgress?: boolean;
 }
 
 export const Rates: FC<RatesProps> = (props) => {
@@ -324,7 +324,7 @@ export const Rates: FC<RatesProps> = (props) => {
         {props.isManage ? (
           <UpdateBtn
             loading={loading}
-            disabled={props.verificationInProgress}
+            // disabled={props.verificationInProgress}
           />
         ) : (
           <FormNextPrevButton

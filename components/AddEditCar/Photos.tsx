@@ -33,7 +33,7 @@ interface PhotosProps {
   isEdit?: boolean; // Under Manage
   booked?: boolean;
   hasEditRequest?: boolean;
-  verificationInProgress?: boolean;
+  // verificationInProgress?: boolean;
 }
 
 export const Photos: FC<PhotosProps> = (props) => {
@@ -200,9 +200,7 @@ export const Photos: FC<PhotosProps> = (props) => {
             type="file"
             accept="image/*"
             onChange={handleUpload}
-            disabled={
-              (props.isManage && !props.isEdit) || props.verificationInProgress
-            }
+            disabled={props.isManage && !props.isEdit}
           />
           <span>
             {(uploading || deleteLoading) && (
@@ -226,14 +224,14 @@ export const Photos: FC<PhotosProps> = (props) => {
                 photo={photo}
                 deletePhoto={deletePhoto}
                 key={photo.public_id}
-                verificationInProgress={props.verificationInProgress}
+                // verificationInProgress={props.verificationInProgress}
                 isEdit={props.isEdit}
                 isManage={props.isManage}
               />
             ))}
         </div>
 
-        {!props.isEdit && props.isManage && !props.verificationInProgress && (
+        {!props.isEdit && props.isManage && (
           <div className="mt-3">
             <small>
               This information is only editable with permisson from the admin.{" "}
@@ -256,10 +254,7 @@ export const Photos: FC<PhotosProps> = (props) => {
         {props.isManage ? (
           <UpdateBtn
             loading={loading && !secondaryLoading}
-            disabled={
-              (values?.photos && values?.photos?.length < 5) ||
-              props.verificationInProgress
-            }
+            disabled={values?.photos && values?.photos?.length < 5}
           />
         ) : (
           <FormNextPrevButton
