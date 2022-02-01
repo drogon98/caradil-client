@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useEditCarPublishedMutation } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 import { useRole } from "../hooks/useRole";
 import { UserNavIcon } from "./UserNavIcon";
@@ -13,6 +15,10 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
   const [isAuth, setIsAuth] = useState<boolean>();
+  const router = useRouter();
+  const [isCarPreview, setIsCarPreview] = useState(false);
+  const [editCarPublished, { loading }] = useEditCarPublishedMutation();
+  const [carId, setCarId] = useState<number>();
 
   useEffect(() => {
     if (token) {
@@ -22,7 +28,44 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
     }
   }, [token]);
 
-  // console.log("token :>> ", token);
+  useEffect(() => {
+    if (router && router.query) {
+      try {
+        let tempIsCarPreview = router.query.is_car_preview;
+        if (tempIsCarPreview) {
+          setIsCarPreview(true);
+
+          let tempId = parseInt(router.query.id as string);
+          if (isNaN(tempId)) {
+            throw new Error("Invalid car Id");
+          }
+
+          setCarId(tempId);
+        }
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
+    }
+  }, [router]);
+
+  const handleClick = async (e: any) => {
+    try {
+      const response = await editCarPublished({
+        variables: { carId: carId! },
+      });
+      if (response.data?.editCarPublished) {
+        sessionStorage.removeItem("carId");
+
+        // Do something like a toast
+        await router.replace("/account/listings");
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
+
+  console.log("carId :>> ", carId);
+
   return (
     <div
       className={
@@ -121,6 +164,21 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
           </div>
         </div>
       </div>
+      {isCarPreview && (
+        <div className="main-navbar-car-preview-banner bg-warning text-center">
+          <span className="d-flex justify-content-center align-items-center">
+            {" "}
+            <small>
+              This is the preview of you car. If you are ok with it,{" "}
+            </small>
+            <button className="btn m-0 p-0" onClick={handleClick}>
+              <small>
+                <b>Publish It</b>
+              </small>
+            </button>
+          </span>
+        </div>
+      )}
     </div>
   );
 };

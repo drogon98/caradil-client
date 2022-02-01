@@ -139,7 +139,7 @@ export const TripDates: FC<TripDatesProps> = (props) => {
     props.setTripDates({ ...props.userDates, [e.target.name]: e.target.value });
   };
 
-  console.log("minDate :>> ", minDate);
+  // console.log("minDate :>> ", minDate);
   // console.log("maxDate :>> ", maxDate);
   // console.log("props.values :>> ", props.values);
 

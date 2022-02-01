@@ -242,7 +242,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
               </div>
             )}
         </div> */}
-        <div className="form-check mb-5">
+        <div className="form-check mb-3">
           <input
             className="form-check-input"
             type="checkbox"
@@ -296,7 +296,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
               <option value="24hrs">24hrs before the trip</option>
             </select>
           </div>
-          <div>
+          <div className="mt-2">
             <small>
               Enough advance time will help you prepare your car for the guest.
               eg Cleaning it,fueling it etc

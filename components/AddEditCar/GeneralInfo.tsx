@@ -296,16 +296,16 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               disabled={props.isManage && !props.isEdit}
             />
             <label className="form-check-label" htmlFor="gps-enabled">
-              Is GPS Enabled?
+              Will Provide Driver?
             </label>
           </div>
         </div>
         {!values?.has_driver && (
           <div>
-            <small>
-              Listing a car that is not GPS enabled is at your own risk. GPS
-              will help track your car in case of any complication.{" "}
-              <b>We only list cars that are GPS enabled.</b>
+            <small className="text-danger">
+              <b>
+                We are only listings cars that will have drivers on renting.
+              </b>
             </small>
           </div>
         )}

@@ -1,4 +1,6 @@
+import { useRouter } from "next/router";
 import React, { ReactElement, useEffect, useState } from "react";
+import { BsArrowLeft } from "react-icons/bs";
 import {
   Car,
   CarAvailabilityInput,
@@ -12,15 +14,13 @@ import { Categories } from "../AddEditCar/Categories";
 import { Description } from "../AddEditCar/Description";
 import { Distance } from "../AddEditCar/Distance";
 import { Documents } from "../AddEditCar/Documents";
+import { Features } from "../AddEditCar/Features";
 import { GeneralInfo } from "../AddEditCar/GeneralInfo";
 import { Location } from "../AddEditCar/LocationAndDelivery";
 import { Photos } from "../AddEditCar/Photos";
-import { Features } from "../AddEditCar/Features";
+import Publish from "../AddEditCar/Publish";
 import { Rates } from "../AddEditCar/Rates";
-import { useRouter } from "next/router";
 import { Loading } from "../Loading";
-import Finish from "../AddEditCar/Finish";
-import { BsArrowLeft } from "react-icons/bs";
 
 interface Props {
   data?: any;
@@ -434,9 +434,15 @@ export default function CarDataStepForm(props: Props): ReactElement {
 
       {activeSlide === 10 && (
         <div className="col-md-7 col-lg-6 mx-auto mt-5">
-          <Finish carId={carId} />
+          <Publish carId={carId} car={compData!} />
         </div>
       )}
+
+      {/* {activeSlide === 11 && (
+        <div className="col-md-7 col-lg-6 mx-auto mt-5">
+          <Finish carId={carId} />
+        </div>
+      )} */}
     </div>
   );
 }

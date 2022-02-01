@@ -872,6 +872,13 @@ export type EditCarPhotosMutationVariables = Exact<{
 
 export type EditCarPhotosMutation = { __typename?: 'Mutation', editCarPhotos: { __typename?: 'CarAddEditResponse', error?: string | null | undefined, carId?: number | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
 
+export type EditCarPublishedMutationVariables = Exact<{
+  carId: Scalars['Float'];
+}>;
+
+
+export type EditCarPublishedMutation = { __typename?: 'Mutation', editCarPublished: boolean };
+
 export type EditCarRatesMutationVariables = Exact<{
   carId: Scalars['Float'];
   input: CarRatesInput;
@@ -1856,6 +1863,37 @@ export function useEditCarPhotosMutation(baseOptions?: Apollo.MutationHookOption
 export type EditCarPhotosMutationHookResult = ReturnType<typeof useEditCarPhotosMutation>;
 export type EditCarPhotosMutationResult = Apollo.MutationResult<EditCarPhotosMutation>;
 export type EditCarPhotosMutationOptions = Apollo.BaseMutationOptions<EditCarPhotosMutation, EditCarPhotosMutationVariables>;
+export const EditCarPublishedDocument = gql`
+    mutation EditCarPublished($carId: Float!) {
+  editCarPublished(carId: $carId)
+}
+    `;
+export type EditCarPublishedMutationFn = Apollo.MutationFunction<EditCarPublishedMutation, EditCarPublishedMutationVariables>;
+
+/**
+ * __useEditCarPublishedMutation__
+ *
+ * To run a mutation, you first call `useEditCarPublishedMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditCarPublishedMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editCarPublishedMutation, { data, loading, error }] = useEditCarPublishedMutation({
+ *   variables: {
+ *      carId: // value for 'carId'
+ *   },
+ * });
+ */
+export function useEditCarPublishedMutation(baseOptions?: Apollo.MutationHookOptions<EditCarPublishedMutation, EditCarPublishedMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditCarPublishedMutation, EditCarPublishedMutationVariables>(EditCarPublishedDocument, options);
+      }
+export type EditCarPublishedMutationHookResult = ReturnType<typeof useEditCarPublishedMutation>;
+export type EditCarPublishedMutationResult = Apollo.MutationResult<EditCarPublishedMutation>;
+export type EditCarPublishedMutationOptions = Apollo.BaseMutationOptions<EditCarPublishedMutation, EditCarPublishedMutationVariables>;
 export const EditCarRatesDocument = gql`
     mutation EditCarRates($carId: Float!, $input: CarRatesInput!) {
   editCarRates(carId: $carId, input: $input) {

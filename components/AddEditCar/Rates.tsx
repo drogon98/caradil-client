@@ -118,7 +118,7 @@ export const Rates: FC<RatesProps> = (props) => {
               type="number"
               name="hourly_rate"
               className="form-control"
-              value={props.value.hourly_rate}
+              value={values?.hourly_rate}
               required
               onChange={handleChange}
               placeholder="eg John Doe"
@@ -255,7 +255,7 @@ export const Rates: FC<RatesProps> = (props) => {
           </div>
         )} */}
 
-        {props.compData?.has_driver && (
+        {/* {props.compData?.has_driver && (
           <div className="mb-4">
             <label htmlFor="discount_days">Driver Daily Rate</label>
             <div>
@@ -265,7 +265,7 @@ export const Rates: FC<RatesProps> = (props) => {
                 <b>Note: This rate is daily.</b>
               </small>
             </div>
-            {/* <div className="input-group car-input-width mb-3">
+            <div className="input-group car-input-width mb-3">
               <input
                 type="number"
                 name="driver_daily_rate"
@@ -275,8 +275,8 @@ export const Rates: FC<RatesProps> = (props) => {
                 onChange={handleChange}
               />
               <span className="input-group-text">KSH</span>
-            </div> */}
-            {/* <input
+            </div>
+            <input
               type="number"
               name="driver_daily_rate"
               className="form-control"
@@ -284,9 +284,9 @@ export const Rates: FC<RatesProps> = (props) => {
               required
               onChange={handleChange}
               // placeholder="eg 200"
-            /> */}
+            />
           </div>
-        )}
+        )} */}
 
         {props.compData?.delivery && (
           <div className="mb-4">
