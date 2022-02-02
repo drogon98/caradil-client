@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useEditCarPublishedMutation } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 import { useRole } from "../hooks/useRole";
+import { LogoutOverlay } from "../LogoutOverlay";
 import { UserNavIcon } from "./UserNavIcon";
 
 interface MainNavbarProps {
@@ -19,6 +20,7 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
   const [isCarPreview, setIsCarPreview] = useState(false);
   const [editCarPublished, { loading }] = useEditCarPublishedMutation();
   const [carId, setCarId] = useState<number>();
+  const loggingOut = useAppSelector((state) => state.logout.loggingOut);
 
   useEffect(() => {
     if (token) {
@@ -64,7 +66,7 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
     }
   };
 
-  console.log("carId :>> ", carId);
+  // console.log("carId :>> ", carId);
 
   return (
     <div
@@ -168,17 +170,16 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
         <div className="main-navbar-car-preview-banner bg-warning text-center">
           <span className="d-flex justify-content-center align-items-center">
             {" "}
-            <small>
-              This is the preview of you car. If you are ok with it,{" "}
-            </small>
+            <small>This is the preview of your car. If its ok, </small>
             <button className="btn m-0 p-0" onClick={handleClick}>
               <small>
-                <b>Publish It</b>
+                <b>Publish It Now</b>
               </small>
             </button>
           </span>
         </div>
       )}
+      {loggingOut && <LogoutOverlay />}
     </div>
   );
 };

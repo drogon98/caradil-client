@@ -42,7 +42,7 @@ const uploadButton = (
       hidden
     />
     <label htmlFor="actual-btn" id="upload-btn-label" className="btn">
-      {loading ? "Uploading..." : isChange ? "Change File" : "Choose File"}
+      {loading ? "Uploading..." : isChange ? "Change Photo" : "Choose Photo"}
     </label>
   </>
 );

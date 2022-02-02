@@ -230,7 +230,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               onBlur={handleCarNameBlur}
               onKeyUp={handleNameType}
               onFocus={handleNameFocus}
-              disabled={props.isManage && !props.isEdit}
+              // disabled={props.isManage && !props.isEdit}
             />
           </div>
           <div className="col">
@@ -241,7 +241,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               onChange={handleChange}
               value={values?.make}
               name="make"
-              disabled={props.isManage && !props.isEdit}
+              // disabled={props.isManage && !props.isEdit}
               required
             >
               <option value={""}>Select Make</option>
@@ -264,7 +264,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               required
               onChange={handleChange}
               placeholder="eg KBA111C"
-              disabled={props.isManage && !props.isEdit}
+              // disabled={props.isManage && !props.isEdit}
             />
           </div>
           <div className="col-6">
@@ -279,7 +279,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               placeholder="eg 80000"
               min={0}
               onFocus={handleOdoFocus}
-              disabled={props.isManage && !props.isEdit}
+              // disabled={props.isManage && !props.isEdit}
             />
           </div>
         </div>
@@ -296,7 +296,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               disabled={props.isManage && !props.isEdit}
             />
             <label className="form-check-label" htmlFor="gps-enabled">
-              Will Provide Driver?
+              I Will Provide a Driver?
             </label>
           </div>
         </div>
@@ -310,7 +310,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           </div>
         )}
 
-        {!props.isEdit && props.isManage && (
+        {/* {!props.isEdit && props.isManage && (
           <div className="mt-3">
             <small>
               This information is only editable with permisson from the admin.{" "}
@@ -328,13 +328,10 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               </button>
             </small>
           </div>
-        )}
+        )} */}
 
         {props.isManage ? (
-          <UpdateBtn
-            loading={loading}
-            disabled={loading || !values?.has_driver || props.isManage}
-          />
+          <UpdateBtn loading={loading} disabled={loading} />
         ) : (
           <FormNextPrevButton
             loading={loading}

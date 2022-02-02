@@ -281,7 +281,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
                   type="file"
                   accept="image/*,.pdf"
                   onChange={(e) => handleUpload(e, "national_id")}
-                  disabled={props.isManage && !props.isEdit}
+                  // disabled={props.isManage && !props.isEdit}
                   // disabled={saving}
                 />
                 <span>
@@ -327,7 +327,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
                   type="file"
                   accept="image/*,.pdf"
                   onChange={(e) => handleUpload(e, "logbook")}
-                  disabled={props.isManage && !props.isEdit}
+                  // disabled={props.isManage && !props.isEdit}
                   // disabled={saving}
                 />
                 <span>
@@ -353,7 +353,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
           )}
         </div>
 
-        {!props.isEdit && props.isManage && (
+        {/* {!props.isEdit && props.isManage && (
           <div className="mt-3">
             <small>
               This information is only editable with permisson from the admin.{" "}
@@ -371,7 +371,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
               </button>
             </small>
           </div>
-        )}
+        )} */}
 
         {/* <br />
         <label>Car Purchase Receipt (Optional)</label>

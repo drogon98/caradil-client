@@ -7,9 +7,11 @@ import {
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./authSlice";
+import logoutReducer from "./logoutSlice";
 
 const reducers = combineReducers({
   auth: authReducer,
+  logout: logoutReducer,
 });
 
 const persistConfig = {

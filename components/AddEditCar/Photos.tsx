@@ -200,7 +200,7 @@ export const Photos: FC<PhotosProps> = (props) => {
             type="file"
             accept="image/*"
             onChange={handleUpload}
-            disabled={props.isManage && !props.isEdit}
+            // disabled={props.isManage && !props.isEdit}
           />
           <span>
             {(uploading || deleteLoading) && (
@@ -230,7 +230,7 @@ export const Photos: FC<PhotosProps> = (props) => {
               />
             ))}
         </div>
-
+        {/* 
         {!props.isEdit && props.isManage && (
           <div className="mt-3">
             <small>
@@ -249,7 +249,7 @@ export const Photos: FC<PhotosProps> = (props) => {
               </button>
             </small>
           </div>
-        )}
+        )} */}
 
         {props.isManage ? (
           <UpdateBtn

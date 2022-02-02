@@ -168,7 +168,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               value={values?.gas}
               name="gas"
               required
-              disabled={props.isManage && !props.isEdit}
+              // disabled={props.isManage && !props.isEdit}
             >
               <option value={""}>Select Gas</option>
               <option value="petrol">Petrol</option>
@@ -184,7 +184,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               value={values?.transmission}
               name="transmission"
               required
-              disabled={props.isManage && !props.isEdit}
+              // disabled={props.isManage && !props.isEdit}
             >
               <option value={""}>Select Transmission</option>
               <option value="manual">Manual</option>
@@ -202,7 +202,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               value={values?.color}
               name="color"
               required
-              disabled={props.isManage && !props.isEdit}
+              // disabled={props.isManage && !props.isEdit}
             >
               <option value={""}>Select Color</option>
               {carColors.map((color, idx) => (
@@ -223,7 +223,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               onChange={handleChange}
               min={0}
               onFocus={handleFocus}
-              disabled={props.isManage && !props.isEdit}
+              // disabled={props.isManage && !props.isEdit}
             />
           </div>
         </div>
@@ -239,12 +239,12 @@ export const Features: FC<FeaturesProps> = (props) => {
               onChange={handleChange}
               min={0}
               onFocus={handleFocus}
-              disabled={props.isManage && !props.isEdit}
+              // disabled={props.isManage && !props.isEdit}
             />
           </div>
         </div>
 
-        {!props.isEdit && props.isManage && (
+        {/* {!props.isEdit && props.isManage && (
           <div className="mt-3">
             <small>
               This information above is only editable with permisson from the
@@ -263,7 +263,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               </button>
             </small>
           </div>
-        )}
+        )} */}
 
         <div className="mt-3">
           {carFeatures.map((feature, idx) => {

@@ -9,7 +9,9 @@ import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import client from "../apollo";
+import { LogoutOverlay } from "../components/LogoutOverlay";
 import { setToken, unsetToken } from "../redux/authSlice";
+import { useAppSelector } from "../redux/hooks";
 import { store } from "../redux/store";
 import "../styles/globals.css";
 import { baseHttpDomain } from "../utils/baseDomain";
@@ -19,6 +21,7 @@ let persistor = persistStore(store);
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
   useEffect(() => {
     // Bootstrap uses some only-client-side objects (window, document) to
     // handle events.On the other hand, Next.js renders the app on both the server -

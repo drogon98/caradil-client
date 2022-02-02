@@ -80,7 +80,7 @@ const Listings: FC<ListingsProps> = (props) => {
                   </div>
                 )}
               </Tab>
-              <Tab
+              {/* <Tab
                 eventKey="verified"
                 title="Verified"
                 tabClassName="listings-tab"
@@ -95,8 +95,8 @@ const Listings: FC<ListingsProps> = (props) => {
                     )}
                   </div>
                 )}
-              </Tab>
-              <Tab
+              </Tab> */}
+              {/* <Tab
                 eventKey="under-verification"
                 title={<b>Under Verification</b>}
                 tabClassName="listings-tab"
@@ -113,8 +113,8 @@ const Listings: FC<ListingsProps> = (props) => {
                     )}
                   </div>
                 )}
-              </Tab>
-              <Tab
+              </Tab> */}
+              {/* <Tab
                 eventKey="unverified"
                 title="UnVerified"
                 tabClassName="listings-tab"
@@ -131,8 +131,8 @@ const Listings: FC<ListingsProps> = (props) => {
                     )}
                   </div>
                 )}
-              </Tab>
-              <Tab
+              </Tab> */}
+              {/* <Tab
                 eventKey="edit-requests"
                 title="Edit Requests"
                 tabClassName="listings-tab"
@@ -154,7 +154,7 @@ const Listings: FC<ListingsProps> = (props) => {
                     )}
                   </div>
                 )}
-              </Tab>
+              </Tab> */}
               <Tab
                 eventKey="being-edited"
                 title="Being Edited"

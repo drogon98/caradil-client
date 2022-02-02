@@ -1,5 +1,5 @@
 export const carCategories: string[] = [
-  "Mini",
+  // "Mini",
   "Truck",
   "Van",
   "Sports",
