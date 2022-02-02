@@ -53,7 +53,7 @@ export default function Publish(props: Props): ReactElement {
               here
             </a>
           </Link>{" "}
-          when its public. Once okay with how it looks, publish it.
+          when its public. Once okay with its looks, publish it.
         </p>
       </div>
 

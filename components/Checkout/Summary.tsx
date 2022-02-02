@@ -37,14 +37,15 @@ export default function Summary(props: Props): ReactElement {
       {props.deliverToMe && (
         <div className="mb-2 d-flex justify-content-between">
           <p>Delivery Fee</p>
-          <p>Ksh.{props.car.delivery_rate}</p>
+          <p>Ksh.{props.car.delivery_rate?.toLocaleString()}</p>
         </div>
       )}
 
       {props.discountEligible && (
         <div className="mb-2 d-flex justify-content-between">
           <p>
-            Discount {props.discountDays > 0 && `${props.discountDays}+ Days`}
+            Discount{" "}
+            {props.discountDays > 0 && `${props.discountDays}+ Trip Days`}
           </p>
           <p>{props.discount}%</p>
         </div>

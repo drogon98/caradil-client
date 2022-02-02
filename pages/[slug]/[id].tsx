@@ -89,6 +89,7 @@ const Car: FC<CarProps> = (props) => {
   const pickDatesButtonRef = useRef<HTMLButtonElement>(null);
   const pickDatesRef = useRef<HTMLDivElement>(null);
   useOutsideClickHandler(pickDatesRef, setSelectingDates, pickDatesButtonRef);
+  const [isCarPreview, setIsCarPreview] = useState(false);
 
   // const [
   //   checkIfDriverIsApproved,
@@ -171,6 +172,19 @@ const Car: FC<CarProps> = (props) => {
       setMainLoading(false);
     }
   }, [data, loading]);
+
+  useEffect(() => {
+    if (router && router.query) {
+      try {
+        let tempIsCarPreview = router.query.is_car_preview;
+        if (tempIsCarPreview) {
+          setIsCarPreview(true);
+        }
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
+    }
+  }, [router]);
 
   const handleRouteNext = async (e: SyntheticEvent<HTMLButtonElement>) => {
     // console.log("Helloo :>> ");
@@ -292,7 +306,7 @@ const Car: FC<CarProps> = (props) => {
                   {token ? (
                     <button
                       onClick={handleUpdateFavourite}
-                      disabled={updatingFavourite}
+                      disabled={updatingFavourite || isCarPreview}
                       className="carousel-fav-icon cursor-pointer"
                     >
                       {isFavourite ? (
@@ -391,6 +405,7 @@ const Car: FC<CarProps> = (props) => {
                       handleUpdateFavourite={handleUpdateFavourite}
                       updatingFavourite={updatingFavourite}
                       car={car!}
+                      isCarPreview={isCarPreview}
                     />
                   </div>
                 </div>
@@ -398,7 +413,7 @@ const Car: FC<CarProps> = (props) => {
                 <div>
                   <div className="carDetailsChargeCard  px-2 py-3 shadow">
                     <div>
-                      {(car?.booked || !car?.published) && (
+                      {(car?.booked || !car?.published) && !isCarPreview && (
                         <>
                           <small className="fw-bolder text-danger">
                             This car is unavailable!
@@ -461,7 +476,10 @@ const Car: FC<CarProps> = (props) => {
                           className="btn bgOrange"
                           onClick={handleRouteNext}
                           disabled={
-                            !validDates || car?.booked || !car?.published
+                            !validDates ||
+                            car?.booked ||
+                            !car?.published ||
+                            isCarPreview
                           }
                         >
                           Continue
@@ -492,6 +510,7 @@ const Car: FC<CarProps> = (props) => {
                       handleUpdateFavourite={handleUpdateFavourite}
                       updatingFavourite={updatingFavourite}
                       car={car!}
+                      isCarPreview={isCarPreview}
                     />
                   </div>
                 </div>
@@ -499,7 +518,7 @@ const Car: FC<CarProps> = (props) => {
             </div>
             {/* </div> */}
             <div className="car-small-screen-bottom d-flex flex-column justify-content-around p-2">
-              {(car?.booked || !car?.published) && (
+              {(car?.booked || !car?.published) && !isCarPreview && (
                 <div
                   style={{ height: "10px", fontSize: "12px" }}
                   className="mb-3"
@@ -586,7 +605,7 @@ const Car: FC<CarProps> = (props) => {
                       <button
                         className="btn bgOrange"
                         onClick={handleRouteNext}
-                        disabled={!validDates}
+                        disabled={!validDates || isCarPreview}
                       >
                         Continue
                         {/* {approvedLoading ? (

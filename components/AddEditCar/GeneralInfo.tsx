@@ -284,31 +284,33 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           </div>
         </div>
         <div className="row m-0">
-          <div className="form-check mt-3">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value={values?.has_driver ? "false" : "true"}
-              id="gps-enabled"
-              checked={values?.has_driver}
-              name="has_driver"
-              onChange={handleChange}
-              disabled={props.isManage && !props.isEdit}
-            />
-            <label className="form-check-label" htmlFor="gps-enabled">
-              I Will Provide a Driver?
-            </label>
+          <div className="container">
+            <div className="form-check mt-3">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                value={values?.has_driver ? "false" : "true"}
+                id="gps-enabled"
+                checked={values?.has_driver}
+                name="has_driver"
+                onChange={handleChange}
+                // disabled={props.isManage && !props.isEdit}
+              />
+              <label className="form-check-label" htmlFor="gps-enabled">
+                I Will Provide a Driver?
+              </label>
+            </div>
+            {!values?.has_driver && (
+              <div>
+                <small className="text-danger">
+                  <b>
+                    We are only listings cars that will have drivers on renting.
+                  </b>
+                </small>
+              </div>
+            )}
           </div>
         </div>
-        {!values?.has_driver && (
-          <div>
-            <small className="text-danger">
-              <b>
-                We are only listings cars that will have drivers on renting.
-              </b>
-            </small>
-          </div>
-        )}
 
         {/* {!props.isEdit && props.isManage && (
           <div className="mt-3">

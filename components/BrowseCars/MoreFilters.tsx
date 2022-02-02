@@ -233,7 +233,7 @@ export function MoreFilters(props: MoreFiltersProps) {
               />
             </div>
           </div>
-          <div className="form-check form-switch">
+          {/* <div className="form-check form-switch">
             <input
               className="form-check-input"
               type="checkbox"
@@ -254,7 +254,7 @@ export function MoreFilters(props: MoreFiltersProps) {
             <label className="form-check-label" htmlFor="moreFiltersChauffeur">
               Chauffeur (Private Driver)
             </label>
-          </div>
+          </div> */}
         </div>
         // </OutsideClickHandler>
       )}

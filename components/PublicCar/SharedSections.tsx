@@ -10,6 +10,7 @@ interface Props {
   handleUpdateFavourite: any;
   updatingFavourite: any;
   isFavourite: boolean;
+  isCarPreview: boolean;
 }
 
 export default function SharedSections(props: Props): ReactElement {
@@ -63,7 +64,7 @@ export default function SharedSections(props: Props): ReactElement {
         {token ? (
           <button
             onClick={props.handleUpdateFavourite}
-            disabled={props.updatingFavourite}
+            disabled={props.updatingFavourite || props.isCarPreview}
             className="btn bg-gray"
           >
             {props.updatingFavourite ? (

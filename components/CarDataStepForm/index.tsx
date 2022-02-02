@@ -9,6 +9,7 @@ import {
   FileInput,
   useGetPrivateCarQuery,
 } from "../../graphql_types/generated/graphql";
+import { AddCarStart } from "../AddEditCar/AddCarStart";
 import { Availability } from "../AddEditCar/Availability";
 import { Categories } from "../AddEditCar/Categories";
 import { Description } from "../AddEditCar/Description";
@@ -30,7 +31,7 @@ interface Props {
 
 export default function CarDataStepForm(props: Props): ReactElement {
   const [slides, setSlides] = useState(10);
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(-1);
   const [progress, setProgress] = useState(0);
   const [compData, setCompData] = useState<Car>();
   const [carId, setCarId] = useState<number>();
@@ -48,6 +49,10 @@ export default function CarDataStepForm(props: Props): ReactElement {
     skip,
     fetchPolicy: "network-only",
   });
+
+  console.log("data :>> ", data);
+
+  console.log("carId :>> ", carId);
 
   useEffect(() => {
     if (router.query) {
@@ -203,7 +208,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
         return;
       }
 
-      let bools = [true, false];
+      // let bools = [true, false];
 
       if (
         !initialData.has_unlimited_distance &&
@@ -258,18 +263,25 @@ export default function CarDataStepForm(props: Props): ReactElement {
         </button>
       </div>
 
-      <div className="col-md-10 mx-auto">
-        <div className="progress w-100">
-          <div
-            className="progress-bar bg-success"
-            style={{ width: `${progress}%` }}
-          />
+      {activeSlide !== -1 && (
+        <div className="col-md-10 mx-auto">
+          <div className="progress w-100">
+            <div
+              className="progress-bar bg-success"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* When a component updates compData, it should also update the activeSlide */}
       {/* On posting first car replace the url to edit car,with the respective id */}
       {/* Or store the id in session storage and look it up there */}
+      {activeSlide === -1 && (
+        <div className="col-md-7 mx-auto mt-5">
+          <AddCarStart setActiveSlide={setActiveSlide} />
+        </div>
+      )}
       {activeSlide === 0 && (
         <div className="col-md-7 mx-auto mt-5">
           <GeneralInfo

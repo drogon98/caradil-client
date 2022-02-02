@@ -1,6 +1,7 @@
 import React from "react";
 import { BiSearch } from "react-icons/bi";
 import { BsBookmarkCheck } from "react-icons/bs";
+import { FiSearch } from "react-icons/fi";
 import { GiSteeringWheel } from "react-icons/gi";
 import { MdOutlineAssignmentReturned } from "react-icons/md";
 
@@ -24,11 +25,14 @@ export function HeroBottom(props: HeroBottomProps) {
       <div className="row m-0">
         <div className="col-md-4 how-it-works-box">
           <div className="d-flex justify-content-center">
-            <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
+            {/* <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
               <BsBookmarkCheck className="how-it-works-icon" />
+            </div> */}
+            <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
+              <FiSearch className="how-it-works-icon" />
             </div>
           </div>
-          <h4 className="mt-4 text-center">Book A Car</h4>
+          <h4 className="mt-4 text-center">Browse Car</h4>
           <p className="mt-4 text-center">
             Browse cars and find the one that fits your requirements.
           </p>
@@ -36,26 +40,41 @@ export function HeroBottom(props: HeroBottomProps) {
         <div className="col-md-4 how-it-works-box">
           <div className="d-flex justify-content-center">
             <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
-              <GiSteeringWheel className="how-it-works-icon" />
+              <BsBookmarkCheck className="how-it-works-icon" />
             </div>
+            {/* <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
+              <GiSteeringWheel className="how-it-works-icon" />
+            </div> */}
           </div>
 
-          <h4 className="mt-4 text-center">Enjoy Your Trip</h4>
+          <h4 className="mt-4 text-center">Reserve Car</h4>
+          <p className="mt-4 text-center">
+            Using our checkout system, book the car for your trip
+          </p>
+
+          {/* <h4 className="mt-4 text-center">Enjoy Your Trip</h4>
           <p className="mt-4 text-center">
             Get the car from the host and embark on your trip.
-          </p>
+          </p> */}
         </div>
         <div className="col-md-4 how-it-works-box">
           <div className="d-flex justify-content-center">
             <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
-              <MdOutlineAssignmentReturned className="how-it-works-icon" />
+              <GiSteeringWheel className="how-it-works-icon" />
             </div>
+            {/* <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
+              <MdOutlineAssignmentReturned className="how-it-works-icon" />
+            </div> */}
           </div>
-          <h4 className="mt-4 text-center">Return Car</h4>
+          <h4 className="mt-4 text-center">Enjoy Your Trip</h4>
+          <p className="mt-4 text-center">
+            Get the car from the host and embark on your trip.
+          </p>
+          {/* <h4 className="mt-4 text-center">Return Car</h4>
           <p className="mt-4 text-center">
             When your trip is over,return the car to the host as soon as
             possible.
-          </p>
+          </p> */}
         </div>
       </div>
     </div>
