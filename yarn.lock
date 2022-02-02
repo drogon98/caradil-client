@@ -5152,7 +5152,7 @@
   "resolved" "https://registry.npmjs.org/react-dom-factories/-/react-dom-factories-1.0.2.tgz"
   "version" "1.0.2"
 
-"react-dom@^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0", "react-dom@^16.8.0 || ^17.0.0", "react-dom@^17.0.2", "react-dom@^17.0.2 || ^18.0.0", "react-dom@>=16.14.0", "react-dom@>=16.6.0", "react-dom@0.0.0-experimental-3c4c1c470-20211021", "react-dom@17.0.2":
+"react-dom@^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0", "react-dom@^16.8.0 || ^17.0.0", "react-dom@^17.0.2", "react-dom@^17.0.2 || ^18.0.0", "react-dom@>=16.14.0", "react-dom@>=16.6.0", "react-dom@>=16.8.0", "react-dom@0.0.0-experimental-3c4c1c470-20211021", "react-dom@17.0.2":
   "integrity" "sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz"
   "version" "17.0.2"
@@ -5160,6 +5160,11 @@
     "loose-envify" "^1.1.0"
     "object-assign" "^4.1.1"
     "scheduler" "^0.20.2"
+
+"react-floating-whatsapp@^4.0.5":
+  "integrity" "sha512-KgpzswJ/Z5pKPDeqQDcMDHBgPQonqS6GLCb44HSSUaH4kgYBnigllWjfAC/D7oGvAGglKYpNOWM312Bp1xlC4Q=="
+  "resolved" "https://registry.npmjs.org/react-floating-whatsapp/-/react-floating-whatsapp-4.0.5.tgz"
+  "version" "4.0.5"
 
 "react-google-autocomplete@^2.6.1":
   "integrity" "sha512-E5gVt2Z6deTpLRORSx+5Uvr5mDWAHCfc89pJfkiTmUz+mYr7CJEfig/9+HkkbGxo9ZDpyewBqqjbnER4LaofMA=="

@@ -24,6 +24,7 @@ const Register: FC<IProps> = (props) => {
     confirmPassword: "",
     role: 1,
   });
+  const [hasAgreedToTerms, setHasAgreedToTerms] = useState(false);
 
   const router = useRouter();
   const [role, setRole] = useState<number>(1);
@@ -50,7 +51,11 @@ const Register: FC<IProps> = (props) => {
   const [register, { loading, error: registerError }] = useRegisterMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value.trim() });
+    if (e.target.name === "agree-to-terms") {
+      setHasAgreedToTerms(e.target.value === "false" ? false : true);
+    } else {
+      setValues({ ...values, [e.target.name]: e.target.value.trim() });
+    }
   };
 
   const handleFocus = (e: SyntheticEvent) => {
@@ -178,12 +183,37 @@ const Register: FC<IProps> = (props) => {
               required
             />
           </div>
+
+          <div className="my-3">
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                value={hasAgreedToTerms ? "false" : "true"}
+                name="agree-to-terms"
+                id="agreeToTermsRegister"
+                checked={hasAgreedToTerms}
+                onChange={handleChange}
+              />
+              <label
+                className="form-check-label"
+                htmlFor="agreeToTermsRegister"
+              >
+                Yes,I agree to Caradil{" "}
+                <Link href="/terms-and-conditions">
+                  <a target={"_blank"} className="text-primary">
+                    terms and conditons
+                  </a>
+                </Link>
+              </label>
+            </div>
+          </div>
           <div>
             <div className="d-grid gap-2">
               <button
                 type="submit"
                 className="btn bgOrange auth-btn"
-                disabled={loading}
+                disabled={loading || !hasAgreedToTerms}
               >
                 {loading ? (
                   <ButtonLoading

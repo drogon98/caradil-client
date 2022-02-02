@@ -649,8 +649,8 @@ label {
 
 .main-footer-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
+  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   column-gap: 20px;
 }
 
@@ -1559,6 +1559,41 @@ car-input-container select:focus {
 
 /* =================================END CONTACT STYLES================================= */
 
+/* =================================ABOU US STYLES================================= */
+.about-us-hero {
+  height: 400px;
+  background-image: url("../public/images/about-us.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.about-us-overlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 400px;
+  z-index: 0;
+}
+
+.about-us-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+@media screen and (max-width: 500px) {
+  .about-us-hero {
+    height: 200px;
+  }
+
+  .about-us-overlay {
+    height: 200px;
+  }
+}
+
+/* =================================END ABOUT US STYLES================================= */
+
 /*==================================CHAT STYLES========================================== */
 
 .chats-main-wrapper {
@@ -1837,6 +1872,10 @@ car-input-container select:focus {
 }
 
 /* ==================================END ROOT LISTINGS========================================== */
+
+#float-whatsapp-wrapper {
+  z-index: 999999 !important;
+}
 
 .logout-overlay {
   top: 0;

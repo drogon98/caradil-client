@@ -16,6 +16,7 @@ import { store } from "../redux/store";
 import "../styles/globals.css";
 import { baseHttpDomain } from "../utils/baseDomain";
 import { CustomJwtPayload } from "../utils/interfaces";
+import FloatingWhatsApp from "react-floating-whatsapp";
 
 let persistor = persistStore(store);
 
@@ -104,6 +105,15 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={client}>
+      {/* <div id="float-whatsapp-wrapper">
+        <FloatingWhatsApp
+          phoneNumber="+254799204524"
+          accountName="Caradil"
+          chatMessage="Hi, lets chat"
+          darkMode={true}
+          statusMessage="Typically replies within 5 minutes"
+        />
+      </div> */}
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           {() => <Component {...pageProps} />}

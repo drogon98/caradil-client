@@ -3,7 +3,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import { FaInstagram } from "react-icons/fa";
-import { FiFacebook, FiLinkedin, FiTwitter } from "react-icons/fi";
+import {
+  FiFacebook,
+  FiLinkedin,
+  FiSmartphone,
+  FiTwitter,
+} from "react-icons/fi";
+import { AiOutlineMail } from "react-icons/ai";
 
 interface IProps {}
 
@@ -40,7 +46,7 @@ export const MainFooter: FC<IProps> = (props) => {
             <h5>Caradil</h5>
             <div>
               <p>
-                <Link href="/">About</Link>
+                <Link href="/about-us">About</Link>
               </p>
               <p>
                 <Link href="/contact-us">Contact</Link>
@@ -54,6 +60,9 @@ export const MainFooter: FC<IProps> = (props) => {
               <p>
                 <Link href="/faqs">Get Help</Link>
               </p>{" "}
+              <p>
+                <Link href="/terms-and-conditions">Terms & Conditions</Link>
+              </p>
             </div>
           </div>
 
@@ -83,13 +92,24 @@ export const MainFooter: FC<IProps> = (props) => {
               <p>
                 <Link href="/list-your-car">List your car</Link>
               </p>
-              <p>
+              {/* <p>
                 <Link href="/">Calculator</Link>
               </p>{" "}
               <p>
                 <Link href="/">Carasure</Link>
-              </p>
+              </p> */}
             </div>
+          </div>
+          <div className="">
+            <h5>Contact Info</h5>
+            <p>
+              <FiSmartphone />
+              <a href="tel:+254799204524">+254799204524</a>
+            </p>
+            <p>
+              <AiOutlineMail />
+              <a href="mailto:contact@caradil.com">contact@caradil.com</a>
+            </p>
           </div>
           <div className="">
             <h5>Get Social</h5>
@@ -125,12 +145,6 @@ export const MainFooter: FC<IProps> = (props) => {
               </p>
             </div>
           </div>
-          {/* <div className="">
-            <h5>Payment Methods</h5>
-            <div>
-              <img src="/images/paymentoptions.png" width="100%" />
-            </div>
-          </div> */}
         </div>
         <div>
           <p>
