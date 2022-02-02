@@ -37,6 +37,7 @@ import {
   useUpdateCarFavouriteMutation,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
+import { unslugify } from "../../utils/unslugify";
 
 interface CarProps {}
 
@@ -133,7 +134,10 @@ const Car: FC<CarProps> = (props) => {
   }, [carId]);
 
   const { data, loading } = useGetCarQuery({
-    variables: { carId: parseInt(router.query.id as string, 10) },
+    variables: {
+      carId: parseInt(router.query.id as string, 10),
+      carName: unslugify(router.query.slug as string),
+    },
     skip,
     fetchPolicy: "cache-and-network",
   });
@@ -514,7 +518,7 @@ const Car: FC<CarProps> = (props) => {
               </div>
             </div>
             {/* </div> */}
-            <div className="car-small-screen-bottom d-flex flex-column justify-content-around p-2">
+            <div className="car-small-screen-bottom d-flex flex-column justify-content-center p-2">
               {(car?.booked || !car?.published) && !isCarPreview && (
                 <div
                   style={{ height: "10px", fontSize: "12px" }}
@@ -552,7 +556,9 @@ const Car: FC<CarProps> = (props) => {
               )}
 
               <div
-                className={`d-flex justify-content-between align-items-center`}
+                className={`d-flex justify-content-between align-items-center ${
+                  !car?.booked && `h-100`
+                }`}
               >
                 <div>
                   <h5 className="m-0">

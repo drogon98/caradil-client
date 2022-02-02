@@ -570,6 +570,7 @@ export type QueryGetAdminCarsArgs = {
 
 export type QueryGetCarArgs = {
   carId: Scalars['Float'];
+  carName?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -949,6 +950,7 @@ export type GetAuthUserQuery = { __typename?: 'Query', getUser: { __typename?: '
 
 export type GetCarQueryVariables = Exact<{
   carId: Scalars['Float'];
+  carName: Scalars['String'];
 }>;
 
 
@@ -2264,8 +2266,8 @@ export type GetAuthUserQueryHookResult = ReturnType<typeof useGetAuthUserQuery>;
 export type GetAuthUserLazyQueryHookResult = ReturnType<typeof useGetAuthUserLazyQuery>;
 export type GetAuthUserQueryResult = Apollo.QueryResult<GetAuthUserQuery, GetAuthUserQueryVariables>;
 export const GetCarDocument = gql`
-    query GetCar($carId: Float!) {
-  getCar(carId: $carId) {
+    query GetCar($carId: Float!, $carName: String!) {
+  getCar(carId: $carId, carName: $carName) {
     car {
       ...carInfo
     }
@@ -2286,6 +2288,7 @@ export const GetCarDocument = gql`
  * const { data, loading, error } = useGetCarQuery({
  *   variables: {
  *      carId: // value for 'carId'
+ *      carName: // value for 'carName'
  *   },
  * });
  */

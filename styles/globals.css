@@ -850,7 +850,6 @@ car-input-container select:focus {
     width: 98vw;
     height: 70px;
     background-color: #fff;
-    display: none;
     box-shadow: 0 0 11px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     left: 50%;
@@ -865,7 +864,6 @@ car-input-container select:focus {
     background-color: white;
     left: 98vw;
     width: 98vw;
-    display: none;
     box-shadow: 0 0 11px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     left: 50%;

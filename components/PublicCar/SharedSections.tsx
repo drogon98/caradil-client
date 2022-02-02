@@ -21,7 +21,7 @@ export default function SharedSections(props: Props): ReactElement {
   // console.log("extraDistRate :>> ", extraDistRate);
 
   useEffect(() => {
-    if (props.car.distance_per_day && props.car?.daily_rate) {
+    if (props.car?.distance_per_day && props.car?.daily_rate) {
       try {
         let tempRate = props.car?.daily_rate / props.car.distance_per_day;
         setExtraDisRate(Math.round(tempRate));
@@ -37,13 +37,13 @@ export default function SharedSections(props: Props): ReactElement {
         <hr />
         <div className="d-flex justify-content-between">
           <h6>Distance included</h6>
-          {props.car.has_unlimited_distance ? (
+          {props.car?.has_unlimited_distance ? (
             <small className="fw-bolder">Unlimited</small>
           ) : (
             <p>{props.car?.distance_per_day} KM</p>
           )}
         </div>
-        {!props.car.has_unlimited_distance && (
+        {!props.car?.has_unlimited_distance && (
           <small>
             Ksh.{extraDistRate} per km fee for additional kilometres driven
           </small>
