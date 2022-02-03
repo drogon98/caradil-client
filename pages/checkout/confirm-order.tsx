@@ -76,7 +76,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     }
   }, [userData]);
 
-  console.log("dummyData :>> ", dummyData);
+  // console.log("dummyData :>> ", dummyData);
 
   useEffect(() => {
     if (router.query.carId) {
@@ -92,7 +92,10 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
   }, [router.query]);
 
   const { data, loading } = useGetCarQuery({
-    variables: { carId: parseInt(router.query.carId as string, 10) },
+    variables: {
+      carId: parseInt(router.query.carId as string, 10),
+      carName: "",
+    },
     skip,
     fetchPolicy: "cache-and-network",
   });
