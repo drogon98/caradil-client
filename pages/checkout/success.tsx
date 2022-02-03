@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -41,6 +40,7 @@ const CheckoutSuccess: NextPage = () => {
     skip,
     fetchPolicy: "network-only",
   });
+
   useEffect(() => {
     if (!loading && data?.getTrip.trip?.id) {
       setTrip(data?.getTrip.trip);
@@ -68,7 +68,7 @@ const CheckoutSuccess: NextPage = () => {
                     Your reservation has been received. The host has received it
                     and will reach back to you with confirmation and more
                     details. You can track your reservation status{" "}
-                    <Link href="/account/trips">
+                    <Link href={`/account/trips/${tripId}`}>
                       <a className="colorOrange">here</a>
                     </Link>
                     .

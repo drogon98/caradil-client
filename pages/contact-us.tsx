@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { CustomHead } from "../components/CustomHead";
 import Layout from "../components/layouts/Layout";

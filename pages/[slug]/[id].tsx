@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, {
@@ -18,7 +17,6 @@ import { useRole } from "../../components/hooks/useRole";
 import { useUserId } from "../../components/hooks/useUserId";
 import Layout from "../../components/layouts/Layout";
 import { Loading } from "../../components/Loading";
-import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import { CarDetailsDescription } from "../../components/PublicCar/CarDetailsDescription";
 // import { CarDetailsGuidelines } from "../../components/PublicCar/CarDetailsGuidelines";
 import { CarDetailsHost } from "../../components/PublicCar/CarDetailsHost";

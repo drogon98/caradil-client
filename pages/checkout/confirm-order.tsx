@@ -1,11 +1,10 @@
-import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import Summary from "../../components/Checkout/Summary";
 import { CustomHead } from "../../components/CustomHead";
 import Layout from "../../components/layouts/Layout";
-import { Loading } from "../../components/Loading";
+// import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import {
   // useCheckIfDriverIsApprovedToDriveQuery,
@@ -202,6 +201,8 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
       setMainLoading(true);
       response = await fetch(`${baseHttpDomain}ipay-pay`, {
         method: "POST",
+        // withCredentials: true,
+        credentials: "include",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

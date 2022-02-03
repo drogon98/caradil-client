@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import { CustomHead } from "../components/CustomHead";
 import { BrowseByMake } from "../components/Home/BrowseByMake";
 import Hero from "../components/Home/Hero";

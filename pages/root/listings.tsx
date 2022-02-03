@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { Tabs } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";

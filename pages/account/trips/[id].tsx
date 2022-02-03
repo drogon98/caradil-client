@@ -1,22 +1,21 @@
-import Head from "next/head";
+import { useRouter } from "next/router";
 import React, {
   ReactElement,
   SyntheticEvent,
   useEffect,
   useState,
 } from "react";
-import { AuthWrapper } from "../../../components/AuthWrapper";
-import AccountLayout from "../../../components/layouts/AccountLayout";
 import { BsArrowLeft } from "react-icons/bs";
-import { useRouter } from "next/router";
+import { AuthWrapper } from "../../../components/AuthWrapper";
+import { CustomHead } from "../../../components/CustomHead";
+import { useWindowDimensions } from "../../../components/hooks/useWindowDimensions";
+import AccountLayout from "../../../components/layouts/AccountLayout";
+import { Loading } from "../../../components/Loading";
 import {
   Trip as Trip_,
   useGetTripQuery,
 } from "../../../graphql_types/generated/graphql";
-import { Loading } from "../../../components/Loading";
 import CancelTripMoal from "../bookings/CancelTripModal";
-import { useWindowDimensions } from "../../../components/hooks/useWindowDimensions";
-import { CustomHead } from "../../../components/CustomHead";
 
 interface Props {}
 

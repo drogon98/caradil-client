@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
 import { ListBox } from "../../../components/Account/Listings/ListBox";

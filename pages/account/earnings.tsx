@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, { FC, useEffect, useState } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
@@ -10,11 +9,6 @@ import {
 } from "../../graphql_types/generated/graphql";
 
 interface EarningsProps {}
-
-/**
- * @author @CodeYourEmpire
- * @function @Earnings
- **/
 
 const Earnings: FC<EarningsProps> = (props) => {
   const [mainLoading, setMainLoading] = useState(true);

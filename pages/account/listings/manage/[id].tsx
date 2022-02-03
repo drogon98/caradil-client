@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useRouter } from "next/router";
 import React, {
   ReactElement,
@@ -8,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import { BsArrowLeft } from "react-icons/bs";
+import { ImMenu3 } from "react-icons/im";
 import { Availability } from "../../../../components/AddEditCar/Availability";
 import { Categories } from "../../../../components/AddEditCar/Categories";
 import { Description } from "../../../../components/AddEditCar/Description";
@@ -20,6 +20,8 @@ import Menu from "../../../../components/AddEditCar/ManageCar/Menu";
 import { Photos } from "../../../../components/AddEditCar/Photos";
 import { Rates } from "../../../../components/AddEditCar/Rates";
 import { AuthWrapper } from "../../../../components/AuthWrapper";
+import { CustomHead } from "../../../../components/CustomHead";
+import { useOutsideClickHandler } from "../../../../components/hooks/useOutsideClickHandler";
 import AccountLayout from "../../../../components/layouts/AccountLayout";
 import { Loading } from "../../../../components/Loading";
 import {
@@ -30,10 +32,6 @@ import {
   FileInput,
   useGetPrivateCarQuery,
 } from "../../../../graphql_types/generated/graphql";
-import { ImMenu3 } from "react-icons/im";
-import { useOutsideClickHandler } from "../../../../components/hooks/useOutsideClickHandler";
-import RequestVerificationModal from "../../../../components/AddEditCar/ManageCar/RequestVerificationModal";
-import { CustomHead } from "../../../../components/CustomHead";
 
 interface Props {}
 

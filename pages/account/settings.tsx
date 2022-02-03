@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";

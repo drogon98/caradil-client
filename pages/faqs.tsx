@@ -1,6 +1,5 @@
 import parse from "html-react-parser";
 import type { NextPage } from "next";
-import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CustomHead } from "../components/CustomHead";

@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, { FC } from "react";
 import { AuthWrapper } from "../../../../components/AuthWrapper";
 import CarDataStepForm from "../../../../components/CarDataStepForm";

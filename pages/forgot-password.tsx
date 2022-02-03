@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { CustomHead } from "../components/CustomHead";
 import Layout from "../components/layouts/Layout";

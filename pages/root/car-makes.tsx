@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, { FC, SyntheticEvent, useEffect, useState } from "react";
 import { AdminAuthWrapper } from "../../components/AdminAuthWrapper";
 import { CustomHead } from "../../components/CustomHead";

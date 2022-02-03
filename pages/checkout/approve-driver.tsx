@@ -1,16 +1,10 @@
-import Head from "next/head";
-import React, { FC, useState } from "react";
-import Layout from "../../components/layouts/Layout";
 import Link from "next/link";
+import React, { FC, useState } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
+import Layout from "../../components/layouts/Layout";
 
 interface ApproveDriverProps {}
-
-/**
- * @author @CodeYourEmpire
- * @function @ApproveDriver
- **/
 
 const ApproveDriver: FC<ApproveDriverProps> = (props) => {
   const [values, setValues] = useState({});

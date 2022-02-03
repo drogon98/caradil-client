@@ -1,9 +1,8 @@
 import React, { FC } from "react";
+import { CustomHead } from "../components/CustomHead";
+import Layout from "../components/layouts/Layout";
 import { HowItWorks } from "../components/ListYourCar/HowItWorks";
 import { KickOff } from "../components/ListYourCar/KickOff";
-import Head from "next/head";
-import Layout from "../components/layouts/Layout";
-import { CustomHead } from "../components/CustomHead";
 
 interface IProps {}
 

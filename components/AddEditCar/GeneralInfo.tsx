@@ -41,6 +41,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
   const [invalidCarName, setInvalidCarName] = useState(false);
 
   const [values, setValues] = useState<CarGeneralInfoInput>();
+  const [duplicateRegNo, setDuplicateRegNo] = useState(false);
 
   useEffect(() => {
     let tempData = {
@@ -107,6 +108,10 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
       });
 
       if (response?.data?.addEditCarGeneralInfo.error) {
+        console.log(
+          "response?.data?.addEditCarGeneralInfo.error :>> ",
+          response?.data?.addEditCarGeneralInfo.error
+        );
       } else if (response?.data?.addEditCarGeneralInfo.carId) {
         props.setCompData(response.data.addEditCarGeneralInfo.car!);
         if (!props.isResume) {
@@ -124,6 +129,9 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
       if (error instanceof Error) {
         errorMessage = error.message;
       }
+      if (errorMessage && errorMessage.includes("duplicate key")) {
+        setDuplicateRegNo(true);
+      }
       console.log("errorMessage :>> ", errorMessage);
       return;
       // setError("Network Error!");
@@ -139,6 +147,12 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
   const handleNameFocus = () => {
     if (invalidCarName) {
       setInvalidCarName(false);
+    }
+  };
+
+  const handleRegNoFocus = () => {
+    if (duplicateRegNo) {
+      setDuplicateRegNo(false);
     }
   };
 
@@ -208,8 +222,13 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             Odometer reading must be a value greater than 0!
           </small>
         )}
+        {duplicateRegNo && (
+          <small className="text-danger">
+            A car with this registration no. already exists!
+          </small>
+        )}
         <div className="row m-0">
-          <div className="col">
+          <div className="col-6 p-0">
             <div>
               {invalidCarName && (
                 <small className="text-danger">
@@ -233,7 +252,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               // disabled={props.isManage && !props.isEdit}
             />
           </div>
-          <div className="col">
+          <div className="col-6">
             <label htmlFor="carMake">Make</label>
             <select
               className="form-select form-control car-general-info-input-width"
@@ -254,7 +273,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           </div>
         </div>
         <div className="row m-0 mt-3">
-          <div className="col-6">
+          <div className="col-6 p-0">
             <label htmlFor="carName">Registration No.</label>
             <input
               type="text"
@@ -264,6 +283,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               required
               onChange={handleChange}
               placeholder="eg KBA111C"
+              onFocus={handleRegNoFocus}
               // disabled={props.isManage && !props.isEdit}
             />
           </div>
@@ -284,7 +304,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           </div>
         </div>
         <div className="row m-0">
-          <div className="container">
+          <div className="container p-0">
             <div className="form-check mt-3">
               <input
                 className="form-check-input"

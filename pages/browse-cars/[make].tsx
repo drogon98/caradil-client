@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import { SearchData } from ".";
