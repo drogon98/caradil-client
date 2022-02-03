@@ -12,6 +12,7 @@ import {
   CarAvailabilityInput,
   useEditCarAvailabilityMutation,
 } from "../../graphql_types/generated/graphql";
+import { ToastWrapper } from "../Toast/ToastWrapper";
 import { FormNextPrevButton } from "./FormNextPrevButton";
 import UpdateBtn from "./ManageCar/UpdateBtn";
 
@@ -34,6 +35,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
   // const [saved, setSaved] = useState(false);
   const [values, setValues] = useState<CarAvailabilityInput>();
   const [invalidAdvanceData, setInvalidAdvanceData] = useState(false);
+  const [showSaveToast, setShowSaveToast] = useState(false);
 
   useEffect(() => {
     if (props.value) {
@@ -122,7 +124,12 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         );
       } else if (response.data?.editCarAvailability.carId) {
         props.setCompData(response.data.editCarAvailability.car!);
-        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+
+        if (props.isManage) {
+          setShowSaveToast(true);
+        } else {
+          props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        }
       }
     } catch (error) {
       let errorMessage = "";
@@ -161,6 +168,14 @@ export const Availability: FC<AvailabilityProps> = (props) => {
 
   return (
     <div>
+      {showSaveToast && (
+        <ToastWrapper
+          setShow={setShowSaveToast}
+          show={showSaveToast}
+          message={"Updated successfully!"}
+          position="bottom-end"
+        />
+      )}
       <h3>Availability</h3>
       <form onSubmit={handleSubmit} className="mb-3">
         {/* <div className="mb-5">

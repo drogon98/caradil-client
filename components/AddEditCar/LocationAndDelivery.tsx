@@ -14,6 +14,7 @@ import {
   useEditCarLocationAndDeliveryMutation,
 } from "../../graphql_types/generated/graphql";
 import { AutoComplete } from "../Location/AutoComplete";
+import { ToastWrapper } from "../Toast/ToastWrapper";
 import { FormNextPrevButton } from "./FormNextPrevButton";
 import UpdateBtn from "./ManageCar/UpdateBtn";
 
@@ -33,6 +34,7 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
   const [editLocationAndDelivery, { loading }] =
     useEditCarLocationAndDeliveryMutation();
   const [values, setValues] = useState<CarLocationAndDeliveryInput>();
+  const [showSaveToast, setShowSaveToast] = useState(false);
 
   // console.log("props.value :>> ", props.value);
 
@@ -72,7 +74,12 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
       if (response.data?.editCarLocationAndDelivery.error) {
       } else if (response.data?.editCarLocationAndDelivery.carId) {
         props.setCompData(response.data.editCarLocationAndDelivery.car!);
-        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+
+        if (props.isManage) {
+          setShowSaveToast(true);
+        } else {
+          props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        }
       }
     } catch (error) {
       let errorMessage = "";
@@ -88,6 +95,14 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
   };
   return (
     <div>
+      {showSaveToast && (
+        <ToastWrapper
+          setShow={setShowSaveToast}
+          show={showSaveToast}
+          message={"Updated successfully!"}
+          position="bottom-end"
+        />
+      )}
       <h3>Location</h3>
       <p className="mb-2">
         This is the location of your car. If guests search for cars that match

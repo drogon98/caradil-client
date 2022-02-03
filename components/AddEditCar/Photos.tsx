@@ -17,6 +17,7 @@ import {
   useUploadFileMutation,
 } from "../../graphql_types/generated/graphql";
 import { ButtonLoading } from "../Loading/ButtonLoading";
+import { ToastWrapper } from "../Toast/ToastWrapper";
 import { FormNextPrevButton } from "./FormNextPrevButton";
 import RequestEditModal from "./ManageCar/RequestEditModal";
 import UpdateBtn from "./ManageCar/UpdateBtn";
@@ -43,6 +44,7 @@ export const Photos: FC<PhotosProps> = (props) => {
   const [secondaryLoading, setSecondaryLoading] = useState(false);
   const [values, setValues] = useState<CarPhotosInput>();
   const [showRequestEditModal, setShowRequestEditModal] = useState(false);
+  const [showSaveToast, setShowSaveToast] = useState(false);
 
   // console.log("props.value.photos :>> ", props.value.photos);
 
@@ -137,7 +139,12 @@ export const Photos: FC<PhotosProps> = (props) => {
       if (response?.data?.editCarPhotos.error) {
       } else if (response?.data?.editCarPhotos.carId) {
         props.setCompData(response.data.editCarPhotos.car!);
-        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+
+        if (props.isManage) {
+          setShowSaveToast(true);
+        } else {
+          props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        }
       }
     } catch (error) {
       let errorMessage = "";
@@ -169,6 +176,14 @@ export const Photos: FC<PhotosProps> = (props) => {
           handleClose={() => setShowRequestEditModal(false)}
           carId={props.carId!}
           setCarData={props.setCompData}
+        />
+      )}
+      {showSaveToast && (
+        <ToastWrapper
+          setShow={setShowSaveToast}
+          show={showSaveToast}
+          message={"Updated successfully!"}
+          position="bottom-end"
         />
       )}
       <h3>Photos</h3>

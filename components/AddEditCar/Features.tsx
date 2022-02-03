@@ -14,6 +14,7 @@ import {
   CarFeaturesInput,
   useEditCarFeaturesMutation,
 } from "../../graphql_types/generated/graphql";
+import { ToastWrapper } from "../Toast/ToastWrapper";
 import { FormNextPrevButton } from "./FormNextPrevButton";
 import RequestEditModal from "./ManageCar/RequestEditModal";
 import UpdateBtn from "./ManageCar/UpdateBtn";
@@ -37,6 +38,7 @@ export const Features: FC<FeaturesProps> = (props) => {
   const [invalidSeats, setInvalidSeats] = useState(false);
   const [invalidDoors, setInvalidDoors] = useState(false);
   const [showRequestEditModal, setShowRequestEditModal] = useState(false);
+  const [showSaveToast, setShowSaveToast] = useState(false);
 
   useEffect(() => {
     setValues({
@@ -104,7 +106,11 @@ export const Features: FC<FeaturesProps> = (props) => {
       if (response.data?.editCarFeatures.error) {
       } else if (response.data?.editCarFeatures.carId) {
         props.setCompData(response.data.editCarFeatures.car!);
-        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        if (props.isManage) {
+          setShowSaveToast(true);
+        } else {
+          props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        }
       }
     } catch (error) {
       let errorMessage = "";
@@ -145,6 +151,14 @@ export const Features: FC<FeaturesProps> = (props) => {
           setCarData={props.setCompData}
         />
       )}{" "}
+      {showSaveToast && (
+        <ToastWrapper
+          setShow={setShowSaveToast}
+          show={showSaveToast}
+          message={"Updated successfully!"}
+          position="bottom-end"
+        />
+      )}
       <h3>Features</h3>
       <p className="mb-3">Add features of your car below</p>
       <form className="mb-3" onSubmit={handleSubmit}>

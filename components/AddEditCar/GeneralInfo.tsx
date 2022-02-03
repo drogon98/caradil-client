@@ -14,6 +14,7 @@ import {
   CarGeneralInfoInput,
   useAddEditCarGeneralInfoMutation,
 } from "../../graphql_types/generated/graphql";
+import { ToastWrapper } from "../Toast/ToastWrapper";
 import { FormNextPrevButton } from "./FormNextPrevButton";
 import RequestEditModal from "./ManageCar/RequestEditModal";
 import UpdateBtn from "./ManageCar/UpdateBtn";
@@ -39,7 +40,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
   const [invalidOdoReading, setInvalidOdReading] = useState(false);
   const [showRequestEditModal, setShowRequestEditModal] = useState(false);
   const [invalidCarName, setInvalidCarName] = useState(false);
-
+  const [showSaveToast, setShowSaveToast] = useState(false);
   const [values, setValues] = useState<CarGeneralInfoInput>();
   const [duplicateRegNo, setDuplicateRegNo] = useState(false);
 
@@ -114,15 +115,19 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         );
       } else if (response?.data?.addEditCarGeneralInfo.carId) {
         props.setCompData(response.data.addEditCarGeneralInfo.car!);
-        if (!props.isResume) {
+        if (!props.isResume && !props.isManage) {
           sessionStorage.setItem(
             "carId",
             response.data.addEditCarGeneralInfo.car?.id?.toString()!
           );
         }
 
-        props.setCarId!(response.data.addEditCarGeneralInfo.car?.id!);
-        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        if (props.isManage) {
+          setShowSaveToast(true);
+        } else {
+          props.setCarId!(response.data.addEditCarGeneralInfo.car?.id!);
+          props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        }
       }
     } catch (error) {
       let errorMessage = "";
@@ -204,6 +209,14 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           handleClose={() => setShowRequestEditModal(false)}
           carId={props.carId!}
           setCarData={props.setCompData}
+        />
+      )}
+      {showSaveToast && (
+        <ToastWrapper
+          setShow={setShowSaveToast}
+          show={showSaveToast}
+          message={"Updated successfully!"}
+          position="bottom-end"
         />
       )}
       <h4>General Info</h4>

@@ -13,6 +13,7 @@ import {
   CarCategoriesInput,
   useEditCarCategoriesMutation,
 } from "../../graphql_types/generated/graphql";
+import { ToastWrapper } from "../Toast/ToastWrapper";
 import { FormNextPrevButton } from "./FormNextPrevButton";
 import UpdateBtn from "./ManageCar/UpdateBtn";
 
@@ -33,6 +34,7 @@ export const Categories: FC<CategoryProps> = (props) => {
   const [editCategories, { loading }] = useEditCarCategoriesMutation();
   const [values, setValues] = useState<CarCategoriesInput>();
   const [hasVipAndLuxury, setHasVipAndLuxury] = useState(false);
+  const [showSaveToast, setShowSaveToast] = useState(false);
 
   useEffect(() => {
     if (props.value) {
@@ -101,7 +103,11 @@ export const Categories: FC<CategoryProps> = (props) => {
       if (response?.data?.editCarCategories.error) {
       } else if (response.data?.editCarCategories.carId) {
         props.setCompData(response.data.editCarCategories.car!);
-        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        if (props.isManage) {
+          setShowSaveToast(true);
+        } else {
+          props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        }
       }
     } catch (error) {
       let errorMessage = "";
@@ -118,6 +124,14 @@ export const Categories: FC<CategoryProps> = (props) => {
   // console.log("props.value :>> ", props.value);
   return (
     <div>
+      {showSaveToast && (
+        <ToastWrapper
+          setShow={setShowSaveToast}
+          show={showSaveToast}
+          message={"Updated successfully!"}
+          position="bottom-end"
+        />
+      )}
       <h3>Categories</h3>
       <p className="mb-3">
         Select categories within which your car belong. Your car can belong to

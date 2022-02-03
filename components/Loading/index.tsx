@@ -2,11 +2,6 @@ import React, { FC } from "react";
 
 interface LoadingProps {}
 
-/**
- * @author @CodeYourEmpire
- * @function @Loading
- **/
-
 export const Loading: FC<LoadingProps> = (props) => {
   return (
     <div

@@ -15,6 +15,7 @@ import {
   useEditCarDescriptionMutation,
 } from "../../graphql_types/generated/graphql";
 import { ButtonLoading } from "../Loading/ButtonLoading";
+import { ToastWrapper } from "../Toast/ToastWrapper";
 
 const ReactQuill = dynamic(() => import("react-quill"), {
   ssr: false,
@@ -72,6 +73,7 @@ const formats = [
 export const Description: FC<DescriptionProps> = (props) => {
   const [editCarDescription, { loading }] = useEditCarDescriptionMutation();
   const [value, setValue] = useState("");
+  const [showSaveToast, setShowSaveToast] = useState(false);
   // const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -93,7 +95,11 @@ export const Description: FC<DescriptionProps> = (props) => {
       if (response?.data?.editCarDescription.error) {
       } else if (response?.data?.editCarDescription.carId) {
         props.setCompData(response.data.editCarDescription.car!);
-        props.setActiveSlide!(props.activeSlide! + 1);
+        if (props.isManage) {
+          setShowSaveToast(true);
+        } else {
+          props.setActiveSlide!(props.activeSlide! + 1);
+        }
       }
     } catch (error) {
       let errorMessage = "";
@@ -114,6 +120,14 @@ export const Description: FC<DescriptionProps> = (props) => {
 
   return (
     <div className="mb-3">
+      {showSaveToast && (
+        <ToastWrapper
+          setShow={setShowSaveToast}
+          show={showSaveToast}
+          message={"Updated successfully!"}
+          position="bottom-end"
+        />
+      )}
       <h3>Description</h3>
       <p className="mb-2">
         Describe your car below. This is a chance to make a great impression to

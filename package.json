@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "Caradil Client",
   "private": true,
   "scripts": {
     "dev": "next dev",

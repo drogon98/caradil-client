@@ -15,7 +15,8 @@ export function AutoComplete(props: AutoCompleteProps) {
     apiKey: "AIzaSyArIv424bNBpfMVIWSnie8aX1WGDI4wTDk",
     onPlaceSelected: (place) => props.handler(place),
     options: {
-      //   types: ["(cities)"],
+      // types: ["(cities)"],
+      types: ["geocode"],
       componentRestrictions: { country: "ke" },
     },
   });

@@ -3,7 +3,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { CustomHead } from "../components/CustomHead";
 import Layout from "../components/layouts/Layout";
 import { ButtonLoading } from "../components/Loading/ButtonLoading";
-import Save from "../components/Toast/Save";
+import { ToastWrapper } from "../components/Toast/ToastWrapper";
 import {
   ContactInput,
   useContactMutation,
@@ -56,13 +56,14 @@ const ContactUs: NextPage = () => {
           </div>
           <div className="row m-0">
             {showSaveToast && (
-              <Save
+              <ToastWrapper
                 setShow={setShowSaveToast}
                 show={showSaveToast}
                 message={"Message sent successfully!"}
-                position="bottom-center"
+                position="bottom-end"
               />
             )}
+
             <div className="col-md-7 col-lg-5  mt-3 mx-auto">
               {/* <h3>Reach Out</h3> */}
 

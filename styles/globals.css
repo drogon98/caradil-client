@@ -1871,6 +1871,21 @@ car-input-container select:focus {
 
 /* ==================================END ROOT LISTINGS========================================== */
 
+/* ==================================TOAST=============================================== */
+
+.toast-wrapper {
+  pointer-events: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* ==================================END TOAST========================================== */
+
 #float-whatsapp-wrapper {
   z-index: 999999 !important;
 }

@@ -18,6 +18,7 @@ import {
   useUploadFileMutation,
 } from "../../graphql_types/generated/graphql";
 import { ButtonLoading } from "../Loading/ButtonLoading";
+import { ToastWrapper } from "../Toast/ToastWrapper";
 import DocumentContent from "./DocumentContent";
 import { FormNextPrevButton } from "./FormNextPrevButton";
 import RequestEditModal from "./ManageCar/RequestEditModal";
@@ -44,6 +45,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
   // const [toDelete, setToDelete] = useState<DocumentInput>();
   const [secondaryLoading, setSecondaryLoading] = useState(false);
   const [showRequestEditModal, setShowRequestEditModal] = useState(false);
+  const [showSaveToast, setShowSaveToast] = useState(false);
 
   // const [saved, setSaved] = useState(false);
   const [id, setId] = useState<string>();
@@ -166,7 +168,11 @@ export const Documents: FC<DocumentsProps> = (props) => {
         // deleteFile({ variables: { id: toDelete?.file.public_id! } });
       } else if (response.data?.editCarDocuments.carId) {
         props.setCompData(response.data.editCarDocuments.car!);
-        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        if (props.isManage) {
+          setShowSaveToast(true);
+        } else {
+          props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        }
       }
     } catch (error) {
       let errorMessage = "";
@@ -247,6 +253,14 @@ export const Documents: FC<DocumentsProps> = (props) => {
           handleClose={() => setShowRequestEditModal(false)}
           carId={props.carId!}
           setCarData={props.setCompData}
+        />
+      )}
+      {showSaveToast && (
+        <ToastWrapper
+          setShow={setShowSaveToast}
+          show={showSaveToast}
+          message={"Updated successfully!"}
+          position="bottom-end"
         />
       )}
       <h3>Documents</h3>

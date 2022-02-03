@@ -4,7 +4,7 @@ import { CustomHead } from "../../components/CustomHead";
 import { useRole } from "../../components/hooks/useRole";
 import AccountLayout from "../../components/layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
-import Save from "../../components/Toast/Save";
+import { ToastWrapper } from "../../components/Toast/ToastWrapper";
 import {
   AccountSettings,
   AccountSettingsInput,
@@ -78,11 +78,11 @@ const Settings = (props: SettingsProps) => {
           ) : (
             <div className="row m-0">
               {showSaveToast && (
-                <Save
+                <ToastWrapper
                   setShow={setShowSaveToast}
                   show={showSaveToast}
                   message={"Settings updated!"}
-                  position="middle-center"
+                  position="bottom-end"
                 />
               )}
               <div className="col-lg-7 my-4 mb-5 mx-auto">

@@ -12,6 +12,7 @@ import {
   CarRatesInput,
   useEditCarRatesMutation,
 } from "../../graphql_types/generated/graphql";
+import { ToastWrapper } from "../Toast/ToastWrapper";
 import { FormNextPrevButton } from "./FormNextPrevButton";
 import UpdateBtn from "./ManageCar/UpdateBtn";
 
@@ -34,6 +35,7 @@ export const Rates: FC<RatesProps> = (props) => {
   const [editRates, { loading }] = useEditCarRatesMutation();
   const [values, setValues] = useState<CarRatesInput>();
   const [invalidDailyRate, setInvalidDailyRate] = useState(false);
+  const [showSaveToast, setShowSaveToast] = useState(false);
 
   const handleFocus = () => {
     if (invalidDailyRate) {
@@ -75,7 +77,12 @@ export const Rates: FC<RatesProps> = (props) => {
       if (response.data?.editCarRates.error) {
       } else if (response.data?.editCarRates.carId) {
         props.setCompData(response.data.editCarRates.car!);
-        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+
+        if (props.isManage) {
+          setShowSaveToast(true);
+        } else {
+          props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        }
       }
     } catch (error) {
       let errorMessage = "";
@@ -90,6 +97,14 @@ export const Rates: FC<RatesProps> = (props) => {
 
   return (
     <div>
+      {showSaveToast && (
+        <ToastWrapper
+          setShow={setShowSaveToast}
+          show={showSaveToast}
+          message={"Updated successfully!"}
+          position="bottom-end"
+        />
+      )}
       <h3>Rates</h3>
       <p className="mb-2">
         You are here to make money. Set your rates below. You can edit them

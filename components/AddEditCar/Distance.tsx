@@ -12,6 +12,7 @@ import {
   CarDistanceInput,
   useEditCarDistanceMutation,
 } from "../../graphql_types/generated/graphql";
+import { ToastWrapper } from "../Toast/ToastWrapper";
 import { FormNextPrevButton } from "./FormNextPrevButton";
 import UpdateBtn from "./ManageCar/UpdateBtn";
 
@@ -30,6 +31,7 @@ export const Distance: FC<DistanceProps> = (props) => {
   const [values, setValues] = useState<CarDistanceInput>();
   const [showExtraDistanceText, setShowExtraDistanceText] = useState(false);
   const [invalidDistanceError, setInvalidDistanceError] = useState(false);
+  const [showSaveToast, setShowSaveToast] = useState(false);
 
   useEffect(() => {
     if (props.value) {
@@ -90,7 +92,12 @@ export const Distance: FC<DistanceProps> = (props) => {
       if (response.data?.editCarDistance.error) {
       } else if (response.data?.editCarDistance.carId) {
         props.setCompData(response.data.editCarDistance.car!);
-        props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+
+        if (props.isManage) {
+          setShowSaveToast(true);
+        } else {
+          props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
+        }
       }
     } catch (error) {
       let errorMessage = "";
@@ -111,6 +118,14 @@ export const Distance: FC<DistanceProps> = (props) => {
 
   return (
     <div>
+      {showSaveToast && (
+        <ToastWrapper
+          setShow={setShowSaveToast}
+          show={showSaveToast}
+          message={"Updated successfully!"}
+          position="bottom-end"
+        />
+      )}
       <h3>Distance</h3>
       <p className="mb-2">
         This is the distance your car should cover in one day of a trip.

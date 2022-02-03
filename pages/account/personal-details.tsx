@@ -13,7 +13,7 @@ import { useRole } from "../../components/hooks/useRole";
 import AccountLayout from "../../components/layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
-import Save from "../../components/Toast/Save";
+import { ToastWrapper } from "../../components/Toast/ToastWrapper";
 import {
   EditProfileInput,
   FileInput,
@@ -214,11 +214,11 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
             <div className="p-2">
               {" "}
               {showSaveToast && (
-                <Save
+                <ToastWrapper
                   setShow={setShowSaveToast}
                   message={"Profile updated successfully!"}
                   show={showSaveToast}
-                  position="top-end"
+                  position="bottom-end"
                 />
               )}
               <h3 className="text-center my-3">Personal Details</h3>
