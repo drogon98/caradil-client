@@ -148,38 +148,45 @@ const Settings = (props: SettingsProps) => {
                     </div>
                   </div>
                 </div>
-                <h6>Payment Settings</h6>
-                <div className="mb-5">
-                  <p>Choose payment channel</p>
+                {role === 2 && (
+                  <>
+                    <h6>Payment Settings</h6>
+                    <div className="mb-5">
+                      <p>Choose payment channel</p>
 
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="exampleRadios"
-                      id="mpesa"
-                      value="option1"
-                      checked
-                      onChange={handleChange}
-                    />
-                    <label className="form-check-label" htmlFor="mpesa">
-                      Mpesa
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="exampleRadios"
-                      id="bankAccount"
-                      value="option2"
-                      onChange={handleChange}
-                    />
-                    <label className="form-check-label" htmlFor="bankAccount">
-                      Bank Account
-                    </label>
-                  </div>
-                </div>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="exampleRadios"
+                          id="mpesa"
+                          value="option1"
+                          checked
+                          onChange={handleChange}
+                        />
+                        <label className="form-check-label" htmlFor="mpesa">
+                          Mpesa
+                        </label>
+                      </div>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="exampleRadios"
+                          id="bankAccount"
+                          value="option2"
+                          onChange={handleChange}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="bankAccount"
+                        >
+                          Bank Account
+                        </label>
+                      </div>
+                    </div>
+                  </>
+                )}
 
                 <h3>Account</h3>
                 <hr />

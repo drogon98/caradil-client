@@ -333,7 +333,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
                 I Will Provide a Driver?
               </label>
             </div>
-            {!values?.has_driver && (
+            {values && !values.has_driver && (
               <div>
                 <small className="text-danger">
                   <b>

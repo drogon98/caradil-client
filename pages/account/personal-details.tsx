@@ -157,12 +157,11 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
               query: { to_car: true },
             });
           }, 3200);
-        } else {
-          setTimeout(async () => {
-            await router.push({
-              pathname: "/account",
-            });
-          }, 3200);
+        }
+        if (isInitial && role === 1) {
+          await router.push({
+            pathname: "/account",
+          });
         }
       }
     } catch (error) {
