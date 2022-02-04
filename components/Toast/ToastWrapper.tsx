@@ -1,6 +1,6 @@
 import React, { Dispatch, FC, SetStateAction } from "react";
 import { ToastPosition } from "react-bootstrap/esm/ToastContainer";
-import Toast from "./Toast";
+import Toast from "./Save";
 
 interface ToastWrapperProps {
   setShow: Dispatch<SetStateAction<boolean>>;

@@ -196,8 +196,12 @@ export type ChatMeta = {
   guest_id?: Maybe<Scalars['Float']>;
   host_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  is_closed?: Maybe<Scalars['Boolean']>;
+  latest_chat?: Maybe<Chat>;
+  no_chat?: Maybe<Scalars['String']>;
   receiver?: Maybe<User>;
   sender?: Maybe<User>;
+  unread_chats_count?: Maybe<Scalars['Float']>;
   updated_at?: Maybe<Scalars['DateTime']>;
 };
 
@@ -1064,7 +1068,7 @@ export type GetTripQuery = { __typename?: 'Query', getTrip: { __typename?: 'Trip
 export type GetUserChatMetasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserChatMetasQuery = { __typename?: 'Query', getUserChatMetas: Array<{ __typename?: 'ChatMeta', id?: number | null | undefined, sender?: { __typename?: 'User', id?: number | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, business_name?: string | null | undefined, email?: string | null | undefined, avatar?: { __typename?: 'FileObj', secure_url?: string | null | undefined } | null | undefined } | null | undefined, receiver?: { __typename?: 'User', id?: number | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, business_name?: string | null | undefined, email?: string | null | undefined, avatar?: { __typename?: 'FileObj', secure_url?: string | null | undefined } | null | undefined } | null | undefined }> };
+export type GetUserChatMetasQuery = { __typename?: 'Query', getUserChatMetas: Array<{ __typename?: 'ChatMeta', id?: number | null | undefined, no_chat?: string | null | undefined, unread_chats_count?: number | null | undefined, is_closed?: boolean | null | undefined, latest_chat?: { __typename?: 'Chat', id?: number | null | undefined, message?: string | null | undefined, receiver_id?: number | null | undefined, sender_id?: number | null | undefined, read?: boolean | null | undefined, sender_deleted?: boolean | null | undefined, receiver_deleted?: boolean | null | undefined, created_at?: any | null | undefined } | null | undefined, sender?: { __typename?: 'User', id?: number | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, business_name?: string | null | undefined, email?: string | null | undefined, avatar?: { __typename?: 'FileObj', secure_url?: string | null | undefined } | null | undefined } | null | undefined, receiver?: { __typename?: 'User', id?: number | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, business_name?: string | null | undefined, email?: string | null | undefined, avatar?: { __typename?: 'FileObj', secure_url?: string | null | undefined } | null | undefined } | null | undefined }> };
 
 export type OnNewChatSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -2894,6 +2898,12 @@ export const GetUserChatMetasDocument = gql`
     query GetUserChatMetas {
   getUserChatMetas {
     id
+    latest_chat {
+      ...chatInfo
+    }
+    no_chat
+    unread_chats_count
+    is_closed
     sender {
       id
       first_name
@@ -2916,7 +2926,7 @@ export const GetUserChatMetasDocument = gql`
     }
   }
 }
-    `;
+    ${ChatInfoFragmentDoc}`;
 
 /**
  * __useGetUserChatMetasQuery__

@@ -56,13 +56,49 @@ const Chats = (props: ChatsProps) => {
   }, [data, loading]);
 
   useEffect(() => {
-    if (chatProfiles && chatProfiles.length > 0) {
-      setReceiverId(chatProfiles[0].receiver?.id!);
-      setActiveChatId(chatProfiles[0].id!);
-      setReceiverProfile(chatProfiles[0].receiver!);
-      setSenderProfile(chatProfiles[0].sender!);
+    if (metaId) {
+      setActiveChatId(metaId);
     }
-  }, [chatProfiles]);
+  }, [metaId]);
+
+  useEffect(() => {
+    if (chatProfiles && chatProfiles.length > 0) {
+      if (metaId) {
+        setActiveChatId(metaId);
+      } else {
+        setActiveChatId(chatProfiles[0].id!);
+      }
+    }
+  }, [chatProfiles, metaId]);
+
+  useEffect(() => {
+    if (metaId && chatProfiles) {
+      let tempProf;
+
+      if (metaId) {
+        tempProf = chatProfiles.filter((cP) => cP.id === metaId);
+      } else if (activeChatId) {
+        tempProf = chatProfiles.filter((cP) => cP.id === activeChatId);
+      }
+
+      if (tempProf) {
+        setReceiverId(tempProf[0]?.receiver?.id!);
+        setReceiverProfile(tempProf[0]?.receiver!);
+        setSenderProfile(tempProf[0].sender!);
+      }
+    }
+  }, [metaId, activeChatId, chatProfiles]);
+
+  // useEffect(() => {
+  //   if (activeChatId && chatProfiles) {
+  //     let tempProf = chatProfiles.filter((cP) => cP.id === activeChatId);
+  //     if (tempProf) {
+  //       // console.log("tempProf :>> ", tempProf);
+  //       setReceiverProfile(tempProf[0]?.receiver!);
+  //       setReceiverId(tempProf[0]?.receiver?.id!);
+  //     }
+  //   }
+  // }, [activeChatId, chatProfiles]);
 
   return (
     <>

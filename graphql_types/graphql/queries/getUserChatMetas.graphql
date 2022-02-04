@@ -1,7 +1,12 @@
 query GetUserChatMetas {
   getUserChatMetas {
     id
-
+    latest_chat {
+      ...chatInfo
+    }
+    no_chat
+    unread_chats_count
+    is_closed
     sender {
       id
       first_name

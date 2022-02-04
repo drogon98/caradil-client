@@ -150,11 +150,17 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
       if (response.data?.editProfile) {
         setShowSaveToast(true);
 
-        if (isInitial) {
+        if (isInitial && role === 2) {
           setTimeout(async () => {
             await router.push({
               pathname: "/account",
               query: { to_car: true },
+            });
+          }, 3200);
+        } else {
+          setTimeout(async () => {
+            await router.push({
+              pathname: "/account",
             });
           }, 3200);
         }
@@ -237,6 +243,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                               : "/images/avatar.svg"
                           }
                           className="rounded-circle"
+                          style={{ objectFit: "cover" }}
                           height="250px"
                           width="250px"
                         />

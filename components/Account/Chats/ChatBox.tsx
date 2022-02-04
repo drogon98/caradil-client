@@ -9,6 +9,17 @@ interface ChatBoxProps {
   senderProfile: User;
 }
 
+function formatAMPM(date: Date) {
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  let minutes_ = minutes < 10 ? "0" + minutes : minutes;
+  let strTime = hours + ":" + minutes_ + " " + ampm;
+  return strTime;
+}
+
 export const ChatBox = (props: ChatBoxProps) => {
   const token = useAppSelector((state) => state.auth._id);
   const userId = useUserId(token);
@@ -16,24 +27,12 @@ export const ChatBox = (props: ChatBoxProps) => {
   const getChatTime = (date: string) => {
     let tempDate = new Date(date);
 
-    let tempRawTime = tempDate.toLocaleTimeString();
-
-    let tempRawTimeSections = tempRawTime.split(" ");
-
-    let tempRawTimeSectionsIdxZero = tempRawTimeSections[0].split(":");
-
-    if (tempRawTimeSections[1]) {
-      return `${tempRawTimeSectionsIdxZero[0]}:${tempRawTimeSectionsIdxZero[1]} ${tempRawTimeSections[1]}`;
-    } else {
-      return `${tempRawTimeSectionsIdxZero[0]}${tempRawTimeSectionsIdxZero[1]} hrs`;
-    }
+    return formatAMPM(tempDate);
   };
-
-  // console.log("props.data :>> ", props.data);
 
   return (
     <>
-      {props.data.sender_id !== userId ? (
+      {props.data.sender_id === userId ? (
         <div className="chat-box-sender my-5">
           <div className="chat-box">
             <div className="sender-chat-tooltip p-2">
@@ -46,8 +45,8 @@ export const ChatBox = (props: ChatBoxProps) => {
             </div>
             <img
               src={
-                props.receiverProfile?.avatar?.secure_url
-                  ? props.receiverProfile?.avatar.secure_url
+                props.senderProfile?.avatar?.secure_url
+                  ? props.senderProfile?.avatar.secure_url
                   : "/images/mackenzi.png"
               }
               style={{ objectFit: "cover", height: "40px", width: "40px" }}
@@ -60,8 +59,8 @@ export const ChatBox = (props: ChatBoxProps) => {
           <div className="chat-box">
             <img
               src={
-                props.senderProfile?.avatar?.secure_url
-                  ? props.senderProfile?.avatar.secure_url
+                props.receiverProfile?.avatar?.secure_url
+                  ? props.receiverProfile?.avatar.secure_url
                   : "/images/mackenzi.png"
               }
               style={{ objectFit: "cover", height: "40px", width: "40px" }}

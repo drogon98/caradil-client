@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ChatMeta, Maybe } from "../../../graphql_types/generated/graphql";
+import moment from "moment";
 
 interface ChatUserProfileBoxProps {
   isLg?: boolean;
@@ -77,13 +78,62 @@ export const ChatUserProfileBox = (props: ChatUserProfileBoxProps) => {
         />
       </div>
       <div className="col-9">
-        <div className="d-flex justify-content-between align-items-center">
-          <h6 className="m-0">{name}</h6>
-          <span>
-            <small>12:05 pm</small>
-          </span>
-        </div>
-        <p>The quick brown fox jumped over the lazy dog.</p>
+        {props.data.no_chat ? (
+          <>
+            <div className="d-flex justify-content-between align-items-center">
+              <h6 className="m-0">{name}</h6>
+              <span>
+                <small>
+                  {moment(props.data.latest_chat?.created_at).calendar({
+                    sameDay: "[Today]",
+                    nextDay: "[Tomorrow]",
+                    nextWeek: "dddd",
+                    lastDay: "[Yesterday]",
+                    lastWeek: "[Last] dddd",
+                    sameElse: "DD/MM/YYYY",
+                  })}
+                </small>
+              </span>
+            </div>
+            <p className="chat-profile-text">{props.data.no_chat}</p>
+          </>
+        ) : (
+          <>
+            <div className="d-flex justify-content-between w-100 align-items-center mb-2">
+              <div className="d-flex justify-content-between w-75 align-items-center chat-profile-name-chats-count">
+                <h6 className="m-0 w-75 chat-profile-name">{name}</h6>
+                <div className="w-25 chat-count-wrapper">
+                  {props.data.unread_chats_count ? (
+                    <div className="bg-success chat-count-badge">
+                      {props.data.unread_chats_count}
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+              <div className="chat-profile-time w-25">
+                <small>
+                  {moment(props.data.latest_chat?.created_at).calendar({
+                    sameDay: "[Today]",
+                    nextDay: "[Tomorrow]",
+                    nextWeek: "dddd",
+                    lastDay: "[Yesterday]",
+                    lastWeek: "[Last] dddd",
+                    sameElse: "DD/MM/YYYY",
+                  })}
+                </small>
+              </div>
+            </div>
+
+            <p
+              className={`chat-profile-text ${
+                props.data.unread_chats_count && `chat-profile-unread-text`
+              }`}
+            >
+              <small>{props.data.latest_chat?.message}</small>
+            </p>
+          </>
+        )}
+        {/* <div className="p-2"></div> */}
       </div>
       <div className="mt-2" style={{ borderBottom: "1px solid #eaecee" }} />
     </div>

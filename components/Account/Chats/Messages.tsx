@@ -91,7 +91,14 @@ export const Messages = (props: ChatsProps) => {
       }
     };
     _getChats();
-  }, [router.query, props, props.activeChatId]);
+  }, [
+    router.query,
+    props.chatMetaId,
+    props.receiverId,
+    props.receiverProfile,
+    props.senderProfile,
+    props.activeChatId,
+  ]);
 
   useEffect(() => {
     const isMdPage = router.pathname.includes("/chats/md");
@@ -207,6 +214,8 @@ export const Messages = (props: ChatsProps) => {
       }
     }
   }, [receiverProfile]);
+
+  // console.log("receiverProfile :>> ", receiverProfile);
 
   return (
     <div>
