@@ -31,7 +31,7 @@ const Notifications: FC<IProps> = (props) => {
           {mainLoading ? (
             <Loading />
           ) : notifications?.length === 0 ? (
-            <div className="p-2 h-100 w-100 d-flex align-items-center justify-content-center flex-column">
+            <div className="notifications-main-wrapper w-100 d-flex align-items-center justify-content-center flex-column">
               <h6>You have no notifications yet!</h6>
             </div>
           ) : (

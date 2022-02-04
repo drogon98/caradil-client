@@ -31,7 +31,7 @@ const Earnings: FC<EarningsProps> = (props) => {
           {mainLoading ? (
             <Loading />
           ) : earnings?.length === 0 ? (
-            <div className="p-2 h-100 w-100 d-flex align-items-center justify-content-center flex-column">
+            <div className="earnings-main-wrapper w-100 d-flex align-items-center justify-content-center flex-column">
               <h6>You have no earnings yet!</h6>
             </div>
           ) : (

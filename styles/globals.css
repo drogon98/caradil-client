@@ -1809,6 +1809,20 @@ car-input-container select:focus {
 
 /*==================================END CHAT STYLES========================================== */
 
+/* ==================================EARNINGS STYLES================================= */
+
+.earnings-main-wrapper {
+  min-height: calc(100vh - var(--navbar-height));
+}
+/* ==================================END EARNINGS STYLES================================= */
+
+/* ==================================NOTIFICATIONS STYLES================================= */
+
+.notifications-main-wrapper {
+  min-height: calc(100vh - var(--navbar-height));
+}
+/* ==================================END NOTIFICATIONS STYLES================================= */
+
 /* =================================SETTINGS STYLES======================================== */
 
 .account-action-btn {
