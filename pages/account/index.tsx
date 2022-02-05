@@ -6,19 +6,16 @@ import { CustomHead } from "../../components/CustomHead";
 import { useRole } from "../../components/hooks/useRole";
 import AccountLayout from "../../components/layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
+import { ToastWrapper } from "../../components/Toast/ToastWrapper";
 import {
   useGetAuthUserQuery,
   User,
+  useResendEmailVerifyLinkLazyQuery,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 // import { Link, Route } from "react-router-dom";
 
 interface IProps {}
-
-/**
- * @author
- * @function @Account
- **/
 
 const Account: FC<IProps> = (props) => {
   const [mainLoading, setMainLoading] = useState(true);
@@ -31,6 +28,11 @@ const Account: FC<IProps> = (props) => {
   const role = useRole(token);
   const [isToCar, setIsToCar] = useState<boolean>();
   const router = useRouter();
+  const [
+    resendEmailVerifyLink,
+    { data: resendVerifyLinkData, loading: resendingVerifyLink },
+  ] = useResendEmailVerifyLinkLazyQuery();
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
 
   useEffect(() => {
     if (router.query && router.query.to_car) {
@@ -82,6 +84,24 @@ const Account: FC<IProps> = (props) => {
     }
   }, [user, loading]);
 
+  useEffect(() => {
+    if (resendVerifyLinkData) {
+      if (resendVerifyLinkData?.resendVerifyEmailLink) {
+        setShowSuccessToast(true);
+      } else {
+        console.log("Error :>> ");
+      }
+    }
+  }, [resendVerifyLinkData]);
+
+  const handleRequestVerifyLinkClick = async () => {
+    try {
+      resendEmailVerifyLink();
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
+
   // console.log("user :>> ", user);
   // console.log("hasCompleteProfile :>> ", hasCompleteProfile);
 
@@ -95,6 +115,34 @@ const Account: FC<IProps> = (props) => {
             <Loading />
           ) : (
             <div className="p-2">
+              {showSuccessToast && (
+                <ToastWrapper
+                  setShow={setShowSuccessToast}
+                  show={showSuccessToast}
+                  message={"Verify link has been sent to your inbox!"}
+                  position="bottom-end"
+                />
+              )}
+              {user && !user?.email_verified && (
+                <div className="bg-danger text-light text-center">
+                  <small className="m-0">
+                    {" "}
+                    A link was sent to your inbox to verify your email. Didn't
+                    receive it? Request another link
+                    <button
+                      className="btn mt-0 pt-0 pl-0 ml-0 text-light"
+                      style={{
+                        fontSize: "inherit",
+                        textDecoration: "underline",
+                      }}
+                      onClick={handleRequestVerifyLinkClick}
+                    >
+                      here
+                    </button>
+                  </small>
+                </div>
+              )}
+
               <h1>Hi {user?.first_name ? user.first_name : "there"},</h1>
               {hasCompleteProfile ? (
                 <></>

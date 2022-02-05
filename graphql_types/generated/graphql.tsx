@@ -378,6 +378,8 @@ export type Mutation = {
   revokeUserRefreshToken: Scalars['Boolean'];
   singleUpload: UploadedFileResponse;
   updateFavourite: UpdateFavouriteResponse;
+  upgradeAccount: Scalars['Boolean'];
+  verifyEmail: VerifyEmailResponse;
 };
 
 
@@ -544,6 +546,11 @@ export type MutationUpdateFavouriteArgs = {
   opType: Scalars['String'];
 };
 
+
+export type MutationVerifyEmailArgs = {
+  token: Scalars['String'];
+};
+
 export type Notification = {
   __typename?: 'Notification';
   created_at?: Maybe<Scalars['DateTime']>;
@@ -580,6 +587,7 @@ export type Query = {
   getUser: UserResponse;
   getUserChatMetas: Array<ChatMeta>;
   makes: Array<Make>;
+  resendVerifyEmailLink: Scalars['Boolean'];
   trips: Array<Trip>;
   users: Array<User>;
 };
@@ -751,6 +759,12 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
+export type VerifyEmailResponse = {
+  __typename?: 'VerifyEmailResponse';
+  error?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['Float']>;
+};
+
 export type CarInfoFragment = { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined };
 
 export type CarPrivateInfoFragment = { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined };
@@ -761,7 +775,7 @@ export type FileInfoFragment = { __typename?: 'FileObj', public_id?: string | nu
 
 export type TripInfoFragment = { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, chat_meta_id?: number | null | undefined, owner_id?: number | null | undefined, car_owner_id?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined };
 
-export type UserInfoFragment = { __typename?: 'User', id?: number | null | undefined, user_name?: string | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined, phone?: string | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined };
+export type UserInfoFragment = { __typename?: 'User', id?: number | null | undefined, user_name?: string | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined, email_verified?: boolean | null | undefined, phone?: string | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined };
 
 export type AddEditCarGeneralInfoMutationVariables = Exact<{
   options: CarGeneralInfoInput;
@@ -965,12 +979,24 @@ export type UpdateCarFavouriteMutationVariables = Exact<{
 
 export type UpdateCarFavouriteMutation = { __typename?: 'Mutation', updateFavourite: { __typename?: 'UpdateFavouriteResponse', status?: boolean | null | undefined, error?: string | null | undefined } };
 
+export type UpgradeAccountMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UpgradeAccountMutation = { __typename?: 'Mutation', upgradeAccount: boolean };
+
 export type UploadFileMutationVariables = Exact<{
   file: Scalars['Upload'];
 }>;
 
 
 export type UploadFileMutation = { __typename?: 'Mutation', singleUpload: { __typename?: 'UploadedFileResponse', error?: string | null | undefined, file?: { __typename?: 'UploadedFile', public_id: string, url: string, secure_url: string } | null | undefined } };
+
+export type EmailVerifyMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type EmailVerifyMutation = { __typename?: 'Mutation', verifyEmail: { __typename?: 'VerifyEmailResponse', userId?: number | null | undefined, error?: string | null | undefined } };
 
 export type GetAccountSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -987,7 +1013,7 @@ export type GetAdminCarsQuery = { __typename?: 'Query', getAdminCars: Array<{ __
 export type GetAuthUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAuthUserQuery = { __typename?: 'Query', getUser: { __typename?: 'UserResponse', user?: { __typename?: 'User', id?: number | null | undefined, user_name?: string | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined, phone?: string | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined } };
+export type GetAuthUserQuery = { __typename?: 'Query', getUser: { __typename?: 'UserResponse', user?: { __typename?: 'User', id?: number | null | undefined, user_name?: string | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined, email_verified?: boolean | null | undefined, phone?: string | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined } };
 
 export type GetCarQueryVariables = Exact<{
   carId: Scalars['Float'];
@@ -1069,6 +1095,11 @@ export type GetUserChatMetasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUserChatMetasQuery = { __typename?: 'Query', getUserChatMetas: Array<{ __typename?: 'ChatMeta', id?: number | null | undefined, no_chat?: string | null | undefined, unread_chats_count?: number | null | undefined, is_closed?: boolean | null | undefined, latest_chat?: { __typename?: 'Chat', id?: number | null | undefined, message?: string | null | undefined, receiver_id?: number | null | undefined, sender_id?: number | null | undefined, read?: boolean | null | undefined, sender_deleted?: boolean | null | undefined, receiver_deleted?: boolean | null | undefined, created_at?: any | null | undefined } | null | undefined, sender?: { __typename?: 'User', id?: number | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, business_name?: string | null | undefined, email?: string | null | undefined, avatar?: { __typename?: 'FileObj', secure_url?: string | null | undefined } | null | undefined } | null | undefined, receiver?: { __typename?: 'User', id?: number | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, business_name?: string | null | undefined, email?: string | null | undefined, avatar?: { __typename?: 'FileObj', secure_url?: string | null | undefined } | null | undefined } | null | undefined }> };
+
+export type ResendEmailVerifyLinkQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ResendEmailVerifyLinkQuery = { __typename?: 'Query', resendVerifyEmailLink: boolean };
 
 export type OnNewChatSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -1257,6 +1288,7 @@ export const UserInfoFragmentDoc = gql`
   first_name
   last_name
   email
+  email_verified
   phone
   avatar {
     ...fileInfo
@@ -2213,6 +2245,36 @@ export function useUpdateCarFavouriteMutation(baseOptions?: Apollo.MutationHookO
 export type UpdateCarFavouriteMutationHookResult = ReturnType<typeof useUpdateCarFavouriteMutation>;
 export type UpdateCarFavouriteMutationResult = Apollo.MutationResult<UpdateCarFavouriteMutation>;
 export type UpdateCarFavouriteMutationOptions = Apollo.BaseMutationOptions<UpdateCarFavouriteMutation, UpdateCarFavouriteMutationVariables>;
+export const UpgradeAccountDocument = gql`
+    mutation UpgradeAccount {
+  upgradeAccount
+}
+    `;
+export type UpgradeAccountMutationFn = Apollo.MutationFunction<UpgradeAccountMutation, UpgradeAccountMutationVariables>;
+
+/**
+ * __useUpgradeAccountMutation__
+ *
+ * To run a mutation, you first call `useUpgradeAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpgradeAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [upgradeAccountMutation, { data, loading, error }] = useUpgradeAccountMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUpgradeAccountMutation(baseOptions?: Apollo.MutationHookOptions<UpgradeAccountMutation, UpgradeAccountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpgradeAccountMutation, UpgradeAccountMutationVariables>(UpgradeAccountDocument, options);
+      }
+export type UpgradeAccountMutationHookResult = ReturnType<typeof useUpgradeAccountMutation>;
+export type UpgradeAccountMutationResult = Apollo.MutationResult<UpgradeAccountMutation>;
+export type UpgradeAccountMutationOptions = Apollo.BaseMutationOptions<UpgradeAccountMutation, UpgradeAccountMutationVariables>;
 export const UploadFileDocument = gql`
     mutation UploadFile($file: Upload!) {
   singleUpload(file: $file) {
@@ -2251,6 +2313,40 @@ export function useUploadFileMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UploadFileMutationHookResult = ReturnType<typeof useUploadFileMutation>;
 export type UploadFileMutationResult = Apollo.MutationResult<UploadFileMutation>;
 export type UploadFileMutationOptions = Apollo.BaseMutationOptions<UploadFileMutation, UploadFileMutationVariables>;
+export const EmailVerifyDocument = gql`
+    mutation EmailVerify($token: String!) {
+  verifyEmail(token: $token) {
+    userId
+    error
+  }
+}
+    `;
+export type EmailVerifyMutationFn = Apollo.MutationFunction<EmailVerifyMutation, EmailVerifyMutationVariables>;
+
+/**
+ * __useEmailVerifyMutation__
+ *
+ * To run a mutation, you first call `useEmailVerifyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEmailVerifyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [emailVerifyMutation, { data, loading, error }] = useEmailVerifyMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useEmailVerifyMutation(baseOptions?: Apollo.MutationHookOptions<EmailVerifyMutation, EmailVerifyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EmailVerifyMutation, EmailVerifyMutationVariables>(EmailVerifyDocument, options);
+      }
+export type EmailVerifyMutationHookResult = ReturnType<typeof useEmailVerifyMutation>;
+export type EmailVerifyMutationResult = Apollo.MutationResult<EmailVerifyMutation>;
+export type EmailVerifyMutationOptions = Apollo.BaseMutationOptions<EmailVerifyMutation, EmailVerifyMutationVariables>;
 export const GetAccountSettingsDocument = gql`
     query GetAccountSettings {
   getAccountSettings {
@@ -2954,6 +3050,38 @@ export function useGetUserChatMetasLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetUserChatMetasQueryHookResult = ReturnType<typeof useGetUserChatMetasQuery>;
 export type GetUserChatMetasLazyQueryHookResult = ReturnType<typeof useGetUserChatMetasLazyQuery>;
 export type GetUserChatMetasQueryResult = Apollo.QueryResult<GetUserChatMetasQuery, GetUserChatMetasQueryVariables>;
+export const ResendEmailVerifyLinkDocument = gql`
+    query ResendEmailVerifyLink {
+  resendVerifyEmailLink
+}
+    `;
+
+/**
+ * __useResendEmailVerifyLinkQuery__
+ *
+ * To run a query within a React component, call `useResendEmailVerifyLinkQuery` and pass it any options that fit your needs.
+ * When your component renders, `useResendEmailVerifyLinkQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useResendEmailVerifyLinkQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useResendEmailVerifyLinkQuery(baseOptions?: Apollo.QueryHookOptions<ResendEmailVerifyLinkQuery, ResendEmailVerifyLinkQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ResendEmailVerifyLinkQuery, ResendEmailVerifyLinkQueryVariables>(ResendEmailVerifyLinkDocument, options);
+      }
+export function useResendEmailVerifyLinkLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ResendEmailVerifyLinkQuery, ResendEmailVerifyLinkQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ResendEmailVerifyLinkQuery, ResendEmailVerifyLinkQueryVariables>(ResendEmailVerifyLinkDocument, options);
+        }
+export type ResendEmailVerifyLinkQueryHookResult = ReturnType<typeof useResendEmailVerifyLinkQuery>;
+export type ResendEmailVerifyLinkLazyQueryHookResult = ReturnType<typeof useResendEmailVerifyLinkLazyQuery>;
+export type ResendEmailVerifyLinkQueryResult = Apollo.QueryResult<ResendEmailVerifyLinkQuery, ResendEmailVerifyLinkQueryVariables>;
 export const OnNewChatDocument = gql`
     subscription onNewChat {
   newChat {

@@ -4,6 +4,7 @@ fragment userInfo on User {
   first_name
   last_name
   email
+  email_verified
   phone
   avatar {
     ...fileInfo

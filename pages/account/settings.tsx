@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
+import AccountActionModal from "../../components/Account/Settings/AccountActionModal";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
 import { useRole } from "../../components/hooks/useRole";
@@ -23,6 +24,9 @@ const Settings = (props: SettingsProps) => {
   const { data, loading: fetchingSettings } = useGetAccountSettingsQuery();
   const [updateAccountSettings, { loading }] = useEditAccountSettingsMutation();
   const [showSaveToast, setShowSaveToast] = useState(false);
+  const [showAccountActionModal, setShowAccountActionModal] = useState(false);
+  const [accountAction, setAccountAction] = useState("");
+  const [toastMessage, setToastMessage] = useState("");
 
   useEffect(() => {
     if (data?.getAccountSettings.accountSettings && !fetchingSettings) {
@@ -62,8 +66,17 @@ const Settings = (props: SettingsProps) => {
     });
 
     if (response.data?.editAccountSettings) {
+      setToastMessage("Settings updated!");
       setShowSaveToast(true);
     }
+  };
+
+  const handleAccountActions = (
+    e: SyntheticEvent<HTMLButtonElement>,
+    action: string
+  ) => {
+    setAccountAction(action);
+    setShowAccountActionModal(true);
   };
 
   // console.log("settings :>> ", settings);
@@ -77,14 +90,31 @@ const Settings = (props: SettingsProps) => {
             <Loading />
           ) : (
             <div className="row m-0">
+              {showAccountActionModal && (
+                <AccountActionModal
+                  show={showAccountActionModal}
+                  hide={() => setShowAccountActionModal(false)}
+                  action={accountAction}
+                  setShowSuccessToast={setShowSaveToast}
+                  setToastMessage={setToastMessage}
+                />
+              )}
               {showSaveToast && (
                 <ToastWrapper
                   setShow={setShowSaveToast}
                   show={showSaveToast}
-                  message={"Settings updated!"}
+                  message={toastMessage}
                   position="bottom-end"
                 />
               )}
+              {/* {showSuccessToast && (
+                <ToastWrapper
+                  setShow={setShowSuccessToast}
+                  show={showSuccessToast}
+                  message={toastMessage}
+                  position="bottom-end"
+                />
+              )} */}
               <div className="col-lg-7 my-4 mb-5 mx-auto">
                 <h1 style={{ textDecoration: "underline" }}>Manage Account</h1>
 
@@ -202,7 +232,10 @@ const Settings = (props: SettingsProps) => {
                         </small>
                       </div>
                     </div>
-                    <button className="btn account-action-btn btn-outline-primary">
+                    <button
+                      className="btn account-action-btn btn-outline-primary"
+                      onClick={(e) => handleAccountActions(e, "upgrade")}
+                    >
                       Upgrade Account
                     </button>
                   </div>
@@ -241,7 +274,10 @@ const Settings = (props: SettingsProps) => {
                       </small>
                     </div>
                   </div>
-                  <button className="btn account-action-btn btn-outline-secondary">
+                  <button
+                    className="btn account-action-btn btn-outline-secondary"
+                    onClick={(e) => handleAccountActions(e, "suspend")}
+                  >
                     Suspend Account
                   </button>
                 </div>
@@ -267,7 +303,10 @@ const Settings = (props: SettingsProps) => {
                       </small>
                     </div>
                   </div>
-                  <button className="btn account-action-btn btn-outline-danger">
+                  <button
+                    className="btn account-action-btn btn-outline-danger"
+                    onClick={(e) => handleAccountActions(e, "delete")}
+                  >
                     Delete Account
                   </button>
                 </div>
