@@ -83,7 +83,7 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
         <div className="brand">
           <Link href="/">
             <a>
-              <h1 className="m0">Caradil</h1>
+              <h1 className="m0 brand-head">Caradil</h1>
             </a>
           </Link>
         </div>

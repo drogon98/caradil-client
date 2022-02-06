@@ -19,21 +19,24 @@ export type Scalars = {
   Upload: any;
 };
 
+export type AccountPaymentInput = {
+  payment_channel?: InputMaybe<Scalars['String']>;
+  payment_channel_data?: InputMaybe<PaymentChannelInput>;
+};
+
 export type AccountSettings = {
   __typename?: 'AccountSettings';
-  account_suspended?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Float']>;
   offer_bulk_hire?: Maybe<Scalars['Boolean']>;
   payment_channel?: Maybe<Scalars['String']>;
+  payment_channel_data?: Maybe<PaymentChannelData>;
   receive_marketing_emails?: Maybe<Scalars['Boolean']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type AccountSettingsInput = {
-  account_suspended: Scalars['Boolean'];
   offer_bulk_hire: Scalars['Boolean'];
-  payment_channel: Scalars['String'];
   receive_marketing_emails: Scalars['Boolean'];
 };
 
@@ -357,6 +360,7 @@ export type Mutation = {
   createChat: Scalars['Boolean'];
   createTrip: CreateTripResponse;
   deleteUpload: Scalars['Boolean'];
+  editAccountPayment: Scalars['Boolean'];
   editAccountSettings: Scalars['Boolean'];
   editCarAvailability: CarAddEditResponse;
   editCarCategories: CarAddEditResponse;
@@ -428,6 +432,11 @@ export type MutationCreateTripArgs = {
 
 export type MutationDeleteUploadArgs = {
   publicId: Scalars['String'];
+};
+
+
+export type MutationEditAccountPaymentArgs = {
+  input: AccountPaymentInput;
 };
 
 
@@ -566,6 +575,15 @@ export type PasswordResponse = {
   __typename?: 'PasswordResponse';
   error?: Maybe<Scalars['String']>;
   success?: Maybe<Scalars['Boolean']>;
+};
+
+export type PaymentChannelData = {
+  __typename?: 'PaymentChannelData';
+  subject?: Maybe<Scalars['String']>;
+};
+
+export type PaymentChannelInput = {
+  subject?: InputMaybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -843,6 +861,13 @@ export type DeleteFileMutationVariables = Exact<{
 
 export type DeleteFileMutation = { __typename?: 'Mutation', deleteUpload: boolean };
 
+export type EditAccountPaymentMutationVariables = Exact<{
+  input: AccountPaymentInput;
+}>;
+
+
+export type EditAccountPaymentMutation = { __typename?: 'Mutation', editAccountPayment: boolean };
+
 export type EditAccountSettingsMutationVariables = Exact<{
   input: AccountSettingsInput;
 }>;
@@ -1001,7 +1026,7 @@ export type EmailVerifyMutation = { __typename?: 'Mutation', verifyEmail: { __ty
 export type GetAccountSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAccountSettingsQuery = { __typename?: 'Query', getAccountSettings: { __typename?: 'AccountSettingsResponse', error?: string | null | undefined, accountSettings?: { __typename?: 'AccountSettings', account_suspended?: boolean | null | undefined, receive_marketing_emails?: boolean | null | undefined, offer_bulk_hire?: boolean | null | undefined, payment_channel?: string | null | undefined } | null | undefined } };
+export type GetAccountSettingsQuery = { __typename?: 'Query', getAccountSettings: { __typename?: 'AccountSettingsResponse', error?: string | null | undefined, accountSettings?: { __typename?: 'AccountSettings', receive_marketing_emails?: boolean | null | undefined, offer_bulk_hire?: boolean | null | undefined, payment_channel?: string | null | undefined, payment_channel_data?: { __typename?: 'PaymentChannelData', subject?: string | null | undefined } | null | undefined } | null | undefined } };
 
 export type GetAdminCarsQueryVariables = Exact<{
   type_: Scalars['String'];
@@ -1603,6 +1628,37 @@ export function useDeleteFileMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteFileMutationHookResult = ReturnType<typeof useDeleteFileMutation>;
 export type DeleteFileMutationResult = Apollo.MutationResult<DeleteFileMutation>;
 export type DeleteFileMutationOptions = Apollo.BaseMutationOptions<DeleteFileMutation, DeleteFileMutationVariables>;
+export const EditAccountPaymentDocument = gql`
+    mutation EditAccountPayment($input: AccountPaymentInput!) {
+  editAccountPayment(input: $input)
+}
+    `;
+export type EditAccountPaymentMutationFn = Apollo.MutationFunction<EditAccountPaymentMutation, EditAccountPaymentMutationVariables>;
+
+/**
+ * __useEditAccountPaymentMutation__
+ *
+ * To run a mutation, you first call `useEditAccountPaymentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditAccountPaymentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editAccountPaymentMutation, { data, loading, error }] = useEditAccountPaymentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEditAccountPaymentMutation(baseOptions?: Apollo.MutationHookOptions<EditAccountPaymentMutation, EditAccountPaymentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditAccountPaymentMutation, EditAccountPaymentMutationVariables>(EditAccountPaymentDocument, options);
+      }
+export type EditAccountPaymentMutationHookResult = ReturnType<typeof useEditAccountPaymentMutation>;
+export type EditAccountPaymentMutationResult = Apollo.MutationResult<EditAccountPaymentMutation>;
+export type EditAccountPaymentMutationOptions = Apollo.BaseMutationOptions<EditAccountPaymentMutation, EditAccountPaymentMutationVariables>;
 export const EditAccountSettingsDocument = gql`
     mutation EditAccountSettings($input: AccountSettingsInput!) {
   editAccountSettings(input: $input)
@@ -2351,10 +2407,12 @@ export const GetAccountSettingsDocument = gql`
     query GetAccountSettings {
   getAccountSettings {
     accountSettings {
-      account_suspended
       receive_marketing_emails
       offer_bulk_hire
       payment_channel
+      payment_channel_data {
+        subject
+      }
     }
     error
   }

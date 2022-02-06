@@ -9,7 +9,7 @@ const Hero = (): JSX.Element => {
       <div className="homeHeroSubaru" />
 
       <div className="heroContent">
-        <h1>
+        <h1 className="section-heading">
           Find Your <span className="colorOrange hero-text-suffix">Drive</span>
         </h1>
         <h6>Explore africa's largest car sharing marketplace</h6>

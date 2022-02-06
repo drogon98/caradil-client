@@ -72,7 +72,7 @@ export const BrowseByMake: FC<IProps> = (props) => {
         <div className="section-heading-hr" />
       </div>
       <div className="text-center">
-        <h2 className="mb-5">Browse by make</h2>
+        <h2 className="mb-5 section-heading">Browse by make</h2>
       </div>
 
       <div className="makes-slider">

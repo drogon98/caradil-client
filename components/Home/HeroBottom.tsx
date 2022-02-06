@@ -1,9 +1,9 @@
 import React from "react";
-import { BiSearch } from "react-icons/bi";
+// import { BiSearch } from "react-icons/bi";
 import { BsBookmarkCheck } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 import { GiSteeringWheel } from "react-icons/gi";
-import { MdOutlineAssignmentReturned } from "react-icons/md";
+// import { MdOutlineAssignmentReturned } from "react-icons/md";
 
 export interface HeroBottomProps {}
 
@@ -19,7 +19,9 @@ export function HeroBottom(props: HeroBottomProps) {
         <div className="section-heading-hr" />
       </div>
       <div className="text-center">
-        <h2 className="mb-5">Carsharing Has Never Been That Easy</h2>
+        <h2 className="mb-5 section-heading">
+          Carsharing Has Never Been That Easy
+        </h2>
       </div>
 
       <div className="row m-0">

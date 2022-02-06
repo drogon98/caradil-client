@@ -85,6 +85,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
       const tempData = { ...data.getUser.user };
       delete tempData.__typename;
       delete tempData.id;
+      delete tempData.email_verified;
       if (tempData.avatar?.public_id) {
         const tempAvatar: FileInput = {
           secure_url: tempData.avatar.secure_url!,

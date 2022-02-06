@@ -1,14 +1,22 @@
-import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
 import AccountActionModal from "../../components/Account/Settings/AccountActionModal";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
 import { useRole } from "../../components/hooks/useRole";
 import AccountLayout from "../../components/layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
+import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import { ToastWrapper } from "../../components/Toast/ToastWrapper";
 import {
-  AccountSettings,
+  AccountPaymentInput,
   AccountSettingsInput,
+  useEditAccountPaymentMutation,
   useEditAccountSettingsMutation,
   useGetAccountSettingsQuery,
 } from "../../graphql_types/generated/graphql";
@@ -18,11 +26,14 @@ interface SettingsProps {}
 
 const Settings = (props: SettingsProps) => {
   const [mainLoading, setMainLoading] = useState(true);
-  const [settings, setSettings] = useState<AccountSettings>();
+  const [settings, setSettings] = useState<AccountSettingsInput>();
+  const [paymentSettings, setPaymentSettings] = useState<AccountPaymentInput>();
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
   const { data, loading: fetchingSettings } = useGetAccountSettingsQuery();
   const [updateAccountSettings, { loading }] = useEditAccountSettingsMutation();
+  const [updateAccountPayment, { loading: loadingPayment }] =
+    useEditAccountPaymentMutation();
   const [showSaveToast, setShowSaveToast] = useState(false);
   const [showAccountActionModal, setShowAccountActionModal] = useState(false);
   const [accountAction, setAccountAction] = useState("");
@@ -31,43 +42,68 @@ const Settings = (props: SettingsProps) => {
   useEffect(() => {
     if (data?.getAccountSettings.accountSettings && !fetchingSettings) {
       setSettings({
-        account_suspended:
-          data.getAccountSettings.accountSettings.account_suspended!,
+        // account_suspended:
+        //   data.getAccountSettings.accountSettings.account_suspended!,
         offer_bulk_hire:
           data.getAccountSettings.accountSettings.offer_bulk_hire!,
-        payment_channel:
-          data.getAccountSettings.accountSettings.payment_channel!,
+
         receive_marketing_emails:
           data.getAccountSettings.accountSettings.receive_marketing_emails!,
+      });
+      setPaymentSettings({
+        payment_channel:
+          data.getAccountSettings.accountSettings.payment_channel!,
+        payment_channel_data: {
+          subject:
+            data.getAccountSettings.accountSettings.payment_channel_data
+              ?.subject!,
+        },
       });
       setMainLoading(false);
     }
   }, [data, fetchingSettings]);
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    // console.log("e.target.value :>> ", e.target.value);
     let payload;
     if (
       e.target.name === "offer_bulk_hire" ||
       e.target.name === "receive_marketing_emails"
     ) {
       setSettings({
-        ...settings,
+        ...settings!,
         [e.target.name]: e.target.value === "on" ? true : false,
       });
       payload = {
         ...settings,
         [e.target.name]: e.target.value === "on" ? true : false,
       };
+    } else if (e.target.name === "payment_channel") {
+      setPaymentSettings({
+        ...paymentSettings!,
+        [e.target.name]: e.target.value,
+      });
+    } else if (e.target.name === "payment_subject") {
+      setPaymentSettings({
+        ...paymentSettings!,
+        payment_channel_data: {
+          ...paymentSettings?.payment_channel_data,
+          subject: e.target.value,
+        },
+      });
     }
 
-    let response = await updateAccountSettings({
-      variables: { input: payload as AccountSettingsInput },
-    });
+    if (
+      e.target.name === "offer_bulk_hire" ||
+      e.target.name === "receive_marketing_emails"
+    ) {
+      let response = await updateAccountSettings({
+        variables: { input: payload as AccountSettingsInput },
+      });
 
-    if (response.data?.editAccountSettings) {
-      setToastMessage("Settings updated!");
-      setShowSaveToast(true);
+      if (response.data?.editAccountSettings) {
+        setToastMessage("Settings updated!");
+        setShowSaveToast(true);
+      }
     }
   };
 
@@ -75,8 +111,26 @@ const Settings = (props: SettingsProps) => {
     e: SyntheticEvent<HTMLButtonElement>,
     action: string
   ) => {
+    e.preventDefault();
     setAccountAction(action);
     setShowAccountActionModal(true);
+  };
+
+  const handlePaymentSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      let response = await updateAccountPayment({
+        variables: { input: paymentSettings! },
+      });
+
+      if (response.data?.editAccountPayment) {
+        setToastMessage("Payment settings updated!");
+        setShowSaveToast(true);
+      } else {
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
   };
 
   // console.log("settings :>> ", settings);
@@ -182,30 +236,78 @@ const Settings = (props: SettingsProps) => {
                   <>
                     <h6>Payment Settings</h6>
                     <div className="mb-5">
-                      <p>Choose payment channel</p>
-
-                      <div className="form-check">
+                      {/* <p>Choose payment channel</p> */}
+                      <form onSubmit={handlePaymentSubmit}>
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="payment_channel"
+                            id="mpesa"
+                            value="mpesa"
+                            checked={
+                              paymentSettings?.payment_channel === "mpesa"
+                            }
+                            required
+                            onChange={handleChange}
+                          />
+                          <label className="form-check-label" htmlFor="mpesa">
+                            Mpesa
+                          </label>
+                        </div>
+                        <div className="row m-0 p-0">
+                          <div className="p-0">
+                            <small>
+                              Enter a valid mpesa activated phone number to
+                              receive payment.
+                            </small>
+                          </div>
+                          <div className="col-6 p-0">
+                            <div className="input-group mb-3">
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Phone Number"
+                                required
+                                name="payment_subject"
+                                onChange={handleChange}
+                                value={
+                                  paymentSettings?.payment_channel_data
+                                    ?.subject ?? ""
+                                }
+                              />
+                              <button
+                                className="btn bgOrange"
+                                type="submit"
+                                id="button-addon2"
+                                disabled={loadingPayment}
+                              >
+                                {loadingPayment ? (
+                                  <ButtonLoading
+                                    spinnerColor="white"
+                                    dimensions={{
+                                      height: "18px",
+                                      width: "18px",
+                                    }}
+                                  />
+                                ) : (
+                                  "Save"
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                      {/* <div className="form-check">
                         <input
                           className="form-check-input"
                           type="radio"
-                          name="exampleRadios"
-                          id="mpesa"
-                          value="option1"
-                          checked
-                          onChange={handleChange}
-                        />
-                        <label className="form-check-label" htmlFor="mpesa">
-                          Mpesa
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="exampleRadios"
+                          name="payment_channel"
                           id="bankAccount"
-                          value="option2"
+                          checked={paymentSettings?.payment_channel === "bank"}
+                          value="bank"
                           onChange={handleChange}
+                      
                         />
                         <label
                           className="form-check-label"
@@ -213,7 +315,7 @@ const Settings = (props: SettingsProps) => {
                         >
                           Bank Account
                         </label>
-                      </div>
+                      </div> */}
                     </div>
                   </>
                 )}
@@ -240,47 +342,6 @@ const Settings = (props: SettingsProps) => {
                     </button>
                   </div>
                 )}
-
-                <div className="settings-column d-flex align-items-start justify-content-between">
-                  <div className="d-flex flex-column">
-                    <h6>Suspend Account</h6>
-                    <div className="pr-3">
-                      <small>
-                        {role === 2 ? (
-                          <>
-                            {" "}
-                            Do you want to take a break while retaining your
-                            account. Suspending it will make all your data{" "}
-                            <b>ie profile and listings</b>, hidden from the
-                            public. You can make it public later.{" "}
-                            <b>
-                              Note: You cannot suspend account with an active
-                              trip or booking.
-                            </b>
-                          </>
-                        ) : (
-                          <>
-                            {" "}
-                            Do you want to take a break while retaining your
-                            account. Suspending it will make all your profile
-                            data hidden from the public. You can make it public
-                            later.
-                            <b>
-                              Note: You cannot suspend account with an active
-                              trip.
-                            </b>
-                          </>
-                        )}
-                      </small>
-                    </div>
-                  </div>
-                  <button
-                    className="btn account-action-btn btn-outline-secondary"
-                    onClick={(e) => handleAccountActions(e, "suspend")}
-                  >
-                    Suspend Account
-                  </button>
-                </div>
 
                 <div className="mt-5 settings-column d-flex align-items-start justify-content-between">
                   <div className="d-flex flex-column">

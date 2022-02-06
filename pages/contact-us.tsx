@@ -50,7 +50,7 @@ const ContactUs: NextPage = () => {
           <div className="contact-hero d-flex align-items-center justify-content-center">
             <div className="contact-overlay" />
             <div className="contact-hero-content colorOrange text-center">
-              <h1>How can we help?</h1>
+              <h1 className="section-heading">How can we help?</h1>
               <p>Send us a message</p>
             </div>
           </div>

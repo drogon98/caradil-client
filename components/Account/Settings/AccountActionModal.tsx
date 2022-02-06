@@ -37,7 +37,6 @@ export default function AccountActionModal(props: Props): ReactElement {
           }, 3000);
         } else {
         }
-      } else if (props.action === "suspend") {
       } else if (props.action === "delete") {
       }
     } catch (error) {}
@@ -47,13 +46,11 @@ export default function AccountActionModal(props: Props): ReactElement {
       <Modal.Header closeButton>
         <Modal.Title>
           {props.action === "delete" && "Delete Account"}
-          {props.action === "suspend" && "Suspend Account"}
           {props.action === "upgrade" && "Upgrade Account"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {props.action === "delete" && "Delete Account"}
-        {props.action === "suspend" && "Suspend Account"}
         {props.action === "upgrade" && (
           <>
             <div>

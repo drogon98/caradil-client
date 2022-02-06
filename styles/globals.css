@@ -8,12 +8,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* font-family: 'Archivo', sans-serif;
+font-family: 'Roboto', sans-serif; */
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .test {
@@ -210,12 +211,18 @@ label {
 .section-heading-top-heading {
   font-size: 12px;
   font-weight: bold;
+  font-family: "Roboto", sans-serif;
 }
 
 .section-heading-hr {
   width: 40px;
   border-top: 5px solid var(--orange) !important;
   margin: 10px 0;
+}
+
+.section-heading {
+  font-family: "Archivo", sans-serif;
+  font-weight: bold;
 }
 
 .how-it-works-circle {
@@ -285,7 +292,12 @@ label {
 
 .brand {
   flex: 1;
+  font-family: "Archivo", sans-serif;
 }
+
+/* .brand-head {
+  font-family: "Roboto", sans-serif;
+} */
 
 .mainNavLinks {
   flex: 4.5;

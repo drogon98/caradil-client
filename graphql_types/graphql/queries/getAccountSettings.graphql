@@ -1,11 +1,13 @@
 query GetAccountSettings {
   getAccountSettings {
     accountSettings {
-      account_suspended
+      # account_suspended
       receive_marketing_emails
       offer_bulk_hire
       payment_channel
-      #   payment_channel_data
+      payment_channel_data {
+        subject
+      }
     }
     error
   }

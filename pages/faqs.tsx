@@ -25,7 +25,9 @@ const FAQS: NextPage = () => {
       <CustomHead title="FAQs" />
       <Layout>
         <div className="customContainer my-4">
-          <h3 className="my-5 text-center">FREQUENTLY ASKED QUESTIONS</h3>
+          <h3 className="my-5 text-center section-heading">
+            FREQUENTLY ASKED QUESTIONS
+          </h3>
           {mainLoading ? (
             <Loading />
           ) : (

@@ -31,7 +31,7 @@ export const PopularCars: FC<IProps> = (props) => {
         <div className="section-heading-hr" />
       </div>
       <div className="text-center">
-        <h2 className="mb-5">Explore the Top Cars</h2>
+        <h2 className="mb-5 section-heading">Explore the Top Cars</h2>
       </div>
 
       <div className={`${mainLoading && `popular-cars`}`}>
