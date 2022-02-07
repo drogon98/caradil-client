@@ -5,6 +5,7 @@ import HamburgerMenu from "react-hamburger-menu";
 import { useAppSelector } from "../../redux/hooks";
 import { useRole } from "../hooks/useRole";
 import { AccountSideBarMenu } from "../layouts/AccountSideBarMenu";
+import { NotificationsNavIcon } from "./NotificationsNavIcon";
 import { UserNavIcon } from "./UserNavIcon";
 
 interface AccountNavbarProps {}
@@ -78,9 +79,10 @@ const AccountNavbar = (props: AccountNavbarProps): JSX.Element => {
         </div>
         <div className="mainNavLinks d-flex">
           <div className="mainNavLinksRight d-flex align-items-center justify-content-end">
+            <NotificationsNavIcon />
             <div className="marginLeft30px">
               <div className="account-user-icon">
-                <UserNavIcon />
+                <UserNavIcon isAccount />
               </div>
 
               {/* <Link href="/login">
@@ -101,6 +103,7 @@ const AccountNavbar = (props: AccountNavbarProps): JSX.Element => {
                     animationDuration={0.5}
                   />
                 </div>
+                {/* <span className="notifications-dot"></span> */}
 
                 <div
                   className={`sm-side-menu shadow pt-2 ${

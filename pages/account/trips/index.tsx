@@ -45,7 +45,7 @@ const Trips: FC<TripsProps> = (props) => {
           {mainLoading ? (
             <Loading />
           ) : trips && trips.length > 0 ? (
-            <div className="p-2 mt-4">
+            <div className="p-2 my-4">
               <div className="lg-tripboxes-wrapper">
                 <div className="container">
                   <h3>Trips</h3>

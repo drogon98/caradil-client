@@ -23,7 +23,9 @@ export const HowItWorks: FC<IProps> = (props) => {
         <div className="section-heading-hr" />
       </div>
       <div className="text-center">
-        <h2 className="mb-5">Its Easy to Create a Host Business Account</h2>
+        <h2 className="mb-5 section-heading">
+          Its Easy to Create a Host Business Account
+        </h2>
       </div>
       <div className="row m-0">
         <div className="col-md-4 how-it-works-box">

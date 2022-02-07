@@ -5,11 +5,6 @@ import { useRole } from "../hooks/useRole";
 
 interface IProps {}
 
-/**
- * @author
- * @function @KickOff
- **/
-
 export const KickOff: FC<IProps> = (props) => {
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
@@ -21,7 +16,9 @@ export const KickOff: FC<IProps> = (props) => {
     <div className="page-section customContainer mt-5">
       <div className="row w-100 m-0 align-items-center">
         <div className="col-lg-6 pl-lg-0 text-center">
-          <h2 className="mb-3">Kick Off your Car Business Today</h2>
+          <h2 className="mb-3 section-heading">
+            Kick Off your Car Business Today
+          </h2>
 
           <p>
             Take control of your financial future while cultivating your

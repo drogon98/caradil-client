@@ -1,7 +1,6 @@
 import { ApolloProvider } from "@apollo/client";
 import "bootstrap/dist/css/bootstrap.css";
 import jwtDecode from "jwt-decode";
-// import "bootstrap/dist/js/bootstrap.js";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -9,14 +8,13 @@ import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import client from "../apollo";
-import { LogoutOverlay } from "../components/LogoutOverlay";
+// import FloatingWhatsApp from "react-floating-whatsapp";
+import { Wrapper } from "../components/Wrapper";
 import { setToken, unsetToken } from "../redux/authSlice";
-import { useAppSelector } from "../redux/hooks";
 import { store } from "../redux/store";
 import "../styles/globals.css";
 import { baseHttpDomain } from "../utils/baseDomain";
 import { CustomJwtPayload } from "../utils/interfaces";
-import FloatingWhatsApp from "react-floating-whatsapp";
 
 let persistor = persistStore(store);
 
@@ -116,7 +114,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       </div> */}
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          {() => <Component {...pageProps} />}
+          {() => (
+            <Wrapper>
+              <Component {...pageProps} />
+            </Wrapper>
+          )}
         </PersistGate>
       </Provider>
     </ApolloProvider>

@@ -217,7 +217,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
           {mainLoading ? (
             <Loading />
           ) : (
-            <div className="p-2">
+            <div className="p-2 my-4">
               {" "}
               {showSaveToast && (
                 <ToastWrapper

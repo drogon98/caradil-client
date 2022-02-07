@@ -4,28 +4,51 @@ import React from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { RiArrowDropDownFill } from "react-icons/ri";
 import { unsetToken } from "../../redux/authSlice";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { endLogout, startLogout } from "../../redux/logoutSlice";
 import { baseHttpDomain } from "../../utils/baseDomain";
 
 interface UserNavIconProps {
   isAdmin?: boolean;
+  isAccount?: boolean;
 }
 
 export function UserNavIcon(props: UserNavIconProps) {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const notifications = useAppSelector(
+    (state) => state.notifications.notifications
+  );
+
   return (
-    <div className="account-tooltip m-0 p-0 cursor-pointer">
-      <span className="d-flex align-items-end">
+    <div className="account-tooltip m-0 p-0">
+      <span className="d-flex align-items-end cursor-pointer">
         <FaRegUserCircle size={"24px"} />
         <RiArrowDropDownFill size={"20px"} className="m-0 p-0" />
       </span>
+      {!props.isAccount && !props.isAdmin && notifications.length > 0 && (
+        <span className="notifications-dot"></span>
+      )}
 
       <div className="account-tooltip-content shadow p-2">
-        {!props.isAdmin && (
-          <div>
-            <Link href="/account">Account</Link>
+        {props.isAdmin || props.isAccount ? (
+          <div className="cursor-pointer">
+            <Link href="/account">Home</Link>
+          </div>
+        ) : (
+          <div className="cursor-pointer">
+            <Link href="/account">
+              <p className="d-flex align-items-center justify-content-between m-0">
+                <span>Account</span>{" "}
+                <span>
+                  {notifications.length > 0 && (
+                    <span className="notifications-badge ml-4">
+                      {notifications.length}
+                    </span>
+                  )}
+                </span>
+              </p>
+            </Link>
           </div>
         )}
 

@@ -8,10 +8,12 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./authSlice";
 import logoutReducer from "./logoutSlice";
+import notificationReducer from "./notificationSlice";
 
 const reducers = combineReducers({
   auth: authReducer,
   logout: logoutReducer,
+  notifications: notificationReducer,
 });
 
 const persistConfig = {

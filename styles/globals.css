@@ -316,13 +316,37 @@ label {
   font-weight: 480;
 }
 
-.account-tooltip {
+.account-tooltip,
+.notifications-nav-tooltip {
   position: relative;
 }
 
-.account-tooltip-content {
+.notifications-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background-color: var(--orange);
+  position: absolute;
+  right: 0;
+  top: -5px;
+}
+
+.notifications-badge {
+  height: 18px;
+  width: 18px;
+  display: inline-flex;
+  border-radius: 50%;
+  background-color: var(--orange);
+  font-size: 10px;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.account-tooltip-content,
+.notifications-nav-tooltip-content {
   visibility: hidden;
-  width: 120px;
+  width: 150px;
   background-color: white;
   color: #000;
   border-radius: 5px;
@@ -330,25 +354,49 @@ label {
   z-index: 1005 !important;
   top: 100%;
   right: 0%;
-  min-height: 80px;
+  min-height: 100px;
   display: flex;
   flex-direction: column;
+  /* overflow: hidden; */
+}
+
+.notifications-nav-tooltip-content-header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.generic-notification-box-border {
+  border-bottom: 1px solid #dcdcdc;
+}
+
+.account-tooltip-content {
   justify-content: space-evenly;
 }
 
-.account-tooltip:hover .account-tooltip-content {
+.notifications-nav-tooltip-content {
+  width: 300px;
+}
+
+.account-tooltip:hover .account-tooltip-content,
+.notifications-nav-tooltip:hover .notifications-nav-tooltip-content {
   visibility: visible;
 }
 
-.account-tooltip .account-tooltip-content::after {
+.account-tooltip .account-tooltip-content::after,
+.notifications-nav-tooltip .notifications-nav-tooltip-content::after {
   content: " ";
   position: absolute;
   bottom: 100%;
-  left: 92%;
+  left: 93%;
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
   border-color: transparent transparent white transparent;
+}
+
+.notifications-nav-tooltip .notifications-nav-tooltip-content::after {
+  left: 96.5%;
+  border-color: transparent transparent var(--orange) transparent;
 }
 
 .animated-navbar {
@@ -606,6 +654,11 @@ label {
 
   .account-hamburger-icon {
     display: block;
+    position: relative;
+  }
+
+  .notifications-dot {
+    right: -5px;
   }
 
   .sm-logout-burger-link {
@@ -1833,6 +1886,34 @@ car-input-container select:focus {
 .notifications-main-wrapper {
   min-height: calc(100vh - var(--navbar-height));
 }
+
+.notification-box {
+  min-height: 60px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.notification-content-wrapper {
+  flex: 10;
+}
+
+.notification-read-unread-bubble-wrapper {
+  flex: 1;
+}
+
+.notification-read-bubble,
+.notification-unread-bubble {
+  width: 15px;
+  height: 15px;
+  background-color: var(--orange);
+  border-radius: 50%;
+  display: block;
+}
+
+.notification-read-bubble {
+  background-color: #dcdcdc;
+}
+
 /* ==================================END NOTIFICATIONS STYLES================================= */
 
 /* =================================SETTINGS STYLES======================================== */

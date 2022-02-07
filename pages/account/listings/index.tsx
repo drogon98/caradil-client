@@ -49,7 +49,7 @@ const Listings: FC<ListingsProps> = (props) => {
           {mainLoading ? (
             <Loading />
           ) : (
-            <div className="p-2">
+            <div className="p-2 my-4">
               {cars && cars?.length > 0 ? (
                 <div className="pt-lg-3">
                   <div className="container p-0 d-flex justify-content-between m-0">

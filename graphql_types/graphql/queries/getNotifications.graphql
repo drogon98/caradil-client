@@ -1,5 +1,5 @@
-query GetNotifications {
-  getNotifications {
+query GetNotifications($type: String) {
+  getNotifications(type_: $type) {
     id
     message
     # sender

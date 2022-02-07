@@ -114,7 +114,7 @@ const Account: FC<IProps> = (props) => {
           {mainLoading ? (
             <Loading />
           ) : (
-            <div className="p-2">
+            <div className="p-2 my-4">
               {showSuccessToast && (
                 <ToastWrapper
                   setShow={setShowSuccessToast}
@@ -124,7 +124,7 @@ const Account: FC<IProps> = (props) => {
                 />
               )}
               {user && !user?.email_verified && (
-                <div className="bg-danger text-light text-center">
+                <div className="bg-danger text-light text-center my-3">
                   <small className="m-0">
                     {" "}
                     A link was sent to your inbox to verify your email. Didn't
