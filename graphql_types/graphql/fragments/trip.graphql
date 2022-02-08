@@ -3,6 +3,7 @@ fragment tripInfo on Trip {
   owner {
     first_name
     last_name
+    email
   }
   transaction {
     channel
@@ -10,6 +11,7 @@ fragment tripInfo on Trip {
   }
   car {
     name
+    reg_no
     transmission
     seats
     doors
@@ -26,4 +28,6 @@ fragment tripInfo on Trip {
   chat_meta_id
   owner_id
   car_owner_id
+  trip_canceller
+  why_cancel_trip
 }

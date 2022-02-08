@@ -1,0 +1,8 @@
+query GetBooking($bookingId: Float!) {
+  getBooking(bookingId: $bookingId) {
+    trip {
+      ...tripInfo
+    }
+    error
+  }
+}

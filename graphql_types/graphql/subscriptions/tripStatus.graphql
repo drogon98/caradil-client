@@ -1,0 +1,6 @@
+subscription onTripStatus {
+  tripStatus {
+    chat_meta_id
+    status
+  }
+}

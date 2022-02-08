@@ -1773,6 +1773,7 @@ car-input-container select:focus {
 .chat-textarea {
   border: none !important;
   background-color: transparent !important;
+  resize: none;
 }
 
 .chat-sm-top {

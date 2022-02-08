@@ -119,16 +119,16 @@ const Account: FC<IProps> = (props) => {
                 <ToastWrapper
                   setShow={setShowSuccessToast}
                   show={showSuccessToast}
-                  message={"Verify link has been sent to your inbox!"}
+                  message={"Verify link successfully sent to your inbox!"}
                   position="bottom-end"
                 />
               )}
               {user && !user?.email_verified && (
-                <div className="bg-danger text-light text-center my-3">
+                <div className="bg-danger text-light text-center mb-3">
                   <small className="m-0">
                     {" "}
-                    A link was sent to your inbox to verify your email. Didn't
-                    receive it? Request another link
+                    Please verify your email. A link was sent to your inbox to
+                    verify the email. Didn't receive it? Request another link
                     <button
                       className="btn mt-0 pt-0 pl-0 ml-0 text-light"
                       style={{

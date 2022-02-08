@@ -10,7 +10,7 @@ interface TripBoxProps {
 export const TripBox: FC<TripBoxProps> = (props) => {
   // console.log("props.data :>> ", props.data);
   return (
-    <div className="shadow py-3 mb- d-flex align-items-center justify-content-between">
+    <div className="shadow py-3 mb-4 d-flex align-items-center justify-content-between">
       <Link href={`/account/trips/${props.data.id}`}>
         <a className="container">
           <div className="row">

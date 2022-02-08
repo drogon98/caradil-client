@@ -9,7 +9,7 @@ interface Props {
 
 export default function BookBox(props: Props): ReactElement {
   return (
-    <div className="shadow py-3 mb- d-flex align-items-center justify-content-between">
+    <div className="shadow py-3 mb- d-flex align-items-center justify-content-between mb-4">
       <Link href={`/account/bookings/${props.data.id}`}>
         <a className="container">
           <div className="row">

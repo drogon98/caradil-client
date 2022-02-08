@@ -173,7 +173,7 @@ export const Features: FC<FeaturesProps> = (props) => {
           </small>
         )}
         <div className="row">
-          <div className="col">
+          <div className="col-6">
             <label htmlFor="gas">Gas</label>
             <select
               className="form-select form-control car-input-width"
@@ -189,7 +189,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               <option value="diesel">Diesel</option>
             </select>
           </div>
-          <div className="col">
+          <div className="col-6">
             <label htmlFor="carName">Transmission</label>
             <select
               className="form-select form-control car-input-width"
@@ -207,7 +207,7 @@ export const Features: FC<FeaturesProps> = (props) => {
           </div>
         </div>
         <div className="row mt-2">
-          <div className="col">
+          <div className="col-6">
             <label htmlFor="carName">Color</label>
             <select
               className="form-select form-control car-input-width"
@@ -226,7 +226,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               ))}
             </select>
           </div>
-          <div className="col">
+          <div className="col-6">
             <label htmlFor="carName">Seats</label>
             <input
               type="number"

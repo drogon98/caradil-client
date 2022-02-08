@@ -50,9 +50,9 @@ export default function CarDataStepForm(props: Props): ReactElement {
     fetchPolicy: "network-only",
   });
 
-  console.log("data :>> ", data);
+  // console.log("data :>> ", data);
 
-  console.log("carId :>> ", carId);
+  // console.log("carId :>> ", carId);
 
   useEffect(() => {
     if (router.query) {
@@ -252,16 +252,18 @@ export default function CarDataStepForm(props: Props): ReactElement {
 
   return (
     <div>
-      <div>
-        <button
-          className="btn m-0 p-0 pl-2 mb-3"
-          onClick={() => {
-            router.replace("/account/listings");
-          }}
-        >
-          <BsArrowLeft size={"30px"} />
-        </button>
-      </div>
+      {activeSlide === -1 && (
+        <div>
+          <button
+            className="btn m-0 p-0 pl-2 mb-3"
+            onClick={() => {
+              router.replace("/account/listings");
+            }}
+          >
+            <BsArrowLeft size={"30px"} />
+          </button>
+        </div>
+      )}
 
       {activeSlide !== -1 && (
         <div className="col-md-10 mx-auto">

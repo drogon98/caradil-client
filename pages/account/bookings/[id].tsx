@@ -13,6 +13,7 @@ import AccountLayout from "../../../components/layouts/AccountLayout";
 import { Loading } from "../../../components/Loading";
 import {
   Trip,
+  useGetBookingQuery,
   useGetTripQuery,
 } from "../../../graphql_types/generated/graphql";
 import CancelTripMoal from "./CancelTripModal";
@@ -24,8 +25,8 @@ export default function Booking(props: Props): ReactElement {
   const [mainLoading, setMainLoading] = useState(true);
   const router = useRouter();
   const [skip, setSkip] = useState(true);
-  const [tripId, setTripId] = useState<number>();
-  const [trip, setTrip] = useState<Trip>();
+  const [bookingId, setBookingId] = useState<number>();
+  const [booking, setBooking] = useState<Trip>();
 
   const [showCancelTripModal, setShowCancelTripModal] = useState(false);
   const [showConfirmTripModal, setShowConfirmTripModal] = useState(false);
@@ -38,19 +39,19 @@ export default function Booking(props: Props): ReactElement {
           throw new Error("Invalid trip id");
         }
 
-        setTripId(tripID);
+        setBookingId(tripID);
       } catch (error) {}
     }
   }, [router.query]);
 
   useEffect(() => {
-    if (tripId) {
+    if (bookingId) {
       setSkip(false);
     }
-  }, [tripId]);
+  }, [bookingId]);
 
-  const { data, loading } = useGetTripQuery({
-    variables: { tripId: tripId! },
+  const { data, loading } = useGetBookingQuery({
+    variables: { bookingId: bookingId! },
     fetchPolicy: "network-only",
     skip,
   });
@@ -58,16 +59,16 @@ export default function Booking(props: Props): ReactElement {
   const { width } = useWindowDimensions();
 
   useEffect(() => {
-    if (data?.getTrip.trip?.id) {
-      setTrip(data.getTrip.trip);
+    if (data?.getBooking.trip?.id) {
+      setBooking(data.getBooking.trip);
     }
   }, [data]);
 
   useEffect(() => {
-    if (!loading && trip?.id) {
+    if (!loading && booking?.id) {
       setMainLoading(false);
     }
-  }, [trip, loading]);
+  }, [booking, loading]);
 
   const handleCancelTrip = (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -87,18 +88,20 @@ export default function Booking(props: Props): ReactElement {
       if (width <= 800) {
         router.push({
           pathname: "/account/chats/md",
-          query: { meta_id: trip?.chat_meta_id, rc_id: trip?.owner_id },
+          query: { meta_id: booking?.chat_meta_id, rc_id: booking?.owner_id },
         });
       } else {
         router.push({
           pathname: "/account/chats",
-          query: { meta_id: trip?.chat_meta_id },
+          query: { meta_id: booking?.chat_meta_id },
         });
       }
     } catch (error) {
       console.log("error :>> ", error);
     }
   };
+
+  console.log("booking :>> ", booking);
 
   return (
     <>
@@ -108,13 +111,13 @@ export default function Booking(props: Props): ReactElement {
           {mainLoading ? (
             <Loading />
           ) : (
-            <div className="p-2">
+            <div className="p-2 col-md-8 col-lg-6 mx-auto">
               {showCancelTripModal && (
                 <CancelTripMoal
                   showModal={showCancelTripModal}
                   handleClose={() => setShowCancelTripModal(false)}
-                  setTrip={setTrip}
-                  tripId={tripId}
+                  setTrip={setBooking}
+                  tripId={bookingId}
                 />
               )}
 
@@ -122,11 +125,11 @@ export default function Booking(props: Props): ReactElement {
                 <ConfirmTripModal
                   showModal={showConfirmTripModal}
                   handleClose={() => setShowConfirmTripModal(false)}
-                  setTrip={setTrip}
-                  tripId={tripId}
+                  setTrip={setBooking}
+                  tripId={bookingId}
                 />
               )}
-              <div className="mt-4">
+              <div className="mt-4 d-flex align-items-center mb-3">
                 {/* <h3>Helloo</h3> */}
                 <button
                   className="btn m-0 p-0"
@@ -136,58 +139,99 @@ export default function Booking(props: Props): ReactElement {
                 >
                   <BsArrowLeft size={"30px"} />
                 </button>
+                <div className="d-flex justify-content-between w-100">
+                  <h3 className="m-0">Booking Details</h3>
+                  <button
+                    className="btn bgOrange"
+                    onClick={handleConfirmTrip}
+                    disabled={booking?.status === "confirmed"}
+                  >
+                    {booking?.status === "confirmed"
+                      ? "Trip Confirmed"
+                      : "Confirm Trip"}
+                  </button>
+                </div>
               </div>
 
               <div>
-                <h3>Book Information</h3>
-                {/* toDateString() */}
-                <p>{`${trip?.owner?.first_name} ${
-                  trip?.owner?.last_name
-                } has paid Ksh.${parseFloat(
-                  trip?.transaction.amount!
-                ).toLocaleString()} for a trip beginning on ${new Date(
-                  trip?.start_date
-                ).toDateString()} at ${
-                  trip?.start_time
-                }hrs and end on ${new Date(trip?.end_date).toDateString()} at ${
-                  trip?.end_time
-                }hrs.`}</p>
-                {(trip?.status === "confirmed" ||
-                  trip?.status === "pending") && (
-                  <>
-                    <br />
-                    {}
-                    <p>Please confirm this trip.</p>
-                    <div>
-                      <button
-                        className="btn bgOrange"
-                        onClick={handleConfirmTrip}
-                        disabled={trip?.status === "confirmed"}
-                      >
-                        {trip?.status === "confirmed"
-                          ? "Trip Confirmed"
-                          : "Confirm Trip"}
-                      </button>
+                <div>
+                  <h6 className="fw-bolder">User Details</h6>
+                  <div>
+                    <div className="d-flex w-100 justify-content-between mb-2">
+                      <p>First Name</p>
+                      <span>{booking?.owner?.first_name ?? "N/A"}</span>
                     </div>
-                  </>
-                )}
-                {trip?.status === "confirmed" && (
-                  <div className="my-3">
+                    <div className="d-flex w-100 justify-content-between mb-2">
+                      <p>Last Name</p>
+                      <span>{booking?.owner?.last_name ?? "N/A"}</span>
+                    </div>
+                    <div className="d-flex w-100 justify-content-between mb-2">
+                      <p>Email</p>
+                      <span>{booking?.owner?.email}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="my-4">
+                  <h6 className="fw-bolder">Trip Dates</h6>
+                  <div>
+                    <div className="d-flex w-100 justify-content-between mb-2">
+                      <p>Start Date</p>
+                      <span>
+                        {new Date(booking?.start_date).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="d-flex w-100 justify-content-between mb-2">
+                      <p>Start Time</p>
+                      <span>{booking?.start_time}hrs</span>
+                    </div>
+                    <div className="d-flex w-100 justify-content-between mb-2">
+                      <p>End Date</p>
+                      <span>
+                        {new Date(booking?.end_date).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="d-flex w-100 justify-content-between mb-2">
+                      <p>End Time</p>
+                      <span>{booking?.end_time}hrs</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="my-4">
+                  <h6 className="fw-bolder">Payment Details</h6>
+                  <div>
+                    <div className="d-flex w-100 justify-content-between mb-2">
+                      <p>Amount Paid</p>
+                      <span>
+                        Ksh.
+                        {parseInt(
+                          booking?.transaction.amount!
+                        ).toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {booking?.status === "confirmed" && (
+                  <div className="d-grid gap-2 mt-3">
                     <button className="btn bg-success" onClick={handleChat}>
                       Chat With Guest
                     </button>
                   </div>
                 )}
 
-                <div>
-                  <button
-                    className="btn bg-danger"
-                    onClick={handleCancelTrip}
-                    disabled={trip?.status === "cancelled"}
-                  >
-                    Cancel Trip
-                  </button>
-                </div>
+                {booking?.status !== "successful" &&
+                  booking?.status !== "cancelled" && (
+                    <div className="d-grid gap-2 mt-3">
+                      <button
+                        className="btn bg-danger"
+                        onClick={handleCancelTrip}
+                      >
+                        Cancel Trip
+                      </button>
+                    </div>
+                  )}
               </div>
             </div>
           )}

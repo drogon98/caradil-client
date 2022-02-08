@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import { ImMenu3 } from "react-icons/im";
 import { IoIosMenu } from "react-icons/io";
 import { Availability } from "../../../../components/AddEditCar/Availability";
 import { Categories } from "../../../../components/AddEditCar/Categories";
@@ -277,7 +276,7 @@ export default function ManageCar(props: Props): ReactElement {
                         router.replace("/account/listings");
                       }}
                     >
-                      <IoIosMenu size={"30px"} />
+                      <BsArrowLeft size={"30px"} />
                     </button>
                   </div>
                   <div className="manage-car-burger-wrapper">
@@ -286,7 +285,7 @@ export default function ManageCar(props: Props): ReactElement {
                       onClick={handleBurgerClick}
                       ref={burgerButtonRef}
                     >
-                      <ImMenu3 size={"35px"} />
+                      <IoIosMenu size={"35px"} />
                     </button>
                     {showBurgerDropdown && (
                       <div
