@@ -34,7 +34,9 @@ export const HowItWorks: FC<IProps> = (props) => {
               <CgProfile className="how-it-works-icon" />
             </div>
           </div>
-          <h4 className="mt-4 text-center">Create Host Profile</h4>
+          <h4 className="mt-4 text-center how-it-works-box-inner-heading">
+            Create Host Profile
+          </h4>
           <p className="mt-4 text-center">
             Its simple to create a host profile. All you need is your profile
             photo,your names and phone number.
@@ -47,7 +49,9 @@ export const HowItWorks: FC<IProps> = (props) => {
             </div>
           </div>
 
-          <h4 className="mt-4 text-center">List Your Car</h4>
+          <h4 className="mt-4 text-center how-it-works-box-inner-heading">
+            List Your Car
+          </h4>
           <p className="mt-4 text-center">
             With atleast 5 photos of your car,national id and car logbook
             copies,you are ready to list your car.
@@ -59,7 +63,9 @@ export const HowItWorks: FC<IProps> = (props) => {
               <MdOutlineManageSearch className="how-it-works-icon" />
             </div>
           </div>
-          <h4 className="mt-4 text-center">Scale Your Business</h4>
+          <h4 className="mt-4 text-center how-it-works-box-inner-heading">
+            Scale Your Business
+          </h4>
           <p className="mt-4 text-center">
             As far as you meet caradil terms of service you can expand your
             business. You can list more cars too.

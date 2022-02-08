@@ -1,8 +1,6 @@
 import Link from "next/link";
 import React, { FC } from "react";
-import slugify from "slugify";
 import { Car } from "../../../graphql_types/generated/graphql";
-import { MoreButton } from "../MoreButton";
 
 interface SmListBoxProps {
   data: Car;
@@ -33,11 +31,11 @@ export const SmListBox: FC<SmListBoxProps> = (props) => {
               <div className="d-flex flex-column">
                 <h4 className="m-0">{props.data.name}</h4>
                 <p>{props.data.reg_no}</p>
-                <p>{props.data.published ? "Yes" : "No"}</p>
+                <p>{props.data.published ? "Published" : "Not Published"}</p>
                 <p>
                   Ksh.
                   {props.data.daily_rate
-                    ? props.data.daily_rate.toLocaleString()
+                    ? props.data.daily_rate.toLocaleString() + " per day"
                     : "Not set"}
                 </p>
               </div>

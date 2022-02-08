@@ -61,7 +61,7 @@ export const MainFooter: FC<IProps> = (props) => {
                 <Link href="/faqs">Get Help</Link>
               </p>{" "}
               <p>
-                <Link href="/terms-and-conditions">Terms & Conditions</Link>
+                <Link href="/policies/terms">Policies</Link>
               </p>
             </div>
           </div>

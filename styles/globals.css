@@ -80,6 +80,15 @@ a:hover {
   text-decoration: none;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+
 p {
   margin: 0 !important;
 }
@@ -198,6 +207,11 @@ textarea:focus {
   box-shadow: none !important;
 }
 
+.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 label {
   font-weight: 600;
   margin-bottom: 0 !important;
@@ -223,6 +237,10 @@ label {
 .section-heading {
   font-family: "Archivo", sans-serif;
   font-weight: bold;
+}
+
+.how-it-works-box-inner-heading {
+  font-size: 17px;
 }
 
 .how-it-works-circle {
@@ -1128,7 +1146,7 @@ car-input-container select:focus {
 }
 
 .expand {
-  height: auto;
+  min-height: 80px;
   /* transition: height 2s ease-in-out; */
 }
 

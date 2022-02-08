@@ -18,8 +18,8 @@ export const ListBox: FC<ListBoxProps> = (props) => {
           query: { active: 1 },
         }}
       >
-        <div className="container cursor-pointer">
-          <a className="row m-0 align-items-center">
+        <div className="container p-0 cursor-pointer">
+          <a className="row m-0 align-items-center p-0">
             <div className="col-1">
               <div className="list-name-circle">
                 <img

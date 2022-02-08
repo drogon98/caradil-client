@@ -49,11 +49,29 @@ const Chats = (props: ChatsProps) => {
   const { data, loading } = useGetUserChatMetasQuery();
 
   useEffect(() => {
-    if (data?.getUserChatMetas && !loading) {
-      setChatProfiles(data?.getUserChatMetas);
-      setMainLoading(false);
-    }
-  }, [data, loading]);
+    let _afterData = async () => {
+      if (data?.getUserChatMetas && !loading) {
+        setChatProfiles(data?.getUserChatMetas);
+        if (!metaId) {
+          let _id = data.getUserChatMetas[0].id!;
+          setActiveChatId(_id);
+
+          await router.push(
+            {
+              pathname: `/account/chats`,
+              query: {
+                meta_id: _id,
+              },
+            },
+            `/account/chats/?meta_id=${_id}`,
+            { shallow: true }
+          );
+        }
+        setMainLoading(false);
+      }
+    };
+    _afterData();
+  }, [data, loading, metaId]);
 
   useEffect(() => {
     if (metaId) {

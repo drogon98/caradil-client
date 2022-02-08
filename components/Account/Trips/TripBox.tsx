@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React, { FC } from "react";
 import { Trip } from "../../../graphql_types/generated/graphql";
-import { MoreButton } from "../MoreButton";
 
 interface TripBoxProps {
   data: Trip;
@@ -14,13 +13,22 @@ export const TripBox: FC<TripBoxProps> = (props) => {
       <Link href={`/account/trips/${props.data.id}`}>
         <a className="container">
           <div className="row">
-            <div className="col">{`This trip is ongoing!`}</div>
+            {props.data.status === "cancelled" && (
+              <div className="col">{`This trip was cancelled`}</div>
+            )}
+
+            {props.data.status === "confirmed" && (
+              <div className="col">{`You confirmed this trip!`}</div>
+            )}
+
+            {props.data.status === "successful" && (
+              <div className="col">{`This trip was successful!`}</div>
+            )}
+
+            {props.data.status === "pending" && (
+              <div className="col">{`Please confirm this trip!`}</div>
+            )}
             <div className="col-2">{props.data.status}</div>
-            {/* <div className="col-1 d-flex justify-content-center">
-            <MoreButton data={props.data}>
-                  <p>Edit</p>
-            </MoreButton>
-          </div> */}
           </div>
         </a>
       </Link>

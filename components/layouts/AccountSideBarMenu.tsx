@@ -1,23 +1,27 @@
 import Link from "next/link";
-import router from "next/router";
-import React, { FC } from "react";
-import { User } from "../../graphql_types/generated/graphql";
+import { useRouter } from "next/router";
+import React, { FC, useEffect, useState } from "react";
 import { unsetToken } from "../../redux/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
-import { startLogout, endLogout } from "../../redux/logoutSlice";
+import { endLogout, startLogout } from "../../redux/logoutSlice";
 import { baseHttpDomain } from "../../utils/baseDomain";
 
 interface AccountSideBarMenuProps {
   isHost: boolean;
 }
 
-/**
- * @author @CodeYourEmpire
- * @function @AccountSideBarMenu
- **/
-
 export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [isChatPage, setIsChatPage] = useState(false);
+
+  useEffect(() => {
+    if (router.pathname) {
+      const isChat = router.pathname.includes("/chats");
+      setIsChatPage(isChat);
+    }
+  }, [router]);
+
   return (
     <div className="account-side-menu">
       <ul className="list-style-none m-0">
@@ -58,11 +62,18 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
           </Link>
         </li>
         <li>
-          <Link href="/account/chats">
-            <a className="link black-link">
-              <div>Chats </div>
-            </a>
-          </Link>
+          {isChatPage ? (
+            <span className="link black-link cursor-pointer">
+              {" "}
+              <div>Trips</div>
+            </span>
+          ) : (
+            <Link href="/account/chats">
+              <a className="link black-link">
+                <div>Chats </div>
+              </a>
+            </Link>
+          )}
         </li>
         {props.isHost && (
           <li>

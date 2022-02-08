@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
-import { CustomHead } from "../components/CustomHead";
-import Layout from "../components/layouts/Layout";
+import { CustomHead } from "../../components/CustomHead";
+import Layout from "../../components/layouts/Layout";
 
-const TermsAndConditions: NextPage = () => {
+const CancellationAndRefund: NextPage = () => {
   return (
     <>
-      <CustomHead title="Terms And Conditions" />
+      <CustomHead title="Terms Of Service" />
       <Layout>
         <div className="customContainer my-5">
           <h2>
@@ -341,4 +341,4 @@ const TermsAndConditions: NextPage = () => {
   );
 };
 
-export default TermsAndConditions;
+export default CancellationAndRefund;

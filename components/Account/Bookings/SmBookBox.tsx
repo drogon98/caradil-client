@@ -12,9 +12,22 @@ export default function SmBookBox(props: Props): ReactElement {
       <Link href={`/account/bookings/${props.data.id}`}>
         <a className="container">
           <div>
-            <p>This trip is ongoing!</p>
+            {props.data.status === "cancelled" && (
+              <div className="col">{`This trip was cancelled`}</div>
+            )}
+
+            {props.data.status === "confirmed" && (
+              <div className="col">{`You confirmed this trip!`}</div>
+            )}
+
+            {props.data.status === "successful" && (
+              <div className="col">{`This trip was successful!`}</div>
+            )}
+
+            {props.data.status === "pending" && (
+              <div className="col">{`Please confirm this trip!`}</div>
+            )}
             <p>{props.data.status}</p>
-            <p>More</p>
           </div>
         </a>
       </Link>

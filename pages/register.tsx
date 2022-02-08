@@ -200,7 +200,7 @@ const Register: FC<IProps> = (props) => {
                 htmlFor="agreeToTermsRegister"
               >
                 Yes,I agree to Caradil{" "}
-                <Link href="/terms-and-conditions">
+                <Link href="/policies/terms">
                   <a target={"_blank"} className="text-primary">
                     terms and conditons
                   </a>

@@ -229,7 +229,7 @@ export const Messages = (props: ChatsProps) => {
           style={{ objectFit: "cover", height: "55px", width: "55px" }}
           className="rounded-circle"
         />
-        <h6 className="m-0">{name}</h6>
+        <p className="m-0">{name}</p>
       </div>
       <div>
         <div className="chat-messages-wrapper p-2 pt-4">

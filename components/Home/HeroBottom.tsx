@@ -34,7 +34,9 @@ export function HeroBottom(props: HeroBottomProps) {
               <FiSearch className="how-it-works-icon" />
             </div>
           </div>
-          <h4 className="mt-4 text-center">Browse Car</h4>
+          <h4 className="mt-4 text-center how-it-works-box-inner-heading">
+            Browse Car
+          </h4>
           <p className="mt-4 text-center">
             Browse cars and find the one that fits your requirements.
           </p>
@@ -49,9 +51,11 @@ export function HeroBottom(props: HeroBottomProps) {
             </div> */}
           </div>
 
-          <h4 className="mt-4 text-center">Reserve Car</h4>
+          <h4 className="mt-4 text-center how-it-works-box-inner-heading">
+            Reserve Car
+          </h4>
           <p className="mt-4 text-center">
-            Using our checkout system, book the car for your trip
+            Using our checkout system, book the car for your trip.
           </p>
 
           {/* <h4 className="mt-4 text-center">Enjoy Your Trip</h4>
@@ -68,7 +72,9 @@ export function HeroBottom(props: HeroBottomProps) {
               <MdOutlineAssignmentReturned className="how-it-works-icon" />
             </div> */}
           </div>
-          <h4 className="mt-4 text-center">Enjoy Your Trip</h4>
+          <h4 className="mt-4 text-center how-it-works-box-inner-heading">
+            Enjoy Your Trip
+          </h4>
           <p className="mt-4 text-center">
             Get the car from the host and embark on your trip.
           </p>

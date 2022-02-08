@@ -81,7 +81,7 @@ export const ChatUserProfileBox = (props: ChatUserProfileBoxProps) => {
         {props.data.no_chat ? (
           <>
             <div className="d-flex justify-content-between align-items-center">
-              <h6 className="m-0">{name}</h6>
+              <p className="m-0">{name}</p>
               <span>
                 <small>
                   {moment(props.data.latest_chat?.created_at).calendar({
@@ -101,7 +101,7 @@ export const ChatUserProfileBox = (props: ChatUserProfileBoxProps) => {
           <>
             <div className="d-flex justify-content-between w-100 align-items-center mb-2">
               <div className="d-flex justify-content-between w-75 align-items-center chat-profile-name-chats-count">
-                <h6 className="m-0 w-75 chat-profile-name">{name}</h6>
+                <p className="m-0 w-75 chat-profile-name">{name}</p>
                 <div className="w-25 chat-count-wrapper">
                   {props.data.unread_chats_count ? (
                     <div className="bg-success chat-count-badge">
