@@ -35,29 +35,10 @@ import {
   useUpdateCarFavouriteMutation,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
+import { totalChargeCalculator } from "../../utils/trip_duration_ttl_calc";
 import { unslugify } from "../../utils/unslugify";
 
 interface CarProps {}
-
-export const totalChargeCalculator = (
-  car: Car,
-  dates: CustomAvailabilityObj,
-  setTotalCharge: Dispatch<React.SetStateAction<number>>
-) => {
-  let startDate = new Date(dates?.startDate!);
-  let endDate = new Date(dates?.endDate!);
-
-  // To calculate the time difference of two dates
-  let Difference_In_Time = endDate.getTime() - startDate.getTime();
-
-  // To calculate the no. of days between two dates
-  let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-
-  setTotalCharge(() => {
-    let total = car?.daily_rate! * Difference_In_Days;
-    return total;
-  });
-};
 
 const Car: FC<CarProps> = (props) => {
   const router = useRouter();
@@ -147,7 +128,7 @@ const Car: FC<CarProps> = (props) => {
       delete newData.__typename;
 
       setCar(newData.car);
-      setTotalCharge(newData.car?.daily_rate!);
+      // setTotalCharge(newData.car?.daily_rate!);
       const found = newData.car?.besties?.find((user) => user.id === userId);
       setIsFavourite(found ? true : false);
     }
@@ -164,11 +145,11 @@ const Car: FC<CarProps> = (props) => {
     }
   }, [car]);
 
-  useEffect(() => {
-    if (validDates && car && values) {
-      totalChargeCalculator(car, values, setTotalCharge);
-    }
-  }, [validDates, values, car]);
+  // useEffect(() => {
+  //   if (validDates && car && values) {
+  //     totalChargeCalculator(car, values, setTotalCharge);
+  //   }
+  // }, [validDates, values, car]);
 
   useEffect(() => {
     if (data && !loading) {
@@ -224,6 +205,8 @@ const Car: FC<CarProps> = (props) => {
       setSelectingDates(!selectingDates);
     }
   };
+
+  console.log("car", car);
 
   return (
     <>
@@ -444,14 +427,26 @@ const Car: FC<CarProps> = (props) => {
                       )}
                     </div>
 
-                    <div className="d-flex justify-content-between align-items-center">
-                      <h6 className="fw-bolder m-0">
-                        Ksh.{car?.daily_rate!.toLocaleString()}/day
-                      </h6>
-                      <small className="fw-bold ml-3">
-                        {validDates &&
-                          `Total Ksh.${totalCharge.toLocaleString()}`}
-                      </small>
+                    <div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <h6 className="fw-bolder m-0">
+                          Ksh.{car?.daily_rate!.toLocaleString()}/day
+                        </h6>
+                        <small className="fw-bold ml-3">
+                          {validDates &&
+                            `Total Ksh.${totalCharge.toLocaleString()}`}
+                        </small>
+                      </div>
+                      {car?.can_rent_hourly && !car.booked && (
+                        <div style={{ lineHeight: "11px" }}>
+                          <small style={{ fontSize: "11px" }}>
+                            You can rent this car for trips lasting less than
+                            24hrs. By doing so you will be charged hourly. The
+                            hourly rate for this car is{" "}
+                            <b>Ksh.{car?.hourly_rate}/hr</b>
+                          </small>
+                        </div>
+                      )}
                     </div>
 
                     <hr />
@@ -462,6 +457,7 @@ const Car: FC<CarProps> = (props) => {
                       setValidDates={setValidDates}
                       userDates={userDates}
                       setTotalCharge={setTotalCharge}
+                      // validDates={validDates}
                       car={car!}
                       hasCustomAvailability={car?.custom_availability!}
                     />
@@ -559,16 +555,28 @@ const Car: FC<CarProps> = (props) => {
                 }`}
               >
                 <div>
-                  <h5 className="m-0">
-                    Ksh.{car?.daily_rate!.toLocaleString()}/day
-                  </h5>
+                  <div>
+                    <h5 className="m-0">
+                      Ksh.{car?.daily_rate!.toLocaleString()}/day
+                    </h5>
+                    {car?.can_rent_hourly && !car.booked && (
+                      <div style={{ lineHeight: "12px" }}>
+                        <small style={{ fontSize: "10px" }}>
+                          You can rent this car for trips lasting less than
+                          24hrs. By doing so you will be charged hourly. The
+                          hourly rate for this car is{" "}
+                          <b>Ksh.{car?.hourly_rate}/hr</b>
+                        </small>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <button
                   onClick={handleSelectDates}
                   disabled={car?.booked || !car?.published}
                   className="btn m-0 p-0"
-                  style={{ fontSize: "500" }}
+                  style={{ fontSize: "500", width: "250px" }}
                   ref={pickDatesButtonRef}
                 >
                   <small className="mr-2">
@@ -599,6 +607,7 @@ const Car: FC<CarProps> = (props) => {
                     userDates={userDates}
                     setTotalCharge={setTotalCharge}
                     car={car!}
+                    // validDates={validDates}
                     hasCustomAvailability={car?.custom_availability!}
                   />
                   <div className="d-grid gap-2">

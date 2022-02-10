@@ -199,7 +199,7 @@ const Register: FC<IProps> = (props) => {
                 className="form-check-label"
                 htmlFor="agreeToTermsRegister"
               >
-                Yes,I agree to Caradil{" "}
+                Yes,I agree to caradil{" "}
                 <Link href="/policies/terms">
                   <a target={"_blank"} className="text-primary">
                     terms and conditons

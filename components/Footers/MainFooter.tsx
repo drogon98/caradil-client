@@ -97,6 +97,9 @@ export const MainFooter: FC<IProps> = (props) => {
               </p>{" "}
               <p>
                 <Link href="/">Carasure</Link>
+              </p>
+              <p>
+                <Link href="/">Photography</Link>
               </p> */}
             </div>
           </div>
@@ -147,7 +150,7 @@ export const MainFooter: FC<IProps> = (props) => {
           </div>
         </div>
         <div>
-          <p>
+          <p id="footer-copyright">
             &copy; {new Date().getFullYear()} <span>Caradil</span>
           </p>
         </div>

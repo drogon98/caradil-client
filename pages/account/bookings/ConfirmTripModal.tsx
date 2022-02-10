@@ -1,24 +1,12 @@
-import React, {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  ReactElement,
-  SetStateAction,
-  SyntheticEvent,
-  useState,
-} from "react";
+import React, { FormEvent, ReactElement } from "react";
 import { Modal } from "react-bootstrap";
 import { ButtonLoading } from "../../../components/Loading/ButtonLoading";
-import {
-  Trip,
-  useConfirmTripMutation,
-} from "../../../graphql_types/generated/graphql";
+import { useConfirmTripMutation } from "../../../graphql_types/generated/graphql";
 
 interface Props {
-  //   children: ReactChild;
   showModal: boolean;
   handleClose: () => void;
-  setTrip: Dispatch<SetStateAction<Trip | undefined>>;
+  // setTrip: Dispatch<SetStateAction<Trip | undefined>>;
   tripId: number | undefined;
 }
 
@@ -37,7 +25,7 @@ export default function ConfirmTripModal(props: Props): ReactElement {
       // console.log("response :>> ", response);
 
       if (response.data?.confirmTrip.trip?.id) {
-        props.setTrip(response.data?.confirmTrip.trip);
+        // props.setTrip(response.data?.confirmTrip.trip);
         props.handleClose();
       }
     } catch (error) {

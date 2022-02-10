@@ -46,6 +46,7 @@ fragment carInfo on Car {
   make
   location
   distance_per_day
+  distance_per_hour
   besties {
     id
   }

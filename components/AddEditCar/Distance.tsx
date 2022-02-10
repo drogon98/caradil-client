@@ -23,6 +23,7 @@ interface DistanceProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   isManage?: boolean;
+  canRentHourly: boolean;
   // verificationInProgress?: boolean;
 }
 
@@ -31,6 +32,8 @@ export const Distance: FC<DistanceProps> = (props) => {
   const [values, setValues] = useState<CarDistanceInput>();
   const [showExtraDistanceText, setShowExtraDistanceText] = useState(false);
   const [invalidDistanceError, setInvalidDistanceError] = useState(false);
+  const [invalidHourlyDistanceError, setInvalidHourlyDistanceError] =
+    useState(false);
   const [showSaveToast, setShowSaveToast] = useState(false);
 
   useEffect(() => {
@@ -54,6 +57,7 @@ export const Distance: FC<DistanceProps> = (props) => {
           distance_per_day: 0,
           [e.target.name]: true,
           charge_extra_distance_travelled: false,
+          distance_per_hour: 0,
         });
       } else {
         setValues({
@@ -79,6 +83,15 @@ export const Distance: FC<DistanceProps> = (props) => {
     e.preventDefault();
     if (!values?.has_unlimited_distance && values?.distance_per_day === 0) {
       setInvalidDistanceError(true);
+      return;
+    }
+
+    if (
+      props.canRentHourly &&
+      !values?.has_unlimited_distance &&
+      values?.distance_per_hour === 0
+    ) {
+      setInvalidHourlyDistanceError(true);
       return;
     }
     try {
@@ -114,6 +127,9 @@ export const Distance: FC<DistanceProps> = (props) => {
     if (invalidDistanceError) {
       setInvalidDistanceError(false);
     }
+    if (invalidHourlyDistanceError) {
+      setInvalidHourlyDistanceError(false);
+    }
   };
 
   return (
@@ -127,18 +143,24 @@ export const Distance: FC<DistanceProps> = (props) => {
         />
       )}
       <h3>Distance</h3>
+      {invalidDistanceError && (
+        <small className="text-danger">
+          With unlimited distance false,distance per day should be a value
+          greater than 0.
+        </small>
+      )}
+      {invalidHourlyDistanceError && (
+        <small className="text-danger">
+          With unlimited distance false,distance per hour should be a value
+          greater than 0.
+        </small>
+      )}
       <p className="mb-2">
-        This is the distance your car should cover in one day of a trip.
+        This is the distance your car should cover in a trip.
       </p>
       <form onSubmit={handleSubmit} className="mb-3">
-        {invalidDistanceError && (
-          <small className="text-danger">
-            With unlimited distance false,distance per day should be a value
-            greater than 0.
-          </small>
-        )}
         <div>
-          <label htmlFor="distance_per_day">Distance (KM)</label>
+          <label htmlFor="distance_per_day">Daily Distance (KM)</label>
           <div className="input-group car-input-width mb-3">
             <input
               type="number"
@@ -149,24 +171,40 @@ export const Distance: FC<DistanceProps> = (props) => {
               onChange={handleChange}
               placeholder="eg 800"
               id="distance_per_day"
-              disabled={values?.has_unlimited_distance}
+              disabled={values?.has_unlimited_distance!}
               min={0}
               onFocus={handleFocus}
             />
             <span className="input-group-text">KM</span>
           </div>
-          {/* <input
-            type="number"
-            name="distance_per_day"
-            className="form-control"
-            value={values?.distance_per_day}
-            // required
-            onChange={handleChange}
-            placeholder="eg 800"
-            id="distance_per_day"
-            disabled={values?.has_unlimited_distance}
-            min={0}
-          /> */}
+
+          {props.canRentHourly && (
+            <>
+              <div>
+                By default many of the cars are listed to be rented out on per
+                day basis.If you intend to rent out your car on trips lasting
+                less than 24 hours then add the maximum distance your car should
+                cover in one. hour
+              </div>
+              <label htmlFor="distance_per_hour">Hourly Distance (KM)</label>
+              <div className="input-group car-input-width mb-3">
+                <input
+                  type="number"
+                  name="distance_per_hour"
+                  className="form-control "
+                  value={values?.distance_per_hour}
+                  // required
+                  onChange={handleChange}
+                  placeholder="eg 80"
+                  id="distance_per_hour"
+                  disabled={values?.has_unlimited_distance!}
+                  min={0}
+                  onFocus={handleFocus}
+                />
+                <span className="input-group-text">KM</span>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="form-check mt-2">
@@ -178,7 +216,7 @@ export const Distance: FC<DistanceProps> = (props) => {
             id="charge_extra_distance_travelled_input"
             checked={values?.charge_extra_distance_travelled}
             onChange={handleChange}
-            disabled={values?.has_unlimited_distance}
+            disabled={values?.has_unlimited_distance!}
             // required
           />
           <label
@@ -195,11 +233,12 @@ export const Distance: FC<DistanceProps> = (props) => {
               <small>
                 This is how we calculate this fee. If your daily rate is
                 ksh.3000 and you have a distance per day of 100km, then the
-                extra distance fee is <b>3000/100 = Ksh. 30</b> per km. This fee
-                will be made known to the guest to be aware of it on booking. On
-                returning the vehicle, you and the guest will determine if there
-                was extra distance travelled. We are not part of this
-                transaction. Its between you and the guest.
+                extra distance fee is <b>3000/100 = Ksh. 30</b> per km. The same
+                calculation applies to distance per hour and hourly rate. This
+                fee will be made known to the guest to be aware of it on
+                booking. On returning the vehicle, you and the guest will
+                determine if there was extra distance travelled. We are not part
+                of this transaction. Its between you and the guest.
               </small>
             </div>
           </>
@@ -212,7 +251,7 @@ export const Distance: FC<DistanceProps> = (props) => {
             name="has_unlimited_distance"
             value={values?.has_unlimited_distance ? "false" : "true"}
             id="has_unlimited_distance_input"
-            checked={values?.has_unlimited_distance}
+            checked={values?.has_unlimited_distance!}
             onChange={handleChange}
             // required
           />

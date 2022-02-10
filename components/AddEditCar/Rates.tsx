@@ -309,8 +309,8 @@ export const Rates: FC<RatesProps> = (props) => {
             <div>
               <small>
                 You selected that you will provide delivery if a guest requires
-                the car in a specific location. Add the rate for the delivery
-                below.
+                the car in a specific location. Add the rate per km for the
+                delivery below.
               </small>
             </div>
             <div className="input-group car-input-width mb-3">
@@ -322,7 +322,7 @@ export const Rates: FC<RatesProps> = (props) => {
                 required
                 onChange={handleChange}
               />
-              <span className="input-group-text">KSH</span>
+              <span className="input-group-text">KSH/Km</span>
             </div>
             {/* <input
               type="number"

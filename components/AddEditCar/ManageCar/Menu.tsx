@@ -92,7 +92,7 @@ export default function Menu(props: Props): ReactElement {
           }`}
           onClick={(e) => props.handleClick(e, 6, props.setShowBurgerDropdown)}
         >
-          <span>Location</span>
+          <span>Availability</span>
           <span>
             <MdKeyboardArrowRight
               size={props.activeSection === 6 ? `22px` : ``}
@@ -107,7 +107,7 @@ export default function Menu(props: Props): ReactElement {
           }`}
           onClick={(e) => props.handleClick(e, 7, props.setShowBurgerDropdown)}
         >
-          <span>Categories</span>
+          <span>Location</span>
           <span>
             <MdKeyboardArrowRight
               size={props.activeSection === 7 ? `22px` : ``}
@@ -122,7 +122,7 @@ export default function Menu(props: Props): ReactElement {
           }`}
           onClick={(e) => props.handleClick(e, 8, props.setShowBurgerDropdown)}
         >
-          <span>Distance</span>
+          <span>Categories</span>
           <span>
             <MdKeyboardArrowRight
               size={props.activeSection === 8 ? `22px` : ``}
@@ -137,7 +137,7 @@ export default function Menu(props: Props): ReactElement {
           }`}
           onClick={(e) => props.handleClick(e, 9, props.setShowBurgerDropdown)}
         >
-          <span>Availability</span>
+          <span>Distance</span>
           <span>
             <MdKeyboardArrowRight
               size={props.activeSection === 9 ? `22px` : ``}

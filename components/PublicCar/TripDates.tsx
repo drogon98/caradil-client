@@ -12,7 +12,7 @@ import {
   CustomAvailabilityObj,
   Maybe,
 } from "../../graphql_types/generated/graphql";
-import { totalChargeCalculator } from "../../pages/[slug]/[id]";
+import { totalChargeCalculator } from "../../utils/trip_duration_ttl_calc";
 
 interface TripDatesProps {
   // setData: Dispatch<SetStateAction<Maybe<CustomAvailabilityObj> | undefined>>;
@@ -27,11 +27,6 @@ interface TripDatesProps {
   hasCustomAvailability: boolean;
 }
 
-/**
- * @author @CodeYourEmpire
- * @function @TripDates
- **/
-
 export const TripDates: FC<TripDatesProps> = (props) => {
   const [values, setValues] = useState({
     endDate: "",
@@ -41,6 +36,7 @@ export const TripDates: FC<TripDatesProps> = (props) => {
   });
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
+  // console.log("values", values);
 
   const createDateValue = (date: Date) => {
     if (date) {
@@ -102,8 +98,10 @@ export const TripDates: FC<TripDatesProps> = (props) => {
       values?.startDate &&
       values?.startTime &&
       values?.endDate &&
-      values?.endTime
+      values?.endTime &&
+      props.car
     ) {
+      // console.log("values", values);
       props.setValidDates(true);
       totalChargeCalculator(props.car, values, props.setTotalCharge);
     }

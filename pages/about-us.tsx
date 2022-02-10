@@ -22,14 +22,13 @@ const AboutUs: NextPage = () => {
               goal is to make car sharing as simple as possible. Are you in the
               search for a ride for your next trip? Or, Do you want to put your
               idle car to use and make some money? You are at the right place.At
-              Caradil, we make strive to make it easier for you.
+              Caradil, we strive to make it easier for you.
             </p>
           </div>
           <div className="mt-4">
             <h3 className="text-center">Mission</h3>
             <p className="text-center col-md-7 mx-auto">
-              To be the go to car sharing marketplace around africa and
-              globally.
+              To be the go to car sharing marketplace in africa and globally.
             </p>
           </div>
         </div>

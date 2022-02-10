@@ -18,7 +18,7 @@ export const TripBox: FC<TripBoxProps> = (props) => {
             )}
 
             {props.data.status === "confirmed" && (
-              <div className="col">{`You confirmed this trip!`}</div>
+              <div className="col">{`This trip has been confirmed!`}</div>
             )}
 
             {props.data.status === "successful" && (
@@ -26,7 +26,7 @@ export const TripBox: FC<TripBoxProps> = (props) => {
             )}
 
             {props.data.status === "pending" && (
-              <div className="col">{`Please confirm this trip!`}</div>
+              <div className="col">{`This trip is yet to be confirmed!`}</div>
             )}
             <div className="col-2">{props.data.status}</div>
           </div>

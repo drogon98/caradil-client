@@ -30,30 +30,30 @@ export const Wrapper: FC<WrapperProps> = (props) => {
     }
   }, [token, role, userId]);
 
-  // useEffect(() => {
-  //   let notifsSub: { (): void; (): void } | null = null;
-  //   if (notificationsSubscribeToMore) {
-  //     notifsSub = notificationsSubscribeToMore({
-  //       document: OnNotificationDocument,
-  //       // variables: { chatMetaId: props.chatMetaId },
-  //       updateQuery: (prev, { subscriptionData }) => {
-  //         if (!subscriptionData.data) return prev;
-  //         const newNotification: any = { ...subscriptionData.data };
+  useEffect(() => {
+    let notifsSub: { (): void; (): void } | null = null;
+    if (notificationsSubscribeToMore) {
+      notifsSub = notificationsSubscribeToMore({
+        document: OnNotificationDocument,
+        // variables: { chatMetaId: props.chatMetaId },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          const newNotification: any = { ...subscriptionData.data };
 
-  //         console.log("newNotification :>> ", newNotification);
-  //         return {
-  //           getNotifications: [...prev.getNotifications, newNotification],
-  //         };
-  //       },
-  //     });
-  //   }
+          console.log("newNotification :>> ", newNotification);
+          return {
+            getNotifications: [...prev.getNotifications, newNotification],
+          };
+        },
+      });
+    }
 
-  //   return () => {
-  //     if (notifsSub) {
-  //       notifsSub();
-  //     }
-  //   };
-  // }, [notificationsSubscribeToMore]);
+    return () => {
+      if (notifsSub) {
+        notifsSub();
+      }
+    };
+  }, [notificationsSubscribeToMore]);
 
   useEffect(() => {
     if (notificationsData) {

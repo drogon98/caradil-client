@@ -428,6 +428,22 @@ export default function ManageCar(props: Props): ReactElement {
                   )}
 
                   {activeSection === 6 && (
+                    <Availability
+                      setCompData={setCarData}
+                      isManage
+                      carId={carId}
+                      value={{
+                        ...availabilityData!,
+                      }}
+                      // manual={carData?.transmission === "manual"}
+                      // booked={carData?.booked!}
+                      // verificationInProgress={
+                      //   carData?.verification_in_progress ?? false
+                      // }
+                    />
+                  )}
+
+                  {activeSection === 7 && (
                     <Location
                       setCompData={setCarData}
                       isManage
@@ -442,7 +458,7 @@ export default function ManageCar(props: Props): ReactElement {
                     />
                   )}
 
-                  {activeSection === 7 && (
+                  {activeSection === 8 && (
                     <Categories
                       isManage
                       setCompData={setCarData}
@@ -458,7 +474,7 @@ export default function ManageCar(props: Props): ReactElement {
                     />
                   )}
 
-                  {activeSection === 8 && (
+                  {activeSection === 9 && (
                     <Distance
                       setCompData={setCarData}
                       isManage
@@ -469,23 +485,9 @@ export default function ManageCar(props: Props): ReactElement {
                         distance_per_day: carData?.distance_per_day ?? 0,
                         charge_extra_distance_travelled:
                           carData?.charge_extra_distance_travelled ?? false,
+                        distance_per_hour: carData?.distance_per_hour ?? 0,
                       }}
-                      // verificationInProgress={
-                      //   carData?.verification_in_progress ?? false
-                      // }
-                    />
-                  )}
-
-                  {activeSection === 9 && (
-                    <Availability
-                      setCompData={setCarData}
-                      isManage
-                      carId={carId}
-                      value={{
-                        ...availabilityData!,
-                      }}
-                      // manual={carData?.transmission === "manual"}
-                      // booked={carData?.booked!}
+                      canRentHourly={carData?.can_rent_hourly!}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
                       // }

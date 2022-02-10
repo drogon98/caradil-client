@@ -16,6 +16,7 @@ import {
   Trip as Trip_,
   OnTripStatusDocument,
   useGetTripQuery,
+  useUpdateCarFavouriteMutation,
 } from "../../../graphql_types/generated/graphql";
 import CancelTripMoal from "../bookings/CancelTripModal";
 
@@ -28,11 +29,14 @@ export default function Trip(props: Props): ReactElement {
   const [skip, setSkip] = useState(true);
   const [trip, setTrip] = useState<Trip_>();
   const [showCancelTripModal, setShowCancelTripModal] = useState(false);
+  const [showRescheduleModal, setShowRescheduleModal] = useState(false);
   const { data, loading, subscribeToMore } = useGetTripQuery({
     variables: { tripId: tripId! },
     skip,
     // fetchPolicy: "network-only",
   });
+  // const [updateFavourite, { loading: updatingFavourite }] =
+  // useUpdateCarFavouriteMutation();
 
   useEffect(() => {
     if (router.query) {
@@ -70,21 +74,19 @@ export default function Trip(props: Props): ReactElement {
   useEffect(() => {
     let tripStatusSub: { (): void; (): void };
     if (subscribeToMore && !skip) {
-      console.log("subscribeToMore456 :>> ", subscribeToMore);
       tripStatusSub = subscribeToMore({
         document: OnTripStatusDocument,
         // variables: { chatMetaId: props.chatMetaId },
         updateQuery: (prev, { subscriptionData }) => {
-          console.log("prev :>> ", prev);
           if (!subscriptionData.data) return prev;
           const trip: any = { ...subscriptionData.data };
           let tempPayload = {
             ...prev.getTrip.trip,
             status: trip.tripStatus.status,
             chat_meta_id: trip.tripStatus.chat_meta_id,
+            trip_canceller: trip.tripStatus.trip_canceller,
+            why_cancel_trip: trip.tripStatus.why_cancel_trip,
           };
-          console.log("trip :>> ", trip);
-          console.log("tempPayload :>> ", tempPayload);
           return {
             getTrip: {
               trip: { ...prev.getTrip.trip!, ...tempPayload },
@@ -96,7 +98,6 @@ export default function Trip(props: Props): ReactElement {
     }
     return () => {
       if (tripStatusSub) {
-        console.log("tripStatusSub :>> ", tripStatusSub);
         tripStatusSub();
       }
     };
@@ -106,6 +107,21 @@ export default function Trip(props: Props): ReactElement {
     e.preventDefault();
 
     setShowCancelTripModal(true);
+  };
+
+  const handleRescheduleTrip = (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    setShowRescheduleModal(true);
+  };
+
+  const handleAddToFavourite = async (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    try {
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
   };
 
   const handleChat = (e: SyntheticEvent<HTMLButtonElement>) => {
@@ -142,8 +158,9 @@ export default function Trip(props: Props): ReactElement {
                 <CancelTripMoal
                   showModal={showCancelTripModal}
                   handleClose={() => setShowCancelTripModal(false)}
-                  setTrip={setTrip}
+                  // setTrip={setTrip}
                   tripId={tripId}
+                  trip={trip!}
                 />
               )}
               <div className="mt-4 d-flex align-items-center w-100 mb-4">
@@ -273,15 +290,28 @@ export default function Trip(props: Props): ReactElement {
                       : "Cancel Trip"}
                   </button>
                 </div>
-                <div className="d-grid gap-2 mb-2">
-                  <button
-                    className="btn bg-gray"
-                    onClick={handleCancelTrip}
-                    disabled={trip?.status === "cancelled"}
-                  >
-                    Add to favourites
-                  </button>
-                </div>
+
+                {false && (
+                  <div className="d-grid gap-2 mb-2">
+                    <button
+                      className="btn bg-gray"
+                      onClick={handleAddToFavourite}
+                    >
+                      Add to favourites
+                    </button>
+                  </div>
+                )}
+
+                {trip?.status === "confirmed" && (
+                  <div className="d-grid gap-2 mb-2">
+                    <button
+                      className="btn bgOrange"
+                      onClick={handleRescheduleTrip}
+                    >
+                      Reschedule Trip
+                    </button>
+                  </div>
+                )}
 
                 {/* Only show when trip is successful */}
                 {trip?.status === "successful" && (

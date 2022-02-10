@@ -1,18 +1,30 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import Summary from "../../components/Checkout/Summary";
 import { CustomHead } from "../../components/CustomHead";
 import Layout from "../../components/layouts/Layout";
 // import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
+import { AutoComplete } from "../../components/Location/AutoComplete";
 import {
+  CustomAvailabilityObj,
   // useCheckIfDriverIsApprovedToDriveQuery,
   useGetAuthUserQuery,
   useGetCarQuery,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 import { baseHttpDomain } from "../../utils/baseDomain";
+import { getTripDuration } from "../../utils/trip_duration_ttl_calc";
 
 interface ConfirmOrderProps {}
 
@@ -31,6 +43,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
   const [mainLoading, setMainLoading] = useState(false);
   const [skip, setSkip] = useState(true);
   const [error, setError] = useState("");
+  const [readRefundTerms, setReadRefundTerms] = useState(false);
   // Make a request to check if driver is approved
   // const { data: approvedData, loading: approvedLoading } =
   //   useCheckIfDriverIsApprovedToDriveQuery({
@@ -59,7 +72,12 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
   const [includeDriver, setIncludeDriver] = useState(false);
   const [deliverToMe, setDeliverToMe] = useState(false);
   const [discountEligible, setDiscountEligible] = useState<boolean>(false);
-  const [tripDays, setTripDays] = useState<number>(0);
+  const [tripDuration, setTripDuration] = useState<number>();
+  const [durationType, setDurationType] = useState<string>();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [location, setLocation] = useState("");
+  const [distance, setDistance] = useState<number>();
+  const [calculatingDistance, setCalculatingDistance] = useState(false);
 
   useEffect(() => {
     if (userData?.getUser.user) {
@@ -102,32 +120,55 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
   // console.log("data :>> ", data);
 
   useEffect(() => {
-    if (data?.getCar.car && router.query.startDate) {
-      let startDate = new Date(router.query.startDate! as string);
-      let endDate = new Date(router.query.endDate! as string);
+    try {
+      if (data?.getCar.car && router.query.startDate) {
+        let startDate = router.query.startDate! as string;
+        let endDate = router.query.endDate! as string;
+        let startTime = router.query.startTime! as string;
+        let endTime = router.query.endTime! as string;
 
-      // To calculate the time difference of two dates
-      let Difference_In_Time = endDate.getTime() - startDate.getTime();
+        // To calculate the time difference of two dates
+        // let Difference_In_Time = endDate.getTime() - startDate.getTime();
 
-      // To calculate the no. of days between two dates
-      let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+        // // To calculate the no. of days between two dates
+        // let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-      // console.log("Difference_In_Days :>> ", Difference_In_Days);
-      setTripDays(Math.abs(Difference_In_Days));
-      // setTotalCharge(() => {
-      //   let total = data.getCar.car?.daily_rate! * Difference_In_Days;
-      //   return total as unknown as string;
-      // });
+        let payload: CustomAvailabilityObj = {
+          startDate,
+          startTime,
+          endDate,
+          endTime,
+        };
+
+        let durationData = getTripDuration(
+          payload,
+          data.getCar.car.can_rent_hourly!
+        );
+
+        // console.log("Difference_In_Days :>> ", Difference_In_Days);
+        setTripDuration(durationData.duration);
+        setDurationType(durationData.type_);
+        // setTotalCharge(() => {
+        //   let total = data.getCar.car?.daily_rate! * Difference_In_Days;
+        //   return total as unknown as string;
+        // });
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
     }
   }, [router.query, data]);
 
-  // console.log("tripDays :>> ", tripDays);
   useEffect(() => {
-    if (data && tripDays) {
-      let total = data?.getCar.car?.daily_rate! * tripDays;
-      setTtl(total);
+    if (data && tripDuration && durationType) {
+      if (durationType === "hour") {
+        let total = data?.getCar.car?.hourly_rate! * tripDuration;
+        setTtl(total);
+      } else {
+        let total = data?.getCar.car?.daily_rate! * tripDuration;
+        setTtl(total);
+      }
     }
-  }, [tripDays, data]);
+  }, [tripDuration, data, durationType]);
 
   // useEffect(() => {}, [totalCharge, tripDays, data]);
 
@@ -143,16 +184,22 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
   // }, [includeDriver, tripDays, data]);
 
   useEffect(() => {
+    if (distance) {
+      setValues({ ...values!, p2: values.p2 + " " + distance.toString() });
+    }
+  }, [distance]);
+
+  useEffect(() => {
     if (data) {
-      if (deliverToMe) {
-        // let deliverTtl = data.getCar.car?.delivery_rate! * 2; // 2== KM
-        let deliverTtl = data.getCar.car?.delivery_rate!;
+      if (deliverToMe && distance) {
+        let deliverTtl = data.getCar.car?.delivery_rate! * distance; // 2== KM
+        // let deliverTtl = data.getCar.car?.delivery_rate!;
         setDeliverTtl(deliverTtl);
       } else {
         setDeliverTtl(0);
       }
     }
-  }, [deliverToMe, tripDays, data]);
+  }, [deliverToMe, distance, data]);
 
   useEffect(() => {
     if (data?.getCar.car?.id) {
@@ -164,7 +211,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
         // }
       }
     }
-  }, [tripDays, data]);
+  }, [data]);
 
   // useEffect(() => {
   //   const redirect = async () => {
@@ -189,6 +236,8 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
       setDeliverToMe(e.target.value === "true" ? true : false);
     } else if (e.target.name === "firstName" || e.target.name === "lastName") {
       setDummyData({ ...dummyData, [e.target.name]: e.target.value });
+    } else if (e.target.name === "refund_cancellation_terms") {
+      setReadRefundTerms(e.target.value === "true" ? true : false);
     } else {
       setValues({ ...values, [e.target.name]: e.target.value.trim() });
     }
@@ -196,10 +245,9 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let response;
     try {
       setMainLoading(true);
-      response = await fetch(`${baseHttpDomain}ipay-pay`, {
+      let response = await fetch(`${baseHttpDomain}ipay-pay`, {
         method: "POST",
         // withCredentials: true,
         credentials: "include",
@@ -212,16 +260,18 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
           ttl: getTotal(),
         }),
       });
-      setMainLoading(false);
+      if (response) {
+        const data = await response.json();
+        if (window) {
+          if (distance) {
+            localStorage.setItem("delivery_location", location);
+          }
+          window.location.href = data.url;
+        }
+      }
+      // setMainLoading(false);
     } catch (error) {
       return;
-    }
-
-    if (response) {
-      const data = await response.json();
-      if (window) {
-        window.location.href = data.url;
-      }
     }
   };
 
@@ -229,9 +279,9 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     try {
       let tempTtl = ttl + deliverTtl;
       // + driverTtl;
-      if (discountEligible) {
+      if (discountEligible && tripDuration && durationType === "day") {
         if (data?.getCar.car?.discount_days) {
-          if (tripDays >= data?.getCar.car?.discount_days) {
+          if (tripDuration >= data?.getCar.car?.discount_days) {
             return Math.round(
               (tempTtl * (100 - parseFloat(data.getCar.car?.discount!))) / 100
             );
@@ -251,7 +301,63 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     }
   };
 
-  return (
+  const handleLocationChange = (data: any) => {
+    setLocation(data.formatted_address);
+  };
+
+  const handleFindDistance = async (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (!location) {
+      return;
+    }
+
+    try {
+      setCalculatingDistance(true);
+      let payload = {
+        destination: location,
+        origin: data?.getCar.car?.location!,
+      };
+
+      let response = await fetch(`${baseHttpDomain}distance`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...payload }),
+      });
+
+      let jsonRes: { distance: string } = await response.json();
+
+      let units = jsonRes.distance.split(" ")[1];
+
+      let distance = parseInt(jsonRes.distance.split(" ")[0]);
+
+      if (isNaN(distance)) {
+        throw new Error("Invalid distance");
+      }
+
+      if (units === "m") {
+        distance = 1;
+      }
+
+      setDistance(distance);
+      setCalculatingDistance(false);
+    } catch (error) {
+      setCalculatingDistance(false);
+      console.log("error :>> ", error);
+    }
+  };
+
+  console.log("distance :>> ", distance);
+
+  console.log("tripDuration", tripDuration);
+
+  //
+
+  https: return (
     <>
       <CustomHead title="Confirm Order" />
       <AuthWrapper>
@@ -360,20 +466,85 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                     >
                       Deliver car to me{" "}
                       <small>
-                        {!data?.getCar.car?.delivery ? (
+                        {!data?.getCar.car?.delivery && (
                           <>(This host does not deliver car).</>
-                        ) : (
-                          "(Specify delivery point)"
                         )}
                       </small>
                     </label>
                   </div>
+
+                  {deliverToMe && (
+                    <>
+                      <div className="mb-4">
+                        <label>Select delivery point</label>
+                        <AutoComplete
+                          placeholder="Delivery location"
+                          handler={handleLocationChange}
+                          inputRef={inputRef}
+                          name="location"
+                          value={location}
+                          required={true}
+                        />
+                        <button
+                          className="btn bgOrange mt-2"
+                          style={{ minWidth: "150px" }}
+                          onClick={handleFindDistance}
+                          disabled={calculatingDistance}
+                        >
+                          {calculatingDistance ? (
+                            <ButtonLoading
+                              spinnerColor="white"
+                              dimensions={{ height: "24px", width: "24px" }}
+                            />
+                          ) : (
+                            "Calculate Distance"
+                          )}
+                        </button>
+                        {distance && (
+                          <div className="my-2">
+                            <p className="text-success">
+                              <small>
+                                The distance from car location{" "}
+                                <b>{data?.getCar.car?.location}</b> to your
+                                delivery location <b>{location}</b> is{" "}
+                                <b>{distance} kilometre(s)</b>.
+                              </small>
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
+
                   <div className="d-none d-md-block">
+                    <div className="form-check mt-5 mb-3">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value={readRefundTerms ? "false" : "true"}
+                        id="refund_cancellation_terms"
+                        onChange={handleChange}
+                        name="refund_cancellation_terms"
+                        checked={readRefundTerms}
+                        // disabled={!data?.getCar.car?.delivery}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="refund_cancellation_terms"
+                      >
+                        Yes,I have read and agreed to caradil{" "}
+                        <Link href="/policies/cancellation-and-refund">
+                          <a target={"_blank"} className="text-primary">
+                            refund and cancellation policy
+                          </a>
+                        </Link>
+                      </label>
+                    </div>
                     <div className="d-grid gap-2">
                       <button
                         type="submit"
                         className="btn bgOrange fw-bolder"
-                        disabled={mainLoading}
+                        disabled={mainLoading || !readRefundTerms}
                       >
                         {mainLoading ? (
                           <ButtonLoading
@@ -391,21 +562,47 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                   <Summary
                     includeDriver={includeDriver}
                     deliverToMe={deliverToMe}
+                    distance={distance!}
                     discountEligible={discountEligible}
                     discountDays={data?.getCar.car?.discount_days!}
                     discount={data?.getCar.car?.discount!}
                     totalCharge={getTotal()!}
-                    tripDays={tripDays}
+                    tripDuration={tripDuration!}
+                    durationType={durationType!}
                     dailyRate={data?.getCar.car?.daily_rate!}
+                    hourlyRate={data?.getCar.car?.hourly_rate!}
                     car={data?.getCar.car!}
                   />
                 </div>
                 <div className="sm-screen-checkout-btn mt-4 d-md-none">
+                  <div className="form-check mt-5 mb-3">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value={readRefundTerms ? "false" : "true"}
+                      id="refund_cancellation_terms"
+                      onChange={handleChange}
+                      name="refund_cancellation_terms"
+                      checked={readRefundTerms}
+                      // disabled={!data?.getCar.car?.delivery}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="refund_cancellation_terms"
+                    >
+                      Yes,I have read and agreed to caradil{" "}
+                      <Link href="/policies/cancellation-and-refund">
+                        <a target={"_blank"} className="text-primary">
+                          refund and cancellation policy
+                        </a>
+                      </Link>
+                    </label>
+                  </div>
                   <div className="d-grid gap-2">
                     <button
                       type="submit"
                       className="btn bgOrange fw-bolder"
-                      disabled={mainLoading}
+                      disabled={mainLoading || !readRefundTerms}
                     >
                       {mainLoading ? (
                         <ButtonLoading

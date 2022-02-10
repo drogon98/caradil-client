@@ -369,6 +369,21 @@ export default function CarDataStepForm(props: Props): ReactElement {
 
       {activeSlide === 5 && (
         <div className="col-md-7 col-lg-6 mx-auto mt-5">
+          <Availability
+            setActiveSlide={setActiveSlide}
+            activeSlide={activeSlide}
+            setCompData={setCompData}
+            carId={carId}
+            value={{
+              ...availabilityData!,
+            }}
+            // manual={compData?.transmission === "manual"}
+          />
+        </div>
+      )}
+
+      {activeSlide === 6 && (
+        <div className="col-md-7 col-lg-6 mx-auto mt-5">
           <Location
             setActiveSlide={setActiveSlide}
             activeSlide={activeSlide}
@@ -381,7 +396,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
           />
         </div>
       )}
-      {activeSlide === 6 && (
+      {activeSlide === 7 && (
         <div className="col-md-7 col-lg-6 mx-auto mt-5">
           <Categories
             setActiveSlide={setActiveSlide}
@@ -395,7 +410,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
           />
         </div>
       )}
-      {activeSlide === 7 && (
+      {activeSlide === 8 && (
         <div className="col-md-7 col-lg-6 mx-auto mt-5">
           <Distance
             setActiveSlide={setActiveSlide}
@@ -407,21 +422,9 @@ export default function CarDataStepForm(props: Props): ReactElement {
               distance_per_day: compData?.distance_per_day ?? 0,
               charge_extra_distance_travelled:
                 compData?.charge_extra_distance_travelled ?? false,
+              distance_per_hour: compData?.distance_per_hour ?? 0,
             }}
-          />
-        </div>
-      )}
-      {activeSlide === 8 && (
-        <div className="col-md-7 col-lg-6 mx-auto mt-5">
-          <Availability
-            setActiveSlide={setActiveSlide}
-            activeSlide={activeSlide}
-            setCompData={setCompData}
-            carId={carId}
-            value={{
-              ...availabilityData!,
-            }}
-            // manual={compData?.transmission === "manual"}
+            canRentHourly={compData?.can_rent_hourly!}
           />
         </div>
       )}

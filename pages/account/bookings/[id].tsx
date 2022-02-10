@@ -12,9 +12,9 @@ import { useWindowDimensions } from "../../../components/hooks/useWindowDimensio
 import AccountLayout from "../../../components/layouts/AccountLayout";
 import { Loading } from "../../../components/Loading";
 import {
+  OnTripStatusDocument,
   Trip,
   useGetBookingQuery,
-  useGetTripQuery,
 } from "../../../graphql_types/generated/graphql";
 import CancelTripMoal from "./CancelTripModal";
 import ConfirmTripModal from "./ConfirmTripModal";
@@ -50,7 +50,7 @@ export default function Booking(props: Props): ReactElement {
     }
   }, [bookingId]);
 
-  const { data, loading } = useGetBookingQuery({
+  const { data, loading, subscribeToMore } = useGetBookingQuery({
     variables: { bookingId: bookingId! },
     fetchPolicy: "network-only",
     skip,
@@ -69,6 +69,39 @@ export default function Booking(props: Props): ReactElement {
       setMainLoading(false);
     }
   }, [booking, loading]);
+
+  useEffect(() => {
+    let tripStatusSub: { (): void; (): void };
+    if (subscribeToMore && !skip) {
+      tripStatusSub = subscribeToMore({
+        document: OnTripStatusDocument,
+        // variables: { chatMetaId: props.chatMetaId },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          const trip: any = { ...subscriptionData.data };
+          let tempPayload = {
+            ...prev.getBooking.trip,
+            status: trip.tripStatus.status,
+            chat_meta_id: trip.tripStatus.chat_meta_id,
+            trip_canceller: trip.tripStatus.trip_canceller,
+            why_cancel_trip: trip.tripStatus.why_cancel_trip,
+          };
+
+          return {
+            getBooking: {
+              trip: { ...prev.getBooking.trip!, ...tempPayload },
+              error: prev.getBooking.error,
+            },
+          };
+        },
+      });
+    }
+    return () => {
+      if (tripStatusSub) {
+        tripStatusSub();
+      }
+    };
+  }, [subscribeToMore, skip]);
 
   const handleCancelTrip = (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -116,7 +149,8 @@ export default function Booking(props: Props): ReactElement {
                 <CancelTripMoal
                   showModal={showCancelTripModal}
                   handleClose={() => setShowCancelTripModal(false)}
-                  setTrip={setBooking}
+                  trip={booking!}
+                  // setTrip={setBooking}
                   tripId={bookingId}
                 />
               )}
@@ -125,7 +159,7 @@ export default function Booking(props: Props): ReactElement {
                 <ConfirmTripModal
                   showModal={showConfirmTripModal}
                   handleClose={() => setShowConfirmTripModal(false)}
-                  setTrip={setBooking}
+                  // setTrip={setBooking}
                   tripId={bookingId}
                 />
               )}

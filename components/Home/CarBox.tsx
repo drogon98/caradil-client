@@ -15,11 +15,6 @@ interface CarBoxProps {
   data: Car;
 }
 
-/**
- * @author @CodeYourEmpire
- * @function @PopularCarBox
- **/
-
 export const CarBox: FC<CarBoxProps> = (props) => {
   const router = useRouter();
   const [isFavourite, setIsFavourite] = useState<boolean>();
@@ -95,7 +90,7 @@ export const CarBox: FC<CarBoxProps> = (props) => {
             style={{ objectFit: "cover" }}
           />
           <div className="p-2">
-            <h4>{props.data.name}</h4>
+            <h4 className="m-0">{props.data.name}</h4>
             {/* <p>Seats:{ props.data.seats}</p> */}
             {/* <p className="m-0">Trips:5</p> */}
             <hr />

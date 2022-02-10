@@ -20,17 +20,32 @@ function Booking(props: BookingProps) {
         try {
           const paymentStatus = router.query.status as string;
           if (paymentStatus === "aei7p7yrx4ae34") {
-            // Only book trip is payment is a success
+            // Only when book trip payment is a success
+            const rawString1 = router.query.p2 as string;
+            const rawString1Sections = rawString1.split(" ");
+            let start_time: string;
+            let delivery_distance: string;
+            if (rawString1Sections.length > 1) {
+              start_time = rawString1Sections[0];
+              delivery_distance = rawString1Sections[1];
+            } else {
+              start_time = rawString1Sections[0];
+              delivery_distance = "";
+            }
+            let delivery_location = localStorage.getItem("delivery_location");
             const rawString = router.query.p4 as string;
             const [end_time, car_id] = rawString.split(" ");
+
             let car_id_temp = parseInt(car_id, 10);
             const response = await createTrip({
               variables: {
                 input: {
                   start_date: router.query.p1 as string,
                   end_date: router.query.p3 as string,
-                  start_time: router.query.p2 as string,
+                  start_time: start_time,
                   end_time,
+                  delivery_distance,
+                  delivery_location: delivery_location!,
                   car_id: car_id_temp,
                   transaction_status: router.query.status as string,
                   transaction_channel: router.query.channel as string,
@@ -44,6 +59,7 @@ function Booking(props: BookingProps) {
 
             if (response.data?.createTrip.success) {
               // setMainLoading(false);
+              localStorage.removeItem("delivery_location");
               router.replace({
                 pathname: "/checkout/success",
                 query: {
@@ -55,7 +71,7 @@ function Booking(props: BookingProps) {
             }
           }
         } catch (error) {
-          setError("Helloo");
+          setError("Something wrong");
         }
       }
     };

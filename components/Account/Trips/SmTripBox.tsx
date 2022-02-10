@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React, { FC } from "react";
-import slugify from "slugify";
 import { Trip } from "../../../graphql_types/generated/graphql";
 
 interface SmTripBoxProps {
@@ -18,7 +17,7 @@ export const SmTripBox: FC<SmTripBoxProps> = (props) => {
           )}
 
           {props.data.status === "confirmed" && (
-            <div className="col">{`You confirmed this trip!`}</div>
+            <div className="col">{`This trip has been confirmed!`}</div>
           )}
 
           {props.data.status === "successful" && (
@@ -26,7 +25,7 @@ export const SmTripBox: FC<SmTripBoxProps> = (props) => {
           )}
 
           {props.data.status === "pending" && (
-            <div className="col">{`Please confirm this trip!`}</div>
+            <div className="col">{`This trip is yet to be confirmed!`}</div>
           )}
           <p>{props.data.status}</p>
           <p>More</p>
