@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import { BsArrowLeft } from "react-icons/bs";
+import CancelTripMoal from "../../../components/Account/Trips/CancelTripModal";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import { CustomHead } from "../../../components/CustomHead";
 import { useWindowDimensions } from "../../../components/hooks/useWindowDimensions";
@@ -18,7 +19,6 @@ import {
   useGetTripQuery,
   useUpdateCarFavouriteMutation,
 } from "../../../graphql_types/generated/graphql";
-import CancelTripMoal from "../bookings/CancelTripModal";
 
 interface Props {}
 
