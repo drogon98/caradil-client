@@ -13,11 +13,6 @@ import {
 
 interface ListingsProps {}
 
-/**
- * @author
- * @function @Listings
- **/
-
 const Listings: FC<ListingsProps> = (props) => {
   const [mainLoading, setMainLoading] = useState(true);
   const { data, loading } = useGetHostCarsQuery({

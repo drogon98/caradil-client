@@ -5,11 +5,6 @@ import { CarBox } from "./CarBox";
 
 interface IProps {}
 
-/**
- * @author
- * @function @PopularCars
- **/
-
 export const PopularCars: FC<IProps> = (props) => {
   const [mainLoading, setMainLoading] = useState<boolean>(true);
   const { data, loading } = useGetPopularCarsQuery();

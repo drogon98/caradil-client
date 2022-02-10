@@ -8,11 +8,6 @@ interface ExpandableProps {
   // currentOpenExpandable: number;
 }
 
-/**
- * @author @CodeYourEmpire
- * @function @Expandable
- **/
-
 export const Expandable: FC<ExpandableProps> = (props) => {
   const [expanded, setExpanded] = useState<boolean>(true);
 

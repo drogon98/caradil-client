@@ -6,11 +6,6 @@ import { MdOutlineManageSearch, MdPlaylistAddCheck } from "react-icons/md";
 
 interface IProps {}
 
-/**
- * @author
- * @function @HowItWorks
- **/
-
 export const HowItWorks: FC<IProps> = (props) => {
   return (
     <div className="page-section customContainer">

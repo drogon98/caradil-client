@@ -12,11 +12,6 @@ import {
 
 interface IProps {}
 
-/**
- * @author @CodeYourEmpire
- * @function @BrowseByMake
- **/
-
 const BrowseByMake: FC<IProps> = (props) => {
   const [mainLoading, setMainLoading] = useState(true);
   const [values, setValues] = useState<SearchInput>();

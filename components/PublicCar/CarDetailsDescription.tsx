@@ -7,11 +7,6 @@ interface CarDetailsDescriptionProps {
   data: Maybe<string> | undefined;
 }
 
-/**
- * @author @CodeYourEmpire
- * @function @CarDetailsDescription
- **/
-
 export const CarDetailsDescription: FC<CarDetailsDescriptionProps> = (
   props
 ) => {

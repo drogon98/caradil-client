@@ -2,11 +2,6 @@ import React, { FC } from "react";
 
 interface CarDetailsGuidelinesProps {}
 
-/**
- * @author @CodeYourEmpire
- * @function @CarDetailsGuidelines
- **/
-
 export const CarDetailsGuidelines: FC<CarDetailsGuidelinesProps> = (props) => {
   return (
     <>

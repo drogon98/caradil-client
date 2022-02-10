@@ -5,13 +5,7 @@ interface CarDetailsHostProps {
   data: Maybe<User> | undefined;
 }
 
-/**
- * @author @CodeYourEmpire
- * @function @CarDetailsHost
- **/
-
 export const CarDetailsHost: FC<CarDetailsHostProps> = (props) => {
-  // console.log("props.data?.avatar :>> ", props.data?.avatar);
   return (
     <div>
       <h6 className="fw-bolder car-details-sections-heading">HOSTED BY</h6>

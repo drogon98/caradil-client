@@ -6,11 +6,6 @@ interface ButtonLoadingProps {
   dimensions: { width: string; height: string };
 }
 
-/**
- * @author @CodeYourEmpire
- * @function @ButtonLoading
- **/
-
 export const ButtonLoading: FC<ButtonLoadingProps> = (props) => {
   return (
     <div className="d-flex justify-content-center">

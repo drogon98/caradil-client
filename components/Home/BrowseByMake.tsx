@@ -8,11 +8,6 @@ import FlexibleLoader from "../Loading/FlexibleLoader";
 
 interface IProps {}
 
-/**
- * @author
- * @function @BrowseByMake
- **/
-
 export const BrowseByMake: FC<IProps> = (props) => {
   const [makes, setMakes] = useState<any[]>([]);
   const { data, loading } = useGetMakesQuery({

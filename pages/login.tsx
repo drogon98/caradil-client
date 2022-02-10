@@ -3,11 +3,6 @@ import LoginForm from "../components/Auth/LoginForm";
 
 interface LoginProps {}
 
-/**
- * @author
- * @function @Login
- **/
-
 const Login = (props: LoginProps) => {
   return (
     <div className="authWrapper">

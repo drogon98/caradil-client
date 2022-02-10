@@ -13,11 +13,6 @@ import { AiOutlineMail } from "react-icons/ai";
 
 interface IProps {}
 
-/**
- * @author
- * @function @MainFooter
- **/
-
 export const MainFooter: FC<IProps> = (props) => {
   const router = useRouter();
   const [isCarPage, setIsCarPage] = useState(false);
@@ -118,19 +113,23 @@ export const MainFooter: FC<IProps> = (props) => {
             <h5>Get Social</h5>
             <div>
               <p className="mb-2">
+                <a
+                  target="_blank"
+                  href="https://www.facebook.com/Caradil-104656882145709"
+                >
+                  <span className="d-flex align-items-center">
+                    <FiFacebook size={"25px"} />
+                  </span>
+                </a>
+              </p>
+              <p className="mb-2">
                 <a target="_blank" href="https://instagram.com">
                   <span className="d-flex align-items-center">
                     <FaInstagram size={"25px"} />
                   </span>
                 </a>
               </p>
-              <p className="mb-2">
-                <a target="_blank" href="https://facebook.com">
-                  <span className="d-flex align-items-center">
-                    <FiFacebook size={"25px"} />
-                  </span>
-                </a>
-              </p>
+
               <p className="mb-2">
                 <a target="_blank" href="https://twitter.com">
                   <span className="d-flex align-items-center">

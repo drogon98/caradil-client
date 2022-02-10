@@ -1,6 +1,10 @@
 import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ChatMeta, Maybe } from "../../../graphql_types/generated/graphql";
+import {
+  ChatMeta,
+  Maybe,
+  User,
+} from "../../../graphql_types/generated/graphql";
 import moment from "moment";
 
 interface ChatUserProfileBoxProps {
@@ -9,26 +13,48 @@ interface ChatUserProfileBoxProps {
   setActiveChatId?: Dispatch<SetStateAction<number | undefined>>;
 }
 
+const getName = (
+  user: User,
+  nameSetter: Dispatch<React.SetStateAction<string>>
+) => {
+  if (user?.business_name) {
+    nameSetter(user?.business_name);
+    return user?.business_name;
+  } else if (user?.first_name) {
+    if (user?.last_name) {
+      nameSetter(
+        `${user?.first_name} ${user?.last_name.charAt(0).toUpperCase()}`
+      );
+    }
+    return `${user?.first_name} ${user?.last_name?.charAt(0).toUpperCase()}`;
+  } else {
+    nameSetter(user?.email!);
+    return user?.email;
+  }
+};
+
 export const ChatUserProfileBox = (props: ChatUserProfileBoxProps) => {
   const router = useRouter();
   const [name, setName] = useState("");
 
   useEffect(() => {
-    if (props.data) {
-      if (props.data.receiver?.business_name) {
-        setName(props.data.receiver?.business_name);
-        return;
-      } else if (props.data.receiver?.first_name) {
-        if (props.data.receiver?.last_name) {
-          setName(
-            `${props.data.receiver?.first_name} ${props.data.receiver?.last_name
-              .charAt(0)
-              .toUpperCase()}`
-          );
-        }
-      } else {
-        setName(props.data.receiver?.email!);
-      }
+    if (props.data?.receiver) {
+      getName(props.data.receiver, setName);
+
+      // if (props.data.receiver?.business_name) {
+      //   setName(props.data.receiver?.business_name);
+      //   return;
+      // } else if (props.data.receiver?.first_name) {
+      //   if (props.data.receiver?.last_name) {
+      //     setName(
+      //       `${props.data.receiver?.first_name} ${props.data.receiver?.last_name
+      //         .charAt(0)
+      //         .toUpperCase()}`
+      //     );
+      //   }
+      // } else {
+      //   setName(props.data.receiver?.email!);
+      // }
     }
   }, [props.data]);
 
@@ -36,6 +62,13 @@ export const ChatUserProfileBox = (props: ChatUserProfileBoxProps) => {
 
   const handleClick = async (e: any, id: Maybe<number> | undefined) => {
     if (!props.isLg) {
+      sessionStorage.setItem(
+        "rec_prof",
+        JSON.stringify({
+          avatar: props.data.receiver?.avatar?.secure_url,
+          name: getName(props.data.receiver!, setName),
+        })
+      );
       await router.push(
         {
           pathname: `/account/chats/md`,

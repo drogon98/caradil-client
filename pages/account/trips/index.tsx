@@ -12,11 +12,6 @@ import {
 
 interface TripsProps {}
 
-/**
- * @author
- * @function @Trips
- **/
-
 const Trips: FC<TripsProps> = (props) => {
   const [mainLoading, setMainLoading] = useState(true);
   const [trips, setTrips] = useState<Trip[]>();

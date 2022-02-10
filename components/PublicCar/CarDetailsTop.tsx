@@ -14,11 +14,6 @@ interface CarDetailsTopProps {
   data: CarDetailsData;
 }
 
-/**
- * @author @CodeYourEmpire
- * @function @CarDetailsTop
- **/
-
 export const CarDetailsTop: FC<CarDetailsTopProps> = (props) => {
   return (
     <div>

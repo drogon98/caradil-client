@@ -2,11 +2,6 @@ import { useEffect, useState } from "react";
 
 // interface IProps {}
 
-/**
- * @author @CodeYourEmpire
- * @function @useWindowDimensions
- **/
-
 // function getWindowDimensions() {
 //   if (window) {
 //     const { innerWidth: width, innerHeight: height } = window;

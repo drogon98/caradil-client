@@ -6,11 +6,6 @@ import AccountLayout from "../../../../components/layouts/AccountLayout";
 
 interface AddCarProps {}
 
-/**
- * @author @CodeYourEmpire
- * @function @AddCar
- **/
-
 const AddCar: FC<AddCarProps> = (props) => {
   return (
     <>
