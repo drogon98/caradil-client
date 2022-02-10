@@ -1714,10 +1714,12 @@ car-input-container select:focus {
 .chat-box-sender,
 .chat-box-receiver {
   display: flex;
+  width: 100%;
 }
 
 .chat-box-sender {
   justify-content: flex-end !important;
+  /* background-color: red; */
 }
 
 .chat-box-receiver {
@@ -1725,10 +1727,11 @@ car-input-container select:focus {
 }
 
 .chat-box {
+  /* background-color: green; */
   width: 60%;
   /* min-width: 100px; */
-  display: flex;
-  align-items: flex-start;
+  /* display: flex; */
+  /* align-items: flex-start; */
 }
 
 .receiver-chat-tooltip {
@@ -1883,6 +1886,7 @@ car-input-container select:focus {
     position: fixed;
     /* height: calc(100vh - var(--navbar-height) - 70px); */
     height: auto;
+    width: 100%;
     top: var(--navbar-height);
     /* margin-bottom: 70px; */
     bottom: 70px;

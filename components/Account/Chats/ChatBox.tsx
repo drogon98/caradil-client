@@ -34,38 +34,44 @@ export const ChatBox = (props: ChatBoxProps) => {
     <>
       {props.data.sender_id === userId ? (
         <div className="chat-box-sender my-5">
-          <div className="chat-box">
-            <div className="sender-chat-tooltip p-2">
-              <p>{props.data.message}</p>
-              <div className="d-flex w-100 justify-content-end mt-2">
-                <small className="chat-time">
-                  {getChatTime(props.data.created_at)}
-                </small>
+          <div className="chat-box d-flex justify-content-end">
+            <div className="d-flex">
+              <div className="sender-chat-tooltip p-2">
+                <p>{props.data.message}</p>
+                <div className="d-flex w-100 justify-content-end mt-2">
+                  <small className="chat-time">
+                    {getChatTime(props.data.created_at)}
+                  </small>
+                </div>
+              </div>
+              <div style={{ height: "40px", width: "40px" }}>
+                <img
+                  src={
+                    props.senderProfile?.avatar?.secure_url
+                      ? props.senderProfile?.avatar.secure_url
+                      : "/images/mackenzi.png"
+                  }
+                  style={{ objectFit: "cover", height: "40px", width: "40px" }}
+                  className="rounded-circle"
+                />
               </div>
             </div>
-            <img
-              src={
-                props.senderProfile?.avatar?.secure_url
-                  ? props.senderProfile?.avatar.secure_url
-                  : "/images/mackenzi.png"
-              }
-              style={{ objectFit: "cover", height: "40px", width: "40px" }}
-              className="rounded-circle"
-            />
           </div>
         </div>
       ) : (
         <div className="chat-box-receiver my-5">
           <div className="chat-box">
-            <img
-              src={
-                props.receiverProfile?.avatar?.secure_url
-                  ? props.receiverProfile?.avatar.secure_url
-                  : "/images/mackenzi.png"
-              }
-              style={{ objectFit: "cover", height: "40px", width: "40px" }}
-              className="rounded-circle"
-            />
+            <div style={{ height: "40px", width: "40px" }}>
+              <img
+                src={
+                  props.receiverProfile?.avatar?.secure_url
+                    ? props.receiverProfile?.avatar.secure_url
+                    : "/images/mackenzi.png"
+                }
+                style={{ objectFit: "cover", height: "40px", width: "40px" }}
+                className="rounded-circle"
+              />
+            </div>
             <div className="receiver-chat-tooltip p-2">
               <p>{props.data.message}</p>
               <div className="d-flex w-100 justify-content-end mt-2">
