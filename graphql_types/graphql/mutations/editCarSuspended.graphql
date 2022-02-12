@@ -1,0 +1,11 @@
+mutation EditCarSuspended(
+  $carId: Float!
+  $action: String!
+  $suspend_reason: String
+) {
+  editCarSuspended(
+    carId: $carId
+    action: $action
+    suspend_reason: $suspend_reason
+  )
+}

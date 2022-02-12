@@ -5,11 +5,11 @@ import Layout from "../../components/layouts/Layout";
 const CancellationAndRefund: NextPage = () => {
   return (
     <>
-      <CustomHead title="Terms Of Service" />
+      <CustomHead title="Cancellation And Refund" />
       <Layout>
         <div className="customContainer my-5">
           <h2>
-            <strong>Terms and Conditions</strong>
+            <strong>Cancellation And Refund</strong>
           </h2>
 
           <p>Welcome to caradil!</p>

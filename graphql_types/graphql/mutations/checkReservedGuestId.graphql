@@ -1,0 +1,3 @@
+mutation CheckReservedGuestId($carId: Float!) {
+  checkReservedGuestId(carId: $carId)
+}

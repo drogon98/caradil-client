@@ -58,6 +58,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
                       <a className="link black-link">Car Makes</a>
                     </Link>
                   </li>
+
+                  <li>
+                    <Link href="/root/enquiries">
+                      <a className="link black-link">Enquiries</a>
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>

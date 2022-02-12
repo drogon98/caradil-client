@@ -1,0 +1,6 @@
+subscription onReserveForBooking {
+  reservedForBooking {
+    reserved_for_booking
+    reserved_for_booking_guest_id
+  }
+}

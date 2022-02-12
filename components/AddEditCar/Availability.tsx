@@ -62,7 +62,10 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         ...values!,
         [e.target.name]: !values?.custom_availability,
       });
-    } else if (e.target.name === "advance_book_period") {
+    } else if (
+      e.target.name === "advance_book_period" ||
+      e.target.name === "fuel_policy"
+    ) {
       setValues({
         ...values!,
         [e.target.name]: e.target.value,
@@ -84,7 +87,12 @@ export const Availability: FC<AvailabilityProps> = (props) => {
     //     });
     //   }
     // }
-    else {
+    else if (e.target.name === "fuel_efficiency") {
+      setValues({
+        ...values!,
+        [e.target.name]: e.target.value,
+      });
+    } else {
       setValues({
         ...values!,
         [e.target.name]: e.target.value === "true" ? true : false,
@@ -111,6 +119,8 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             custom_availability: values?.custom_availability!,
             custom_availability_data: values?.custom_availability_data!,
             can_rent_hourly: values.can_rent_hourly!,
+            fuel_policy: values.fuel_policy!,
+            fuel_efficiency: values.fuel_efficiency!,
             // driver_mode: values?.driver_mode!,
             // manual_transmission_test: values?.manual_transmission_test!,
           },
@@ -176,7 +186,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
           position="bottom-end"
         />
       )}
-      <h3>Availability</h3>
+      <h3>Availability & Fueling</h3>
       <form onSubmit={handleSubmit} className="mb-3">
         {/* <div className="mb-5">
           <p className="mb-2">
@@ -293,7 +303,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
           </small>
         )} */}
 
-        <div className="mb-5">
+        <div className="mb-3">
           <label>How advance do you want to be notified of a booked trip</label>
           <div>
             <select
@@ -317,6 +327,49 @@ export const Availability: FC<AvailabilityProps> = (props) => {
               eg Cleaning it,fueling it etc
             </small>
           </div>
+        </div>
+
+        <div className="mb-3">
+          <label>What is your preferred car fuel policy?</label>
+          <div>
+            <select
+              name="fuel_policy"
+              onChange={handleChange}
+              value={values?.fuel_policy}
+              // required
+              onFocus={handleFocus}
+            >
+              <option value="">Select fuel policy</option>
+              <option value="full_to_full">Full to Full</option>
+              <option value="pre_purchase_full_to_empty">
+                Pre-purchase full to empty
+              </option>
+              <option value="pre_purchase_refund">Pre-purchase refund</option>
+            </select>
+          </div>
+          <div className="mt-2">
+            <small>To learn more about these fuel policies go here.</small>
+          </div>
+        </div>
+
+        <label htmlFor="fuel_efficiency">Fuel Efficiency</label>
+        <div>
+          <small>
+            As guests will fuel the car,they want fuel efficient cars. Add your
+            car fuel efficiency below.
+          </small>
+        </div>
+        <div className="input-group mb-3" style={{ width: "300px" }}>
+          <input
+            type="number"
+            name="fuel_efficiency"
+            className="form-control"
+            value={values?.fuel_efficiency!}
+            // required
+            onChange={handleChange}
+            placeholder="eg 22"
+          />
+          <span className="input-group-text">Ltrs/100 Km</span>
         </div>
 
         {/* <div className="form-check form-switch mb-5">

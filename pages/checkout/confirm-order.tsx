@@ -10,14 +10,19 @@ import React, {
   useState,
 } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
+import ReserveSessionExpiredModal from "../../components/Checkout/ReserveSessionExpiredModal";
 import Summary from "../../components/Checkout/Summary";
 import { CustomHead } from "../../components/CustomHead";
+import { useUserId } from "../../components/hooks/useUserId";
 import Layout from "../../components/layouts/Layout";
 // import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import { AutoComplete } from "../../components/Location/AutoComplete";
 import {
   CustomAvailabilityObj,
+  OnReserveForBookingDocument,
+  useCheckReservedGuestIdMutation,
+  useEditCarReservedForBookingMutation,
   // useCheckIfDriverIsApprovedToDriveQuery,
   useGetAuthUserQuery,
   useGetCarQuery,
@@ -54,6 +59,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     fetchPolicy: "network-only",
   });
   const token = useAppSelector((state) => state.auth._id);
+  const userId = useUserId(token);
   const [ttl, setTtl] = useState(0);
   const [driverTtl, setDriverTtl] = useState(0);
   const [deliverTtl, setDeliverTtl] = useState(0);
@@ -78,6 +84,12 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
   const [location, setLocation] = useState("");
   const [distance, setDistance] = useState<number>();
   const [calculatingDistance, setCalculatingDistance] = useState(false);
+  const [checkReservedGuestId, { loading: reservedGuestIdLoading }] =
+    useCheckReservedGuestIdMutation();
+  const [editReservedForBooking, { loading: editingReservedForBooking }] =
+    useEditCarReservedForBookingMutation();
+  const [showReserveSessionExpiredModal, setShowReserveSessionExpiredModal] =
+    useState(false);
 
   useEffect(() => {
     if (userData?.getUser.user) {
@@ -108,7 +120,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     }
   }, [router.query]);
 
-  const { data, loading } = useGetCarQuery({
+  const { data, loading, subscribeToMore } = useGetCarQuery({
     variables: {
       carId: parseInt(router.query.carId as string, 10),
       carName: "",
@@ -116,6 +128,28 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     skip,
     fetchPolicy: "cache-and-network",
   });
+
+  useEffect(() => {
+    let carSub: { (): void; (): void };
+    if (subscribeToMore && !skip) {
+      carSub = subscribeToMore({
+        document: OnReserveForBookingDocument,
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          const reserveData: any = { ...subscriptionData.data };
+          return {
+            getCar: { car: { ...prev.getCar.car, ...reserveData } },
+          };
+        },
+      });
+    }
+
+    return () => {
+      if (carSub) {
+        carSub();
+      }
+    };
+  }, [subscribeToMore, skip]);
 
   // console.log("data :>> ", data);
 
@@ -247,28 +281,76 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     e.preventDefault();
     try {
       setMainLoading(true);
-      let response = await fetch(`${baseHttpDomain}ipay-pay`, {
-        method: "POST",
-        // withCredentials: true,
-        credentials: "include",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...values,
-          ttl: getTotal(),
-        }),
+      // Check if reserved guest is current users id
+      let reservedIdResponse = await checkReservedGuestId({
+        variables: { carId: data?.getCar.car?.id! },
       });
-      if (response) {
-        const data = await response.json();
-        if (window) {
-          if (distance) {
-            localStorage.setItem("delivery_location", location);
+      if (reservedIdResponse.data?.checkReservedGuestId) {
+        let response = await fetch(`${baseHttpDomain}ipay-pay`, {
+          method: "POST",
+          // withCredentials: true,
+          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...values,
+            ttl: getTotal(),
+          }),
+        });
+        if (response) {
+          const data = await response.json();
+          if (window) {
+            if (distance) {
+              localStorage.setItem("delivery_location", location);
+            }
+            window.location.href = data.url;
           }
-          window.location.href = data.url;
+        }
+      } else {
+        // Guest reservation session is ended
+        // If car is not yet reserved by another user,reserve it for this user again
+        if (data?.getCar.car?.reserved_for_booking_guest_id === 0) {
+          let reserveBookingResponse = await editReservedForBooking({
+            variables: { carId: data?.getCar.car?.id! },
+          });
+
+          if (reserveBookingResponse.data?.editCarReservedForBooking) {
+            let response = await fetch(`${baseHttpDomain}ipay-pay`, {
+              method: "POST",
+              // withCredentials: true,
+              credentials: "include",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                ...values,
+                ttl: getTotal(),
+              }),
+            });
+            if (response) {
+              const data = await response.json();
+              if (window) {
+                if (distance) {
+                  localStorage.setItem("delivery_location", location);
+                }
+                window.location.href = data.url;
+              }
+            }
+          } else {
+            // Guest reservation session is ended and another user reserved the car
+            // In this case show an apology modal
+            setShowReserveSessionExpiredModal(true);
+          }
+        } else {
+          // Guest reservation session is ended and another user reserved the car
+          // In this case show an apology modal
+          setShowReserveSessionExpiredModal(true);
         }
       }
+
       // setMainLoading(false);
     } catch (error) {
       return;
@@ -351,9 +433,9 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     }
   };
 
-  console.log("distance :>> ", distance);
+  // console.log("distance :>> ", distance);
 
-  console.log("tripDuration", tripDuration);
+  // console.log("tripDuration", tripDuration);
 
   //
 
@@ -365,6 +447,13 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
           {/* {approvedLoading ? (
             <Loading />
           ) : ( */}
+          {showReserveSessionExpiredModal && (
+            <ReserveSessionExpiredModal
+              showModal={showReserveSessionExpiredModal}
+              handleClose={() => setShowReserveSessionExpiredModal(false)}
+              car={data?.getCar.car!}
+            />
+          )}
           <div className="customCarDetailsContainer my-4">
             {/* <div className="container"> */}
             <form onSubmit={handleSubmit}>

@@ -1,0 +1,3 @@
+mutation EditCarReservedForBooking($carId: Float!) {
+  editCarReservedForBooking(carId: $carId)
+}

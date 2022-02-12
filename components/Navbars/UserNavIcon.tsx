@@ -32,9 +32,18 @@ export function UserNavIcon(props: UserNavIconProps) {
 
       <div className="account-tooltip-content shadow p-2">
         {props.isAdmin || props.isAccount ? (
-          <div className="cursor-pointer">
-            <Link href="/account">Home</Link>
-          </div>
+          <>
+            {props.isAdmin && (
+              <div className="cursor-pointer">
+                <Link href="/root">Home</Link>
+              </div>
+            )}
+            {props.isAccount && (
+              <div className="cursor-pointer">
+                <Link href="/account">Home</Link>
+              </div>
+            )}
+          </>
         ) : (
           <div className="cursor-pointer">
             <Link href="/account">

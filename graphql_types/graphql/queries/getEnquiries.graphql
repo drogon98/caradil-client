@@ -1,0 +1,9 @@
+query GetEnquiries {
+  enquiries {
+    id
+    subject
+    message
+    email
+    created_at
+  }
+}

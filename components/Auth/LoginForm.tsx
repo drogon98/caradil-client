@@ -13,6 +13,7 @@ import {
   useLoginMutation,
 } from "../../graphql_types/generated/graphql";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
+import client from "../../apollo";
 
 interface Props {
   isModal?: boolean;
@@ -69,6 +70,7 @@ export default function LoginForm(props: Props): ReactElement {
       } else if (response?.data?.login.access_token) {
         dispatch(setToken(response.data?.login.access_token));
         if (props.isModal) {
+          await client.resetStore();
           props.close();
         } else {
           if (props.isAdmin) {

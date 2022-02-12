@@ -1,7 +1,7 @@
 fragment carInfo on Car {
   id
   name
-  reg_no
+  # reg_no
   description
   owner {
     first_name
@@ -70,4 +70,9 @@ fragment carInfo on Car {
   being_edited
   # has_edit_request
   # verification_in_progress
+  fuel_efficiency
+  fuel_policy
+  reserved_for_booking
+  suspended
+  reserved_for_booking_guest_id
 }

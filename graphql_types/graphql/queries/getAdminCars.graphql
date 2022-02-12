@@ -28,5 +28,6 @@ query GetAdminCars($type_: String!) {
     being_edited
     # has_edit_request
     # verification_in_progress
+    suspended
   }
 }

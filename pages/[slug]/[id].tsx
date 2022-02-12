@@ -1,13 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, {
-  Dispatch,
-  FC,
-  SyntheticEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 import LoginWithModal from "../../components/Auth/LoginWithModal";
@@ -30,12 +23,13 @@ import {
   Car,
   CustomAvailabilityObj,
   Maybe,
+  OnReserveForBookingDocument,
+  useEditCarReservedForBookingMutation,
   // useCheckIfDriverIsApprovedToDriveLazyQuery,
   useGetCarQuery,
   useUpdateCarFavouriteMutation,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
-import { totalChargeCalculator } from "../../utils/trip_duration_ttl_calc";
 import { unslugify } from "../../utils/unslugify";
 
 interface CarProps {}
@@ -82,6 +76,9 @@ const Car: FC<CarProps> = (props) => {
   const [updateFavourite, { loading: updatingFavourite }] =
     useUpdateCarFavouriteMutation();
 
+  const [editReservedForBooking, { loading: editingReservedForBooking }] =
+    useEditCarReservedForBookingMutation();
+
   const [totalCharge, setTotalCharge] = useState<number>(0);
 
   const carId = parseInt(router.query.id as string, 10);
@@ -112,7 +109,7 @@ const Car: FC<CarProps> = (props) => {
     }
   }, [carId]);
 
-  const { data, loading } = useGetCarQuery({
+  const { data, loading, subscribeToMore } = useGetCarQuery({
     variables: {
       carId: parseInt(router.query.id as string, 10),
       carName: unslugify(router.query.slug as string),
@@ -120,6 +117,28 @@ const Car: FC<CarProps> = (props) => {
     skip,
     fetchPolicy: "cache-and-network",
   });
+
+  useEffect(() => {
+    let carSub: { (): void; (): void };
+    if (subscribeToMore && !skip) {
+      carSub = subscribeToMore({
+        document: OnReserveForBookingDocument,
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          const reserveData: any = { ...subscriptionData.data };
+          return {
+            getCar: { car: { ...prev.getCar.car, ...reserveData } },
+          };
+        },
+      });
+    }
+
+    return () => {
+      if (carSub) {
+        carSub();
+      }
+    };
+  }, [subscribeToMore, skip]);
 
   useEffect(() => {
     if (carId && data?.getCar) {
@@ -171,12 +190,37 @@ const Car: FC<CarProps> = (props) => {
   }, [router]);
 
   const handleRouteNext = async (e: SyntheticEvent<HTMLButtonElement>) => {
-    // console.log("Helloo :>> ");
     e.preventDefault();
-    await router.push({
-      pathname: "/checkout/confirm-order",
-      query: { carId, ...userDates, approved: true },
-    });
+    try {
+      if (
+        !(
+          car?.reserved_for_booking! &&
+          car.reserved_for_booking_guest_id === userId
+        )
+      ) {
+        let response = await editReservedForBooking({
+          variables: { carId: car?.id! },
+        });
+
+        if (response.data?.editCarReservedForBooking) {
+          await router.push({
+            pathname: "/checkout/confirm-order",
+            query: { carId, ...userDates, approved: true },
+          });
+        } else {
+          // Car already reserved for booking by other user
+        }
+      } else {
+        // Current user reserved car for booking
+        await router.push({
+          pathname: "/checkout/confirm-order",
+          query: { carId, ...userDates, approved: true },
+        });
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+
     // checkIfDriverIsApproved();
     // const response = checkIfDriverIsApproved();
     // console.log("response :>> ", response);
@@ -206,7 +250,7 @@ const Car: FC<CarProps> = (props) => {
     }
   };
 
-  console.log("car", car);
+  // console.log("car", car);
 
   return (
     <>
@@ -395,36 +439,40 @@ const Car: FC<CarProps> = (props) => {
                 <div>
                   <div className="carDetailsChargeCard  px-2 py-3 shadow">
                     <div>
-                      {(car?.booked || !car?.published) && !isCarPreview && (
-                        <>
-                          <small className="fw-bolder text-danger">
-                            This car is unavailable!
-                          </small>
-                          <small
-                            style={{
-                              textDecoration: "underline",
-                              marginLeft: "10px",
-                              fontSize: "14px",
-                            }}
-                          >
-                            <Link
-                              href={{
-                                pathname: "/browse-cars/[make]",
-                                query: {
-                                  make: car?.make!,
-                                  categories: JSON.stringify(car?.categories),
-                                  color: car?.color,
-                                  gas: car?.gas,
-                                  location: car?.location,
-                                  subject: car?.id,
-                                },
+                      {(car?.booked ||
+                        !car?.published ||
+                        (car.reserved_for_booking &&
+                          car.reserved_for_booking_guest_id !== userId)) &&
+                        !isCarPreview && (
+                          <>
+                            <small className="fw-bolder text-danger">
+                              This car is unavailable!
+                            </small>
+                            <small
+                              style={{
+                                textDecoration: "underline",
+                                marginLeft: "10px",
+                                fontSize: "14px",
                               }}
                             >
-                              <a>Check similar cars</a>
-                            </Link>
-                          </small>
-                        </>
-                      )}
+                              <Link
+                                href={{
+                                  pathname: "/browse-cars/[make]",
+                                  query: {
+                                    make: car?.make!,
+                                    categories: JSON.stringify(car?.categories),
+                                    color: car?.color,
+                                    gas: car?.gas,
+                                    location: car?.location,
+                                    subject: car?.id,
+                                  },
+                                }}
+                              >
+                                <a>Check similar cars</a>
+                              </Link>
+                            </small>
+                          </>
+                        )}
                     </div>
 
                     <div>
@@ -474,7 +522,9 @@ const Car: FC<CarProps> = (props) => {
                             !validDates ||
                             car?.booked ||
                             !car?.published ||
-                            isCarPreview
+                            isCarPreview ||
+                            (car.reserved_for_booking! &&
+                              car.reserved_for_booking_guest_id !== userId)
                           }
                         >
                           Continue

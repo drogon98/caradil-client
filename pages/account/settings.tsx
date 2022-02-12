@@ -38,6 +38,13 @@ const Settings = (props: SettingsProps) => {
   const [showAccountActionModal, setShowAccountActionModal] = useState(false);
   const [accountAction, setAccountAction] = useState("");
   const [toastMessage, setToastMessage] = useState("");
+  // const upgradeAccRef = useRef<HTMLDivElement>(null);
+  // const router = useRouter();
+  // const [showUpgradeShade, setShowUpgradeShade] = useState(false);
+
+  // console.log("router :>> ", router);
+
+  // console.log("upgradeAccRef :>> ", upgradeAccRef);
 
   useEffect(() => {
     if (data?.getAccountSettings.accountSettings && !fetchingSettings) {
@@ -62,6 +69,19 @@ const Settings = (props: SettingsProps) => {
       setMainLoading(false);
     }
   }, [data, fetchingSettings]);
+
+  // useEffect(() => {
+  //   if (router.query) {
+  //     console.log("router.query.upgrade :>> ", router.query.upgrade);
+  //     if (router.query.upgrade && upgradeAccRef.current) {
+  //       console.log("Helloo :>> ");
+  //       upgradeAccRef.current.scrollIntoView({
+  //         block: "center",
+  //         behavior: "smooth",
+  //       });
+  //     }
+  //   }
+  // }, [router.query]);
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     let payload;
@@ -176,7 +196,7 @@ const Settings = (props: SettingsProps) => {
                 <hr />
                 <h6>General Settings</h6>
                 <div className="mb-5">
-                  <div className="settings-column d-flex align-items-start justify-content-between">
+                  <div className="settings-row d-flex align-items-start justify-content-between">
                     <div className="d-flex flex-column">
                       <p>I offer bulk car hire.</p>
                       <div>
@@ -207,7 +227,7 @@ const Settings = (props: SettingsProps) => {
                 </div>
                 <h6>Notification Settings</h6>
                 <div className="mb-5">
-                  <div className="settings-column d-flex align-items-start justify-content-between">
+                  <div className="settings-row d-flex align-items-start justify-content-between">
                     <div className="d-flex flex-column">
                       <p>Receive marketing emails from caradil</p>
                     </div>
@@ -319,11 +339,14 @@ const Settings = (props: SettingsProps) => {
                     </div>
                   </>
                 )}
+                {/* <div style={{ height: "2000px" }} /> */}
 
                 <h3>Account</h3>
                 <hr />
+
+                {/* <UpgradeAccount upgradeAccRef={upgradeAccRef} /> */}
                 {role === 1 && (
-                  <div className="mb-5 settings-column d-flex align-items-start justify-content-between">
+                  <div className="mb-5 settings-row d-flex align-items-start justify-content-between">
                     <div className="d-flex flex-column">
                       <h6>Upgrade Account</h6>
                       <div className="pr-3">
@@ -342,8 +365,9 @@ const Settings = (props: SettingsProps) => {
                     </button>
                   </div>
                 )}
+                {/* <div ref={upgradeAccRef} /> */}
 
-                <div className="mt-5 settings-column d-flex align-items-start justify-content-between">
+                <div className="mt-5 settings-row d-flex align-items-start justify-content-between">
                   <div className="d-flex flex-column">
                     <h6>Delete Account</h6>
                     <div className="pr-3">

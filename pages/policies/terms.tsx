@@ -7,7 +7,7 @@ const TermsOfService: NextPage = () => {
     <>
       <CustomHead title="Terms Of Service" />
       <Layout>
-        <div className="customContainer my-5">
+        <div className="customContainer my-3">
           <h2>
             <strong>Terms Of Service</strong>
           </h2>
@@ -23,24 +23,6 @@ const TermsOfService: NextPage = () => {
             By accessing this website we assume you accept these terms and
             conditions. Do not continue to use caradil if you do not agree to
             take all of the terms and conditions stated on this page.
-          </p>
-
-          <p>
-            The following terminology applies to these Terms and Conditions,
-            Privacy Statement and Disclaimer Notice and all Agreements:
-            "Client", "You" and "Your" refers to you, the person log on this
-            website and compliant to the Company’s terms and conditions. "The
-            Company", "Ourselves", "We", "Our" and "Us", refers to our Company.
-            "Party", "Parties", or "Us", refers to both the Client and
-            ourselves. All terms refer to the offer, acceptance and
-            consideration of payment necessary to undertake the process of our
-            assistance to the Client in the most appropriate manner for the
-            express purpose of meeting the Client’s needs in respect of
-            provision of the Company’s stated services, in accordance with and
-            subject to, prevailing Kenyan law. Any use of the above terminology
-            or other words in the singular, plural, capitalization and/or he/she
-            or they, are taken as interchangeable and therefore as referring to
-            same.
           </p>
 
           <h3>
@@ -586,9 +568,9 @@ const TermsOfService: NextPage = () => {
           </p>
           <h4>Disclaimers</h4>
 
-          <h4>Not a rental car company</h4>
+          <h4>Not a rental car business</h4>
           <p>
-            Caradil is not a rental car company. It does not own a fleet of
+            Caradil is not a rental car business. It does not own a fleet of
             vehicles, and is not in the business of renting vehicles to the
             public. Caradil provides an online platform where vehicle owners and
             those in need of a vehicle can meet and share vehicles amongst
@@ -603,14 +585,14 @@ const TermsOfService: NextPage = () => {
             under applicable law.
           </p>
 
-          <h4>Translations</h4>
+          {/* <h4>Translations</h4>
           <p>
             Where Caradil has provided you with a translation of the English
             language version of these Terms or any Policies, in case of any
             wording discrepancies between the English and any other versions of
             the Terms and any Policies, the English language wording takes
             precedence.
-          </p>
+          </p> */}
         </div>
       </Layout>
     </>

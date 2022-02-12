@@ -71,4 +71,9 @@ fragment carPrivateInfo on Car {
   being_edited
   # has_edit_request
   # verification_in_progress
+  fuel_efficiency
+  fuel_policy
+  reserved_for_booking
+  suspended
+  reserved_for_booking_guest_id
 }

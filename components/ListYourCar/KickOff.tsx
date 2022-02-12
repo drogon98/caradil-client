@@ -50,6 +50,7 @@ export const KickOff: FC<IProps> = (props) => {
           <Link
             href={{
               pathname: "/account/settings",
+              query: { upgrade: true },
             }}
           >
             <a className="btn bgOrange">Get Started</a>
