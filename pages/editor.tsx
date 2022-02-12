@@ -63,7 +63,7 @@ const Editor: NextPage = () => {
 
   return (
     <>
-      <CustomHead title="About Us" />
+      <CustomHead title="Editor" />
       <Layout>
         <div className="customContainer my-5">
           <h3>Edit content and generate html files</h3>

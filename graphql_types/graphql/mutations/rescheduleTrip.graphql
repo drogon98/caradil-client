@@ -1,0 +1,8 @@
+mutation RescheduleTrip($tripId: Float!, $input: TripRescheduleInput!) {
+  rescheduleTrip(tripId: $tripId, input: $input) {
+    trip {
+      ...tripInfo
+    }
+    error
+  }
+}

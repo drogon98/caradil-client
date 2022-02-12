@@ -33,7 +33,7 @@ export default function SharedSections(props: Props): ReactElement {
   }, [props.car]);
 
   return (
-    <>
+    <div className="mb-4">
       <div className="mt-3">
         <hr />
         <div className="d-flex justify-content-between">
@@ -149,6 +149,6 @@ export default function SharedSections(props: Props): ReactElement {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

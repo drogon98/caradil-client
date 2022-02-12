@@ -437,7 +437,7 @@ const Car: FC<CarProps> = (props) => {
                 </div>
                 {/* <div> */}
                 <div>
-                  <div className="carDetailsChargeCard  px-2 py-3 shadow">
+                  <div className="carDetailsChargeCard px-2 py-3 shadow">
                     <div>
                       {(car?.booked ||
                         !car?.published ||
@@ -600,11 +600,11 @@ const Car: FC<CarProps> = (props) => {
               )}
 
               <div
-                className={`d-flex justify-content-between align-items-center ${
+                className={`d-flex justify-content-between align-items-center w-100 ${
                   !car?.booked && `h-100`
                 }`}
               >
-                <div>
+                <div style={{ flex: "2" }}>
                   <div>
                     <h5 className="m-0">
                       Ksh.{car?.daily_rate!.toLocaleString()}/day
@@ -626,7 +626,7 @@ const Car: FC<CarProps> = (props) => {
                   onClick={handleSelectDates}
                   disabled={car?.booked || !car?.published}
                   className="btn m-0 p-0"
-                  style={{ fontSize: "500", width: "250px" }}
+                  style={{ flex: 1, fontSize: "500", width: "250px" }}
                   ref={pickDatesButtonRef}
                 >
                   <small className="mr-2">

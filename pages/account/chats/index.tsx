@@ -46,7 +46,11 @@ const Chats = (props: ChatsProps) => {
     }
   }, [router.query]);
 
-  const { data, loading } = useGetUserChatMetasQuery();
+  // console.log("metaId", metaId);
+
+  const { data, loading } = useGetUserChatMetasQuery({
+    fetchPolicy: "no-cache",
+  });
 
   useEffect(() => {
     let _afterData = async () => {
@@ -66,6 +70,8 @@ const Chats = (props: ChatsProps) => {
             `/account/chats/?meta_id=${_id}`,
             { shallow: true }
           );
+        } else {
+          setActiveChatId(metaId);
         }
         setMainLoading(false);
       }

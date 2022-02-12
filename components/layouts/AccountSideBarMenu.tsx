@@ -65,12 +65,12 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
           {isChatPage ? (
             <span className="link black-link cursor-pointer">
               {" "}
-              <div>Trips</div>
+              <div>Chats</div>
             </span>
           ) : (
             <Link href="/account/chats">
               <a className="link black-link">
-                <div>Chats </div>
+                <div>Chats</div>
               </a>
             </Link>
           )}

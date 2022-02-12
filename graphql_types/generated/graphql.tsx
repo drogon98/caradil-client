@@ -408,6 +408,7 @@ export type Mutation = {
   makeCarEditable: CreateCarEditRequestResponse;
   markAllRead: Scalars['Boolean'];
   register: TokenResponse;
+  rescheduleTrip: ConfirmCancelTripResponse;
   resetPassword: PasswordResponse;
   revokeUserRefreshToken: Scalars['Boolean'];
   singleUpload: UploadedFileResponse;
@@ -579,6 +580,12 @@ export type MutationMakeCarEditableArgs = {
 
 export type MutationRegisterArgs = {
   input: RegisterInput;
+};
+
+
+export type MutationRescheduleTripArgs = {
+  input: TripRescheduleInput;
+  tripId: Scalars['Float'];
 };
 
 
@@ -772,9 +779,12 @@ export type Trip = {
   end_date?: Maybe<Scalars['DateTime']>;
   end_time?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Float']>;
+  is_rescheduled?: Maybe<Scalars['Boolean']>;
   owner?: Maybe<User>;
   owner_id?: Maybe<Scalars['Float']>;
   refund_transaction_id?: Maybe<Scalars['Float']>;
+  reschedule_history?: Maybe<Array<Trip>>;
+  reschedule_reason?: Maybe<Scalars['String']>;
   start_date?: Maybe<Scalars['DateTime']>;
   start_time?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
@@ -800,6 +810,14 @@ export type TripInput = {
   transaction_invoice_no: Scalars['String'];
   transaction_order_id: Scalars['String'];
   transaction_status: Scalars['String'];
+};
+
+export type TripRescheduleInput = {
+  end_date: Scalars['String'];
+  end_time: Scalars['String'];
+  reschedule_reason: Scalars['String'];
+  start_date: Scalars['String'];
+  start_time: Scalars['String'];
 };
 
 export type TripResponse = {
@@ -916,13 +934,6 @@ export type CancelTripMutationVariables = Exact<{
 
 
 export type CancelTripMutation = { __typename?: 'Mutation', cancelTrip: { __typename?: 'ConfirmCancelTripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, chat_meta_id?: number | null | undefined, owner_id?: number | null | undefined, car_owner_id?: number | null | undefined, trip_canceller?: string | null | undefined, why_cancel_trip?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, reg_no?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
-
-export type CheckReservedGuestIdMutationVariables = Exact<{
-  carId: Scalars['Float'];
-}>;
-
-
-export type CheckReservedGuestIdMutation = { __typename?: 'Mutation', checkReservedGuestId: boolean };
 
 export type ConfirmTripMutationVariables = Exact<{
   tripId: Scalars['Float'];
@@ -1108,6 +1119,14 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'TokenResponse', access_token?: string | null | undefined, error?: string | null | undefined } };
 
+export type RescheduleTripMutationVariables = Exact<{
+  tripId: Scalars['Float'];
+  input: TripRescheduleInput;
+}>;
+
+
+export type RescheduleTripMutation = { __typename?: 'Mutation', rescheduleTrip: { __typename?: 'ConfirmCancelTripResponse', error?: string | null | undefined, trip?: { __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, chat_meta_id?: number | null | undefined, owner_id?: number | null | undefined, car_owner_id?: number | null | undefined, trip_canceller?: string | null | undefined, why_cancel_trip?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, reg_no?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined } | null | undefined } };
+
 export type ResetPasswordMutationVariables = Exact<{
   input: ResetPasswordInput;
 }>;
@@ -1141,6 +1160,13 @@ export type EmailVerifyMutationVariables = Exact<{
 
 
 export type EmailVerifyMutation = { __typename?: 'Mutation', verifyEmail: { __typename?: 'VerifyEmailResponse', userId?: number | null | undefined, error?: string | null | undefined } };
+
+export type CheckReservedGuestIdMutationVariables = Exact<{
+  carId: Scalars['Float'];
+}>;
+
+
+export type CheckReservedGuestIdMutation = { __typename?: 'Mutation', checkReservedGuestId: boolean };
 
 export type GetAccountSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1639,37 +1665,6 @@ export function useCancelTripMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CancelTripMutationHookResult = ReturnType<typeof useCancelTripMutation>;
 export type CancelTripMutationResult = Apollo.MutationResult<CancelTripMutation>;
 export type CancelTripMutationOptions = Apollo.BaseMutationOptions<CancelTripMutation, CancelTripMutationVariables>;
-export const CheckReservedGuestIdDocument = gql`
-    mutation CheckReservedGuestId($carId: Float!) {
-  checkReservedGuestId(carId: $carId)
-}
-    `;
-export type CheckReservedGuestIdMutationFn = Apollo.MutationFunction<CheckReservedGuestIdMutation, CheckReservedGuestIdMutationVariables>;
-
-/**
- * __useCheckReservedGuestIdMutation__
- *
- * To run a mutation, you first call `useCheckReservedGuestIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCheckReservedGuestIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [checkReservedGuestIdMutation, { data, loading, error }] = useCheckReservedGuestIdMutation({
- *   variables: {
- *      carId: // value for 'carId'
- *   },
- * });
- */
-export function useCheckReservedGuestIdMutation(baseOptions?: Apollo.MutationHookOptions<CheckReservedGuestIdMutation, CheckReservedGuestIdMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CheckReservedGuestIdMutation, CheckReservedGuestIdMutationVariables>(CheckReservedGuestIdDocument, options);
-      }
-export type CheckReservedGuestIdMutationHookResult = ReturnType<typeof useCheckReservedGuestIdMutation>;
-export type CheckReservedGuestIdMutationResult = Apollo.MutationResult<CheckReservedGuestIdMutation>;
-export type CheckReservedGuestIdMutationOptions = Apollo.BaseMutationOptions<CheckReservedGuestIdMutation, CheckReservedGuestIdMutationVariables>;
 export const ConfirmTripDocument = gql`
     mutation ConfirmTrip($tripId: Float!) {
   confirmTrip(tripId: $tripId) {
@@ -2537,6 +2532,43 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const RescheduleTripDocument = gql`
+    mutation RescheduleTrip($tripId: Float!, $input: TripRescheduleInput!) {
+  rescheduleTrip(tripId: $tripId, input: $input) {
+    trip {
+      ...tripInfo
+    }
+    error
+  }
+}
+    ${TripInfoFragmentDoc}`;
+export type RescheduleTripMutationFn = Apollo.MutationFunction<RescheduleTripMutation, RescheduleTripMutationVariables>;
+
+/**
+ * __useRescheduleTripMutation__
+ *
+ * To run a mutation, you first call `useRescheduleTripMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRescheduleTripMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [rescheduleTripMutation, { data, loading, error }] = useRescheduleTripMutation({
+ *   variables: {
+ *      tripId: // value for 'tripId'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRescheduleTripMutation(baseOptions?: Apollo.MutationHookOptions<RescheduleTripMutation, RescheduleTripMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RescheduleTripMutation, RescheduleTripMutationVariables>(RescheduleTripDocument, options);
+      }
+export type RescheduleTripMutationHookResult = ReturnType<typeof useRescheduleTripMutation>;
+export type RescheduleTripMutationResult = Apollo.MutationResult<RescheduleTripMutation>;
+export type RescheduleTripMutationOptions = Apollo.BaseMutationOptions<RescheduleTripMutation, RescheduleTripMutationVariables>;
 export const ResetPasswordDocument = gql`
     mutation ResetPassword($input: ResetPasswordInput!) {
   resetPassword(input: $input) {
@@ -2708,6 +2740,37 @@ export function useEmailVerifyMutation(baseOptions?: Apollo.MutationHookOptions<
 export type EmailVerifyMutationHookResult = ReturnType<typeof useEmailVerifyMutation>;
 export type EmailVerifyMutationResult = Apollo.MutationResult<EmailVerifyMutation>;
 export type EmailVerifyMutationOptions = Apollo.BaseMutationOptions<EmailVerifyMutation, EmailVerifyMutationVariables>;
+export const CheckReservedGuestIdDocument = gql`
+    mutation CheckReservedGuestId($carId: Float!) {
+  checkReservedGuestId(carId: $carId)
+}
+    `;
+export type CheckReservedGuestIdMutationFn = Apollo.MutationFunction<CheckReservedGuestIdMutation, CheckReservedGuestIdMutationVariables>;
+
+/**
+ * __useCheckReservedGuestIdMutation__
+ *
+ * To run a mutation, you first call `useCheckReservedGuestIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCheckReservedGuestIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [checkReservedGuestIdMutation, { data, loading, error }] = useCheckReservedGuestIdMutation({
+ *   variables: {
+ *      carId: // value for 'carId'
+ *   },
+ * });
+ */
+export function useCheckReservedGuestIdMutation(baseOptions?: Apollo.MutationHookOptions<CheckReservedGuestIdMutation, CheckReservedGuestIdMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CheckReservedGuestIdMutation, CheckReservedGuestIdMutationVariables>(CheckReservedGuestIdDocument, options);
+      }
+export type CheckReservedGuestIdMutationHookResult = ReturnType<typeof useCheckReservedGuestIdMutation>;
+export type CheckReservedGuestIdMutationResult = Apollo.MutationResult<CheckReservedGuestIdMutation>;
+export type CheckReservedGuestIdMutationOptions = Apollo.BaseMutationOptions<CheckReservedGuestIdMutation, CheckReservedGuestIdMutationVariables>;
 export const GetAccountSettingsDocument = gql`
     query GetAccountSettings {
   getAccountSettings {

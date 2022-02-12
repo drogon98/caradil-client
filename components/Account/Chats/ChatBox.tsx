@@ -60,24 +60,26 @@ export const ChatBox = (props: ChatBoxProps) => {
         </div>
       ) : (
         <div className="chat-box-receiver my-5">
-          <div className="chat-box">
-            <div style={{ height: "40px", width: "40px" }}>
-              <img
-                src={
-                  props.receiverProfile?.avatar?.secure_url
-                    ? props.receiverProfile?.avatar.secure_url
-                    : "/images/mackenzi.png"
-                }
-                style={{ objectFit: "cover", height: "40px", width: "40px" }}
-                className="rounded-circle"
-              />
-            </div>
-            <div className="receiver-chat-tooltip p-2">
-              <p>{props.data.message}</p>
-              <div className="d-flex w-100 justify-content-end mt-2">
-                <small className="chat-time">
-                  {getChatTime(props.data.created_at)}
-                </small>
+          <div className="chat-box d-flex justify-content-start">
+            <div className="d-flex">
+              <div style={{ height: "40px", width: "40px" }}>
+                <img
+                  src={
+                    props.receiverProfile?.avatar?.secure_url
+                      ? props.receiverProfile?.avatar.secure_url
+                      : "/images/mackenzi.png"
+                  }
+                  style={{ objectFit: "cover", height: "40px", width: "40px" }}
+                  className="rounded-circle"
+                />
+              </div>
+              <div className="receiver-chat-tooltip p-2">
+                <p>{props.data.message}</p>
+                <div className="d-flex w-100 justify-content-end mt-2">
+                  <small className="chat-time">
+                    {getChatTime(props.data.created_at)}
+                  </small>
+                </div>
               </div>
             </div>
           </div>

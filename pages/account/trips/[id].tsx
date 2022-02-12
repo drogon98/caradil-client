@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import CancelTripMoal from "../../../components/Account/Trips/CancelTripModal";
+import RescheduleTripModal from "../../../components/Account/Trips/RescheduleTripModal";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import { CustomHead } from "../../../components/CustomHead";
 import { useWindowDimensions } from "../../../components/hooks/useWindowDimensions";
@@ -163,6 +164,15 @@ export default function Trip(props: Props): ReactElement {
                   trip={trip!}
                 />
               )}
+              {showRescheduleModal && (
+                <RescheduleTripModal
+                  showModal={showRescheduleModal}
+                  handleClose={() => setShowRescheduleModal(false)}
+                  // setTrip={setTrip}
+                  tripId={tripId}
+                  trip={trip!}
+                />
+              )}
               <div className="mt-4 d-flex align-items-center w-100 mb-4">
                 <button
                   className="btn m-0 p-0"
@@ -178,7 +188,7 @@ export default function Trip(props: Props): ReactElement {
                     {trip?.status === "confirmed" ? (
                       <div>
                         <button className="btn bg-success" onClick={handleChat}>
-                          Chat With Guest
+                          Chat With Host
                         </button>
                       </div>
                     ) : (

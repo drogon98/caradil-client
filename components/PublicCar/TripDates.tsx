@@ -22,13 +22,14 @@ interface TripDatesProps {
     SetStateAction<Maybe<CustomAvailabilityObj> | undefined>
   >;
   userDates: Maybe<CustomAvailabilityObj> | undefined;
-  setTotalCharge: Dispatch<React.SetStateAction<number>>;
-  car: Car;
-  hasCustomAvailability: boolean;
+  setTotalCharge?: Dispatch<React.SetStateAction<number>>;
+  car?: Car;
+  hasCustomAvailability?: boolean;
+  isReschedule?: boolean;
 }
 
 export const TripDates: FC<TripDatesProps> = (props) => {
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<CustomAvailabilityObj>({
     endDate: "",
     endTime: "",
     startDate: "",
@@ -37,6 +38,16 @@ export const TripDates: FC<TripDatesProps> = (props) => {
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
   // console.log("values", values);
+
+  useEffect(() => {
+    if (props.values && props.isReschedule) {
+      setValues({
+        ...props.values!,
+        startDate: createDateValue(new Date(props.values.startDate!)),
+        endDate: createDateValue(new Date(props.values.endDate!)),
+      });
+    }
+  }, [props.values, props.isReschedule]);
 
   const createDateValue = (date: Date) => {
     if (date) {
@@ -103,12 +114,14 @@ export const TripDates: FC<TripDatesProps> = (props) => {
     ) {
       // console.log("values", values);
       props.setValidDates(true);
-      totalChargeCalculator(props.car, values, props.setTotalCharge);
+      if (props.setTotalCharge) {
+        totalChargeCalculator(props.car, values, props.setTotalCharge);
+      }
     }
   }, [values, props.car]);
 
   useEffect(() => {
-    if (props.hasCustomAvailability) {
+    if (props.car && props.hasCustomAvailability) {
       setMinDate(getMinDate(props.values?.startDate as string)!);
       setMaxDate(getMaxDate(props.values?.endDate as string)!);
     } else {
@@ -125,7 +138,7 @@ export const TripDates: FC<TripDatesProps> = (props) => {
     // } else {
 
     // }
-  }, [props.values]);
+  }, [props.values, props.car]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -153,7 +166,7 @@ export const TripDates: FC<TripDatesProps> = (props) => {
             className="w-100"
             name="startDate"
             onChange={handleChange}
-            value={values.startDate}
+            value={values.startDate!}
             min={minDate}
             // max="2018-12-31"
             // ref={startDateRef}
@@ -183,7 +196,7 @@ export const TripDates: FC<TripDatesProps> = (props) => {
             className="w-100"
             name="endDate"
             onChange={handleChange}
-            value={values.endDate}
+            value={values.endDate!}
             min={minDate}
             max={maxDate}
           />
