@@ -455,6 +455,18 @@ label {
   }
 }
 
+@media screen and (max-width: 360px) {
+  .notifications-nav-tooltip-content {
+    width: 280px;
+  }
+}
+
+@media screen and (max-width: 342px) {
+  .notifications-nav-tooltip-content {
+    width: 265px;
+  }
+}
+
 /* =========================END NAVBARS================================= */
 
 /* =============================HOME PAGE================================= */

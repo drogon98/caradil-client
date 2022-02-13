@@ -7,334 +7,266 @@ const Privacy: NextPage = () => {
     <>
       <CustomHead title="Privacy Policy" />
       <Layout>
-        <div className="customContainer my-5">
-          <h2>
-            <strong>Terms and Conditions</strong>
-          </h2>
-
-          <p>Welcome to caradil!</p>
-
+        <div className="customContainer my-4">
+          <h1 className="mb-3">Privacy Policy</h1>
+          <h3>Personal information we collect</h3>
           <p>
-            These terms and conditions outline the rules and regulations for the
-            use of Caradil's Website, located at https://caradil.com.
+            <strong>Account data.</strong>&nbsp;When you register for an account
+            with us, we require certain personal information to open your
+            account, such as your name, email address, and password.
+          </p>
+          <p>
+            <strong>Profile data</strong>. We may also ask you to provide
+            additional profile information to use certain features of the
+            Services which may include phone number,business name,scanned
+            national id and profile photo. Certain parts of your profile (like
+            your profile photos, name and business name) are part of your public
+            profile page and will be publicly visible to others.
+          </p>
+          <p>
+            <strong>Vehicle data</strong>. We collect information you provide in
+            relation to a vehicle such as vehicle registration number,scanned
+            logbook copy, availability dates and uploaded trip photos.
+          </p>
+          <p>
+            <strong>Payment data</strong>. We collect your digital payment
+            details, bank account or payment card numbers, and transaction
+            information in connection with a potential or actual transaction,
+            which may be processed and stored by one or more third party payment
+            service providers or digital payments companies.
+          </p>
+          <p>
+            <strong>Identity verification data</strong>. In some instances, we
+            may collect identity verification information such as a photograph
+            or scanned copy of a national ID card, or payment card.
+          </p>
+          <p>
+            <strong>Communications</strong>. When you communicate with Caradil,
+            including via phone, email, or chat, or use the Services to
+            communicate with other users, we collect information about your
+            communication and any information you choose to provide.
+          </p>
+          <h4>Personal information we automatically collect.</h4>
+          <p>
+            <strong>Usage data</strong>. We collect information about your
+            interactions with the Services, such as the pages or other content
+            you view, your searches, bookings you have made, how long you spent
+            on a page or screen, sites from which you link or browse to in the
+            Services, navigation paths between pages or screens, information
+            about your activity on a page or screen, access time, duration of
+            access, and other actions on the Services.
+          </p>
+          <p>
+            <strong>Location data</strong>. When you use certain features of the
+            Services, we may collect information about your approximate location
+            (e.g., city/town associated with your IP address). When you opt in
+            to use our location sharing feature, we may collect the precise
+            location information of your mobile device. Keep in mind that most
+            mobile devices allow you to control or disable the use of location
+            services by any application on your mobile device in the device’s
+            settings menu.
+          </p>
+          <p>
+            <strong>Device data</strong>. We collect information about your
+            computer or mobile device, such as its operating system type and
+            version number, manufacturer and model, browser type, screen
+            resolution, IP address, unique device identifiers, or general
+            location information such as city, state, or geographic area.
+          </p>
+          <p>
+            <strong>Trip data</strong>. We collect transactional information
+            related to the trips you take through the Services, including the
+            date and time of your trip, amounts charged, and other related trip
+            details.
           </p>
 
           <p>
-            By accessing this website we assume you accept these terms and
-            conditions. Do not continue to use caradil if you do not agree to
-            take all of the terms and conditions stated on this page.
-          </p>
-
-          <p>
-            The following terminology applies to these Terms and Conditions,
-            Privacy Statement and Disclaimer Notice and all Agreements:
-            "Client", "You" and "Your" refers to you, the person log on this
-            website and compliant to the Company’s terms and conditions. "The
-            Company", "Ourselves", "We", "Our" and "Us", refers to our Company.
-            "Party", "Parties", or "Us", refers to both the Client and
-            ourselves. All terms refer to the offer, acceptance and
-            consideration of payment necessary to undertake the process of our
-            assistance to the Client in the most appropriate manner for the
-            express purpose of meeting the Client’s needs in respect of
-            provision of the Company’s stated services, in accordance with and
-            subject to, prevailing Kenyan law. Any use of the above terminology
-            or other words in the singular, plural, capitalization and/or he/she
-            or they, are taken as interchangeable and therefore as referring to
-            same.
+            <strong>Cookies and similar technology</strong>. When you access the
+            Services, we (including companies we work with) may place small data
+            files on your computer or other device. These data files may be
+            cookies, clear gifs, pixel tags, e-tags, “Flash cookies”, or other
+            local storage provided by your browser or associated applications
+            (collectively “Cookies”).
           </p>
 
           <h3>
-            <strong>Cookies</strong>
+            <strong>How we use your personal information</strong>
           </h3>
-
           <p>
-            We employ the use of cookies. By accessing caradil, you agreed to
-            use cookies in agreement with the Caradil's Privacy Policy.
+            We use, store, and process your personal information to provide and
+            improve the Services and for security and safety purposes. For
+            example, we may use your information:
           </p>
-
-          <p>
-            Most interactive websites use cookies to let us retrieve the user’s
-            details for each visit. Cookies are used by our website to enable
-            the functionality of certain areas to make it easier for people
-            visiting our website.
-            {/* <!-- Some of our
-  affiliate/advertising partners may also use cookies. --> */}
-          </p>
-
-          <h3>
-            <strong>License</strong>
-          </h3>
-
-          <p>
-            Unless otherwise stated, Caradil and/or its licensors own the
-            intellectual property rights for all material on caradil. All
-            intellectual property rights are reserved. You may access this from
-            caradil for your own personal use subjected to restrictions set in
-            these terms and conditions.
-          </p>
-
-          <p>You must not:</p>
+          <h4>To provide the Services, including to:</h4>
           <ul>
-            <li>Republish material from caradil</li>
-            <li>Sell or sub-license material from caradil</li>
-            <li>Reproduce, duplicate or copy material from caradil</li>
-            <li>Redistribute content from caradil</li>
-          </ul>
-
-          {/* <!-- <p>
-  This Agreement shall begin on the date hereof. Our Terms and Conditions were
-  created with the help of the
-  <a
-    href="https://www.privacypolicies.com/blog/sample-terms-conditions-template/"
-    >Terms And Conditions Template</a
-  >.
-</p> --> */}
-
-          <p>
-            Parts of this website offer an opportunity for users to post and
-            exchange opinions and reviews in certain areas of the website.
-            Caradil does not filter, edit, publish or review Comments prior to
-            their presence on the website. Comments do not reflect the views and
-            opinions of Caradil,its agents and/or affiliates. Comments reflect
-            the views and opinions of the person who post their views and
-            opinions. To the extent permitted by applicable laws, Caradil shall
-            not be liable for the Comments or for any liability, damages or
-            expenses caused and/or suffered as a result of any use of and/or
-            posting of and/or appearance of the Comments on this website.
-          </p>
-
-          <p>
-            Caradil reserves the right to monitor all Comments/Reviews and to
-            remove any Comments/Reviews which can be considered inappropriate,
-            offensive or causes breach of these Terms and Conditions.
-          </p>
-
-          <p>You warrant and represent that:</p>
-
-          <ul>
+            <li>Provide and operate the Services</li>
+            <li>Provide customer support</li>
             <li>
-              You are entitled to post the Comments/Reviews on our website and
-              have all necessary licenses and consents to do so;
+              Send you service, support, and administrative messages, reminders,
+              technical notices, updates, security alerts, and information
+              requested by you at any telephone number, by placing a voice call
+              or through text (SMS) or email messaging
             </li>
+
             <li>
-              The Comments/Reviews do not invade any intellectual property
-              right, including without limitation copyright, patent or trademark
-              of any third party;
+              Process transactions and send notices about your transactions
             </li>
+            <li>Personalize or customize your user experience</li>
             <li>
-              The Comments/Reviews do not contain any defamatory, libelous,
-              offensive, indecent or otherwise unlawful material which is an
-              invasion of privacy
+              Enable you to communicate with other Caradil users, including by
+              sending them messages or other information during the booking
+              process
             </li>
+            <li>Facilitate your referral invitations</li>
             <li>
-              The Comments/Reviews will not be used to solicit or promote
-              business or custom or present commercial activities or unlawful
-              activity.
+              Send your requests for reviews, for fraud detection and
+              prevention, and for any purpose you authorize at the time of
+              collection
             </li>
           </ul>
-
+          <h4>For research and development:</h4>
           <p>
-            You hereby grant Caradil a non-exclusive license to use, reproduce,
-            edit and authorize others to use, reproduce and edit any of your
-            Comments/Reviews in any and all forms, formats or media.
+            We may use your personal information to analyze and improve the
+            Services and to develop new products and services, including by
+            studying our user demographics of the Services. We may also create
+            aggregated, de-identified, or other anonymous data from your
+            personal information. We make personal information into anonymous
+            data by removing information that makes the data personally
+            identifiable to you. We may use this anonymous data and share it
+            with third parties for our lawful business purposes, including to
+            analyze and improve the Services and promote our business.
+          </p>
+          <h4>For marketing and advertising:</h4>
+          <p>
+            We and our third party advertising partners may collect and use your
+            personal information for marketing and advertising purposes:
+          </p>
+          <p>
+            <strong>Direct marketing.</strong>&nbsp;We may send you
+            Caradil-related marketing communications as permitted by law. You
+            will have the ability to opt-out of our marketing and promotional
+            communications however.
           </p>
 
-          <h3>
-            <strong>Hyperlinking to our Content</strong>
-          </h3>
-
-          <p>
-            The following organizations may link to our Website without prior
-            written approval:
-          </p>
-
-          <ul>
-            <li>Government agencies;</li>
-            <li>Search engines;</li>
-            <li>News organizations;</li>
-            <li>
-              Online directory distributors may link to our Website in the same
-              manner as they hyperlink to the Websites of other listed
-              businesses; and
-            </li>
-            <li>
-              System wide Accredited Businesses except soliciting non-profit
-              organizations, charity shopping malls, and charity fundraising
-              groups which may not hyperlink to our Web site.
-            </li>
-          </ul>
-
-          <p>
-            These organizations may link to our home page, to publications or to
-            other Website information so long as the link: (a) is not in any way
-            deceptive; (b) does not falsely imply sponsorship, endorsement or
-            approval of the linking party and its products and/or services; and
-            (c) fits within the context of the linking party’s site.
-          </p>
-
-          <p>
-            We may consider and approve other link requests from the following
-            types of organizations:
-          </p>
-
+          <h4>For security and safety, including to:</h4>
           <ul>
             <li>
-              commonly-known consumer and/or business information sources;
+              Verify your identity or authenticate information that you provide,
+              including during account creation and password reset processes
             </li>
-            <li>dot.com community sites;</li>
-            <li>associations or other groups representing charities;</li>
-            <li>online directory distributors;</li>
-            <li>internet portals;</li>
-            <li>accounting, law and consulting firms; and</li>
-            <li>educational institutions and trade associations.</li>
+            <li>Resolve disputes, collect fees, and troubleshoot problems</li>
+            <li>
+              Detect, prevent, and/or remediate fraud, abuse, security
+              incidents, or other potentially harmful, prohibited, or illegal
+              activities
+            </li>
+
+            <li>
+              Manage and protect our information technology infrastructure
+            </li>
+            <li>Conduct investigations and risk assessments</li>
+            <li>
+              Conduct checks against databases and information sources (such as
+              but not limited to public government databases)
+            </li>
+            <li>Perform creditworthiness and solvency checks</li>
           </ul>
-
+          <h4>To comply with law:</h4>
           <p>
-            We will approve link requests from these organizations if we decide
-            that: (a) the link would not make us look unfavorably to ourselves
-            or to our accredited businesses; (b) the organization does not have
-            any negative records with us; (c) the benefit to us from the
-            visibility of the hyperlink compensates the absence of Caradil; and
-            (d) the link is in the context of general resource information.
+            We use your personal information as we believe necessary or
+            appropriate to comply with applicable laws, lawful requests, and
+            legal processes, such as to respond to subpoenas or requests from
+            government authorities.
           </p>
-
+          <h4>With your consent:</h4>
           <p>
-            These organizations may link to our home page so long as the link:
-            (a) is not in any way deceptive; (b) does not falsely imply
-            sponsorship, endorsement or approval of the linking party and its
-            products or services; and (c) fits within the context of the linking
-            party’s site.
+            In some cases, we may specifically ask for your consent to process
+            your personal information.
           </p>
-
           <p>
-            If you are one of the organizations listed in paragraph 2 above and
-            are interested in linking to our website, you must inform us by
-            sending an e-mail to Caradil. Please include your name, your
-            organization name, contact information as well as the URL of your
-            site, a list of any URLs from which you intend to link to our
-            Website, and a list of the URLs on our site to which you would like
-            to link. Wait 2-3 weeks for a response.
+            We may also use your personal information as described elsewhere in
+            this Privacy Policy or as disclosed to you at the time of
+            collection.
           </p>
-
-          <p>Approved organizations may hyperlink to our Website as follows:</p>
-
-          <ul>
-            <li>By use of our corporate name; or</li>
-            <li>By use of the uniform resource locator being linked to; or</li>
-            <li>
-              By use of any other description of our Website being linked to
-              that makes sense within the context and format of content on the
-              linking party’s site.
-            </li>
-          </ul>
-
+          <h3>
+            <strong>How we disclose your personal information</strong>
+          </h3>
+          <h4>With your consent</h4>
           <p>
-            No use of Caradil's logo or other artwork will be allowed for
-            linking absent a trademark license agreement.
+            We may share your information at your direction or with your
+            consent.
+          </p>
+          <h4>Profiles, listings, and other public information</h4>
+          <p>
+            Your public listing page on the Services will always include some
+            basic information, such as your user ID or name associated with your
+            account, your public profile photo, and for hosts, the city where
+            your car is located, your listing description, your calendar
+            availability, transaction related information to allow our community
+            to evaluate your reliability and responsiveness, and reviews or
+            feedback about you. Your public listing page may also include
+            aggregate demand information (such as number of page views over a
+            period of time) and information about your cancellations. The
+            Services may also display the approximate geographic pick-up
+            location of your vehicle.
+          </p>
+          <p>
+            The Services allow your public profile and public listing pages to
+            be included in search engines, in which case your public profile and
+            public listing pages may be indexed by search engines and may be
+            published as search results.
+          </p>
+          <h4>Sharing between hosts and guests</h4>
+          <p>
+            Caradil enables car owners to offer and share their vehicles with
+            other individuals. If you agree to a booking through the Services,
+            we may provide your information to the other party in that
+            transaction as reasonably necessary to facilitate the transaction.
+            For example, Caradil may provide your mobile phone number to
+            facilitate communication or your photograph to facilitate
+            identification. We will also share the address of the vehicle and,
+            if applicable, the proposed delivery location with the other party.
+          </p>
+          <h4>Service providers</h4>
+          <p>
+            We may share information with vendors and service providers who
+            support the operation of the Services and business and who need
+            access to such information to carry out their work for us
+            (including, for example, web hosting, analytics, payment processing,
+            email delivery, marketing, insurance, claims administration, and
+            customer support services). In some cases, the service provider may
+            directly collect the information from you on our behalf. For hosts
+            who choose to use our photography program, your contact information
+            will be shared with the photographer assigned to shoot your vehicle.
+            These service providers may use your personal information only as
+            directed or authorized by us.
           </p>
 
           <h3>
-            <strong>iFrames</strong>
+            <strong>Your preferences and choices</strong>
           </h3>
-
+          <h4>Communication preferences</h4>
           <p>
-            Without prior approval and written permission, you may not create
-            frames around our Webpages that alter in any way the visual
-            presentation or appearance of our Website.
+            You can control the methods by which we may contact you about your
+            account, your booking and listing activities, promotions, and
+            announcements in the Notifications section within your Caradil
+            account.
           </p>
-
-          <h3>
-            <strong>Content Liability</strong>
-          </h3>
-
+          <h4>Opting out of marketing communications</h4>
           <p>
-            We shall not be hold responsible for any content that appears on
-            your Website. You agree to protect and defend us against all claims
-            that is rising on your Website. No link(s) should appear on any
-            Website that may be interpreted as libelous, obscene or criminal, or
-            which infringes, otherwise violates, or advocates the infringement
-            or other violation of, any third party rights.
+            You may opt out of marketing-related emails by following the opt-out
+            or unsubscribe instructions at the bottom of the email. You may
+            continue to receive service-related and other non-marketing emails.
+            If you receive marketing text messages from us, you may opt out of
+            receiving further marketing text messages from us by replying STOP
+            to our marketing message or as described in the message.
           </p>
-
-          <h3>
-            <strong>Your Privacy</strong>
-          </h3>
-
-          <p>Please read Privacy Policy</p>
-
-          <h3>
-            <strong>Reservation of Rights</strong>
-          </h3>
-
+          <h4>Correct and update</h4>
           <p>
-            We reserve the right to request that you remove all links or any
-            particular link to our Website. You approve to immediately remove
-            all links to our Website upon request. We also reserve the right to
-            amen these terms and conditions and it’s linking policy at any time.
-            By continuously linking to our Website, you agree to be bound to and
-            follow these linking terms and conditions.
+            You can review, correct, update, and edit certain information that
+            has been previously provided to us by you at any time by logging in
+            to your account and reviewing your account settings and profile.
           </p>
-
-          <h3>
-            <strong>Removal of links from our website</strong>
-          </h3>
-
-          <p>
-            If you find any link on our Website that is offensive for any
-            reason, you are free to contact and inform us any moment. We will
-            consider requests to remove links but we are not obligated to or so
-            or to respond to you directly.
-          </p>
-
-          <p>
-            We do not ensure that the information on this website is correct, we
-            do not warrant its completeness or accuracy; nor do we promise to
-            ensure that the website remains available or that the material on
-            the website is kept up to date.
-          </p>
-
-          <h3>
-            <strong>Disclaimer</strong>
-          </h3>
-
-          <p>
-            To the maximum extent permitted by applicable law, we exclude all
-            representations, warranties and conditions relating to our website
-            and the use of this website. Nothing in this disclaimer will:
-          </p>
-
-          <ul>
-            <li>
-              limit or exclude our or your liability for death or personal
-              injury;
-            </li>
-            <li>
-              limit or exclude our or your liability for fraud or fraudulent
-              misrepresentation;
-            </li>
-            <li>
-              limit any of our or your liabilities in any way that is not
-              permitted under applicable law; or
-            </li>
-            <li>
-              exclude any of our or your liabilities that may not be excluded
-              under applicable law.
-            </li>
-          </ul>
-
-          <p>
-            The limitations and prohibitions of liability set in this Section
-            and elsewhere in this disclaimer: (a) are subject to the preceding
-            paragraph; and (b) govern all liabilities arising under the
-            disclaimer, including liabilities arising in contract, in tort and
-            for breach of statutory duty.
-          </p>
-
-          {/* <!-- <p>
-  As long as the website and the information and services on the website are
-  provided free of charge, we will not be liable for any loss or damage of any
-  nature.
-</p> --> */}
         </div>
       </Layout>
     </>

@@ -36,11 +36,11 @@ function VerifyEmail(props: ResetPasswordProps) {
           const response = await verifyEmail({
             variables: { token: verifyToken as string },
           });
-          console.log("response :>> ", response);
+          // console.log("response :>> ", response);
           if (response.data?.verifyEmail.userId) {
             setToastMessage("Email verified successfully!");
             setShowSuccessToast(true);
-            if (userId !== response.data?.verifyEmail.userId) {
+            if (userId === response.data?.verifyEmail.userId) {
               await router.replace("/account");
             } else {
               await router.replace("/login");

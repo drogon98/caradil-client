@@ -86,7 +86,7 @@ export default function SharedSections(props: Props): ReactElement {
       </div>
 
       <hr />
-      <div className="d-grid gap-2 mt-4">
+      <div className="d-grid gap-2 mt-3">
         {token ? (
           <button
             onClick={props.handleUpdateFavourite}
@@ -127,7 +127,7 @@ export default function SharedSections(props: Props): ReactElement {
           // >
           //   <a>
           <LoginWithModal>
-            <div className="d-grid gap-2 mt-4">
+            <div className="d-grid gap-2 mt-3">
               <button className="btn bg-gray">
                 {" "}
                 <BsSuitHeart className="carousel-heart-icon" /> Add to favourite
