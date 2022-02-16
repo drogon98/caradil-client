@@ -106,3 +106,18 @@ export const totalChargeCalculator = (
 
   setTotalCharge(total!);
 };
+
+export const startHourGreaterThanOrEqualToEndHour = (
+  dates: CustomAvailabilityObj
+) => {
+  let startTimeSections = dates.startTime?.split(":");
+  let endTimeSections = dates.endTime?.split(":");
+
+  let startTimeHour = parseInt(startTimeSections?.[0]!, 10);
+  let endTimeHour = parseInt(endTimeSections?.[0]!, 10);
+
+  if (startTimeHour >= endTimeHour) {
+    return true;
+  }
+  return false;
+};

@@ -40,10 +40,14 @@ function VerifyEmail(props: ResetPasswordProps) {
           if (response.data?.verifyEmail.userId) {
             setToastMessage("Email verified successfully!");
             setShowSuccessToast(true);
-            if (userId === response.data?.verifyEmail.userId) {
-              await router.replace("/account");
+            if (response.data.verifyEmail.role === 3) {
+              await router.replace("/root");
             } else {
-              await router.replace("/login");
+              if (userId === response.data?.verifyEmail.userId) {
+                await router.replace("/account");
+              } else {
+                await router.replace("/login");
+              }
             }
           } else {
             setError(true);

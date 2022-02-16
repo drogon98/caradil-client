@@ -1,6 +1,7 @@
 mutation EmailVerify($token: String!) {
   verifyEmail(token: $token) {
     userId
+    role
     error
   }
 }

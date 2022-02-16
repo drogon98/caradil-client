@@ -60,6 +60,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
                   </li>
 
                   <li>
+                    <Link href="/root/transactions">
+                      <a className="link black-link">Transactions</a>
+                    </Link>
+                  </li>
+
+                  <li>
                     <Link href="/root/enquiries">
                       <a className="link black-link">Enquiries</a>
                     </Link>

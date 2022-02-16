@@ -5,22 +5,17 @@ import { AdminAuthWrapper } from "../../components/AdminAuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
 import AdminLayout from "../../components/layouts/AdminLayout";
 import FlexibleLoader from "../../components/Loading/FlexibleLoader";
-import { AllBox } from "../../components/Root/Listings/AllBox";
-import { BeingEditedBox } from "../../components/Root/Listings/BeingEditedBox";
-import { EditRequestBox } from "../../components/Root/Listings/EditRequestBox";
-import { UnderVerificationBox } from "../../components/Root/Listings/UnderVerificationBox";
-import { UnverifiedBox } from "../../components/Root/Listings/UnverifiedBox";
-import { VerifiedBox } from "../../components/Root/Listings/VerifiedBox";
+import { AllBox } from "../../components/Root/Transactions/AllBox";
 import {
-  Car,
-  useGetAdminCarsLazyQuery,
+  Transaction,
+  useGetTransactionsLazyQuery,
 } from "../../graphql_types/generated/graphql";
 
-interface ListingsProps {}
+interface TransactionsProps {}
 
-const Listings: FC<ListingsProps> = (props) => {
-  const [cars, setCars] = useState<Car[]>([]);
-  const [getCars, { data, loading }] = useGetAdminCarsLazyQuery({
+const Transactions: FC<TransactionsProps> = (props) => {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [getTransactions, { data, loading }] = useGetTransactionsLazyQuery({
     fetchPolicy: "network-only",
   });
   const [key, setKey] = useState("all");
@@ -37,27 +32,26 @@ const Listings: FC<ListingsProps> = (props) => {
 
   useEffect(() => {
     if (key) {
-      getCars({ variables: { type_: key } });
+      // setTransactions([]);
+      getTransactions({ variables: { type_: key } });
     }
   }, [key]);
 
   // console.log("key :>> ", key);
 
   useEffect(() => {
-    if (data?.getAdminCars) {
-      setCars(data.getAdminCars);
+    if (data?.getTransactions) {
+      setTransactions(data.getTransactions);
     }
   }, [data]);
 
-  // console.log("data :>> ", data);
-  // console.log("cars :>> ", cars);
   return (
     <>
-      <CustomHead title="Admin - Listings" />
+      <CustomHead title="Admin - Transactions" />
       <AdminAuthWrapper>
         <AdminLayout>
-          <div className="admin-listings-container">
-            <h3 className="listings-title px-2">Listings</h3>
+          <div className="admin-transactions-container">
+            <h3 className="transactions-title px-2">Transactions</h3>
             <Tabs
               activeKey={key}
               id="noanim-tab-example"
@@ -71,19 +65,23 @@ const Listings: FC<ListingsProps> = (props) => {
                     {loading ? (
                       <FlexibleLoader />
                     ) : (
-                      cars.map((car) => <AllBox key={car.id} data={car} />)
+                      transactions.map((transaction) => (
+                        <AllBox key={transaction.id} data={transaction} />
+                      ))
                     )}
                   </div>
                 )}
               </Tab>
-              <Tab eventKey="live" title="Published" tabClassName="admin-tab">
-                {key === "live" && (
+              <Tab eventKey="booking" title="Bookings" tabClassName="admin-tab">
+                {key === "booking" && (
                   <div className="tab-content p-2">
                     <div ref={topRef} />
                     {loading ? (
                       <FlexibleLoader />
                     ) : (
-                      cars.map((car) => <VerifiedBox key={car.id} data={car} />)
+                      transactions.map((transaction) => (
+                        <AllBox key={transaction.id} data={transaction} />
+                      ))
                     )}
                   </div>
                 )}
@@ -148,18 +146,18 @@ const Listings: FC<ListingsProps> = (props) => {
                 )}
               </Tab> */}
               <Tab
-                eventKey="being-edited"
-                title="Being Edited"
+                eventKey="host_disbursement"
+                title="Host Disbursements"
                 tabClassName="admin-tab"
               >
-                {key === "being-edited" && (
+                {key === "host_disbursement" && (
                   <div className="tab-content p-2">
                     <div ref={topRef} />
                     {loading ? (
                       <FlexibleLoader />
                     ) : (
-                      cars.map((car) => (
-                        <BeingEditedBox key={car.id} data={car} />
+                      transactions.map((transaction) => (
+                        <AllBox key={transaction.id} data={transaction} />
                       ))
                     )}
                   </div>
@@ -173,4 +171,4 @@ const Listings: FC<ListingsProps> = (props) => {
   );
 };
 
-export default Listings;
+export default Transactions;

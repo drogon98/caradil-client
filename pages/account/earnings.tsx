@@ -35,8 +35,12 @@ const Earnings: FC<EarningsProps> = (props) => {
               <h6>You have no earnings yet!</h6>
             </div>
           ) : (
-            <div className="p-2">
-              <h3>Your Earnings</h3>
+            <div className="p-2 my-4">
+              <div className="col-md-8 col-lg-7 mx-auto">
+                <h3>Your Earnings</h3>
+
+                <div></div>
+              </div>
             </div>
           )}
         </AccountLayout>

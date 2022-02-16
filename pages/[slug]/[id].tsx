@@ -30,6 +30,10 @@ import {
   useUpdateCarFavouriteMutation,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
+import {
+  getTripDuration,
+  startHourGreaterThanOrEqualToEndHour,
+} from "../../utils/trip_duration_ttl_calc";
 import { unslugify } from "../../utils/unslugify";
 
 interface CarProps {}
@@ -65,6 +69,7 @@ const Car: FC<CarProps> = (props) => {
   const pickDatesRef = useRef<HTMLDivElement>(null);
   useOutsideClickHandler(pickDatesRef, setSelectingDates, pickDatesButtonRef);
   const [isCarPreview, setIsCarPreview] = useState(false);
+  const [timeError, setTimeError] = useState(false);
 
   // const [
   //   checkIfDriverIsApproved,
@@ -192,6 +197,16 @@ const Car: FC<CarProps> = (props) => {
   const handleRouteNext = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
+      if (getTripDuration(userDates!, car?.can_rent_hourly!).type_ === "hour") {
+        if (startHourGreaterThanOrEqualToEndHour(userDates!)) {
+          setTimeError(true);
+          setTimeout(() => {
+            setTimeError(false);
+          }, 5000);
+          return;
+        }
+      }
+
       if (
         !(
           car?.reserved_for_booking! &&
@@ -509,6 +524,13 @@ const Car: FC<CarProps> = (props) => {
                       car={car!}
                       hasCustomAvailability={car?.custom_availability!}
                     />
+                    {timeError && (
+                      <div>
+                        <small className="text-danger">
+                          End time should be greater than start time!
+                        </small>
+                      </div>
+                    )}
 
                     <div className="d-grid gap-2">
                       {token && role ? (
@@ -563,41 +585,45 @@ const Car: FC<CarProps> = (props) => {
             </div>
             {/* </div> */}
             <div className="car-small-screen-bottom d-flex flex-column justify-content-center p-2">
-              {(car?.booked || !car?.published) && !isCarPreview && (
-                <div
-                  style={{ height: "10px", fontSize: "12px" }}
-                  className="mb-3"
-                >
-                  <small className="fw-bolder text-danger">
-                    This car is unavailable!
-                  </small>
-                  <small
-                    style={{
-                      textDecoration: "underline",
-                      marginLeft: "10px",
-                      fontSize: "13px",
-                    }}
+              {(car?.booked ||
+                !car?.published ||
+                (car.reserved_for_booking &&
+                  car.reserved_for_booking_guest_id !== userId)) &&
+                !isCarPreview && (
+                  <div
+                    style={{ height: "10px", fontSize: "12px" }}
+                    // className="mb-3"
                   >
-                    <Link
-                      href={{
-                        pathname: "/browse-cars/[make]",
-                        query: {
-                          make: car?.make!,
-                          categories: JSON.stringify(car?.categories),
-                          color: car?.color,
-                          gas: car?.gas,
-                          location: car?.location,
-                          subject: car?.id,
-
-                          // name: "",
-                        },
+                    <small className="fw-bolder text-danger">
+                      This car is unavailable!
+                    </small>
+                    <small
+                      style={{
+                        textDecoration: "underline",
+                        marginLeft: "10px",
+                        fontSize: "13px",
                       }}
                     >
-                      <a>Check similar cars</a>
-                    </Link>
-                  </small>
-                </div>
-              )}
+                      <Link
+                        href={{
+                          pathname: "/browse-cars/[make]",
+                          query: {
+                            make: car?.make!,
+                            categories: JSON.stringify(car?.categories),
+                            color: car?.color,
+                            gas: car?.gas,
+                            location: car?.location,
+                            subject: car?.id,
+
+                            // name: "",
+                          },
+                        }}
+                      >
+                        <a>Check similar cars</a>
+                      </Link>
+                    </small>
+                  </div>
+                )}
 
               <div
                 className={`d-flex justify-content-between align-items-center w-100 ${
@@ -606,19 +632,34 @@ const Car: FC<CarProps> = (props) => {
               >
                 <div style={{ flex: "2" }}>
                   <div>
-                    <h5 className="m-0">
-                      Ksh.{car?.daily_rate!.toLocaleString()}/day
-                    </h5>
-                    {car?.can_rent_hourly && !car.booked && (
-                      <div style={{ lineHeight: "12px" }}>
-                        <small style={{ fontSize: "10px" }}>
-                          You can rent this car for trips lasting less than
-                          24hrs. By doing so you will be charged hourly. The
-                          hourly rate for this car is{" "}
-                          <b>Ksh.{car?.hourly_rate}/hr</b>
-                        </small>
+                    <div className="d-flex justify-content-between">
+                      <h5 className="m-0">
+                        Ksh.{car?.daily_rate!.toLocaleString()}/day
+                      </h5>
+                      <div>
+                        {validDates && (
+                          <>
+                            {"Total "}
+                            <small className="fw-bold">
+                              Ksh.{totalCharge.toLocaleString()}
+                            </small>
+                          </>
+                        )}
                       </div>
-                    )}
+                    </div>
+                    {car?.can_rent_hourly &&
+                      !car.booked &&
+                      (car.reserved_for_booking_guest_id === userId ||
+                        car.reserved_for_booking_guest_id === 0) && (
+                        <div style={{ lineHeight: "12px" }}>
+                          <small style={{ fontSize: "10px" }}>
+                            You can rent this car for trips lasting less than
+                            24hrs. By doing so you will be charged hourly. The
+                            hourly rate for this car is{" "}
+                            <b>Ksh.{car?.hourly_rate}/hr</b>
+                          </small>
+                        </div>
+                      )}
                   </div>
                 </div>
 
@@ -660,6 +701,13 @@ const Car: FC<CarProps> = (props) => {
                     // validDates={validDates}
                     hasCustomAvailability={car?.custom_availability!}
                   />
+                  {timeError && (
+                    <div>
+                      <small className="text-danger">
+                        End time should be greater than start time!
+                      </small>
+                    </div>
+                  )}
                   <div className="d-grid gap-2">
                     {token && role ? (
                       <button

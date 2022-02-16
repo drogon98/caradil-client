@@ -30,7 +30,7 @@ interface Props {
 }
 
 export default function CarDataStepForm(props: Props): ReactElement {
-  const [slides, setSlides] = useState(10);
+  // const [slides, setSlides] = useState(10);
   const [activeSlide, setActiveSlide] = useState(-1);
   const [progress, setProgress] = useState(0);
   const [compData, setCompData] = useState<Car>();
@@ -47,7 +47,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
   const { data, loading } = useGetPrivateCarQuery({
     variables: { carId: carId! },
     skip,
-    fetchPolicy: "network-only",
+    fetchPolicy: "no-cache",
   });
 
   // console.log("data :>> ", data);
@@ -243,7 +243,8 @@ export default function CarDataStepForm(props: Props): ReactElement {
   }, [data]);
 
   useEffect(() => {
-    const step = 100 / slides;
+    const step = 100 / 10;
+    // const step = 100 / slides;
 
     setProgress(step * activeSlide);
   }, [activeSlide]);

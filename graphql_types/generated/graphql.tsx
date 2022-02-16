@@ -660,6 +660,7 @@ export type Query = {
   getMyTrips: Array<Trip>;
   getNotifications: Array<Notification>;
   getPopularCars: Array<Car>;
+  getTransactions: Array<Transaction>;
   getTrip: TripResponse;
   getUser: UserResponse;
   getUserChatMetas: Array<ChatMeta>;
@@ -698,6 +699,11 @@ export type QueryGetChatsArgs = {
 
 export type QueryGetNotificationsArgs = {
   type_?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryGetTransactionsArgs = {
+  type_: Scalars['String'];
 };
 
 
@@ -783,7 +789,7 @@ export type Trip = {
   owner?: Maybe<User>;
   owner_id?: Maybe<Scalars['Float']>;
   refund_transaction_id?: Maybe<Scalars['Float']>;
-  reschedule_history?: Maybe<Array<Trip>>;
+  reschedule_history?: Maybe<Array<Scalars['String']>>;
   reschedule_reason?: Maybe<Scalars['String']>;
   start_date?: Maybe<Scalars['DateTime']>;
   start_time?: Maybe<Scalars['String']>;
@@ -887,6 +893,7 @@ export type UserResponse = {
 export type VerifyEmailResponse = {
   __typename?: 'VerifyEmailResponse';
   error?: Maybe<Scalars['String']>;
+  role?: Maybe<Scalars['Float']>;
   userId?: Maybe<Scalars['Float']>;
 };
 
@@ -1159,7 +1166,7 @@ export type EmailVerifyMutationVariables = Exact<{
 }>;
 
 
-export type EmailVerifyMutation = { __typename?: 'Mutation', verifyEmail: { __typename?: 'VerifyEmailResponse', userId?: number | null | undefined, error?: string | null | undefined } };
+export type EmailVerifyMutation = { __typename?: 'Mutation', verifyEmail: { __typename?: 'VerifyEmailResponse', userId?: number | null | undefined, role?: number | null | undefined, error?: string | null | undefined } };
 
 export type CheckReservedGuestIdMutationVariables = Exact<{
   carId: Scalars['Float'];
@@ -1267,6 +1274,13 @@ export type GetPrivateCarQueryVariables = Exact<{
 
 
 export type GetPrivateCarQuery = { __typename?: 'Query', getCar: { __typename?: 'CarResponse', car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, reviews?: boolean | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, custom_availability?: boolean | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, distance_per_hour?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, has_driver?: boolean | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: string | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, being_edited?: boolean | null | undefined, fuel_efficiency?: string | null | undefined, fuel_policy?: string | null | undefined, reserved_for_booking?: boolean | null | undefined, suspended?: boolean | null | undefined, reserved_for_booking_guest_id?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, custom_availability_data?: { __typename?: 'CustomAvailabilityObj', startDate?: string | null | undefined, startTime?: string | null | undefined, endDate?: string | null | undefined, endTime?: string | null | undefined } | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+
+export type GetTransactionsQueryVariables = Exact<{
+  type_: Scalars['String'];
+}>;
+
+
+export type GetTransactionsQuery = { __typename?: 'Query', getTransactions: Array<{ __typename?: 'Transaction', id?: number | null | undefined, amount?: string | null | undefined }> };
 
 export type GetTripQueryVariables = Exact<{
   tripId: Scalars['Float'];
@@ -2710,6 +2724,7 @@ export const EmailVerifyDocument = gql`
     mutation EmailVerify($token: String!) {
   verifyEmail(token: $token) {
     userId
+    role
     error
   }
 }
@@ -3456,6 +3471,42 @@ export function useGetPrivateCarLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetPrivateCarQueryHookResult = ReturnType<typeof useGetPrivateCarQuery>;
 export type GetPrivateCarLazyQueryHookResult = ReturnType<typeof useGetPrivateCarLazyQuery>;
 export type GetPrivateCarQueryResult = Apollo.QueryResult<GetPrivateCarQuery, GetPrivateCarQueryVariables>;
+export const GetTransactionsDocument = gql`
+    query GetTransactions($type_: String!) {
+  getTransactions(type_: $type_) {
+    id
+    amount
+  }
+}
+    `;
+
+/**
+ * __useGetTransactionsQuery__
+ *
+ * To run a query within a React component, call `useGetTransactionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTransactionsQuery({
+ *   variables: {
+ *      type_: // value for 'type_'
+ *   },
+ * });
+ */
+export function useGetTransactionsQuery(baseOptions: Apollo.QueryHookOptions<GetTransactionsQuery, GetTransactionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTransactionsQuery, GetTransactionsQueryVariables>(GetTransactionsDocument, options);
+      }
+export function useGetTransactionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTransactionsQuery, GetTransactionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTransactionsQuery, GetTransactionsQueryVariables>(GetTransactionsDocument, options);
+        }
+export type GetTransactionsQueryHookResult = ReturnType<typeof useGetTransactionsQuery>;
+export type GetTransactionsLazyQueryHookResult = ReturnType<typeof useGetTransactionsLazyQuery>;
+export type GetTransactionsQueryResult = Apollo.QueryResult<GetTransactionsQuery, GetTransactionsQueryVariables>;
 export const GetTripDocument = gql`
     query GetTrip($tripId: Float!) {
   getTrip(tripId: $tripId) {

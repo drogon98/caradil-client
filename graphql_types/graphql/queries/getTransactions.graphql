@@ -1,0 +1,6 @@
+query GetTransactions($type_: String!) {
+  getTransactions(type_: $type_) {
+    id
+    amount
+  }
+}

@@ -2001,7 +2001,7 @@ car-input-container select:focus {
   overflow-y: auto;
 }
 
-.listings-tab {
+.admin-tab {
   min-width: 150px;
   color: #000;
   position: relative;
@@ -2017,11 +2017,25 @@ car-input-container select:focus {
   border-radius: 50%;
 }
 
-.listings-tab .active {
+.admin-tab .active {
   color: var(--orange) !important;
 }
 
 /* =================================END LISTINGS STYLES===================================== */
+
+/* =================================TRANSACTIONS STYLES===================================== */
+
+.transactions-title {
+  padding-top: 20px;
+  height: 60px;
+  margin: 0;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 1;
+}
+
+/* =================================END TRANSACTIONS STYLES===================================== */
 
 /* ==================================ROOT LISTINGS========================================== */
 .verify-modal-content {
