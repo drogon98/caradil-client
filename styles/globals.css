@@ -118,6 +118,13 @@ p {
   max-width: 2100px;
 }
 
+.customBrowseCarContainer {
+  width: 96% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 2100px;
+}
+
 .customCarDetailsContainer {
   width: 72% !important;
   margin: auto;
@@ -323,7 +330,8 @@ label {
 }
 
 .mainNavLinksLeft {
-  flex: 1;
+  flex: 2;
+  width: 100%;
 }
 
 .mainNavLinksRight {
@@ -443,15 +451,91 @@ label {
   margin-right: 0px;
 } */
 
-@media screen and (max-width: 600px) {
-  .mainNavLinksLeft {
+/* browse-cars-nav-list-car */
+
+.browse-cars-nav-form {
+  height: 45px;
+}
+
+.browse-cars-nav-form input {
+  border: none;
+}
+
+.browse-cars-search-icon {
+  height: 25px;
+  width: 25px;
+}
+
+.browse-cars-filter-icon {
+  height: 30px;
+  width: 30px;
+}
+
+.browse-nav-when-input,
+.browse-nav-where-input {
+  border: 1px solid #d4d4d4;
+}
+
+@media screen and (max-width: 1000px) {
+  .browse-cars-nav-list-car {
     display: none !important;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .browse-nav-when-input {
+    display: none !important;
+  }
+
+  .browse-cars-nav-form {
+    width: 85%;
+    height: 40px;
+  }
+
+  .browse-nav-where-input {
+    width: 85%;
+  }
+
+  .browse-nav-search-input {
+    width: 15%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .browse-cars-nav-auth {
+    display: none !important;
+  }
+
+  .mainNavLinksLeft {
+    justify-content: flex-end;
   }
 }
 
 @media screen and (max-width: 500px) {
   .sign-up-link {
     display: none !important;
+  }
+
+  .browse-cars-search-icon {
+    height: 20px;
+    width: 20px;
+  }
+
+  .browse-cars-nav-filter-btn {
+    width: 50px;
+    margin: 0;
+    padding-right: 0 !important;
+  }
+
+  .browse-cars-filter-icon {
+    height: 20px;
+    width: 20px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .browse-cars-nav-form {
+    height: 35px;
   }
 }
 
@@ -558,7 +642,7 @@ label {
 
 .cars-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 30px;
 }
 
@@ -574,18 +658,33 @@ label {
   font-size: 80px;
 } */
 
+@media screen and (max-width: 1200px) {
+  .cars-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+}
+
+/* @media screen and (max-width: 1200px) {
+  .cars-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+} */
+
 @media screen and (max-width: 500px) {
   .find-your-drive {
     font-size: 30px;
   }
-}
 
-@media screen and (max-width: 500px) {
   .cars-wrapper {
     grid-template-columns: 1fr;
     row-gap: 30px;
   }
 }
+
 /* =============================END HOME PAGE================================= */
 
 /* ===============================AUTH PAGES======================================= */

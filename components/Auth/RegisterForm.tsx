@@ -1,4 +1,10 @@
-import React, { FC, SyntheticEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FC,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppDispatch } from "../../redux/hooks";
@@ -8,6 +14,7 @@ import {
 } from "../../graphql_types/generated/graphql";
 import { setToken } from "../../redux/authSlice";
 import { ButtonLoading } from "../Loading/ButtonLoading";
+import { countries } from "../../data";
 
 interface IProps {
   isAdmin?: boolean;
@@ -22,6 +29,7 @@ const RegisterForm: FC<IProps> = (props) => {
     first_name: "",
     last_name: "",
     email: "",
+    country: "Kenya",
     password: "",
     confirmPassword: "",
     role: 1,
@@ -52,7 +60,9 @@ const RegisterForm: FC<IProps> = (props) => {
 
   const [register, { loading, error: registerError }] = useRegisterMutation();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
     if (e.target.name === "agree-to-terms") {
       setHasAgreedToTerms(e.target.value === "false" ? false : true);
     } else {
@@ -151,6 +161,26 @@ const RegisterForm: FC<IProps> = (props) => {
               value={values.last_name}
             />
           </div>
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="country">Country</label>
+          <select
+            className="form-select form-control"
+            onChange={handleChange}
+            value={values?.country}
+            name="country"
+            // disabled={props.isManage && !props.isEdit}
+            required
+            // defaultValue={"Kenya"}
+          >
+            <option value={""}>Select Country</option>
+            {countries.map((country, idx) => (
+              <option key={idx} value={country.toLowerCase()}>
+                {country}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="mb-3">

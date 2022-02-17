@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { ReactElement } from "react";
 import { Modal } from "react-bootstrap";
 import { Car } from "../../graphql_types/generated/graphql";
@@ -23,15 +24,21 @@ export default function ReserveSessionExpiredModal(props: Props): ReactElement {
           car is published back to the public.
         </p>
 
+        <br />
+
         <p>
           Worry not, we have other cars like this one. Try to spend the 20 mins
-          reservation time wisely yo effect your booking successfully. Thank you
+          reservation time wisely to effect your booking successfully. Thank you
         </p>
 
         <div className="d-grid gap-2 mt-3">
-          <button type="submit" className="btn bgOrang">
-            Show Me Similar Cars
-          </button>
+          <Link href="/browse-cars">
+            <a>
+              <button type="submit" className="btn bgOrange">
+                Show Me Similar Cars
+              </button>
+            </a>
+          </Link>
         </div>
       </Modal.Body>
     </Modal>

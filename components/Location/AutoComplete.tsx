@@ -32,7 +32,7 @@ export function AutoComplete(props: AutoCompleteProps) {
       <input
         type="text"
         ref={ref as unknown as LegacyRef<HTMLInputElement>}
-        className="form-control"
+        className="form-control m-0 h-100"
         placeholder={props.placeholder}
         name={props.name}
         // value={props.value}

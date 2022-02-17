@@ -56,7 +56,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
   //   });
 
   const { data: userData, loading: userLoading } = useGetAuthUserQuery({
-    fetchPolicy: "network-only",
+    fetchPolicy: "no-cache",
   });
   const token = useAppSelector((state) => state.auth._id);
   const userId = useUserId(token);
@@ -126,7 +126,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
       carName: "",
     },
     skip,
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "no-cache",
   });
 
   useEffect(() => {
@@ -343,11 +343,13 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
             // Guest reservation session is ended and another user reserved the car
             // In this case show an apology modal
             setShowReserveSessionExpiredModal(true);
+            setMainLoading(false);
           }
         } else {
           // Guest reservation session is ended and another user reserved the car
           // In this case show an apology modal
           setShowReserveSessionExpiredModal(true);
+          setMainLoading(false);
         }
       }
 

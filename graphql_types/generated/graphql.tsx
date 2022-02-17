@@ -712,6 +712,7 @@ export type QueryGetTripArgs = {
 };
 
 export type RegisterInput = {
+  country: Scalars['String'];
   email: Scalars['String'];
   first_name: Scalars['String'];
   last_name: Scalars['String'];
@@ -764,6 +765,7 @@ export type Transaction = {
   id?: Maybe<Scalars['Float']>;
   invoice_no?: Maybe<Scalars['String']>;
   order_id?: Maybe<Scalars['String']>;
+  parent_transaction_id?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['String']>;
   top_up_transaction_id?: Maybe<Scalars['Float']>;
   transaction_code?: Maybe<Scalars['String']>;
@@ -865,6 +867,7 @@ export type User = {
   avatar?: Maybe<FileObj>;
   business_name?: Maybe<Scalars['String']>;
   cars?: Maybe<Car>;
+  country?: Maybe<Scalars['String']>;
   created_at?: Maybe<Scalars['DateTime']>;
   driving_license_data?: Maybe<Scalars['Boolean']>;
   email?: Maybe<Scalars['String']>;

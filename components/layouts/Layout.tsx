@@ -1,5 +1,7 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { MainFooter } from "../Footers/MainFooter";
+import BrowseCarsNavbar from "../Navbars/BrowseCarsNavbar";
 import MainNavbar from "../Navbars/MainNavbar";
 
 interface LayoutProps {
@@ -11,6 +13,16 @@ const Layout: React.FC<LayoutProps> = ({ children, isHome }): JSX.Element => {
   // useRef is a generic function
   // A ref is initially set to null
   const [showAnimatedNavbar, setShowAnimatedNavbar] = useState(false);
+  const router = useRouter();
+  const [isBrowseCars, setIsBrowseCars] = useState(false);
+
+  useEffect(() => {
+    if (router.pathname.includes("browse-cars")) {
+      setIsBrowseCars(true);
+    } else {
+      setIsBrowseCars(false);
+    }
+  }, [router]);
 
   const scrollHandler = () => {
     if (topRef && topRef.current) {
@@ -39,10 +51,16 @@ const Layout: React.FC<LayoutProps> = ({ children, isHome }): JSX.Element => {
           <div style={{ height: isHome ? "" : "70px" }}>
             {showAnimatedNavbar ? (
               <div className="animated-navbar">
-                <MainNavbar isHome={isHome} animated />
+                {isBrowseCars ? (
+                  <BrowseCarsNavbar />
+                ) : (
+                  <MainNavbar isHome={isHome} animated />
+                )}
               </div>
             ) : isHome ? (
               <MainNavbar isHome={isHome} />
+            ) : isBrowseCars ? (
+              <BrowseCarsNavbar />
             ) : (
               <MainNavbar />
             )}

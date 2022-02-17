@@ -17,6 +17,7 @@ export const MainFooter: FC<IProps> = (props) => {
   const router = useRouter();
   const [isCarPage, setIsCarPage] = useState(false);
   const { width, height } = useWindowDimensions();
+  const [isBrowseCars, setIsBrowseCars] = useState(false);
 
   useEffect(() => {
     if (
@@ -28,6 +29,14 @@ export const MainFooter: FC<IProps> = (props) => {
     }
   }, [router]);
 
+  useEffect(() => {
+    if (router.pathname.includes("browse-cars")) {
+      setIsBrowseCars(true);
+    } else {
+      setIsBrowseCars(false);
+    }
+  }, [router]);
+
   // console.log("router :>> ", router);
 
   if (isCarPage && width <= 800) {
@@ -35,7 +44,11 @@ export const MainFooter: FC<IProps> = (props) => {
   }
   return (
     <div className="bgBlack text-light">
-      <div className="customContainer py-5 px-0">
+      <div
+        className={`${
+          isBrowseCars ? `customBrowseCarContainer` : `customContainer`
+        } py-5 px-0`}
+      >
         <div className="main-footer-wrapper mb-4 m-0 p-0">
           <div className="">
             <h5>Caradil</h5>

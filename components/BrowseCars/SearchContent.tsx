@@ -31,9 +31,9 @@ export function SearchContent(props: SearchContentProps) {
 
   return (
     <>
-      {!props.loading && (
+      {/* {!props.loading && (
         <div className="py-4 mb-3" style={{ backgroundColor: "#eaecee" }}>
-          <div className="customContainer">
+          <div className="customBrowseCarContainer">
             <Search
               setValues={props.setValues}
               setIsSearch={props.setIsSearch}
@@ -42,8 +42,8 @@ export function SearchContent(props: SearchContentProps) {
             />
           </div>
         </div>
-      )}
-      <div className="customContainer my-4">
+      )} */}
+      <div className="customBrowseCarContainer my-4 pt-4">
         {(props.loading || props.isSearch) && <Loading />}
         {!props.loading &&
           props.cars?.length == 0 &&
