@@ -50,7 +50,7 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
           </Link>
         </div>
         <div className="mainNavLinks d-flex">
-          <div className="mainNavLinksLeft d-flex align-items-center">
+          <div className="browseCarsNavLinksLeft d-flex align-items-center">
             <form className="form-group d-flex p-0 m-0 browse-cars-nav-form">
               <div className="input-group p-0 m-0 d-flex w-100">
                 <div className="h-100 browse-nav-where-input">

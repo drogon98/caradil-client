@@ -329,7 +329,8 @@ label {
   width: 100%;
 }
 
-.mainNavLinksLeft {
+.mainNavLinksLeft,
+.browseCarsNavLinksLeft {
   flex: 2;
   width: 100%;
 }
@@ -506,12 +507,16 @@ label {
     display: none !important;
   }
 
-  .mainNavLinksLeft {
+  .browseCarsNavLinksLeft {
     justify-content: flex-end;
   }
 }
 
 @media screen and (max-width: 500px) {
+  .mainNavLinksLeft {
+    display: none !important;
+  }
+
   .sign-up-link {
     display: none !important;
   }
