@@ -3,7 +3,7 @@ import { RefObject, useEffect } from "react";
 export function useOutsideClickHandler(
   ref: RefObject<HTMLDivElement>,
   closeHandler: any,
-  desiredRef: RefObject<HTMLButtonElement>
+  desiredRef: RefObject<HTMLElement>
 ) {
   useEffect(() => {
     function handleClickOutside(event: any) {

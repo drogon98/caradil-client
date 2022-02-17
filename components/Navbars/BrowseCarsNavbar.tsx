@@ -1,12 +1,20 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Offcanvas } from "react-bootstrap";
-import { useEditCarPublishedMutation } from "../../graphql_types/generated/graphql";
+import { carCategories, carColors, carMakes } from "../../data";
 import { useAppSelector } from "../../redux/hooks";
+import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
 import { useRole } from "../hooks/useRole";
 import { AutoComplete } from "../Location/AutoComplete";
 import { LogoutOverlay } from "../LogoutOverlay";
+import BrowseCarsWhenComp from "./BrowseCarsWhenComp";
 import { UserNavIcon } from "./UserNavIcon";
 
 interface BrowseCarsNavbarProps {
@@ -23,6 +31,14 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [searching, setSearching] = useState(false);
+  const [values, setValues] = useState<any>();
+  const searchBtnRef = useRef<HTMLButtonElement>(null);
+  const [showWhenComp, setShowWhenComp] = useState(false);
+  const whenCompRef = useRef<HTMLDivElement>(null);
+  const whenInputRef = useRef<HTMLInputElement>(null);
+
+  useOutsideClickHandler(whenCompRef, setShowWhenComp, whenInputRef);
 
   useEffect(() => {
     if (token) {
@@ -32,15 +48,60 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
     }
   }, [token]);
 
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    setValues({ ...(values ?? {}), [e.target.name]: e.target.value });
+  };
+
   const handleLocationChange = () => {};
+
+  const handleClearFilters = (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setValues(undefined);
+    try {
+      if (window) {
+        // let params = new URLSearchParams({
+        //   ...values!,
+        // }).toString();
+        // console.log("params :>> ", params);
+        // window.location.href = "/browse-cars";
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
+
+  const handleWhenFocus = (e: any) => {
+    console.log("Focused");
+    setShowWhenComp(true);
+  };
+
+  const handleWhereChange = (e: ChangeEvent<HTMLInputElement>) => {
+    return;
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSearching(true);
+    console.log("values :>> ", values);
+    try {
+      if (window) {
+        let params = new URLSearchParams({
+          ...values!,
+        }).toString();
+        console.log("params :>> ", params);
+        // window.location.href = "/browse-cars";
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
 
   // console.log("carId :>> ", carId);
 
   return (
-    <div
-      className={"mainNavbar bgWhite shadow"}
-      // className="mainNavbar bgWhite shadow"
-    >
+    <div className="browseCarsNav bgWhite shadow">
       <div className="customBrowseCarContainer d-flex align-items-center py-2 m-auto">
         <div className="brand">
           <Link href="/">
@@ -51,7 +112,10 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
         </div>
         <div className="mainNavLinks d-flex">
           <div className="browseCarsNavLinksLeft d-flex align-items-center">
-            <form className="form-group d-flex p-0 m-0 browse-cars-nav-form">
+            <form
+              className="form-group d-flex p-0 m-0 browse-cars-nav-form"
+              onSubmit={handleSubmit}
+            >
               <div className="input-group p-0 m-0 d-flex w-100">
                 <div className="h-100 browse-nav-where-input">
                   {/* <input
@@ -66,7 +130,7 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                     inputRef={inputRef}
                     name="location"
                     value={""}
-                    required={true}
+                    // required={true}
                   />
                 </div>
                 <div className="h-100 browse-nav-when-input">
@@ -75,16 +139,26 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                     className="form-control h-100"
                     placeholder="When?"
                     aria-describedby="basic-addon2"
+                    ref={whenInputRef}
+                    // readOnly
+                    onChange={handleWhereChange}
+                    onFocus={handleWhenFocus}
+                    value={values?.dates_and_time ?? ""}
+                    // value={values.}
                   />
+                  {showWhenComp && (
+                    <BrowseCarsWhenComp whenCompRef={whenCompRef} />
+                  )}
                 </div>
                 <div className="input-group-append h-100 browse-nav-search-input">
                   <button
+                    type="submit"
+                    ref={searchBtnRef}
                     className="btn bgOrange text-light h-100"
                     style={{
                       borderTopLeftRadius: 0,
                       borderBottomLeftRadius: 0,
                     }}
-                    type="button"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +215,209 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                         <h3>More Filters</h3>
                       </Offcanvas.Title>
                     </Offcanvas.Header>
-                    <Offcanvas.Body></Offcanvas.Body>
+                    <Offcanvas.Body>
+                      <div>
+                        <div className="d-flex justify-content-end mb-4">
+                          <button
+                            className="btn btn-md bg-secondary text-light"
+                            onClick={handleClearFilters}
+                          >
+                            Clear Filters
+                          </button>
+                        </div>
+                        <div className="mb-4">
+                          <div className="d-flex justify-content-between">
+                            <label htmlFor="name">Car Name</label>
+                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                              Clear
+                            </button>
+                          </div>
+                          <input
+                            className="form-control form-control-md"
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="eg Subaru Forester 2010"
+                            value={values?.name ?? ""}
+                            onChange={handleChange}
+                          />
+                        </div>
+
+                        <div className="mb-4">
+                          <div className="d-flex justify-content-between">
+                            <label htmlFor="make">Make</label>
+                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                              Clear
+                            </button>
+                          </div>
+                          <select
+                            id="make"
+                            value={values?.make ?? ""}
+                            name="make"
+                            className="form-control"
+                            onChange={handleChange}
+                          >
+                            <option value={""}>Choose Make...</option>
+                            {carMakes.map((make, idx) => (
+                              <option value={make.toLowerCase()} key={idx}>
+                                {make}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="mb-4">
+                          <div className="d-flex justify-content-between">
+                            <label htmlFor="color">Color</label>
+                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                              Clear
+                            </button>
+                          </div>
+                          <select
+                            id="color"
+                            className="form-control"
+                            onChange={handleChange}
+                            value={values?.color ?? ""}
+                            name="color"
+                          >
+                            <option value={""}>Choose Color...</option>
+                            {carColors.map((color, idx) => {
+                              return (
+                                <option key={idx} value={color.toLowerCase()}>
+                                  {color}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+
+                        <div className="mb-4">
+                          <div className="d-flex justify-content-between">
+                            <label htmlFor="trip_type">Trip Type</label>
+                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                              Clear
+                            </button>
+                          </div>
+                          <div>
+                            <div className="custom-control custom-radio d-inline-block w-50">
+                              <input
+                                type="radio"
+                                id="trip_type_leisure"
+                                name="trip_type"
+                                className="custom-control-input"
+                              />
+                              <p
+                                className="custom-control-label ml-3 more-filters-text"
+                                // htmlFor="trip_type_leisure"
+                              >
+                                Leisure / Tourism
+                              </p>
+                            </div>
+                            <div className="custom-control custom-radio d-inline-block w-50">
+                              <input
+                                type="radio"
+                                id="trip_type_business"
+                                name="trip_type"
+                                className="custom-control-input"
+                              />
+                              <p
+                                className="custom-control-label more-filters-text"
+                                // htmlFor="trip_type_business"
+                              >
+                                Business
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mb-4">
+                          <div className="d-flex justify-content-between">
+                            <label htmlFor="trip_type">Trip Duration</label>
+                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                              Clear
+                            </button>
+                          </div>
+                          <div>
+                            <div className="custom-control custom-radio d-inline-block w-50">
+                              <input
+                                type="radio"
+                                id="trip_duration_less_than_24hrs"
+                                name="trip_duration"
+                                className="custom-control-input"
+                              />
+                              <p
+                                className="custom-control-label m-0 more-filters-text"
+                                // htmlFor="trip_duration_less_than_24hrs"
+                              >
+                                Less than 24hrs
+                              </p>
+                            </div>
+                            <div className="custom-control custom-radio d-inline-block w-50">
+                              <input
+                                type="radio"
+                                id="trip_duration_more_than_24hrs"
+                                name="trip_duration"
+                                className="custom-control-input"
+                              />
+                              <p
+                                className="custom-control-label more-filters-text"
+                                // htmlFor="trip_duration_more_than_24hrs"
+                              >
+                                More than 24hrs
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mb-4">
+                          <div className="d-flex justify-content-between">
+                            <label>Categories</label>
+                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                              Clear
+                            </button>
+                          </div>
+                          <div className="categories-wrapper ">
+                            {carCategories.map((category, idx) => {
+                              // const isSelected = props.payload.categories?.find(
+                              //   (cat) => cat === category.toLowerCase()
+                              // );
+                              return (
+                                <div className="form-check" key={idx}>
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    value={category}
+                                    // checked={isSelected ? true : false}
+                                    id="flexCheckDefault"
+                                    // onChange={handleChange}
+                                  />
+                                  <p
+                                    className="form-check-label more-filters-text"
+                                    // htmlFor="flexCheckDefault"
+                                  >
+                                    {category}
+                                  </p>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        <div className="d-flex justify-content-end mt-4">
+                          <button
+                            className="btn btn-md bg-secondary text-light"
+                            onClick={(e: SyntheticEvent<HTMLButtonElement>) => {
+                              e.preventDefault();
+                              if (searchBtnRef && searchBtnRef.current) {
+                                searchBtnRef.current.click();
+                              }
+                            }}
+                          >
+                            Apply Filters
+                          </button>
+                        </div>
+                      </div>
+                    </Offcanvas.Body>
                   </Offcanvas>
                 </>
               </div>

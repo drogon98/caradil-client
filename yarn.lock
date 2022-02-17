@@ -5580,6 +5580,11 @@
   "resolved" "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz"
   "version" "2.1.2"
 
+"sassy-datepicker@^0.8.0":
+  "integrity" "sha512-OBn2Gq5IlUOkv07hZ0N6IM58PqdI5vJTuuWt54qlKxd8Fur5rd1B1/hwhtlt4rO/H9gq3SV9/3Cb/TXW15P/1w=="
+  "resolved" "https://registry.npmjs.org/sassy-datepicker/-/sassy-datepicker-0.8.0.tgz"
+  "version" "0.8.0"
+
 "scheduler@^0.20.2":
   "integrity" "sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ=="
   "resolved" "https://registry.npmjs.org/scheduler/-/scheduler-0.20.2.tgz"

@@ -306,7 +306,8 @@ label {
 }
 
 .accountNavbar,
-.adminNavbar {
+.adminNavbar,
+.browseCarsNav {
   height: var(--navbar-height);
   display: flex;
   align-items: flex-end;
@@ -477,6 +478,29 @@ label {
   border: 1px solid #d4d4d4;
 }
 
+.browse-nav-when-input {
+  position: relative;
+}
+
+.browse-cars-nav-when-tooltip {
+  position: absolute;
+  width: 550px;
+  background-color: #fff;
+  top: 130%;
+  /* height: 400px; */
+}
+
+.browse-cars-nav-when-tooltip::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%; /* At the top of the tooltip */
+  left: 25%;
+  margin-left: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #fff transparent;
+}
+
 @media screen and (max-width: 1000px) {
   .browse-cars-nav-list-car {
     display: none !important;
@@ -541,6 +565,14 @@ label {
 @media screen and (max-width: 450px) {
   .browse-cars-nav-form {
     height: 35px;
+    width: 270px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .browse-cars-nav-form {
+    height: 35px;
+    width: 255px;
   }
 }
 
@@ -548,11 +580,30 @@ label {
   .notifications-nav-tooltip-content {
     width: 280px;
   }
+
+  .browse-cars-nav-form {
+    height: 35px;
+    width: 250px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .browse-cars-nav-form {
+    height: 35px;
+    width: 230px;
+  }
 }
 
 @media screen and (max-width: 342px) {
   .notifications-nav-tooltip-content {
     width: 265px;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .browse-cars-nav-form {
+    height: 35px;
+    width: 200px;
   }
 }
 
@@ -1353,7 +1404,33 @@ car-input-container select:focus {
 /* =============================END SLICK CAROUSEL====================================== */
 
 /* =============================SEARCH WRAPPER====================================== */
-.search-wrapper {
+
+.more-filters-text {
+  font-size: 13px;
+  display: inline;
+}
+
+.more-filters-mini-clear {
+  font-size: 12px;
+  color: orange;
+}
+
+.categories-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+/* @media screen and (max-width: 430px) {
+  .categories-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+} */
+
+/* .search-wrapper {
   background-color: #fff;
 }
 
@@ -1375,7 +1452,6 @@ car-input-container select:focus {
 
 .search-categories-wrapper {
   position: relative;
-  /* width: 100%; Affecting small screens */
 }
 
 .remove-button,
@@ -1397,7 +1473,6 @@ car-input-container select:focus {
 
 .categories-dropdown-wrapper {
   position: absolute;
-  /* height: 300px; */
   width: 400px;
   background-color: #fff;
   z-index: 999;
@@ -1433,10 +1508,6 @@ car-input-container select:focus {
   border-radius: 0;
 }
 
-/* .search-wrapper button {
-  padding: 0;
-} */
-
 .search-wrapper button,
 .search-wrapper input {
   border-radius: 0;
@@ -1462,7 +1533,6 @@ car-input-container select:focus {
 }
 
 .search-btn {
-  /* height: 60px; */
   background-color: var(--orange);
   border-radius: 5px !important;
 }
@@ -1477,11 +1547,9 @@ car-input-container select:focus {
 
 .more-filters-wrapper-content {
   position: absolute;
-  /* top: 102%; */
   top: 0;
   width: 300px;
   background-color: #fff;
-  /* height: 350px; */
   z-index: 999;
   left: 50px;
 }
@@ -1513,7 +1581,6 @@ car-input-container select:focus {
     border: 1px solid #dcdcdc;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    /* background-color: red !important; */
   }
 }
 
@@ -1527,7 +1594,7 @@ car-input-container select:focus {
   .more-filters-wrapper-content {
     width: 270px;
   }
-}
+} */
 
 /* =============================END SEARCH WRAPPER====================================== */
 
