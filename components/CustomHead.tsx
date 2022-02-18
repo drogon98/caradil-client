@@ -17,7 +17,7 @@ export const CustomHead: FC<CustomHeadProps> = (props) => {
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@900&family=Roboto:ital,wght@0,400;0,900;1,300&display=swap"
         rel="stylesheet"
       />
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArIv424bNBpfMVIWSnie8aX1WGDI4wTDk&libraries=places"></script>
+      <script src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyArIv424bNBpfMVIWSnie8aX1WGDI4wTDk&libraries=places"></script>
     </Head>
   );
 };

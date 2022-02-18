@@ -626,7 +626,7 @@ const Car: FC<CarProps> = (props) => {
                 )}
 
               <div
-                className={`d-flex justify-content-between align-items-center w-100 ${
+                className={`d-flex justify-content-between align-items-center w-100 h-100 ${
                   !car?.booked && `h-100`
                 }`}
               >

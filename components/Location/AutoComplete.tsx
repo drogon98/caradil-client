@@ -72,7 +72,7 @@ export const Debounce = () => {
 
 export const PlacesAutocomplete = () => {
   const {
-    ready,
+    // ready,
     value,
     suggestions: { status, data },
     setValue,
@@ -145,7 +145,7 @@ export const PlacesAutocomplete = () => {
       <input
         value={value}
         onChange={handleInput}
-        disabled={!ready}
+        // disabled={!ready}
         placeholder="Where?"
         className="form-control h-100"
         ref={inputRef}

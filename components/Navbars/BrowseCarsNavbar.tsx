@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, {
   ChangeEvent,
   FormEvent,
@@ -12,11 +13,7 @@ import { carCategories, carColors, carMakes } from "../../data";
 import { useAppSelector } from "../../redux/hooks";
 import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
 import { useRole } from "../hooks/useRole";
-import {
-  AutoComplete,
-  Debounce,
-  PlacesAutocomplete,
-} from "../Location/AutoComplete";
+import { PlacesAutocomplete } from "../Location/AutoComplete";
 import { LogoutOverlay } from "../LogoutOverlay";
 import BrowseCarsWhenComp from "./BrowseCarsWhenComp";
 import { UserNavIcon } from "./UserNavIcon";
@@ -27,12 +24,13 @@ interface BrowseCarsNavbarProps {
 }
 
 const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
+  const router = useRouter();
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
   const [isAuth, setIsAuth] = useState<boolean>();
   const loggingOut = useAppSelector((state) => state.logout.loggingOut);
   const [show, setShow] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  // const inputRef = useRef<HTMLInputElement>(null);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [searching, setSearching] = useState(false);
@@ -43,10 +41,12 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
   const whenCompRef = useRef<HTMLDivElement>(null);
   const whenSmCompRef = useRef<HTMLDivElement>(null);
   const whenInputRef = useRef<HTMLInputElement>(null);
-  const whenSmInputRef = useRef<HTMLInputElement>(null);
+  const whenSmDivRef = useRef<HTMLDivElement>(null);
+  const [dateTime, setDateTime] = useState<Map<string, string>>();
+  const [dateTimeInput, setDateTimeInput] = useState("");
 
   useOutsideClickHandler(whenCompRef, setShowWhenComp, whenInputRef);
-  useOutsideClickHandler(whenSmCompRef, setShowSmWhenComp, whenSmInputRef);
+  useOutsideClickHandler(whenSmCompRef, setShowSmWhenComp, whenSmDivRef);
 
   useEffect(() => {
     if (token) {
@@ -55,6 +55,16 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
       setIsAuth(false);
     }
   }, [token]);
+
+  useEffect(() => {
+    // Populate values and datetime
+  }, [router]);
+
+  useEffect(() => {
+    if (dateTime) {
+      setDateTimeInput(JSON.stringify({ ...dateTime }));
+    }
+  }, [dateTime]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -81,12 +91,12 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
   };
 
   const handleWhenFocus = (e: any) => {
-    console.log("Focused");
+    // console.log("Focused");
     setShowWhenComp(true);
   };
 
   const handleSmWhenFocus = (e: any) => {
-    console.log("Focused");
+    // console.log("Focused");
     setShowSmWhenComp(true);
   };
 
@@ -112,6 +122,7 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
   };
 
   // console.log("carId :>> ", carId);
+  console.log("dateTime", dateTime);
 
   return (
     <div className="browseCarsNav bgWhite shadow">
@@ -131,15 +142,6 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
             >
               <div className="input-group p-0 m-0 d-flex w-100">
                 <div className="h-100 browse-nav-where-input">
-                  {/* <AutoComplete
-                    placeholder="Where?"
-                    handler={handleLocationChange}
-                    inputRef={inputRef}
-                    name="location"
-                    value={""}
-                  /> */}
-
-                  {/* <Debounce /> */}
                   <PlacesAutocomplete />
                 </div>
                 <div className="h-100 browse-nav-when-input">
@@ -152,11 +154,17 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                     // readOnly
                     onChange={handleWhenChange}
                     onFocus={handleWhenFocus}
-                    value={values?.dates_and_time ?? ""}
+                    value={dateTimeInput}
                     // value={values.}
                   />
                   {showWhenComp && (
-                    <BrowseCarsWhenComp whenCompRef={whenCompRef} />
+                    <BrowseCarsWhenComp
+                      whenCompRef={whenCompRef}
+                      dateTimeObj={dateTime}
+                      setDateTime={setDateTime}
+                      // dateTimeInput={dateTimeInput}
+                      setShowWhenComp={setShowWhenComp}
+                    />
                   )}
                 </div>
                 <div className="input-group-append h-100 browse-nav-search-input">
@@ -242,7 +250,7 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                             </button>
                           </div>
                           <input
-                            className="form-control form-control-md"
+                            className="form-control form-control-md mt-1"
                             type="text"
                             id="name"
                             name="name"
@@ -259,21 +267,33 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                               Clear
                             </button>
                           </div>
-                          <input
-                            type="text"
-                            className="form-control"
-                            placeholder="When?"
-                            aria-describedby="basic-addon2"
-                            ref={whenSmInputRef}
+                          <div
+                            // type="text"
+                            className="cursor-pointer p-2 mt-1"
+                            style={{
+                              border: "1px solid #d4d4d4",
+                              height: "32px",
+                            }}
+                            // placeholder="When?"
+                            // aria-describedby="basic-addon2"
+                            ref={whenSmDivRef}
                             // readOnly
-                            onChange={handleWhenChange}
-                            onFocus={handleSmWhenFocus}
-                            value={values?.dates_and_time ?? ""}
+                            // onChange={handleWhenChange}
+                            onClick={handleSmWhenFocus}
+                            // value={dateTimeInput}
                             // value={values.}
-                          />
+                          >
+                            {dateTimeInput ? dateTimeInput : "When?"}
+                          </div>
                           {showSmWhenComp && (
                             // <div>
-                            <BrowseCarsWhenComp whenCompRef={whenSmCompRef} />
+                            <BrowseCarsWhenComp
+                              whenCompRef={whenSmCompRef}
+                              dateTimeObj={dateTime}
+                              setDateTime={setDateTime}
+                              // dateTimeInput={dateTimeInput}
+                              setShowWhenComp={setShowSmWhenComp}
+                            />
                             // </div>
                           )}
                         </div>
@@ -289,7 +309,7 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                             id="make"
                             value={values?.make ?? ""}
                             name="make"
-                            className="form-control"
+                            className="form-control mt-1"
                             onChange={handleChange}
                           >
                             <option value={""}>Choose Make...</option>
@@ -310,7 +330,7 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                           </div>
                           <select
                             id="color"
-                            className="form-control"
+                            className="form-control mt-1"
                             onChange={handleChange}
                             value={values?.color ?? ""}
                             name="color"
@@ -334,15 +354,15 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                             </button>
                           </div>
                           <div>
-                            <div className="custom-control custom-radio d-inline-block w-50">
+                            <div className="custom-control custom-radio d-inline-block w-50 mt-1">
                               <input
                                 type="radio"
                                 id="trip_type_leisure"
                                 name="trip_type"
-                                className="custom-control-input"
+                                className="custom-control-input w-25"
                               />
                               <p
-                                className="custom-control-label ml-3 more-filters-text"
+                                className="custom-control-label ml-3 more-filters-text w-75"
                                 // htmlFor="trip_type_leisure"
                               >
                                 Leisure / Tourism
@@ -353,10 +373,10 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                                 type="radio"
                                 id="trip_type_business"
                                 name="trip_type"
-                                className="custom-control-input"
+                                className="custom-control-input w-25"
                               />
                               <p
-                                className="custom-control-label more-filters-text"
+                                className="custom-control-label more-filters-text w-75"
                                 // htmlFor="trip_type_business"
                               >
                                 Business
@@ -373,15 +393,15 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                             </button>
                           </div>
                           <div>
-                            <div className="custom-control custom-radio d-inline-block w-50">
+                            <div className="custom-control custom-radio d-inline-block w-50 mt-1">
                               <input
                                 type="radio"
                                 id="trip_duration_less_than_24hrs"
                                 name="trip_duration"
-                                className="custom-control-input"
+                                className="custom-control-input w-25"
                               />
                               <p
-                                className="custom-control-label m-0 more-filters-text"
+                                className="custom-control-label m-0 more-filters-text w-75"
                                 // htmlFor="trip_duration_less_than_24hrs"
                               >
                                 Less than 24hrs
@@ -392,10 +412,10 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                                 type="radio"
                                 id="trip_duration_more_than_24hrs"
                                 name="trip_duration"
-                                className="custom-control-input"
+                                className="custom-control-input w-25"
                               />
                               <p
-                                className="custom-control-label more-filters-text"
+                                className="custom-control-label more-filters-text w-75"
                                 // htmlFor="trip_duration_more_than_24hrs"
                               >
                                 More than 24hrs
@@ -411,7 +431,7 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                               Clear
                             </button>
                           </div>
-                          <div className="categories-wrapper ">
+                          <div className="categories-wrapper mt-1">
                             {carCategories.map((category, idx) => {
                               // const isSelected = props.payload.categories?.find(
                               //   (cat) => cat === category.toLowerCase()
