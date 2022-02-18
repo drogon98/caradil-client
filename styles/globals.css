@@ -305,9 +305,26 @@ label {
   position: relative;
 }
 
-.accountNavbar,
-.adminNavbar,
 .browseCarsNav {
+  position: fixed;
+  top: 0;
+  /* left: 0; */
+  width: 100%;
+  z-index: 1000 !important;
+  height: var(--navbar-height);
+  display: block;
+}
+
+.pac-container {
+  background-color: red;
+  position: relative;
+  top: 100%;
+}
+
+.accountNavbar,
+.adminNavbar
+/* , */
+/* .browseCarsNav */ {
   height: var(--navbar-height);
   display: flex;
   align-items: flex-end;
@@ -476,15 +493,51 @@ label {
 .browse-nav-when-input,
 .browse-nav-where-input {
   border: 1px solid #d4d4d4;
+  width: 240px;
+}
+
+.gp-suggestions-container {
+  background-color: #fff;
+}
+
+.gp-location-suggestion {
+  padding: 10px 5px;
+  display: flex;
+  align-items: center;
+}
+
+#react-select-5-input,
+#react-select-5-input:focus {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.css-1hwfws3 {
+  height: 100% !important;
+  border: none !important;
+}
+
+.css-yk16xz-control {
+  height: 100% !important;
+  border: none !important;
+}
+
+.css-1wy0on6 {
+  display: none !important;
 }
 
 .browse-nav-when-input {
   position: relative;
 }
 
+.browse-nav-when-sm-input {
+  display: none;
+}
+
 .browse-cars-nav-when-tooltip {
   position: absolute;
-  width: 550px;
+  width: 300px;
   background-color: #fff;
   top: 130%;
   /* height: 400px; */
@@ -501,6 +554,16 @@ label {
   border-color: transparent transparent #fff transparent;
 }
 
+.rlc-prev-year,
+.rlc-next-year,
+.rlc-details {
+  display: none !important;
+}
+
+.rlc-calendar {
+  width: 100% !important;
+}
+
 @media screen and (max-width: 1000px) {
   .browse-cars-nav-list-car {
     display: none !important;
@@ -512,6 +575,22 @@ label {
     display: none !important;
   }
 
+  .browse-nav-when-sm-input {
+    display: block;
+    position: relative;
+  }
+
+  .browse-cars-nav-when-tooltip {
+    position: absolute;
+    /* width: 100% !important; */
+    background-color: #fff !important;
+    top: 130%;
+  }
+
+  /* .sdp {
+    width: 50% !important;
+  } */
+
   .browse-cars-nav-form {
     width: 85%;
     height: 40px;
@@ -519,6 +598,7 @@ label {
 
   .browse-nav-where-input {
     width: 85%;
+    /* position: relative; */
   }
 
   .browse-nav-search-input {

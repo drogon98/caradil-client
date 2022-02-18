@@ -48,7 +48,11 @@ const Layout: React.FC<LayoutProps> = ({ children, isHome }): JSX.Element => {
     <div id="mainLayoutWrapper">
       <div id="mainContentWrapper">
         <header>
-          <div style={{ height: isHome ? "" : "70px" }}>
+          <div
+            style={{
+              height: isHome ? "" : "70px",
+            }}
+          >
             {isBrowseCars ? (
               <BrowseCarsNavbar />
             ) : showAnimatedNavbar ? (

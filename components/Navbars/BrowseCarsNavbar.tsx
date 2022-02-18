@@ -12,7 +12,11 @@ import { carCategories, carColors, carMakes } from "../../data";
 import { useAppSelector } from "../../redux/hooks";
 import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
 import { useRole } from "../hooks/useRole";
-import { AutoComplete } from "../Location/AutoComplete";
+import {
+  AutoComplete,
+  Debounce,
+  PlacesAutocomplete,
+} from "../Location/AutoComplete";
 import { LogoutOverlay } from "../LogoutOverlay";
 import BrowseCarsWhenComp from "./BrowseCarsWhenComp";
 import { UserNavIcon } from "./UserNavIcon";
@@ -35,10 +39,14 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
   const [values, setValues] = useState<any>();
   const searchBtnRef = useRef<HTMLButtonElement>(null);
   const [showWhenComp, setShowWhenComp] = useState(false);
+  const [showSmWhenComp, setShowSmWhenComp] = useState(false);
   const whenCompRef = useRef<HTMLDivElement>(null);
+  const whenSmCompRef = useRef<HTMLDivElement>(null);
   const whenInputRef = useRef<HTMLInputElement>(null);
+  const whenSmInputRef = useRef<HTMLInputElement>(null);
 
   useOutsideClickHandler(whenCompRef, setShowWhenComp, whenInputRef);
+  useOutsideClickHandler(whenSmCompRef, setShowSmWhenComp, whenSmInputRef);
 
   useEffect(() => {
     if (token) {
@@ -77,7 +85,12 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
     setShowWhenComp(true);
   };
 
-  const handleWhereChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSmWhenFocus = (e: any) => {
+    console.log("Focused");
+    setShowSmWhenComp(true);
+  };
+
+  const handleWhenChange = (e: ChangeEvent<HTMLInputElement>) => {
     return;
   };
 
@@ -118,20 +131,16 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
             >
               <div className="input-group p-0 m-0 d-flex w-100">
                 <div className="h-100 browse-nav-where-input">
-                  {/* <input
-                    type="text"
-                    className="form-control w-100 h-100"
-                    placeholder="Where?"
-                    aria-describedby="basic-addon2"
-                  /> */}
-                  <AutoComplete
+                  {/* <AutoComplete
                     placeholder="Where?"
                     handler={handleLocationChange}
                     inputRef={inputRef}
                     name="location"
                     value={""}
-                    // required={true}
-                  />
+                  /> */}
+
+                  {/* <Debounce /> */}
+                  <PlacesAutocomplete />
                 </div>
                 <div className="h-100 browse-nav-when-input">
                   <input
@@ -141,7 +150,7 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                     aria-describedby="basic-addon2"
                     ref={whenInputRef}
                     // readOnly
-                    onChange={handleWhereChange}
+                    onChange={handleWhenChange}
                     onFocus={handleWhenFocus}
                     value={values?.dates_and_time ?? ""}
                     // value={values.}
@@ -215,7 +224,7 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                         <h3>More Filters</h3>
                       </Offcanvas.Title>
                     </Offcanvas.Header>
-                    <Offcanvas.Body>
+                    <Offcanvas.Body className="p-1">
                       <div>
                         <div className="d-flex justify-content-end mb-4">
                           <button
@@ -241,6 +250,32 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                             value={values?.name ?? ""}
                             onChange={handleChange}
                           />
+                        </div>
+
+                        <div className="browse-nav-when-sm-input mb-3 w-100">
+                          <div className="d-flex justify-content-between">
+                            <label htmlFor="name">When?</label>
+                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                              Clear
+                            </button>
+                          </div>
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="When?"
+                            aria-describedby="basic-addon2"
+                            ref={whenSmInputRef}
+                            // readOnly
+                            onChange={handleWhenChange}
+                            onFocus={handleSmWhenFocus}
+                            value={values?.dates_and_time ?? ""}
+                            // value={values.}
+                          />
+                          {showSmWhenComp && (
+                            // <div>
+                            <BrowseCarsWhenComp whenCompRef={whenSmCompRef} />
+                            // </div>
+                          )}
                         </div>
 
                         <div className="mb-4">
