@@ -15,7 +15,7 @@ export function SearchContent(props: SearchContentProps) {
 
   useEffect(() => {
     if (router.query) {
-      if (Object.keys(router.query).length > 1) {
+      if (Object.keys(router.query).length > 0) {
         setSearching(true);
       }
     }
