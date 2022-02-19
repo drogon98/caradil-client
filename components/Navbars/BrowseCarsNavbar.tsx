@@ -18,10 +18,10 @@ import { LogoutOverlay } from "../LogoutOverlay";
 import BrowseCarsWhenComp from "./BrowseCarsWhenComp";
 import { UserNavIcon } from "./UserNavIcon";
 
-interface BrowseCarsNavbarProps {
-  //   isHome?: boolean;
-  // animated?: boolean;
-}
+// interface BrowseCarsNavbarProps {
+//   //   isHome?: boolean;
+//   // animated?: boolean;
+// }
 
 const BrowseCarsNavbar = (): JSX.Element => {
   const router = useRouter();
@@ -33,7 +33,6 @@ const BrowseCarsNavbar = (): JSX.Element => {
   // const inputRef = useRef<HTMLInputElement>(null);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [searching, setSearching] = useState(false);
   const [values, setValues] = useState<any>();
   const searchBtnRef = useRef<HTMLButtonElement>(null);
   const [showWhenComp, setShowWhenComp] = useState(false);
@@ -114,7 +113,8 @@ const BrowseCarsNavbar = (): JSX.Element => {
 
   useEffect(() => {
     if (dateTime) {
-      setDateTimeInput(JSON.stringify({ ...dateTime }));
+      let s = `start_time=${dateTime.start_time}&end_time=${dateTime.end_time}&start_date=${dateTime.start_date}&end_date=${dateTime.end_date}`;
+      setDateTimeInput(s);
     }
   }, [dateTime]);
 
@@ -149,13 +149,25 @@ const BrowseCarsNavbar = (): JSX.Element => {
     e.preventDefault();
     setValues(undefined);
     try {
-      if (window) {
-        // let params = new URLSearchParams({
-        //   ...values!,
-        // }).toString();
-        // console.log("params :>> ", params);
-        // window.location.href = "/browse-cars";
+      let payload = {};
+
+      if (location) {
+        payload = { location };
       }
+
+      if (dateTime) {
+        payload = { ...payload, ...dateTime };
+      }
+
+      router.push(
+        {
+          pathname: "/browse-cars",
+          query: { ...payload },
+        },
+        ``,
+        { shallow: true }
+      );
+      handleClose();
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -177,40 +189,31 @@ const BrowseCarsNavbar = (): JSX.Element => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSearching(true);
-    // console.log("values :>> ", values);
+
     try {
-      if (window) {
-        let payload = { ...values! };
+      let payload = { ...values! };
 
-        if (location) {
-          payload = { ...payload, location };
-        }
-
-        if (dateTimeInput) {
-          payload = { ...payload, ...dateTime! };
-        }
-
-        if (payload.categories) {
-          payload = { ...payload, categories: payload.categories.join() };
-        }
-
-        // console.log("payload :>> ", payload);
-
-        // let params = new URLSearchParams({
-        //   ...payload!,
-        // }).toString();
-        // console.log("params :>> ", params);
-        router.push(
-          {
-            pathname: "/browse-cars",
-            query: { ...payload },
-          },
-          ``,
-          { shallow: true }
-        );
-        // window.location.href = "/browse-cars?" + params;
+      if (location) {
+        payload = { ...payload, location };
       }
+
+      if (dateTimeInput) {
+        payload = { ...payload, ...dateTime! };
+      }
+
+      if (payload.categories) {
+        payload = { ...payload, categories: payload.categories.join() };
+      }
+
+      router.push(
+        {
+          pathname: "/browse-cars",
+          query: { ...payload },
+        },
+        ``,
+        { shallow: true }
+      );
+      handleClose();
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -257,8 +260,9 @@ const BrowseCarsNavbar = (): JSX.Element => {
                       whenCompRef={whenCompRef}
                       dateTimeObj={dateTime}
                       setDateTime={setDateTime}
-                      // dateTimeInput={dateTimeInput}
+                      dateTimeInput={dateTimeInput}
                       setShowWhenComp={setShowWhenComp}
+                      values={values}
                     />
                   )}
                 </div>
@@ -413,8 +417,9 @@ const BrowseCarsNavbar = (): JSX.Element => {
                               whenCompRef={whenSmCompRef}
                               dateTimeObj={dateTime}
                               setDateTime={setDateTime}
-                              // dateTimeInput={dateTimeInput}
+                              dateTimeInput={dateTimeInput}
                               setShowWhenComp={setShowSmWhenComp}
+                              values={values}
                             />
                             // </div>
                           )}

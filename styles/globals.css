@@ -802,6 +802,14 @@ label {
   }
 }
 
+@media screen and (max-width: 900px) {
+  .cars-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+}
+
 /* @media screen and (max-width: 1200px) {
   .cars-wrapper {
     display: grid;

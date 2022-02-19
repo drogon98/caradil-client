@@ -1,5 +1,6 @@
 import Calendar from "@lls/react-light-calendar";
 import "@lls/react-light-calendar/dist/index.css";
+import { useRouter } from "next/router";
 import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import { time24hrs } from "../../data";
 
@@ -7,8 +8,9 @@ interface BrowseCarsWhenCompProps {
   whenCompRef: any;
   dateTimeObj: any;
   setDateTime: any;
-  // dateTimeInput: string;
+  dateTimeInput: string;
   setShowWhenComp: any;
+  values: any;
 }
 
 // const combineTimeObj = (obj: Time) => {
@@ -26,6 +28,7 @@ interface BrowseCarsWhenCompProps {
 // };
 
 const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
+  const router = useRouter();
   const [startDate, setStartDate] = useState(() => {
     let date = new Date();
     return date.getTime();
@@ -36,6 +39,7 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
   });
   const [startTime, setStartTime] = useState<string>();
   const [endTime, setEndTime] = useState<string>();
+  const [timeError, setTimeError] = useState("");
 
   // console.log("props.dateTimeObj", props.dateTimeObj);
 
@@ -58,13 +62,12 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
     endDate: React.SetStateAction<number>
   ) => {
     setStartDate(startDate);
-    setEndDate(endDate);
+    if (!endDate) {
+      setEndDate(startDate);
+    } else {
+      setEndDate(endDate);
+    }
   };
-
-  // console.log("startTime :>> ", startTime);
-  // console.log("endTime :>> ", endTime);
-  // console.log("startDate :>> ", startDate);
-  // console.log("endDate :>> ", endDate);
 
   const handleApplyTime = (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -74,11 +77,36 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
     // console.log("endDate :>> ", endDate);
     try {
       if (!startTime) {
+        setTimeError("Please select start time!");
+        setTimeout(() => {
+          setTimeError("");
+        }, 5000);
         return;
       }
 
       if (!endTime) {
+        setTimeError("Please select end time!");
+        setTimeout(() => {
+          setTimeError("");
+        }, 5000);
         return;
+      }
+
+      if (startDate >= endDate) {
+        let startTimeSections = startTime?.split(":");
+        let endTimeSections = endTime?.split(":");
+
+        let startTimeHour = parseInt(startTimeSections?.[0]!, 10);
+        let endTimeHour = parseInt(endTimeSections?.[0]!, 10);
+
+        if (startTimeHour >= endTimeHour) {
+          setTimeError("End time must be greater than start time!");
+          setTimeout(() => {
+            setTimeError("");
+          }, 5000);
+          return;
+        }
+        // return false;
       }
 
       // let tempStartTime = combineTimeObj(startTime!);
@@ -95,6 +123,24 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
     props.setShowWhenComp(false);
   };
 
+  const handleClearTime = (e: SyntheticEvent<HTMLButtonElement>) => {
+    // e.preventDefault();
+    delete props.values.start_time;
+    delete props.values.end_time;
+    delete props.values.start_date;
+    delete props.values.end_date;
+    let newValues = { ...props.values };
+    router.push(
+      {
+        pathname: "/browse-cars",
+        query: { ...newValues },
+      },
+      ``,
+      { shallow: true }
+    );
+    props.setShowWhenComp(false);
+  };
+
   // console.log("endTime :>> ", endTime);
 
   return (
@@ -102,7 +148,13 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
       className="browse-cars-nav-when-tooltip shadow p-2"
       ref={props.whenCompRef}
     >
-      <div className="d-flex mb-1">
+      {timeError && (
+        <p>
+          <small className="text-danger">{timeError}</small>
+        </p>
+      )}
+
+      <div className="d-flex mb-3">
         <div className="d-flex align-items-center w-50">
           <div>
             <label style={{ fontSize: "11px" }}>Start Time:</label>
@@ -167,6 +219,12 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
       </div>
 
       <div className="d-flex justify-content-end mt-2" style={{ zIndex: 0 }}>
+        {props.dateTimeInput && (
+          <button className="btn" onClick={handleClearTime}>
+            Clear All
+          </button>
+        )}
+
         <button className="btn bg-secondary" onClick={handleApplyTime}>
           Apply
         </button>
