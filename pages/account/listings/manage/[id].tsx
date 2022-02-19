@@ -170,6 +170,7 @@ export default function ManageCar(props: Props): ReactElement {
         can_rent_hourly: carData?.can_rent_hourly ?? false,
         fuel_policy: carData.fuel_policy!,
         fuel_efficiency: carData.fuel_efficiency!,
+        trip_type: carData.trip_type!,
         // driver_mode: carData.driver_mode ?? 3,
         // manual_transmission_test: carData.manual_transmission_test ?? true,
       };

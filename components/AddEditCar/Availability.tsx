@@ -121,6 +121,7 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             can_rent_hourly: values.can_rent_hourly!,
             fuel_policy: values.fuel_policy!,
             fuel_efficiency: values.fuel_efficiency!,
+            trip_type: values.trip_type!,
             // driver_mode: values?.driver_mode!,
             // manual_transmission_test: values?.manual_transmission_test!,
           },
@@ -188,6 +189,54 @@ export const Availability: FC<AvailabilityProps> = (props) => {
       )}
       <h3>Availability & Fueling</h3>
       <form onSubmit={handleSubmit} className="mb-3">
+        <div className="mb-5">
+          <p className="mb-2">Which type of trips is this car elligible for?</p>
+          <div className="form-check mb-2">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="trip_type"
+              id="trip_type_leisure"
+              value={"leisure"}
+              checked={values?.trip_type === "leisure"}
+              onChange={handleChange}
+              // required
+            />
+            <label className="form-check-label" htmlFor="trip_type_leisure">
+              Leisure Trips
+            </label>
+          </div>
+          <div className="form-check mb-2">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="trip_type"
+              id="trip_type_business"
+              value={"business"}
+              checked={values?.trip_type === "business"}
+              onChange={handleChange}
+              // required
+            />
+            <label className="form-check-label" htmlFor="trip_type_business">
+              Business trips
+            </label>
+          </div>
+          <div className="form-check mb-2">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="trip_type"
+              id="both_trip_types"
+              value={"both"}
+              checked={values?.trip_type === "both"}
+              onChange={handleChange}
+              // required
+            />
+            <label className="form-check-label" htmlFor="both_trip_types">
+              Both leisure and business trips
+            </label>
+          </div>
+        </div>
         {/* <div className="mb-5">
           <p className="mb-2">
             This is how you want guests to drive your car. Some guests want to

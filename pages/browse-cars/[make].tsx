@@ -1,62 +1,52 @@
-import { useRouter } from "next/router";
-import React, { FC, useEffect, useState } from "react";
-import { SearchData } from ".";
-import { SearchContent } from "../../components/BrowseCars/SearchContent";
-import { CustomHead } from "../../components/CustomHead";
-import { useSearchFilterData } from "../../components/hooks/useSearchFilterData";
-import Layout from "../../components/layouts/Layout";
-import {
-  SearchInput,
-  useGetCarsLazyQuery,
-} from "../../graphql_types/generated/graphql";
+import React, { FC } from "react";
 
 interface IProps {}
 
 const BrowseByMake: FC<IProps> = (props) => {
-  const [mainLoading, setMainLoading] = useState(true);
-  const [values, setValues] = useState<SearchInput>();
-  const [payload, setPayload] = useState<SearchData>();
-  const router = useRouter();
-  const [cars, setCars] = useState<any[]>();
-  const [isSearch, setIsSearch] = useState(false);
-  const [title, setTitle] = useState("");
+  // const [mainLoading, setMainLoading] = useState(true);
+  // const [values, setValues] = useState<SearchInput>();
+  // const [payload, setPayload] = useState<SearchData>();
+  // const router = useRouter();
+  // const [cars, setCars] = useState<any[]>();
+  // const [isSearch, setIsSearch] = useState(false);
+  // const [title, setTitle] = useState("");
 
-  useEffect(() => {
-    if (router.query.make) {
-      setTitle(router.query.make as string);
-    } else {
-      setTitle("");
-    }
-  }, [router.query]);
+  // useEffect(() => {
+  //   if (router.query.make) {
+  //     setTitle(router.query.make as string);
+  //   } else {
+  //     setTitle("");
+  //   }
+  // }, [router.query]);
 
-  useSearchFilterData({ setValues, setPayload, router });
+  // useSearchFilterData({ setValues, setPayload, router });
 
-  const [getCars, { data, loading }] = useGetCarsLazyQuery({
-    variables: { input: values as unknown as SearchInput },
-    fetchPolicy: "network-only",
-  });
+  // const [getCars, { data, loading }] = useGetCarsLazyQuery({
+  //   variables: { input: values as unknown as SearchInput },
+  //   fetchPolicy: "network-only",
+  // });
 
-  useEffect(() => {
-    if (data?.getCars && !loading) {
-      setMainLoading(false);
-    }
-  }, [loading, data]);
+  // useEffect(() => {
+  //   if (data?.getCars && !loading) {
+  //     setMainLoading(false);
+  //   }
+  // }, [loading, data]);
 
-  useEffect(() => {
-    if (values && !isSearch) {
-      getCars({ variables: { input: values as unknown as SearchInput } });
-    }
-  }, [values, isSearch]);
+  // useEffect(() => {
+  //   if (values && !isSearch) {
+  //     getCars({ variables: { input: values as unknown as SearchInput } });
+  //   }
+  // }, [values, isSearch]);
 
-  useEffect(() => {
-    if (data?.getCars) {
-      setCars([...data.getCars]);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.getCars) {
+  //     setCars([...data.getCars]);
+  //   }
+  // }, [data]);
 
   return (
     <>
-      {" "}
+      {/* {" "}
       <CustomHead title="Browse Cars" />
       <Layout>
         <div style={{ backgroundColor: "#eaecee" }}>
@@ -77,7 +67,7 @@ const BrowseByMake: FC<IProps> = (props) => {
           setPayload={setPayload}
           payload={payload!}
         />
-      </Layout>
+      </Layout> */}
     </>
   );
 };

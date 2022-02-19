@@ -1,4 +1,10 @@
-import React, { ChangeEvent, LegacyRef, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  LegacyRef,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { usePlacesWidget } from "react-google-autocomplete";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import usePlacesAutocomplete, {
@@ -70,21 +76,35 @@ export const Debounce = () => {
   );
 };
 
-export const PlacesAutocomplete = () => {
+export const PlacesAutocomplete = (props: {
+  setLocation: any;
+  location: string;
+}) => {
+  const [initial, setInitial] = useState(false);
   const {
     // ready,
-    value,
+    // value,
     suggestions: { status, data },
     setValue,
     clearSuggestions,
   } = usePlacesAutocomplete({
     requestOptions: {
-      /* Define search scope here */
       types: ["(cities)"],
       componentRestrictions: { country: "ke" },
     },
     debounce: 300,
   });
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setInitial(true);
+  //   }, 2000);
+  // }, []);
+
+  // useEffect(() => {
+  //   setValue(props.location);
+  //   clearSuggestions();
+  // }, [props.location]);
 
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -100,7 +120,9 @@ export const PlacesAutocomplete = () => {
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     // Update the keyword of the input element
+    setInitial(true);
     setValue(e.target.value);
+    props.setLocation(e.target.value);
   };
 
   const handleSelect =
@@ -109,6 +131,7 @@ export const PlacesAutocomplete = () => {
       // When user selects a place, we can replace the keyword without request data from API
       // by setting the second parameter to "false"
       setValue(description, false);
+      props.setLocation(description);
       clearSuggestions();
 
       // Get latitude and longitude via utility functions
@@ -143,7 +166,7 @@ export const PlacesAutocomplete = () => {
   return (
     <div ref={ref} className="h-100">
       <input
-        value={value}
+        value={props.location}
         onChange={handleInput}
         // disabled={!ready}
         placeholder="Where?"
@@ -151,7 +174,7 @@ export const PlacesAutocomplete = () => {
         ref={inputRef}
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
-      {status === "OK" && (
+      {status === "OK" && initial && (
         <div
           ref={suggestionWrapperRef}
           className="gp-suggestions-container shadow"

@@ -20,10 +20,10 @@ import { UserNavIcon } from "./UserNavIcon";
 
 interface BrowseCarsNavbarProps {
   //   isHome?: boolean;
-  animated?: boolean;
+  // animated?: boolean;
 }
 
-const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
+const BrowseCarsNavbar = (): JSX.Element => {
   const router = useRouter();
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
@@ -42,8 +42,10 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
   const whenSmCompRef = useRef<HTMLDivElement>(null);
   const whenInputRef = useRef<HTMLInputElement>(null);
   const whenSmDivRef = useRef<HTMLDivElement>(null);
-  const [dateTime, setDateTime] = useState<Map<string, string>>();
+  const [dateTime, setDateTime] = useState<any>();
   const [dateTimeInput, setDateTimeInput] = useState("");
+  const [showClearFilter, setShowClearFilter] = useState(false);
+  const [location, setLocation] = useState("");
 
   useOutsideClickHandler(whenCompRef, setShowWhenComp, whenInputRef);
   useOutsideClickHandler(whenSmCompRef, setShowSmWhenComp, whenSmDivRef);
@@ -57,8 +59,58 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
   }, [token]);
 
   useEffect(() => {
-    // Populate values and datetime
-  }, [router]);
+    // Populate values,datetime and location
+    if (router && router.query) {
+      if (router.query.start_time) {
+        let tempDateTime = {
+          start_time: router.query.start_time as string,
+          end_time: router.query.end_time as string,
+          start_date: parseInt(router.query.start_date as string, 10),
+          end_date: parseInt(router.query.end_date as string, 10),
+        };
+        setDateTime({ ...tempDateTime });
+      }
+
+      let tempValues = {};
+
+      if (router.query.categories) {
+        let rawCategories = router.query.categories as string;
+        let categories = rawCategories?.split(",");
+        tempValues = { ...tempValues, categories };
+      }
+
+      if (router.query.location) {
+        setLocation(router.query.location as string);
+      }
+
+      if (router.query.name) {
+        tempValues = { ...tempValues, name: router.query.name as string };
+      }
+
+      if (router.query.color) {
+        tempValues = { ...tempValues, color: router.query.color as string };
+      }
+
+      if (router.query.make) {
+        tempValues = { ...tempValues, make: router.query.make as string };
+      }
+
+      if (router.query.trip_type) {
+        tempValues = {
+          ...tempValues,
+          trip_type: router.query.trip_type as string,
+        };
+      }
+
+      if (router.query.trip_duration) {
+        tempValues = {
+          ...tempValues,
+          trip_duration: router.query.trip_duration as string,
+        };
+      }
+      setValues({ ...tempValues });
+    }
+  }, [router.query]);
 
   useEffect(() => {
     if (dateTime) {
@@ -66,13 +118,32 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
     }
   }, [dateTime]);
 
+  useEffect(() => {
+    if (values || (values && Object.keys(values).length > 0)) {
+      setShowClearFilter(true);
+    } else {
+      setShowClearFilter(false);
+    }
+  }, [values]);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
-    setValues({ ...(values ?? {}), [e.target.name]: e.target.value });
-  };
+    if (e.target.name === "category") {
+      let tempCategories = [...(values?.categories ?? [])];
+      let categoryExists = tempCategories.some((cat) => cat === e.target.value);
+      let newCategories = [];
 
-  const handleLocationChange = () => {};
+      if (categoryExists) {
+        newCategories = tempCategories.filter((cat) => cat !== e.target.value);
+      } else {
+        newCategories = [...tempCategories, e.target.value];
+      }
+      setValues({ ...(values ?? {}), categories: newCategories });
+    } else {
+      setValues({ ...(values ?? {}), [e.target.name]: e.target.value });
+    }
+  };
 
   const handleClearFilters = (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -107,22 +178,43 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearching(true);
-    console.log("values :>> ", values);
+    // console.log("values :>> ", values);
     try {
       if (window) {
-        let params = new URLSearchParams({
-          ...values!,
-        }).toString();
-        console.log("params :>> ", params);
-        // window.location.href = "/browse-cars";
+        let payload = { ...values! };
+
+        if (location) {
+          payload = { ...payload, location };
+        }
+
+        if (dateTimeInput) {
+          payload = { ...payload, ...dateTime! };
+        }
+
+        if (payload.categories) {
+          payload = { ...payload, categories: payload.categories.join() };
+        }
+
+        // console.log("payload :>> ", payload);
+
+        // let params = new URLSearchParams({
+        //   ...payload!,
+        // }).toString();
+        // console.log("params :>> ", params);
+        router.push(
+          {
+            pathname: "/browse-cars",
+            query: { ...payload },
+          },
+          ``,
+          { shallow: true }
+        );
+        // window.location.href = "/browse-cars?" + params;
       }
     } catch (error) {
       console.log("error :>> ", error);
     }
   };
-
-  // console.log("carId :>> ", carId);
-  console.log("dateTime", dateTime);
 
   return (
     <div className="browseCarsNav bgWhite shadow">
@@ -142,7 +234,10 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
             >
               <div className="input-group p-0 m-0 d-flex w-100">
                 <div className="h-100 browse-nav-where-input">
-                  <PlacesAutocomplete />
+                  <PlacesAutocomplete
+                    setLocation={setLocation}
+                    location={location}
+                  />
                 </div>
                 <div className="h-100 browse-nav-when-input">
                   <input
@@ -232,20 +327,35 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                         <h3>More Filters</h3>
                       </Offcanvas.Title>
                     </Offcanvas.Header>
-                    <Offcanvas.Body className="p-1">
+                    <Offcanvas.Body className="p-2">
                       <div>
-                        <div className="d-flex justify-content-end mb-4">
-                          <button
-                            className="btn btn-md bg-secondary text-light"
-                            onClick={handleClearFilters}
-                          >
-                            Clear Filters
-                          </button>
-                        </div>
-                        <div className="mb-4">
+                        {showClearFilter && (
+                          <div className="d-flex justify-content-end">
+                            <button
+                              className="btn btn-md bg-secondary text-light"
+                              onClick={handleClearFilters}
+                            >
+                              Clear Filters
+                            </button>
+                          </div>
+                        )}
+
+                        <div className="my-4">
                           <div className="d-flex justify-content-between">
                             <label htmlFor="name">Car Name</label>
-                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                            <button
+                              className="btn p-0 m-0 more-filters-mini-clear"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                try {
+                                  if (values?.name) {
+                                    delete values.name;
+                                    setValues({ ...values });
+                                  }
+                                } catch (error) {}
+                              }}
+                              disabled={!values?.name}
+                            >
                               Clear
                             </button>
                           </div>
@@ -263,7 +373,19 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                         <div className="browse-nav-when-sm-input mb-3 w-100">
                           <div className="d-flex justify-content-between">
                             <label htmlFor="name">When?</label>
-                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                            <button
+                              className="btn p-0 m-0 more-filters-mini-clear"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                try {
+                                  if (dateTimeInput) {
+                                    setDateTimeInput("");
+                                    setDateTime(undefined);
+                                  }
+                                } catch (error) {}
+                              }}
+                              disabled={!dateTimeInput}
+                            >
                               Clear
                             </button>
                           </div>
@@ -301,7 +423,19 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                         <div className="mb-4">
                           <div className="d-flex justify-content-between">
                             <label htmlFor="make">Make</label>
-                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                            <button
+                              className="btn p-0 m-0 more-filters-mini-clear"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                try {
+                                  if (values?.make) {
+                                    delete values?.make;
+                                    setValues({ ...values });
+                                  }
+                                } catch (error) {}
+                              }}
+                              disabled={!values?.make}
+                            >
                               Clear
                             </button>
                           </div>
@@ -324,7 +458,21 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                         <div className="mb-4">
                           <div className="d-flex justify-content-between">
                             <label htmlFor="color">Color</label>
-                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                            <button
+                              className="btn p-0 m-0 more-filters-mini-clear"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                try {
+                                  if (values?.color) {
+                                    delete values?.color;
+                                    setValues({ ...values });
+                                  }
+                                } catch (error) {
+                                  console.log("error", error);
+                                }
+                              }}
+                              disabled={!values?.color}
+                            >
                               Clear
                             </button>
                           </div>
@@ -349,7 +497,19 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                         <div className="mb-4">
                           <div className="d-flex justify-content-between">
                             <label htmlFor="trip_type">Trip Type</label>
-                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                            <button
+                              className="btn p-0 m-0 more-filters-mini-clear"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                try {
+                                  if (values?.trip_type) {
+                                    delete values?.trip_type;
+                                    setValues({ ...values });
+                                  }
+                                } catch (error) {}
+                              }}
+                              disabled={!values?.trip_type}
+                            >
                               Clear
                             </button>
                           </div>
@@ -360,6 +520,9 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                                 id="trip_type_leisure"
                                 name="trip_type"
                                 className="custom-control-input w-25"
+                                value={"leisure"}
+                                onChange={handleChange}
+                                checked={values?.trip_type === "leisure"}
                               />
                               <p
                                 className="custom-control-label ml-3 more-filters-text w-75"
@@ -374,6 +537,9 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                                 id="trip_type_business"
                                 name="trip_type"
                                 className="custom-control-input w-25"
+                                value={"business"}
+                                onChange={handleChange}
+                                checked={values?.trip_type === "business"}
                               />
                               <p
                                 className="custom-control-label more-filters-text w-75"
@@ -387,8 +553,20 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
 
                         <div className="mb-4">
                           <div className="d-flex justify-content-between">
-                            <label htmlFor="trip_type">Trip Duration</label>
-                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                            <label htmlFor="trip_duration">Trip Duration</label>
+                            <button
+                              className="btn p-0 m-0 more-filters-mini-clear"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                try {
+                                  if (values?.trip_duration) {
+                                    delete values?.trip_duration;
+                                    setValues({ ...values });
+                                  }
+                                } catch (error) {}
+                              }}
+                              disabled={!values?.trip_duration}
+                            >
                               Clear
                             </button>
                           </div>
@@ -399,6 +577,9 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                                 id="trip_duration_less_than_24hrs"
                                 name="trip_duration"
                                 className="custom-control-input w-25"
+                                value={"less_24"}
+                                onChange={handleChange}
+                                checked={values?.trip_duration === "less_24"}
                               />
                               <p
                                 className="custom-control-label m-0 more-filters-text w-75"
@@ -413,6 +594,9 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                                 id="trip_duration_more_than_24hrs"
                                 name="trip_duration"
                                 className="custom-control-input w-25"
+                                value={"more_24"}
+                                onChange={handleChange}
+                                checked={values?.trip_duration === "more_24"}
                               />
                               <p
                                 className="custom-control-label more-filters-text w-75"
@@ -427,24 +611,37 @@ const BrowseCarsNavbar = ({ animated }: BrowseCarsNavbarProps): JSX.Element => {
                         <div className="mb-4">
                           <div className="d-flex justify-content-between">
                             <label>Categories</label>
-                            <button className="btn p-0 m-0 more-filters-mini-clear">
+                            <button
+                              className="btn p-0 m-0 more-filters-mini-clear"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                try {
+                                  if (values?.categories) {
+                                    delete values?.categories;
+                                    setValues({ ...values });
+                                  }
+                                } catch (error) {}
+                              }}
+                              disabled={!values?.categories}
+                            >
                               Clear
                             </button>
                           </div>
                           <div className="categories-wrapper mt-1">
                             {carCategories.map((category, idx) => {
-                              // const isSelected = props.payload.categories?.find(
-                              //   (cat) => cat === category.toLowerCase()
-                              // );
+                              const isSelected = values?.categories?.find(
+                                (cat: string) => cat === category.toLowerCase()
+                              );
                               return (
                                 <div className="form-check" key={idx}>
                                   <input
                                     className="form-check-input"
                                     type="checkbox"
-                                    value={category}
-                                    // checked={isSelected ? true : false}
-                                    id="flexCheckDefault"
-                                    // onChange={handleChange}
+                                    value={category.toLowerCase()}
+                                    checked={isSelected ? true : false}
+                                    // id="flexCheckDefault"
+                                    onChange={handleChange}
+                                    name="category"
                                   />
                                   <p
                                     className="form-check-label more-filters-text"

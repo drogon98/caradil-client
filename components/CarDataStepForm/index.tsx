@@ -143,6 +143,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
         can_rent_hourly: compData?.can_rent_hourly ?? false,
         fuel_policy: compData.fuel_policy!,
         fuel_efficiency: compData.fuel_efficiency!,
+        trip_type: compData.trip_type!,
         // driver_mode: compData.driver_mode ?? 3,
         // manual_transmission_test: compData.manual_transmission_test ?? true,
       };

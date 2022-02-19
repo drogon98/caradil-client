@@ -76,4 +76,5 @@ fragment carPrivateInfo on Car {
   reserved_for_booking
   suspended
   reserved_for_booking_guest_id
+  trip_type
 }
