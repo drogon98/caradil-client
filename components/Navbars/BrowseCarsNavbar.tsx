@@ -119,7 +119,8 @@ const BrowseCarsNavbar = (): JSX.Element => {
   }, [dateTime]);
 
   useEffect(() => {
-    if (values || (values && Object.keys(values).length > 0)) {
+    console.log("values", values);
+    if (values && Object.keys(values).length > 0) {
       setShowClearFilter(true);
     } else {
       setShowClearFilter(false);
@@ -300,31 +301,36 @@ const BrowseCarsNavbar = (): JSX.Element => {
               </div>
               <div>
                 <>
-                  <button
-                    className="btn browse-cars-nav-filter-btn"
-                    onClick={(e: SyntheticEvent<HTMLButtonElement>) => {
-                      e.preventDefault();
-                      handleShow();
-                    }}
-                    title="More Filters"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                      role="img"
-                      preserveAspectRatio="xMidYMid meet"
-                      viewBox="0 0 21 21"
-                      className="browse-cars-filter-icon"
+                  <div style={{ position: "relative" }}>
+                    <button
+                      className="btn browse-cars-nav-filter-btn pr-0"
+                      onClick={(e: SyntheticEvent<HTMLButtonElement>) => {
+                        e.preventDefault();
+                        handleShow();
+                      }}
+                      title="More Filters"
                     >
-                      <path
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6.5 4a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm12 2h-11m-2 0h-3m4 8a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0v-2a1 1 0 0 1 1-1zm12 2h-11m-2 0h-3m12-7a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0v-2a1 1 0 0 1 1-1zm-1 2h-11m16 0h-3"
-                      />
-                    </svg>
-                  </button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                        role="img"
+                        preserveAspectRatio="xMidYMid meet"
+                        viewBox="0 0 21 21"
+                        className="browse-cars-filter-icon"
+                      >
+                        <path
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6.5 4a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm12 2h-11m-2 0h-3m4 8a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0v-2a1 1 0 0 1 1-1zm12 2h-11m-2 0h-3m12-7a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0v-2a1 1 0 0 1 1-1zm-1 2h-11m16 0h-3"
+                        />
+                      </svg>
+                    </button>
+                    {showClearFilter && (
+                      <div className="browse-cars-filters-counter" />
+                    )}
+                  </div>
                   <Offcanvas show={show} onHide={handleClose} backdrop="false">
                     <Offcanvas.Header closeButton>
                       <Offcanvas.Title>

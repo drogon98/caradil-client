@@ -535,6 +535,16 @@ label {
   display: none;
 }
 
+.browse-cars-filters-counter {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background-color: var(--orange);
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
 .browse-cars-nav-when-tooltip {
   position: absolute;
   width: 300px;
