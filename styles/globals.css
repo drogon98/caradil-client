@@ -792,6 +792,12 @@ label {
   gap: 30px;
 }
 
+.popular-cars-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+}
+
 .popular-cars {
   height: 300px;
 }
@@ -818,22 +824,21 @@ label {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
-}
 
-/* @media screen and (max-width: 1200px) {
-  .cars-wrapper {
+  .popular-cars-wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
   }
-} */
+}
 
 @media screen and (max-width: 500px) {
   .find-your-drive {
     font-size: 30px;
   }
 
-  .cars-wrapper {
+  .cars-wrapper,
+  .popular-cars-wrapper {
     grid-template-columns: 1fr;
     row-gap: 30px;
   }

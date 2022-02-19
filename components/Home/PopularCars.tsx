@@ -33,7 +33,7 @@ export const PopularCars: FC<IProps> = (props) => {
         {mainLoading ? (
           <FlexibleLoader />
         ) : (
-          <div className="cars-wrapper">
+          <div className="popular-cars-wrapper">
             {data?.getPopularCars.map((car, idx) => (
               <CarBox data={car} key={idx} />
             ))}
