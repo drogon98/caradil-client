@@ -15,21 +15,26 @@ const BrowseCars: NextPage = () => {
   const [values, setValues] = useState<SearchInput>();
   const router = useRouter();
   const [cars, setCars] = useState<Car[]>();
+  const [searching, setSearching] = useState(false);
 
   useEffect(() => {
     if (router && router.query) {
       setValues({ ...router.query });
+      if (Object.keys(router.query).length > 0) {
+        setSearching(true);
+      } else {
+        setSearching(false);
+      }
     }
   }, [router.query]);
 
-  const [getCars, { data }] = useGetCarsLazyQuery({
+  const [getCars, { data, loading }] = useGetCarsLazyQuery({
     variables: { input: values! },
-    fetchPolicy: "network-only",
+    fetchPolicy: "no-cache",
   });
 
   useEffect(() => {
     if (values) {
-      setMainLoading(true);
       getCars({ variables: { input: values! } });
     }
   }, [values]);
@@ -37,7 +42,10 @@ const BrowseCars: NextPage = () => {
   useEffect(() => {
     if (data?.getCars) {
       setCars([...data.getCars]);
-      setMainLoading(false);
+      if (!loading) {
+        setMainLoading(false);
+        setSearching(false);
+      }
     }
   }, [data]);
 
@@ -45,7 +53,7 @@ const BrowseCars: NextPage = () => {
     <>
       <CustomHead title="Browse Cars" />
       <Layout>
-        <SearchContent loading={mainLoading} cars={cars!} />
+        <SearchContent loading={mainLoading || searching} cars={cars!} />
       </Layout>
     </>
   );

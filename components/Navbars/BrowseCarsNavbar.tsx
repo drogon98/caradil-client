@@ -30,7 +30,6 @@ const BrowseCarsNavbar = (): JSX.Element => {
   const [isAuth, setIsAuth] = useState<boolean>();
   const loggingOut = useAppSelector((state) => state.logout.loggingOut);
   const [show, setShow] = useState(false);
-  // const inputRef = useRef<HTMLInputElement>(null);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [values, setValues] = useState<any>();
@@ -59,55 +58,59 @@ const BrowseCarsNavbar = (): JSX.Element => {
 
   useEffect(() => {
     // Populate values,datetime and location
-    if (router && router.query) {
-      if (router.query.start_time) {
-        let tempDateTime = {
-          start_time: router.query.start_time as string,
-          end_time: router.query.end_time as string,
-          start_date: parseInt(router.query.start_date as string, 10),
-          end_date: parseInt(router.query.end_date as string, 10),
-        };
-        setDateTime({ ...tempDateTime });
-      }
+    try {
+      if (router && router.query) {
+        if (router.query.start_time) {
+          let tempDateTime = {
+            start_time: router.query.start_time as string,
+            end_time: router.query.end_time as string,
+            start_date: parseInt(router.query.start_date as string, 10),
+            end_date: parseInt(router.query.end_date as string, 10),
+          };
+          setDateTime({ ...tempDateTime });
+        }
 
-      let tempValues = {};
+        let tempValues = {};
 
-      if (router.query.categories) {
-        let rawCategories = router.query.categories as string;
-        let categories = rawCategories?.split(",");
-        tempValues = { ...tempValues, categories };
-      }
+        if (router.query.categories) {
+          let rawCategories = router.query.categories as string;
+          let categories = rawCategories?.split(",");
+          tempValues = { ...tempValues, categories };
+        }
 
-      if (router.query.location) {
-        setLocation(router.query.location as string);
-      }
+        if (router.query.location) {
+          setLocation(router.query.location as string);
+        }
 
-      if (router.query.name) {
-        tempValues = { ...tempValues, name: router.query.name as string };
-      }
+        if (router.query.name) {
+          tempValues = { ...tempValues, name: router.query.name as string };
+        }
 
-      if (router.query.color) {
-        tempValues = { ...tempValues, color: router.query.color as string };
-      }
+        if (router.query.color) {
+          tempValues = { ...tempValues, color: router.query.color as string };
+        }
 
-      if (router.query.make) {
-        tempValues = { ...tempValues, make: router.query.make as string };
-      }
+        if (router.query.make) {
+          tempValues = { ...tempValues, make: router.query.make as string };
+        }
 
-      if (router.query.trip_type) {
-        tempValues = {
-          ...tempValues,
-          trip_type: router.query.trip_type as string,
-        };
-      }
+        if (router.query.trip_type) {
+          tempValues = {
+            ...tempValues,
+            trip_type: router.query.trip_type as string,
+          };
+        }
 
-      if (router.query.trip_duration) {
-        tempValues = {
-          ...tempValues,
-          trip_duration: router.query.trip_duration as string,
-        };
+        if (router.query.trip_duration) {
+          tempValues = {
+            ...tempValues,
+            trip_duration: router.query.trip_duration as string,
+          };
+        }
+        setValues({ ...tempValues });
       }
-      setValues({ ...tempValues });
+    } catch (error) {
+      console.log("error :>> ", error);
     }
   }, [router.query]);
 
@@ -119,7 +122,6 @@ const BrowseCarsNavbar = (): JSX.Element => {
   }, [dateTime]);
 
   useEffect(() => {
-    console.log("values", values);
     if (values && Object.keys(values).length > 0) {
       setShowClearFilter(true);
     } else {
@@ -214,7 +216,10 @@ const BrowseCarsNavbar = (): JSX.Element => {
         ``,
         { shallow: true }
       );
-      handleClose();
+
+      if (show) {
+        handleClose();
+      }
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -259,11 +264,14 @@ const BrowseCarsNavbar = (): JSX.Element => {
                   {showWhenComp && (
                     <BrowseCarsWhenComp
                       whenCompRef={whenCompRef}
-                      dateTimeObj={dateTime}
+                      dateTime={dateTime}
                       setDateTime={setDateTime}
                       dateTimeInput={dateTimeInput}
                       setShowWhenComp={setShowWhenComp}
                       values={values}
+                      setValues={setValues}
+                      setDateTimeInput={setDateTimeInput}
+                      searchBtnRef={searchBtnRef}
                     />
                   )}
                 </div>
@@ -421,11 +429,14 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             // <div>
                             <BrowseCarsWhenComp
                               whenCompRef={whenSmCompRef}
-                              dateTimeObj={dateTime}
+                              dateTime={dateTime}
                               setDateTime={setDateTime}
                               dateTimeInput={dateTimeInput}
                               setShowWhenComp={setShowSmWhenComp}
                               values={values}
+                              setDateTimeInput={setDateTimeInput}
+                              searchBtnRef={searchBtnRef}
+                              setValues={setValues}
                             />
                             // </div>
                           )}

@@ -1,31 +1,26 @@
 import Calendar from "@lls/react-light-calendar";
 import "@lls/react-light-calendar/dist/index.css";
 import { useRouter } from "next/router";
-import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  RefObject,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
 import { time24hrs } from "../../data";
 
 interface BrowseCarsWhenCompProps {
   whenCompRef: any;
-  dateTimeObj: any;
+  dateTime: any;
   setDateTime: any;
   dateTimeInput: string;
   setShowWhenComp: any;
   values: any;
+  setDateTimeInput: any;
+  searchBtnRef: RefObject<HTMLElement>;
+  setValues: any;
 }
-
-// const combineTimeObj = (obj: Time) => {
-//   return `${obj.hours.toString().length === 1 ? `0${obj.hours}` : obj.hours}:${
-//     obj.minutes.toString().length === 1 ? `0${obj.minutes}` : obj.minutes
-//   }`;
-// };
-
-// const splitTime = (str: string): Time => {
-//   let timeSections = str.split(":");
-//   return {
-//     hours: parseInt(timeSections[0], 10),
-//     minutes: parseInt(timeSections[1], 10),
-//   };
-// };
 
 const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
   const router = useRouter();
@@ -41,21 +36,19 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
   const [endTime, setEndTime] = useState<string>();
   const [timeError, setTimeError] = useState("");
 
-  // console.log("props.dateTimeObj", props.dateTimeObj);
-
   useEffect(() => {
-    if (props.dateTimeObj) {
+    if (props.dateTime) {
       try {
-        // console.log("props.dateTimeObj :>> ", props.dateTimeObj);
-        setEndDate(props.dateTimeObj.end_date);
-        setStartDate(props.dateTimeObj.start_date);
-        setStartTime(props.dateTimeObj.start_time);
-        setEndTime(props.dateTimeObj.end_time);
+        console.log("props.dateTime :>> ", props.dateTime);
+        setEndDate(props.dateTime.end_date);
+        setStartDate(props.dateTime.start_date);
+        setStartTime(props.dateTime.start_time);
+        setEndTime(props.dateTime.end_time);
       } catch (error) {
         console.log("error :>> ", error);
       }
     }
-  }, [props.dateTimeObj]);
+  }, [props.dateTime]);
 
   const handleDateChange = (
     startDate: React.SetStateAction<number>,
@@ -125,23 +118,25 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
 
   const handleClearTime = (e: SyntheticEvent<HTMLButtonElement>) => {
     // e.preventDefault();
-    delete props.values.start_time;
-    delete props.values.end_time;
-    delete props.values.start_date;
-    delete props.values.end_date;
-    let newValues = { ...props.values };
-    router.push(
-      {
-        pathname: "/browse-cars",
-        query: { ...newValues },
-      },
-      ``,
-      { shallow: true }
-    );
-    props.setShowWhenComp(false);
-  };
+    try {
+      delete props.values.start_time;
+      delete props.values.end_time;
+      delete props.values.start_date;
+      delete props.values.end_date;
+      let newValues = { ...props.values };
+      props.setValues({ ...newValues });
+      props.setDateTime(undefined);
+      props.setDateTimeInput("");
 
-  // console.log("endTime :>> ", endTime);
+      // if (props.searchBtnRef.current) {
+      //   props.searchBtnRef.current?.click();
+      // }
+
+      props.setShowWhenComp(false);
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
 
   return (
     <div
