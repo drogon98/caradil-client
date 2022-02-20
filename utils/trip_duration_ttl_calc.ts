@@ -90,7 +90,10 @@ export const totalChargeCalculator = (
   dates: CustomAvailabilityObj,
   setTotalCharge: Dispatch<React.SetStateAction<number>>
 ) => {
-  let durationData = getTripDuration(dates, car.can_rent_hourly!);
+  let durationData = getTripDuration(
+    dates,
+    car?.trip_duration! === "less_24" || car?.trip_duration! === "both"!
+  );
 
   //   console.log("durationData", durationData);
 

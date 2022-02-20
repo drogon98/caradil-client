@@ -316,7 +316,7 @@ label {
 }
 
 .pac-container {
-  background-color: red;
+  /* background-color: red; */
   position: relative;
   top: 100%;
 }
@@ -1060,7 +1060,7 @@ label {
   position: sticky;
   top: var(--navbar-height);
   min-height: 400px;
-  height: auto;
+  /* height: calc(100vh - var(--navbar-height)); Intersection observer logic */
   overflow-y: auto;
   z-index: 998 !important;
 }

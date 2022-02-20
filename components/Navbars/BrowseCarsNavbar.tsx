@@ -9,19 +9,15 @@ import React, {
   useState,
 } from "react";
 import { Offcanvas } from "react-bootstrap";
-import { carCategories, carColors, carMakes } from "../../data";
+import { carCategories, carColors, carMakes, carSeats } from "../../data";
 import { useAppSelector } from "../../redux/hooks";
+import { numericInput } from "../../utils/regex_";
 import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
 import { useRole } from "../hooks/useRole";
 import { PlacesAutocomplete } from "../Location/AutoComplete";
 import { LogoutOverlay } from "../LogoutOverlay";
 import BrowseCarsWhenComp from "./BrowseCarsWhenComp";
 import { UserNavIcon } from "./UserNavIcon";
-
-// interface BrowseCarsNavbarProps {
-//   //   isHome?: boolean;
-//   // animated?: boolean;
-// }
 
 const BrowseCarsNavbar = (): JSX.Element => {
   const router = useRouter();
@@ -95,6 +91,10 @@ const BrowseCarsNavbar = (): JSX.Element => {
           tempValues = { ...tempValues, make: router.query.make as string };
         }
 
+        if (router.query.seats) {
+          tempValues = { ...tempValues, seats: router.query.seats as string };
+        }
+
         if (router.query.trip_type) {
           tempValues = {
             ...tempValues,
@@ -106,6 +106,20 @@ const BrowseCarsNavbar = (): JSX.Element => {
           tempValues = {
             ...tempValues,
             trip_duration: router.query.trip_duration as string,
+          };
+        }
+
+        if (router.query.min_rate) {
+          tempValues = {
+            ...tempValues,
+            min_rate: router.query.min_rate as string,
+          };
+        }
+
+        if (router.query.max_rate) {
+          tempValues = {
+            ...tempValues,
+            max_rate: router.query.max_rate as string,
           };
         }
         setValues({ ...tempValues });
@@ -140,11 +154,20 @@ const BrowseCarsNavbar = (): JSX.Element => {
 
       if (categoryExists) {
         newCategories = tempCategories.filter((cat) => cat !== e.target.value);
+        if (newCategories.length === 0) {
+          delete values.categories;
+          setValues({ ...(values ?? {}) });
+        } else {
+          setValues({ ...(values ?? {}), categories: newCategories });
+        }
       } else {
         newCategories = [...tempCategories, e.target.value];
+        setValues({ ...(values ?? {}), categories: newCategories });
       }
-      setValues({ ...(values ?? {}), categories: newCategories });
     } else if (e.target.name === "min_rate" || e.target.name === "max_rate") {
+      if (e.target.value && !numericInput.test(e.target.value)) {
+        return;
+      }
       setValues({ ...(values ?? {}), [e.target.name]: e.target.value });
     } else {
       setValues({ ...(values ?? {}), [e.target.name]: e.target.value });
@@ -382,12 +405,20 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             <label htmlFor="name">Car Name</label>
                             <button
                               className="btn p-0 m-0 more-filters-mini-clear"
-                              onClick={(e) => {
+                              onClick={async (e) => {
                                 e.preventDefault();
                                 try {
                                   if (values?.name) {
                                     delete values.name;
                                     setValues({ ...values });
+                                    await router.push(
+                                      {
+                                        pathname: "/browse-cars",
+                                        query: { ...values },
+                                      },
+                                      ``,
+                                      { shallow: true }
+                                    );
                                   }
                                 } catch (error) {}
                               }}
@@ -412,7 +443,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             <label htmlFor="name">When?</label>
                             <button
                               className="btn p-0 m-0 more-filters-mini-clear"
-                              onClick={(e) => {
+                              onClick={async (e) => {
                                 e.preventDefault();
                                 try {
                                   if (dateTimeInput) {
@@ -424,6 +455,14 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                     delete values.end_date;
                                     let newValues = { ...values };
                                     setValues({ ...newValues });
+                                    await router.push(
+                                      {
+                                        pathname: "/browse-cars",
+                                        query: { ...values },
+                                      },
+                                      ``,
+                                      { shallow: true }
+                                    );
                                   }
                                 } catch (error) {}
                               }}
@@ -473,12 +512,20 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             <label htmlFor="make">Make</label>
                             <button
                               className="btn p-0 m-0 more-filters-mini-clear"
-                              onClick={(e) => {
+                              onClick={async (e) => {
                                 e.preventDefault();
                                 try {
                                   if (values?.make) {
                                     delete values?.make;
                                     setValues({ ...values });
+                                    await router.push(
+                                      {
+                                        pathname: "/browse-cars",
+                                        query: { ...values },
+                                      },
+                                      ``,
+                                      { shallow: true }
+                                    );
                                   }
                                 } catch (error) {}
                               }}
@@ -508,12 +555,20 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             <label htmlFor="color">Color</label>
                             <button
                               className="btn p-0 m-0 more-filters-mini-clear"
-                              onClick={(e) => {
+                              onClick={async (e) => {
                                 e.preventDefault();
                                 try {
                                   if (values?.color) {
                                     delete values?.color;
                                     setValues({ ...values });
+                                    await router.push(
+                                      {
+                                        pathname: "/browse-cars",
+                                        query: { ...values },
+                                      },
+                                      ``,
+                                      { shallow: true }
+                                    );
                                   }
                                 } catch (error) {
                                   console.log("error", error);
@@ -544,15 +599,70 @@ const BrowseCarsNavbar = (): JSX.Element => {
 
                         <div className="mb-4">
                           <div className="d-flex justify-content-between">
+                            <label htmlFor="seats">Seats</label>
+                            <button
+                              className="btn p-0 m-0 more-filters-mini-clear"
+                              onClick={async (e) => {
+                                e.preventDefault();
+                                try {
+                                  if (values?.seats) {
+                                    delete values?.seats;
+                                    setValues({ ...values });
+                                    await router.push(
+                                      {
+                                        pathname: "/browse-cars",
+                                        query: { ...values },
+                                      },
+                                      ``,
+                                      { shallow: true }
+                                    );
+                                  }
+                                } catch (error) {
+                                  console.log("error", error);
+                                }
+                              }}
+                              disabled={!values?.seats}
+                            >
+                              Clear
+                            </button>
+                          </div>
+                          <select
+                            id="seats"
+                            className="form-control mt-1"
+                            onChange={handleChange}
+                            value={values?.seats ?? ""}
+                            name="seats"
+                          >
+                            <option value={""}>Choose Seats...</option>
+                            {carSeats().map((seat, idx) => {
+                              return (
+                                <option key={idx} value={seat}>
+                                  {seat}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+
+                        <div className="mb-4">
+                          <div className="d-flex justify-content-between">
                             <label htmlFor="trip_type">Trip Type</label>
                             <button
                               className="btn p-0 m-0 more-filters-mini-clear"
-                              onClick={(e) => {
+                              onClick={async (e) => {
                                 e.preventDefault();
                                 try {
                                   if (values?.trip_type) {
                                     delete values?.trip_type;
                                     setValues({ ...values });
+                                    await router.push(
+                                      {
+                                        pathname: "/browse-cars",
+                                        query: { ...values },
+                                      },
+                                      ``,
+                                      { shallow: true }
+                                    );
                                   }
                                 } catch (error) {}
                               }}
@@ -604,12 +714,20 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             <label htmlFor="trip_duration">Trip Duration</label>
                             <button
                               className="btn p-0 m-0 more-filters-mini-clear"
-                              onClick={(e) => {
+                              onClick={async (e) => {
                                 e.preventDefault();
                                 try {
                                   if (values?.trip_duration) {
                                     delete values?.trip_duration;
                                     setValues({ ...values });
+                                    await router.push(
+                                      {
+                                        pathname: "/browse-cars",
+                                        query: { ...values },
+                                      },
+                                      ``,
+                                      { shallow: true }
+                                    );
                                   }
                                 } catch (error) {}
                               }}
@@ -668,13 +786,21 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             </label>
                             <button
                               className="btn p-0 m-0 more-filters-mini-clear"
-                              onClick={(e) => {
+                              onClick={async (e) => {
                                 e.preventDefault();
                                 try {
                                   if (values?.min_rate) {
                                     delete values?.min_rate;
                                     delete values?.max_rate;
                                     setValues({ ...values });
+                                    await router.push(
+                                      {
+                                        pathname: "/browse-cars",
+                                        query: { ...values },
+                                      },
+                                      ``,
+                                      { shallow: true }
+                                    );
                                   }
                                 } catch (error) {}
                               }}
@@ -698,7 +824,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   className="form-control"
                                   placeholder="Min rate"
                                   name="min_rate"
-                                  value={values?.min_rate ?? "0"}
+                                  value={values?.min_rate ?? ""}
                                   onChange={handleChange}
                                   onFocus={handleRateFocus}
                                 />
@@ -717,7 +843,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   className="form-control"
                                   placeholder="Max rate"
                                   name="max_rate"
-                                  value={values?.max_rate ?? "0"}
+                                  value={values?.max_rate ?? ""}
                                   onChange={handleChange}
                                   onFocus={handleRateFocus}
                                 />
@@ -737,12 +863,20 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             <label>Categories</label>
                             <button
                               className="btn p-0 m-0 more-filters-mini-clear"
-                              onClick={(e) => {
+                              onClick={async (e) => {
                                 e.preventDefault();
                                 try {
                                   if (values?.categories) {
                                     delete values?.categories;
                                     setValues({ ...values });
+                                    await router.push(
+                                      {
+                                        pathname: "/browse-cars",
+                                        query: { ...values },
+                                      },
+                                      ``,
+                                      { shallow: true }
+                                    );
                                   }
                                 } catch (error) {}
                               }}
@@ -779,7 +913,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                           </div>
                         </div>
 
-                        <div className="d-flex justify-content-end mt-4">
+                        <div className="d-flex justify-content-end mt-4 mb-2">
                           <button
                             className="btn btn-md bg-secondary text-light"
                             onClick={(e: SyntheticEvent<HTMLButtonElement>) => {

@@ -167,10 +167,11 @@ export default function ManageCar(props: Props): ReactElement {
         // available: carData?.available ?? false,
         custom_availability: carData?.custom_availability ?? false,
         custom_availability_data: tempCustomAvailabilityData,
-        can_rent_hourly: carData?.can_rent_hourly ?? false,
+        // can_rent_hourly: carData?.can_rent_hourly ?? false,
         fuel_policy: carData.fuel_policy!,
         fuel_efficiency: carData.fuel_efficiency!,
         trip_type: carData.trip_type!,
+        trip_duration: carData.trip_duration!,
         // driver_mode: carData.driver_mode ?? 3,
         // manual_transmission_test: carData.manual_transmission_test ?? true,
       };
@@ -490,7 +491,10 @@ export default function ManageCar(props: Props): ReactElement {
                           carData?.charge_extra_distance_travelled ?? false,
                         distance_per_hour: carData?.distance_per_hour ?? 0,
                       }}
-                      canRentHourly={carData?.can_rent_hourly!}
+                      canRentHourly={
+                        carData?.trip_duration! === "less_24" ||
+                        carData?.trip_duration! === "both"
+                      }
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
                       // }

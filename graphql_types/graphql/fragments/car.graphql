@@ -58,7 +58,8 @@ fragment carInfo on Car {
   # driver_daily_rate
   delivery
   delivery_rate
-  can_rent_hourly
+  # can_rent_hourly
+  trip_duration
   hourly_rate
   has_unlimited_distance
   # car_has_other_use

@@ -70,24 +70,15 @@ export const Availability: FC<AvailabilityProps> = (props) => {
         ...values!,
         [e.target.name]: e.target.value,
       });
-    }
-    //  else if (e.target.name === "driver_mode") {
-    //   if (e.target.value === "2") {
-    //     setValues({
-    //       ...values!,
-    //       manual_transmission_test: false,
-    //       [e.target.name]: parseInt(e.target.value, 10),
-    //     });
-    //   }
-    //   else {
-    //     setValues({
-    //       ...values!,
-    //       [e.target.name]: parseInt(e.target.value, 10),
-    //       manual_transmission_test: true,
-    //     });
-    //   }
-    // }
-    else if (e.target.name === "fuel_efficiency") {
+    } else if (
+      e.target.name === "trip_type" ||
+      e.target.name === "trip_duration"
+    ) {
+      setValues({
+        ...values!,
+        [e.target.name]: e.target.value,
+      });
+    } else if (e.target.name === "fuel_efficiency") {
       setValues({
         ...values!,
         [e.target.name]: e.target.value,
@@ -118,10 +109,11 @@ export const Availability: FC<AvailabilityProps> = (props) => {
             // available: values?.available!,
             custom_availability: values?.custom_availability!,
             custom_availability_data: values?.custom_availability_data!,
-            can_rent_hourly: values.can_rent_hourly!,
+            // can_rent_hourly: values.can_rent_hourly!,
             fuel_policy: values.fuel_policy!,
             fuel_efficiency: values.fuel_efficiency!,
             trip_type: values.trip_type!,
+            trip_duration: values.trip_duration!,
             // driver_mode: values?.driver_mode!,
             // manual_transmission_test: values?.manual_transmission_test!,
           },
@@ -316,20 +308,54 @@ export const Availability: FC<AvailabilityProps> = (props) => {
               </div>
             )}
         </div> */}
-        <div className="form-check mb-3">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            value={values?.can_rent_hourly ? "false" : "true"}
-            id="can_rent_hourly"
-            name="can_rent_hourly"
-            checked={values?.can_rent_hourly}
-            onChange={handleChange}
-            // required
-          />
-          <label className="form-check-label" htmlFor="can_rent_hourly">
-            I can rent out this car for a period less than 24hrs
-          </label>
+
+        <div className="mb-5">
+          <p className="mb-2">Select your car trip duration type</p>
+          <div className="form-check mb-2">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="trip_duration"
+              id="trip_duration_less_24"
+              value={"less_24"}
+              checked={values?.trip_duration === "less_24"}
+              onChange={handleChange}
+              // required
+            />
+            <label className="form-check-label" htmlFor="trip_duration_less_24">
+              Only trips less than 24 hours long
+            </label>
+          </div>
+          <div className="form-check mb-2">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="trip_duration"
+              id="trip_duration_more_24"
+              value={"more_24"}
+              checked={values?.trip_duration === "more_24"}
+              onChange={handleChange}
+              // required
+            />
+            <label className="form-check-label" htmlFor="trip_duration_more_24">
+              Only trips more than 24 hours long
+            </label>
+          </div>
+          <div className="form-check mb-2">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="trip_duration"
+              id="both_trip_durations"
+              value={"both"}
+              checked={values?.trip_duration === "both"}
+              onChange={handleChange}
+              // required
+            />
+            <label className="form-check-label" htmlFor="both_trip_durations">
+              Both trip types (24 hours less and 24 hours more trips)
+            </label>
+          </div>
         </div>
         {/* <div className="form-check mb-5">
           <input

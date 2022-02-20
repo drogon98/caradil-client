@@ -1,8 +1,8 @@
 export const carCategories: string[] = [
-  "Minivan",
+  // "Minivan",
   "Truck",
   "Van",
-  "Sports",
+  // "Sports",
   "Luxury & Vip",
   "Bus",
   "4WD",
@@ -48,6 +48,14 @@ export const carMakes: string[] = [
   // "Lamborghini",
   "Audi",
 ];
+
+export const carSeats = (): number[] => {
+  let output: number[] = [];
+  for (let i = 1; i <= 80; i++) {
+    output = [...output, i];
+  }
+  return output;
+};
 
 export const time24hrs: string[] = [
   "00:00",

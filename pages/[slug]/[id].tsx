@@ -197,7 +197,12 @@ const Car: FC<CarProps> = (props) => {
   const handleRouteNext = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      if (getTripDuration(userDates!, car?.can_rent_hourly!).type_ === "hour") {
+      if (
+        getTripDuration(
+          userDates!,
+          car?.trip_duration! === "less_24" || car?.trip_duration! === "both"
+        ).type_ === "hour"
+      ) {
         if (startHourGreaterThanOrEqualToEndHour(userDates!)) {
           setTimeError(true);
           setTimeout(() => {
@@ -500,16 +505,18 @@ const Car: FC<CarProps> = (props) => {
                             `Total Ksh.${totalCharge.toLocaleString()}`}
                         </small>
                       </div>
-                      {car?.can_rent_hourly && !car.booked && (
-                        <div style={{ lineHeight: "11px" }}>
-                          <small style={{ fontSize: "11px" }}>
-                            You can rent this car for trips lasting less than
-                            24hrs. By doing so you will be charged hourly. The
-                            hourly rate for this car is{" "}
-                            <b>Ksh.{car?.hourly_rate}/hr</b>
-                          </small>
-                        </div>
-                      )}
+                      {(car?.trip_duration! === "less_24" ||
+                        car?.trip_duration! === "both") &&
+                        !car?.booked && (
+                          <div style={{ lineHeight: "11px" }}>
+                            <small style={{ fontSize: "11px" }}>
+                              You can rent this car for trips lasting less than
+                              24hrs. By doing so you will be charged hourly. The
+                              hourly rate for this car is{" "}
+                              <b>Ksh.{car?.hourly_rate}/hr</b>
+                            </small>
+                          </div>
+                        )}
                     </div>
 
                     <hr />
@@ -647,10 +654,11 @@ const Car: FC<CarProps> = (props) => {
                         )}
                       </div>
                     </div>
-                    {car?.can_rent_hourly &&
-                      !car.booked &&
-                      (car.reserved_for_booking_guest_id === userId ||
-                        car.reserved_for_booking_guest_id === 0) && (
+                    {(car?.trip_duration! === "less_24" ||
+                      car?.trip_duration! === "both") &&
+                      !car?.booked &&
+                      (car?.reserved_for_booking_guest_id === userId ||
+                        car?.reserved_for_booking_guest_id === 0) && (
                         <div style={{ lineHeight: "12px" }}>
                           <small style={{ fontSize: "10px" }}>
                             You can rent this car for trips lasting less than

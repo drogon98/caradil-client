@@ -1,8 +1,7 @@
+import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
 import Slider from "react-slick";
-import Link from "next/link";
 import { useGetMakesQuery } from "../../graphql_types/generated/graphql";
-import slugify from "slugify";
 import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import FlexibleLoader from "../Loading/FlexibleLoader";
 

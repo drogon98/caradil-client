@@ -140,10 +140,11 @@ export default function CarDataStepForm(props: Props): ReactElement {
         // available: compData?.available ?? false,
         custom_availability: compData?.custom_availability ?? false,
         custom_availability_data: tempCustomAvailabilityData,
-        can_rent_hourly: compData?.can_rent_hourly ?? false,
+        // can_rent_hourly: compData?.can_rent_hourly ?? false,
         fuel_policy: compData.fuel_policy!,
         fuel_efficiency: compData.fuel_efficiency!,
         trip_type: compData.trip_type!,
+        trip_duration: compData.trip_duration!,
         // driver_mode: compData.driver_mode ?? 3,
         // manual_transmission_test: compData.manual_transmission_test ?? true,
       };
@@ -428,7 +429,10 @@ export default function CarDataStepForm(props: Props): ReactElement {
                 compData?.charge_extra_distance_travelled ?? false,
               distance_per_hour: compData?.distance_per_hour ?? 0,
             }}
-            canRentHourly={compData?.can_rent_hourly!}
+            canRentHourly={
+              compData?.trip_duration! === "less_24" ||
+              compData?.trip_duration! === "both"
+            }
           />
         </div>
       )}

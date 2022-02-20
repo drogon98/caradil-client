@@ -176,7 +176,9 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
 
         let durationData = getTripDuration(
           payload,
-          data.getCar.car.can_rent_hourly!
+          // data.getCar.car.can_rent_hourly!
+          data.getCar.car?.trip_duration! === "less_24" ||
+            data.getCar.car?.trip_duration! === "both"
         );
 
         // console.log("Difference_In_Days :>> ", Difference_In_Days);
