@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import HamburgerMenu from "react-hamburger-menu";
 import { useAppSelector } from "../../redux/hooks";
 import { useRole } from "../hooks/useRole";
@@ -16,8 +16,10 @@ const AccountNavbar = (props: AccountNavbarProps): JSX.Element => {
   const router = useRouter();
   const [isHost, setIsHost] = useState(false);
   const [showSideMenu, setShowSideMenu] = useState<boolean>();
-  const hamburgerBtnRef = useRef<any>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
+  // const hamburgerBtnRef = useRef<any>(null);
+  // const menuRef = useRef<HTMLDivElement>(null);
+  // const user = useAppSelector((state) => state.user.user);
+  // const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
     if (role === 2) {
@@ -27,7 +29,25 @@ const AccountNavbar = (props: AccountNavbarProps): JSX.Element => {
 
   const [redirectPath, setRedirectPath] = useState("/");
 
-  const [isAuth, setIsAuth] = useState<boolean>();
+  // useEffect(() => {
+  //   try {
+  //     if (role === 1) {
+  //       if (user?.phone && user?.first_name && user?.last_name) {
+  //         setShowBanner(false);
+  //       } else {
+  //         setShowBanner(true);
+  //       }
+  //     } else if (role === 2) {
+  //       if (user?.phone && user?.first_name && user?.last_name) {
+  //         setShowBanner(false);
+  //       } else {
+  //         setShowBanner(true);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log("error :>> ", error);
+  //   }
+  // }, [user]);
 
   const handleOpeHamburgerClick = () => {
     // setHamburgerOpen(!hamburgerOpen);
@@ -58,14 +78,6 @@ const AccountNavbar = (props: AccountNavbarProps): JSX.Element => {
       }
     }
   }, [router.pathname]);
-
-  useEffect(() => {
-    if (token) {
-      setIsAuth(true);
-    } else {
-      setIsAuth(false);
-    }
-  }, [token]);
 
   return (
     <div className={`accountNavbar bgWhite shadow`}>

@@ -9,16 +9,19 @@ import storage from "redux-persist/lib/storage";
 import authReducer from "./authSlice";
 import logoutReducer from "./logoutSlice";
 import notificationReducer from "./notificationSlice";
+import userReducer from "./userSlice";
 
 const reducers = combineReducers({
   auth: authReducer,
   logout: logoutReducer,
   notifications: notificationReducer,
+  user: userReducer,
 });
 
 const persistConfig = {
   key: "caradil",
   storage,
+  whitelist: ["auth"],
 
   //     key: string, // the key for the persist
   //   storage: Object, // the storage adapter, following the AsyncStorage api

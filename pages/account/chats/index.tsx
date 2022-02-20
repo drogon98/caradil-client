@@ -57,19 +57,21 @@ const Chats = (props: ChatsProps) => {
       if (data?.getUserChatMetas && !loading) {
         setChatProfiles(data?.getUserChatMetas);
         if (!metaId) {
-          let _id = data.getUserChatMetas[0].id!;
-          setActiveChatId(_id);
+          let _id = data.getUserChatMetas[0]?.id!;
+          if (_id) {
+            setActiveChatId(_id);
 
-          await router.push(
-            {
-              pathname: `/account/chats`,
-              query: {
-                meta_id: _id,
+            await router.push(
+              {
+                pathname: `/account/chats`,
+                query: {
+                  meta_id: _id,
+                },
               },
-            },
-            `/account/chats/?meta_id=${_id}`,
-            { shallow: true }
-          );
+              `/account/chats/?meta_id=${_id}`,
+              { shallow: true }
+            );
+          }
         } else {
           setActiveChatId(metaId);
         }

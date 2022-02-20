@@ -11,7 +11,6 @@ import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
 import { useRole } from "../../components/hooks/useRole";
 import AccountLayout from "../../components/layouts/AccountLayout";
-import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import { ToastWrapper } from "../../components/Toast/ToastWrapper";
 import {
@@ -19,7 +18,6 @@ import {
   FileInput,
   useDeleteFileMutation,
   useEditProfileMutation,
-  useGetAuthUserQuery,
   useUploadFileMutation,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
@@ -55,7 +53,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
     phone: "",
     business_name: "",
   });
-  const [mainLoading, setMainLoading] = useState(true);
+  // const [mainLoading, setMainLoading] = useState(true);
   const [secondaryLoading, setSecondaryLoading] = useState(false);
   const [avatar, setAvatar] = useState<FileInput>({
     public_id: "",
@@ -66,13 +64,14 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
   const role = useRole(token);
   const [uploadFile, { loading: uploading }] = useUploadFileMutation();
   const [editProfile, { loading: editLoading }] = useEditProfileMutation();
-  const { data, loading } = useGetAuthUserQuery({
-    fetchPolicy: "network-only",
-  });
+  // const { data, loading } = useGetAuthUserQuery({
+  //   fetchPolicy: "network-only",
+  // });
   const [deleteFile, { loading: deletingPhoto }] = useDeleteFileMutation();
   const [showSaveToast, setShowSaveToast] = useState(false);
   const [isInitial, setIsInitial] = useState<boolean>();
   const router = useRouter();
+  const user = useAppSelector((state) => state.user.user);
 
   useEffect(() => {
     if (router.query && router.query.initial) {
@@ -81,8 +80,8 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
   }, [router.query]);
 
   useEffect(() => {
-    if (data?.getUser.user) {
-      const tempData = { ...data.getUser.user };
+    if (user) {
+      const tempData = { ...user };
       delete tempData.__typename;
       delete tempData.id;
       delete tempData.email_verified;
@@ -98,13 +97,13 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
       delete tempData.email;
       setValues({ ...(tempData as EditProfileInput) });
     }
-  }, [data]);
+  }, [user]);
 
-  useEffect(() => {
-    if (!loading && data?.getUser.user) {
-      setMainLoading(false);
-    }
-  }, [data, loading]);
+  // useEffect(() => {
+  //   if (!loading && data?.getUser.user) {
+  //     setMainLoading(false);
+  //   }
+  // }, [data, loading]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -214,160 +213,157 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
       <CustomHead title="Account - Personal Details" />
       <AuthWrapper>
         <AccountLayout>
-          {mainLoading ? (
+          {/* {mainLoading ? (
             <Loading />
-          ) : (
-            <div className="p-2 my-4">
-              {" "}
-              {showSaveToast && (
-                <ToastWrapper
-                  setShow={setShowSaveToast}
-                  message={"Profile updated successfully!"}
-                  show={showSaveToast}
-                  position="bottom-end"
-                />
-              )}
-              <h3 className="text-center my-3">Personal Details</h3>
-              <div className="container my-5">
-                <form
-                  className="form-group profile-form"
-                  onSubmit={handleSubmit}
-                >
-                  <div className="row">
-                    <div className="col-md-4 d-flex flex-column">
-                      <div className="d-flex justify-content-center">
-                        <img
-                          src={
-                            avatar?.secure_url
-                              ? avatar.secure_url
-                              : "/images/avatar.svg"
-                          }
-                          className="rounded-circle"
-                          style={{ objectFit: "cover" }}
-                          height="250px"
-                          width="250px"
-                        />
-                      </div>
-                      <div className="col-8 mx-auto mt-3">
-                        {avatar?.secure_url ? (
-                          <div>
-                            <div className="d-flex justify-content-between p-0">
-                              <div>
-                                {uploadButton(handleUpload, uploading, true)}
-                              </div>
-                              <div>
-                                <button
-                                  className="btn bgOrange"
-                                  onClick={handleDeletePhoto}
-                                  style={{ width: "100px", fontSize: "10px" }}
-                                >
-                                  {deletingPhoto && !secondaryLoading ? (
-                                    <ButtonLoading
-                                      spinnerColor="white"
-                                      dimensions={{
-                                        height: "18px",
-                                        width: "18px",
-                                      }}
-                                    />
-                                  ) : (
-                                    "Delete Photo"
-                                  )}
-                                </button>
-                              </div>
+          ) : ( */}
+          <div className="p-2 my-4">
+            {" "}
+            {showSaveToast && (
+              <ToastWrapper
+                setShow={setShowSaveToast}
+                message={"Profile updated successfully!"}
+                show={showSaveToast}
+                position="bottom-end"
+              />
+            )}
+            <h3 className="text-center my-3">Personal Details</h3>
+            <div className="container my-5">
+              <form className="form-group profile-form" onSubmit={handleSubmit}>
+                <div className="row">
+                  <div className="col-md-4 d-flex flex-column">
+                    <div className="d-flex justify-content-center">
+                      <img
+                        src={
+                          avatar?.secure_url
+                            ? avatar.secure_url
+                            : "/images/avatar.svg"
+                        }
+                        className="rounded-circle"
+                        style={{ objectFit: "cover" }}
+                        height="250px"
+                        width="250px"
+                      />
+                    </div>
+                    <div className="col-8 mx-auto mt-3">
+                      {avatar?.secure_url ? (
+                        <div>
+                          <div className="d-flex justify-content-between p-0">
+                            <div>
+                              {uploadButton(handleUpload, uploading, true)}
+                            </div>
+                            <div>
+                              <button
+                                className="btn bgOrange"
+                                onClick={handleDeletePhoto}
+                                style={{ width: "100px", fontSize: "10px" }}
+                              >
+                                {deletingPhoto && !secondaryLoading ? (
+                                  <ButtonLoading
+                                    spinnerColor="white"
+                                    dimensions={{
+                                      height: "18px",
+                                      width: "18px",
+                                    }}
+                                  />
+                                ) : (
+                                  "Delete Photo"
+                                )}
+                              </button>
                             </div>
                           </div>
-                        ) : (
-                          <div className="d-flex justify-content-center">
-                            {uploadButton(handleUpload, uploading)}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="col-md-8 mt-4 ">
-                      <div className="mb-3">
-                        <label htmlFor="username">Username</label>
-                        <input
-                          onChange={handleChange}
-                          value={values.user_name ?? ""}
-                          id="username"
-                          type="text"
-                          name="user_name"
-                          className="form-control"
-                          // required
-                        />
-                      </div>
-
-                      {role === 2 && (
-                        <div className="mb-3">
-                          <label htmlFor="businessName">Business Name</label>
-                          <input
-                            onChange={handleChange}
-                            value={values.business_name ?? ""}
-                            id="businessName"
-                            type="text"
-                            name="business_name"
-                            className="form-control"
-                            // required
-                          />
+                        </div>
+                      ) : (
+                        <div className="d-flex justify-content-center">
+                          {uploadButton(handleUpload, uploading)}
                         </div>
                       )}
-
-                      <div className="mb-3">
-                        <label htmlFor="firstName">First Name</label>
-                        <input
-                          onChange={handleChange}
-                          value={values.first_name ?? ""}
-                          id="firstName"
-                          type="text"
-                          name="first_name"
-                          className="form-control"
-                          // required
-                        />
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="lastName">Last Name</label>
-                        <input
-                          onChange={handleChange}
-                          value={values.last_name ?? ""}
-                          id="lastName"
-                          type="text"
-                          name="last_name"
-                          className="form-control"
-                          // required
-                        />
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="phone">Phone</label>
-                        <input
-                          onChange={handleChange}
-                          value={values.phone ?? ""}
-                          id="phone"
-                          type="text"
-                          name="phone"
-                          className="form-control"
-                          // required
-                        />
-                      </div>
                     </div>
                   </div>
-                  <div className="d-grid gap-2 mt-3">
-                    {/* editLoading */}
-                    <button type="submit" className="btn bgOrange">
-                      {editLoading && !secondaryLoading ? (
-                        <ButtonLoading
-                          spinnerColor="white"
-                          dimensions={{ height: "24px", width: "24px" }}
+
+                  <div className="col-md-8 mt-4 ">
+                    <div className="mb-3">
+                      <label htmlFor="username">Username</label>
+                      <input
+                        onChange={handleChange}
+                        value={values.user_name ?? ""}
+                        id="username"
+                        type="text"
+                        name="user_name"
+                        className="form-control"
+                        // required
+                      />
+                    </div>
+
+                    {role === 2 && (
+                      <div className="mb-3">
+                        <label htmlFor="businessName">Business Name</label>
+                        <input
+                          onChange={handleChange}
+                          value={values.business_name ?? ""}
+                          id="businessName"
+                          type="text"
+                          name="business_name"
+                          className="form-control"
+                          // required
                         />
-                      ) : (
-                        "Update"
-                      )}
-                    </button>
+                      </div>
+                    )}
+
+                    <div className="mb-3">
+                      <label htmlFor="firstName">First Name</label>
+                      <input
+                        onChange={handleChange}
+                        value={values.first_name ?? ""}
+                        id="firstName"
+                        type="text"
+                        name="first_name"
+                        className="form-control"
+                        // required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="lastName">Last Name</label>
+                      <input
+                        onChange={handleChange}
+                        value={values.last_name ?? ""}
+                        id="lastName"
+                        type="text"
+                        name="last_name"
+                        className="form-control"
+                        // required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="phone">Phone</label>
+                      <input
+                        onChange={handleChange}
+                        value={values.phone ?? ""}
+                        id="phone"
+                        type="text"
+                        name="phone"
+                        className="form-control"
+                        // required
+                      />
+                    </div>
                   </div>
-                </form>
-              </div>
+                </div>
+                <div className="d-grid gap-2 mt-3">
+                  {/* editLoading */}
+                  <button type="submit" className="btn bgOrange">
+                    {editLoading && !secondaryLoading ? (
+                      <ButtonLoading
+                        spinnerColor="white"
+                        dimensions={{ height: "24px", width: "24px" }}
+                      />
+                    ) : (
+                      "Update"
+                    )}
+                  </button>
+                </div>
+              </form>
             </div>
-          )}
+          </div>
+          {/* )} */}
         </AccountLayout>
       </AuthWrapper>
     </>

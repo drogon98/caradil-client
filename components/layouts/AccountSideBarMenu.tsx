@@ -26,7 +26,11 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
     <div className="account-side-menu">
       <ul className="list-style-none m-0">
         <li>
-          <Link href="/account/personal-details" data-testid="test-link">
+          <Link
+            href="/account/personal-details"
+            shallow={true}
+            data-testid="test-link"
+          >
             <a className="link black-link">
               <div>Personal Details</div>
             </a>
@@ -34,7 +38,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
         </li>
         {props.isHost && (
           <li>
-            <Link href="/account/listings">
+            <Link href="/account/listings" shallow={true}>
               <a className="link black-link">
                 <div>My Cars</div>
               </a>
@@ -44,7 +48,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
 
         {props.isHost && (
           <li>
-            <Link href="/account/bookings">
+            <Link href="/account/bookings" shallow={true}>
               <a className="link black-link">
                 {" "}
                 <div>Bookings </div>
@@ -54,7 +58,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
         )}
 
         <li>
-          <Link href="/account/trips">
+          <Link href="/account/trips" shallow={true}>
             <a className="link black-link">
               {" "}
               <div>Trips</div>
@@ -68,7 +72,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
               <div>Chats</div>
             </span>
           ) : (
-            <Link href="/account/chats">
+            <Link href="/account/chats" shallow={true}>
               <a className="link black-link">
                 <div>Chats</div>
               </a>
@@ -77,7 +81,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
         </li>
         {props.isHost && (
           <li>
-            <Link href="/account/earnings">
+            <Link href="/account/earnings" shallow={true}>
               <a className="link black-link">
                 <div>Earnings</div>
               </a>
@@ -85,14 +89,14 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
           </li>
         )}
         <li>
-          <Link href="/account/notifications">
+          <Link href="/account/notifications" shallow={true}>
             <a className="link black-link">
               <div>Notifications </div>
             </a>
           </Link>
         </li>
         <li>
-          <Link href="/account/settings">
+          <Link href="/account/settings" shallow={true}>
             <a className="link black-link">
               <div>Settings</div>
             </a>

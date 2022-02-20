@@ -366,6 +366,13 @@ label {
   position: relative;
 }
 
+.account-banner {
+  position: fixed;
+  top: var(--navbar-height);
+  right: 0;
+  left: 230px; /* Sidebar Width */
+}
+
 .notifications-dot {
   height: 10px;
   width: 10px;
@@ -873,7 +880,7 @@ label {
 .admin-wrapper {
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 230px 5fr;
   position: relative;
   top: var(--navbar-height);
 }
