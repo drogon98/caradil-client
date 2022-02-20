@@ -740,6 +740,8 @@ export type SearchInput = {
   end_time?: InputMaybe<Scalars['String']>;
   location?: InputMaybe<Scalars['String']>;
   make?: InputMaybe<Scalars['String']>;
+  max_rate?: InputMaybe<Scalars['String']>;
+  min_rate?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   start_date?: InputMaybe<Scalars['String']>;
   start_time?: InputMaybe<Scalars['String']>;

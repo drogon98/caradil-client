@@ -44,6 +44,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
   const [dateTimeInput, setDateTimeInput] = useState("");
   const [showClearFilter, setShowClearFilter] = useState(false);
   const [location, setLocation] = useState("");
+  const [rateError, setRateError] = useState(false);
 
   useOutsideClickHandler(whenCompRef, setShowWhenComp, whenInputRef);
   useOutsideClickHandler(whenSmCompRef, setShowSmWhenComp, whenSmDivRef);
@@ -143,6 +144,8 @@ const BrowseCarsNavbar = (): JSX.Element => {
         newCategories = [...tempCategories, e.target.value];
       }
       setValues({ ...(values ?? {}), categories: newCategories });
+    } else if (e.target.name === "min_rate" || e.target.name === "max_rate") {
+      setValues({ ...(values ?? {}), [e.target.name]: e.target.value });
     } else {
       setValues({ ...(values ?? {}), [e.target.name]: e.target.value });
     }
@@ -178,22 +181,38 @@ const BrowseCarsNavbar = (): JSX.Element => {
 
   const handleWhenFocus = (e: any) => {
     // console.log("Focused");
-    setShowWhenComp(true);
+    if (showWhenComp) {
+      setShowWhenComp(false);
+    } else {
+      setShowWhenComp(true);
+    }
   };
 
   const handleSmWhenFocus = (e: any) => {
     // console.log("Focused");
-    setShowSmWhenComp(true);
+    setShowSmWhenComp(!showSmWhenComp);
   };
 
   const handleWhenChange = (e: ChangeEvent<HTMLInputElement>) => {
     return;
   };
 
+  const handleRateFocus = () => {
+    if (rateError) {
+      setRateError(false);
+    }
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
+      if (values?.max_rate) {
+        if (parseInt(values.max_rate, 10) < parseInt(values.min_rate, 10)) {
+          setRateError(true);
+          return;
+        }
+      }
       let payload = { ...values! };
 
       if (location) {
@@ -399,6 +418,12 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   if (dateTimeInput) {
                                     setDateTimeInput("");
                                     setDateTime(undefined);
+                                    delete values.start_time;
+                                    delete values.end_time;
+                                    delete values.start_date;
+                                    delete values.end_date;
+                                    let newValues = { ...values };
+                                    setValues({ ...newValues });
                                   }
                                 } catch (error) {}
                               }}
@@ -409,10 +434,11 @@ const BrowseCarsNavbar = (): JSX.Element => {
                           </div>
                           <div
                             // type="text"
-                            className="cursor-pointer p-2 mt-1"
+                            className="cursor-pointer sm-when-input p-2 mt-1"
                             style={{
                               border: "1px solid #d4d4d4",
                               height: "32px",
+                              overflow: "hidden",
                             }}
                             // placeholder="When?"
                             // aria-describedby="basic-addon2"
@@ -626,6 +652,82 @@ const BrowseCarsNavbar = (): JSX.Element => {
                               >
                                 More than 24hrs
                               </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mb-4">
+                          <div className="d-flex justify-content-between">
+                            <label htmlFor="trip_duration">
+                              {values?.trip_duration
+                                ? values?.trip_duration === "more_24"
+                                  ? "Daily "
+                                  : "Hourly "
+                                : "Daily "}
+                              Rate
+                            </label>
+                            <button
+                              className="btn p-0 m-0 more-filters-mini-clear"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                try {
+                                  if (values?.min_rate) {
+                                    delete values?.min_rate;
+                                    delete values?.max_rate;
+                                    setValues({ ...values });
+                                  }
+                                } catch (error) {}
+                              }}
+                              disabled={!values?.min_rate && !values?.max_rate}
+                            >
+                              Clear
+                            </button>
+                          </div>
+                          {rateError && (
+                            <p>
+                              <small className="text-danger">
+                                Max rate must be greater than min_rate!
+                              </small>
+                            </p>
+                          )}
+                          <div className="row m-0 mt-1">
+                            <div className="col p-0">
+                              <div className="input-group m-0 p-0">
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Min rate"
+                                  name="min_rate"
+                                  value={values?.min_rate ?? "0"}
+                                  onChange={handleChange}
+                                  onFocus={handleRateFocus}
+                                />
+                                <span
+                                  className="input-group-text"
+                                  id="basic-addon2"
+                                >
+                                  KSH
+                                </span>
+                              </div>
+                            </div>
+                            <div className="col">
+                              <div className="input-group m-0 p-0">
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Max rate"
+                                  name="max_rate"
+                                  value={values?.max_rate ?? "0"}
+                                  onChange={handleChange}
+                                  onFocus={handleRateFocus}
+                                />
+                                <span
+                                  className="input-group-text"
+                                  id="basic-addon2"
+                                >
+                                  KSH
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </div>

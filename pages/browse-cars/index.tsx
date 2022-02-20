@@ -30,7 +30,7 @@ const BrowseCars: NextPage = () => {
 
   const [getCars, { data, loading }] = useGetCarsLazyQuery({
     variables: { input: values! },
-    fetchPolicy: "no-cache",
+    fetchPolicy: "cache-and-network",
   });
 
   useEffect(() => {
