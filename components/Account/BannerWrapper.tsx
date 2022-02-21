@@ -106,7 +106,7 @@ export function BannerWrapper(props: BannerWrapperProps) {
             your profile
           </span>
 
-          <Link href="/account/personal-details">
+          <Link href="/account/profile">
             <a
               className="btn mt-0 pl-0 ml-2 text-light cursor-pointer"
               style={{

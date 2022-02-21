@@ -22,7 +22,7 @@ import {
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 
-interface PersonalDetailsProps {}
+interface ProfileProps {}
 
 const uploadButton = (
   uploadHandler: any,
@@ -45,7 +45,7 @@ const uploadButton = (
   </>
 );
 
-const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
+const Profile: FC<ProfileProps> = (props) => {
   const [values, setValues] = useState<EditProfileInput>({
     user_name: "",
     first_name: "",
@@ -226,7 +226,7 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
                 position="bottom-end"
               />
             )}
-            <h3 className="text-center my-3">Personal Details</h3>
+            <h3 className="text-center my-3">Profile</h3>
             <div className="container my-5">
               <form className="form-group profile-form" onSubmit={handleSubmit}>
                 <div className="row">
@@ -370,4 +370,4 @@ const PersonalDetails: FC<PersonalDetailsProps> = (props) => {
   );
 };
 
-export default PersonalDetails;
+export default Profile;

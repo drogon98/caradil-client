@@ -27,7 +27,7 @@ const AccountNavbar = (props: AccountNavbarProps): JSX.Element => {
     }
   }, [role]);
 
-  const [redirectPath, setRedirectPath] = useState("/");
+  // const [redirectPath, setRedirectPath] = useState("/");
 
   // useEffect(() => {
   //   try {
@@ -69,21 +69,21 @@ const AccountNavbar = (props: AccountNavbarProps): JSX.Element => {
     });
   };
 
-  useEffect(() => {
-    if (router.pathname) {
-      if (router.pathname.split("/").length > 2) {
-        setRedirectPath("/account");
-      } else {
-        setRedirectPath("/");
-      }
-    }
-  }, [router.pathname]);
+  // useEffect(() => {
+  //   if (router.pathname) {
+  //     if (router.pathname.split("/").length > 2) {
+  //       setRedirectPath("/account");
+  //     } else {
+  //       setRedirectPath("/");
+  //     }
+  //   }
+  // }, [router.pathname]);
 
   return (
-    <div className={`accountNavbar bgWhite shadow`}>
+    <div className={`accountNavbar shadow`}>
       <div className="w100 h-100 d-flex p-2 align-items-center">
         <div className="brand">
-          <Link href={redirectPath}>
+          <Link href="/">
             <a>
               <h1 className="m0">Caradil</h1>
             </a>

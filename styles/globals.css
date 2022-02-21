@@ -33,6 +33,7 @@ body {
   --white: #fff;
   --navbar-height: 70px;
   --hero-height: 37rem;
+  --dashboard-bright-bg: #fbf7f6;
 }
 
 .bgWhite {
@@ -198,8 +199,8 @@ p {
 .link:hover {
   text-decoration: none !important;
 }
-.black-link {
-  color: #000 !important;
+.white-link {
+  color: #fff !important;
 }
 
 .w100 {
@@ -331,6 +332,7 @@ label {
   position: fixed;
   width: 100%;
   z-index: 1002; /* Side menu */
+  background-color: var(--dashboard-bright-bg);
 }
 
 .brand {
@@ -906,6 +908,7 @@ label {
 .account-content,
 .admin-content {
   position: relative;
+  background-color: var(--dashboard-bright-bg);
 }
 
 .account-side-menu,
@@ -921,6 +924,16 @@ label {
 
 .account-side-menu ul {
   padding-left: 10px !important;
+}
+
+.account-menu-icon-wrapper {
+  margin-right: 10px;
+}
+
+.account-menu-icon {
+  height: 25px;
+  width: 25px;
+  font-weight: bold;
 }
 
 .account-user-icon {
@@ -1531,180 +1544,6 @@ car-input-container select:focus {
   gap: 10px;
   width: 100%;
 }
-
-/* @media screen and (max-width: 430px) {
-  .categories-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-  }
-} */
-
-/* .search-wrapper {
-  background-color: #fff;
-}
-
-.search-sm-wrapper {
-  display: none;
-}
-
-.search-category {
-  width: 80%;
-  text-align: left;
-  padding: 0;
-}
-
-.search-category-dropdown-trigger {
-  width: 20%;
-  border-right: 1px solid #eaecee;
-  padding: 0;
-}
-
-.search-categories-wrapper {
-  position: relative;
-}
-
-.remove-button,
-.apply-button {
-  font-size: 12px;
-  border-radius: 8px !important;
-}
-
-@media screen and (min-width: 600px) {
-  .search-categories-wrapper {
-    width: 100%;
-  }
-}
-
-.categ-wrapper {
-  border-right: 1px solid #eaecee !important;
-  height: 50px;
-}
-
-.categories-dropdown-wrapper {
-  position: absolute;
-  width: 400px;
-  background-color: #fff;
-  z-index: 999;
-}
-
-.categories-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
-  width: 100%;
-}
-
-@media screen and (max-width: 430px) {
-  .categories-dropdown-wrapper {
-    width: 300px;
-  }
-
-  .categories-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-  }
-}
-
-.search-top-height {
-  height: 50px;
-}
-
-.search-category {
-  height: 50px;
-  border: none;
-  border-right: 1px solid #eaecee !important;
-  border-radius: 0;
-}
-
-.search-wrapper button,
-.search-wrapper input {
-  border-radius: 0;
-}
-
-.search-car-name input,
-.search-car-location input {
-  border: none;
-}
-
-.search-car-location,
-.search-category {
-  border-right: 1px solid #eaecee !important;
-}
-
-.search-car-location {
-  border-left: 1px solid #eaecee !important;
-}
-
-.search-wrapper .input-group-text {
-  background-color: #fff;
-  border: none;
-}
-
-.search-btn {
-  background-color: var(--orange);
-  border-radius: 5px !important;
-}
-
-.search-bottom {
-  height: 55px;
-}
-
-.more-filters-wrapper {
-  position: relative;
-}
-
-.more-filters-wrapper-content {
-  position: absolute;
-  top: 0;
-  width: 300px;
-  background-color: #fff;
-  z-index: 999;
-  left: 50px;
-}
-
-@media screen and (max-width: 600px) {
-  .search-wrapper {
-    display: none;
-  }
-  .search-sm-wrapper {
-    display: block;
-  }
-
-  .sm-filter-wrapper {
-    position: relative;
-  }
-
-  .sm-filter-content {
-    position: absolute;
-    left: 30px;
-    background-color: #fff;
-    width: 250px;
-    height: 400px;
-    top: 0;
-    z-index: 999;
-  }
-
-  .categories-btn {
-    height: 38px;
-    border: 1px solid #dcdcdc;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-}
-
-@media screen and (max-width: 369px) {
-  .more-filters-wrapper-content {
-    width: 280px;
-  }
-}
-
-@media screen and (max-width: 349px) {
-  .more-filters-wrapper-content {
-    width: 270px;
-  }
-} */
 
 /* =============================END SEARCH WRAPPER====================================== */
 
@@ -2370,6 +2209,37 @@ car-input-container select:focus {
 }
 
 /* ==================================END TOAST========================================== */
+
+/* ===================================DASHBOARD OVERVIEW ========================= */
+.dashboard-overview-wrapper {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr;
+  column-gap: 20px;
+}
+
+.overview-boxes-top-wrapper {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 10px;
+}
+
+.overview-box-wrapper {
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 420px) {
+  .overview-boxes-top-wrapper {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+    row-gap: 10px;
+  }
+}
+
+/* ===================================END DASHBOARD OVERVIEW ========================= */
 
 #float-whatsapp-wrapper {
   z-index: 999999 !important;

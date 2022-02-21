@@ -1,6 +1,9 @@
 import { useRouter } from "next/router";
 import React, { ReactChild, useEffect, useState } from "react";
-import { useGetAuthUserQuery } from "../../graphql_types/generated/graphql";
+import {
+  OnUserUpdateDocument,
+  useGetAuthUserQuery,
+} from "../../graphql_types/generated/graphql";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setUser } from "../../redux/userSlice";
 import { BannerWrapper } from "../Account/BannerWrapper";
@@ -24,7 +27,7 @@ const AccountLayout = (props: AccountProps): JSX.Element => {
   const [isChatsPage, setIsChatsPage] = useState(false);
   const [isChatsMdPage, setIsChatsMdPage] = useState(false);
   const { width } = useWindowDimensions();
-  const { data, loading } = useGetAuthUserQuery({
+  const { data, loading, subscribeToMore } = useGetAuthUserQuery({
     fetchPolicy: "network-only",
   });
   const dispatch = useAppDispatch();
@@ -34,6 +37,34 @@ const AccountLayout = (props: AccountProps): JSX.Element => {
       dispatch(setUser(data.getUser?.user));
     }
   }, [data]);
+
+  useEffect(() => {
+    let unsubUserUpdate: { (): void; (): void };
+    if (subscribeToMore) {
+      unsubUserUpdate = subscribeToMore({
+        document: OnUserUpdateDocument,
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          const updatedUser: any = { ...subscriptionData.data };
+          // console.log("updatedUser :>> ", updatedUser);
+          return {
+            getUser: {
+              user: {
+                ...prev.getUser.user,
+                ...updatedUser,
+              },
+            },
+          };
+        },
+      });
+    }
+
+    return () => {
+      if (unsubUserUpdate) {
+        unsubUserUpdate();
+      }
+    };
+  }, [subscribeToMore]);
 
   useEffect(() => {
     if (role === 2) {

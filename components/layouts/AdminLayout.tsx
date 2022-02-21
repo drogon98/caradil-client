@@ -49,25 +49,25 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
                 <ul className="list-style-none pl-0 pl-3">
                   <li>
                     <Link href="/root/listings">
-                      <a className="link black-link">Listings</a>
+                      <a className="link white-link">Listings</a>
                     </Link>
                   </li>
 
                   <li>
                     <Link href="/root/car-makes">
-                      <a className="link black-link">Car Makes</a>
+                      <a className="link white-link">Car Makes</a>
                     </Link>
                   </li>
 
                   <li>
                     <Link href="/root/transactions">
-                      <a className="link black-link">Transactions</a>
+                      <a className="link white-link">Transactions</a>
                     </Link>
                   </li>
 
                   <li>
                     <Link href="/root/enquiries">
-                      <a className="link black-link">Enquiries</a>
+                      <a className="link white-link">Enquiries</a>
                     </Link>
                   </li>
                 </ul>

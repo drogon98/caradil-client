@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
+import { BoxWrapper } from "../../components/Account/Overview/BoxWrapper";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
 import { useRole } from "../../components/hooks/useRole";
@@ -13,20 +14,13 @@ interface IProps {}
 
 const Account: FC<IProps> = (props) => {
   const [mainLoading, setMainLoading] = useState(true);
-  // const { data, loading } = useGetAuthUserQuery({
-  //   fetchPolicy: "no-cache",
-  // });
-  // const [user, setUser] = useState<User>();
+
   const [hasCompleteProfile, setHasCompleteProfile] = useState(true);
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
   const [isToCar, setIsToCar] = useState<boolean>();
   const router = useRouter();
-  // const [
-  //   resendEmailVerifyLink,
-  //   { data: resendVerifyLinkData, loading: resendingVerifyLink },
-  // ] = useResendEmailVerifyLinkLazyQuery();
-  // const [showSuccessToast, setShowSuccessToast] = useState(false);
+
   const user = useAppSelector((state) => state.user.user);
 
   useEffect(() => {
@@ -37,35 +31,16 @@ const Account: FC<IProps> = (props) => {
     }
   }, [router.query, role]);
 
-  // useEffect(() => {
-  //   if (data?.getUser.user) {
-  //     setUser(data.getUser?.user);
-  //   }
-  // }, [data]);
-
   useEffect(() => {
     try {
-      // if (!loading) {
       if (role === 1) {
-        if (
-          user?.phone &&
-          // user?.user_name &&
-          user?.first_name &&
-          user?.last_name
-        ) {
+        if (user?.first_name && user?.last_name) {
           setHasCompleteProfile(true);
         } else {
           setHasCompleteProfile(false);
         }
       } else if (role === 2) {
-        if (
-          user?.phone &&
-          // user?.user_name &&
-          user?.first_name &&
-          user?.last_name
-          // &&
-          // user?.business_name
-        ) {
+        if (user?.phone && user?.first_name && user?.last_name) {
           setHasCompleteProfile(true);
         } else {
           setHasCompleteProfile(false);
@@ -79,28 +54,6 @@ const Account: FC<IProps> = (props) => {
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   if (resendVerifyLinkData) {
-  //     if (resendVerifyLinkData?.resendVerifyEmailLink) {
-  //       setShowSuccessToast(true);
-  //     } else {
-  //       console.log("Error :>> ");
-  //     }
-  //   }
-  // }, [resendVerifyLinkData]);
-
-  // const handleRequestVerifyLinkClick = async () => {
-  //   try {
-  //     resendEmailVerifyLink();
-  //   } catch (error) {
-  //     console.log("error :>> ", error);
-  //   }
-  // };
-
-  // console.log("user :>> ", user);
-  // console.log("hasCompleteProfile :>> ", hasCompleteProfile);
-
-  // console.log("data :>> ", data);
   return (
     <>
       <CustomHead title="Account" />
@@ -110,36 +63,64 @@ const Account: FC<IProps> = (props) => {
             <Loading />
           ) : (
             <div className="p-2 my-4">
-              {/* {user && !user?.email_verified && (
-                <div className="bg-danger text-light text-center mb-3">
-                  <small className="m-0">
-                    {" "}
-                    Please verify your email. A link was sent to your inbox to
-                    verify the email. Didn't receive it? Request another link
-                    <button
-                      className="btn mt-0 pt-0 pl-0 ml-0 text-light"
-                      style={{
-                        fontSize: "inherit",
-                        textDecoration: "underline",
-                      }}
-                      onClick={handleRequestVerifyLinkClick}
-                    >
-                      here
-                    </button>
-                  </small>
-                </div>
-              )} */}
-
-              <h1>Hi {user?.first_name ? user.first_name : "there"},</h1>
               {hasCompleteProfile ? (
-                <></>
+                <div className="row m-0">
+                  <div className="col-lg-9">
+                    <p>Welcome Back,</p>
+                    <div className="d-flex justify-content-between">
+                      <h3>{`${user.first_name} ${user.last_name}`}</h3>
+                      {role === 2 && (
+                        <Link href="/account/listings/add-car">
+                          <a className="btn bgOrange">Add Car</a>
+                        </Link>
+                      )}
+                    </div>
+
+                    <div className={`overview-boxes-top-wrapper`}>
+                      <BoxWrapper>
+                        <div className="py-3 p-2">
+                          <h6>Trips</h6>
+                          <p>0 Trips</p>
+                        </div>
+                      </BoxWrapper>
+                      {role === 2 && (
+                        <BoxWrapper>
+                          <div className="py-3 p-2">
+                            <h6>Bookings</h6>
+                            <p>0 Bookings</p>
+                          </div>
+                        </BoxWrapper>
+                      )}
+
+                      {role === 2 && (
+                        <BoxWrapper>
+                          <div className="py-3 p-2">
+                            <h6>Earnings</h6>
+                            <p>Ksh. 0</p>
+                          </div>
+                        </BoxWrapper>
+                      )}
+
+                      <BoxWrapper>
+                        <div className="py-3 p-2">
+                          <h6>Balance</h6>
+                          <p>Ksh. 0</p>
+                        </div>
+                      </BoxWrapper>
+                    </div>
+                  </div>
+                  <div className="col-lg-3 mt-4 mt-lg-0">
+                    <h6>Activities</h6>
+                  </div>
+                </div>
               ) : (
                 <>
-                  <small>Let's get you started.</small>
+                  <h1>Hi {user?.first_name ? user.first_name : "there"},</h1>
+                  <p>Let's get you started.</p>
                   <div>
                     <Link
                       href={{
-                        pathname: "/account/personal-details",
+                        pathname: "/account/profile",
                         query: { initial: true },
                       }}
                     >

@@ -757,6 +757,7 @@ export type Subscription = {
   notification: Notification;
   reservedForBooking: ReserverForBooking;
   tripStatus: TripStatus_;
+  userUpdate: User;
 };
 
 export type TokenResponse = {
@@ -1329,6 +1330,11 @@ export type OnTripStatusSubscriptionVariables = Exact<{ [key: string]: never; }>
 
 
 export type OnTripStatusSubscription = { __typename?: 'Subscription', tripStatus: { __typename?: 'TripStatus_', chat_meta_id?: number | null | undefined, status?: string | null | undefined } };
+
+export type OnUserUpdateSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OnUserUpdateSubscription = { __typename?: 'Subscription', userUpdate: { __typename?: 'User', id?: number | null | undefined, user_name?: string | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined, email_verified?: boolean | null | undefined, phone?: string | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } };
 
 export const FileInfoFragmentDoc = gql`
     fragment fileInfo on FileObj {
@@ -3768,3 +3774,32 @@ export function useOnTripStatusSubscription(baseOptions?: Apollo.SubscriptionHoo
       }
 export type OnTripStatusSubscriptionHookResult = ReturnType<typeof useOnTripStatusSubscription>;
 export type OnTripStatusSubscriptionResult = Apollo.SubscriptionResult<OnTripStatusSubscription>;
+export const OnUserUpdateDocument = gql`
+    subscription onUserUpdate {
+  userUpdate {
+    ...userInfo
+  }
+}
+    ${UserInfoFragmentDoc}`;
+
+/**
+ * __useOnUserUpdateSubscription__
+ *
+ * To run a query within a React component, call `useOnUserUpdateSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnUserUpdateSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOnUserUpdateSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOnUserUpdateSubscription(baseOptions?: Apollo.SubscriptionHookOptions<OnUserUpdateSubscription, OnUserUpdateSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<OnUserUpdateSubscription, OnUserUpdateSubscriptionVariables>(OnUserUpdateDocument, options);
+      }
+export type OnUserUpdateSubscriptionHookResult = ReturnType<typeof useOnUserUpdateSubscription>;
+export type OnUserUpdateSubscriptionResult = Apollo.SubscriptionResult<OnUserUpdateSubscription>;

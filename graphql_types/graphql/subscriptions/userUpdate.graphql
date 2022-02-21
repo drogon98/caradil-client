@@ -1,0 +1,5 @@
+subscription onUserUpdate {
+  userUpdate {
+    ...userInfo
+  }
+}

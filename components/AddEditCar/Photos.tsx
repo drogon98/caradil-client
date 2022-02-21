@@ -157,13 +157,13 @@ export const Photos: FC<PhotosProps> = (props) => {
     }
   };
 
-  const handleRequestEditClick = (e: SyntheticEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (props.hasEditRequest) {
-      return;
-    }
-    setShowRequestEditModal(true);
-  };
+  // const handleRequestEditClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  //   if (props.hasEditRequest) {
+  //     return;
+  //   }
+  //   setShowRequestEditModal(true);
+  // };
 
   // console.log("props.value.photos :>> ", props.value.photos);
 
@@ -201,6 +201,15 @@ export const Photos: FC<PhotosProps> = (props) => {
       <div className="mb-3">
         <small>
           <b>Note:These photos should be real and exactly your car.</b>
+        </small>
+      </div>
+
+      <div className="mb-3">
+        <small>
+          <b>
+            Note:Uploading photos containing your contact info might make your
+            car be suspended.
+          </b>
         </small>
       </div>
 
