@@ -27,7 +27,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
       <ul className="list-style-none m-0">
         <li>
           <Link href="/account" shallow={true}>
-            <a className="link white-link d-flex">
+            <a className="link white-link d-flex align-items-center">
               <div className="account-menu-icon-wrapper">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -67,9 +67,9 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
                   <g
                     fill="none"
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
                   >
                     <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2Z" />
                     <path d="M4.271 18.346S6.5 15.5 12 15.5s7.73 2.846 7.73 2.846M12 12a3 3 0 1 0 0-6a3 3 0 0 0 0 6Z" />
@@ -85,7 +85,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
         {props.isHost && (
           <li>
             <Link href="/account/listings" shallow={true}>
-              <a className="link white-link d-flex">
+              <a className="link white-link d-flex align-items-center">
                 <div className="account-menu-icon-wrapper">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +112,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
         {props.isHost && (
           <li>
             <Link href="/account/bookings" shallow={true}>
-              <a className="link white-link d-flex">
+              <a className="link white-link d-flex align-items-center">
                 <div className="account-menu-icon-wrapper">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -127,12 +127,12 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
                     <g
                       fill="none"
                       stroke="currentColor"
-                      stroke-linejoin="round"
-                      stroke-width="4"
+                      strokeLinejoin="round"
+                      strokeWidth="4"
                     >
                       <rect width="30" height="36" x="9" y="8" rx="2" />
                       <path
-                        stroke-linecap="round"
+                        strokeLinecap="round"
                         d="M18 4v6m12-6v6m-14 9h16m-16 8h12m-12 8h8"
                       />
                     </g>
@@ -146,7 +146,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
 
         <li>
           <Link href="/account/trips" shallow={true}>
-            <a className="link white-link d-flex">
+            <a className="link white-link d-flex align-items-center">
               {" "}
               <div className="account-menu-icon-wrapper">
                 <svg
@@ -175,7 +175,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
         </li>
         <li>
           {isChatPage ? (
-            <span className="link white-link d-flex cursor-pointer">
+            <span className="link white-link d-flex align-items-center cursor-pointer">
               {" "}
               <div className="account-menu-icon-wrapper">
                 <svg
@@ -198,7 +198,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
             </span>
           ) : (
             <Link href="/account/chats" shallow={true}>
-              <a className="link white-link d-flex">
+              <a className="link white-link d-flex align-items-center">
                 <div className="account-menu-icon-wrapper">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -224,7 +224,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
         {props.isHost && (
           <li>
             <Link href="/account/earnings" shallow={true}>
-              <a className="link white-link d-flex">
+              <a className="link white-link d-flex align-items-center">
                 <div className="account-menu-icon-wrapper">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -249,7 +249,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
         )}
         <li>
           <Link href="/account/notifications" shallow={true}>
-            <a className="link white-link d-flex">
+            <a className="link white-link d-flex align-items-center">
               <div className="account-menu-icon-wrapper">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -267,13 +267,13 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
                   />
                 </svg>
               </div>
-              <div>Notifications </div>
+              <div>Notifications</div>
             </a>
           </Link>
         </li>
         <li>
           <Link href="/account/settings" shallow={true}>
-            <a className="link white-link d-flex">
+            <a className="link white-link d-flex align-items-center">
               <div className="account-menu-icon-wrapper">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -288,8 +288,8 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
                   <g
                     fill="none"
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeWidth="2"
                   >
                     <path d="M19 3v4m0 14V11m-7-8v12m0 6v-2M5 3v2m0 16V9" />
                     <circle cx="19" cy="9" r="2" transform="rotate(90 19 9)" />
@@ -309,24 +309,8 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
         </li>
 
         <li>
-          <div className="sm-logout-burger-link  link white-link">
+          <div className="sm-logout-burger-link align-items-center link white-link">
             <div className="account-menu-icon-wrapper">
-              {/* <svg
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                role="img"
-                width="1em"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                viewBox="0 0 8 8"
-                
-              >
-                <path
-                  fill="currentColor"
-                  d="M3 0v1h4v5H3v1h5V0H3zM2 2L0 3.5L2 5V4h4V3H2V2z"
-                />
-              </svg> */}
-
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"

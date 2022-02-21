@@ -368,11 +368,15 @@ label {
   position: relative;
 }
 
-.account-banner {
-  position: fixed;
+.account-banner,
+.account-banner-fixed {
   top: var(--navbar-height);
   right: 0;
   left: 230px; /* Sidebar Width */
+}
+
+.account-banner-fixed {
+  position: fixed;
 }
 
 .notifications-dot {
@@ -955,6 +959,11 @@ label {
   }
   .account-sidebar {
     display: none;
+  }
+
+  .account-banner,
+  .account-banner-fixed {
+    left: 0;
   }
 
   .account-user-icon {
@@ -2232,7 +2241,7 @@ car-input-container select:focus {
 
 @media screen and (max-width: 420px) {
   .overview-boxes-top-wrapper {
-    margin-top: 30px;
+    margin-top: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 10px;

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { ReactChild, ReactNode, useEffect, useState } from "react";
 import { useResendEmailVerifyLinkLazyQuery } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
@@ -14,6 +15,7 @@ export function BannerWrapper(props: BannerWrapperProps) {
   const [bannerBg, setBannerBg] = useState("success");
   const [isCancellable, setIsCancellable] = useState(false);
   const token = useAppSelector((state) => state.auth._id);
+  const router = useRouter();
   const role = useRole(token);
   const user = useAppSelector((state) => state.user.user);
   const [emailNotVerified, setEmailNotVerified] = useState(false);
@@ -26,6 +28,15 @@ export function BannerWrapper(props: BannerWrapperProps) {
   ] = useResendEmailVerifyLinkLazyQuery();
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [isChatPage, setIsChatPage] = useState(false);
+
+  useEffect(() => {
+    if (router.pathname.includes("/chats")) {
+      setIsChatPage(true);
+    } else {
+      setIsChatPage(false);
+    }
+  }, [router]);
 
   useEffect(() => {
     try {
@@ -135,40 +146,46 @@ export function BannerWrapper(props: BannerWrapperProps) {
           position="bottom-end"
         />
       )}
-      {(emailNotVerified || profileNotComplete) && !loading && (
-        <div
-          className={`bg-${bannerBg} py-2 px-2 d-flex align-items-center justify-content-between account-banner`}
-        >
-          <div className="d-flex align-items-center">
-            <p
-              style={{ fontSize: "12px", height: "16px" }}
-              className="text-light text-center m-0 d-flex align-items-center"
+      {!loading && user && (
+        <>
+          {(emailNotVerified || profileNotComplete) && (
+            <div
+              className={`bg-${bannerBg} py-2 px-2 d-flex align-items-center justify-content-between account-banner ${
+                isChatPage && `account-banner-fixed`
+              }`}
             >
-              {bannerMessage}
-            </p>
-          </div>
-
-          <div>
-            {isCancellable && (
-              <button className="btn m-0 p-0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                  role="img"
-                  width="1em"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  viewBox="0 0 24 24"
+              <div className="d-flex align-items-center">
+                <p
+                  style={{ fontSize: "12px", minHeight: "16px" }}
+                  className="text-light text-center m-0 d-flex align-items-center"
                 >
-                  <path
-                    fill="white"
-                    d="M18.36 19.78L12 13.41l-6.36 6.37l-1.42-1.42L10.59 12L4.22 5.64l1.42-1.42L12 10.59l6.36-6.36l1.41 1.41L13.41 12l6.36 6.36z"
-                  />
-                </svg>
-              </button>
-            )}
-          </div>
-        </div>
+                  {bannerMessage}
+                </p>
+              </div>
+
+              <div>
+                {isCancellable && (
+                  <button className="btn m-0 p-0">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      role="img"
+                      width="1em"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="white"
+                        d="M18.36 19.78L12 13.41l-6.36 6.37l-1.42-1.42L10.59 12L4.22 5.64l1.42-1.42L12 10.59l6.36-6.36l1.41 1.41L13.41 12l6.36 6.36z"
+                      />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {loading ? <Loading /> : props.children}

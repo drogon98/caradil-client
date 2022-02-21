@@ -65,10 +65,10 @@ const Account: FC<IProps> = (props) => {
             <div className="p-2 my-4">
               {hasCompleteProfile ? (
                 <div className="row m-0">
-                  <div className="col-lg-9">
+                  <div className="col-lg-9 p-0">
                     <p>Welcome Back,</p>
                     <div className="d-flex justify-content-between">
-                      <h3>{`${user.first_name} ${user.last_name}`}</h3>
+                      <h3 className="m-0">{`${user?.first_name} ${user?.last_name}`}</h3>
                       {role === 2 && (
                         <Link href="/account/listings/add-car">
                           <a className="btn bgOrange">Add Car</a>

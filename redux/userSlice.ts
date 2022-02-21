@@ -3,11 +3,11 @@ import { User } from "../graphql_types/generated/graphql";
 
 // declaring the types for our state
 export type UserState = {
-  user: User;
+  user: User | undefined;
 };
 
 const initialState: UserState = {
-  user: {},
+  user: undefined,
 };
 
 export const userSlice = createSlice({
