@@ -1266,7 +1266,7 @@ export type GetMyBookingsQuery = { __typename?: 'Query', getMyBookings: Array<{ 
 export type GetMyTripsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMyTripsQuery = { __typename?: 'Query', getMyTrips: Array<{ __typename?: 'Trip', id?: number | null | undefined, owner_id?: number | null | undefined, start_date?: any | null | undefined, status?: string | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined } }> };
+export type GetMyTripsQuery = { __typename?: 'Query', getMyTrips: Array<{ __typename?: 'Trip', id?: number | null | undefined, start_date?: any | null | undefined, end_date?: any | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, chat_meta_id?: number | null | undefined, owner_id?: number | null | undefined, car_owner_id?: number | null | undefined, trip_canceller?: string | null | undefined, why_cancel_trip?: string | null | undefined, created_at?: any | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, reg_no?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, daily_rate?: number | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined }> };
 
 export type GetNotificationsQueryVariables = Exact<{
   type?: InputMaybe<Scalars['String']>;
@@ -3322,20 +3322,10 @@ export type GetMyBookingsQueryResult = Apollo.QueryResult<GetMyBookingsQuery, Ge
 export const GetMyTripsDocument = gql`
     query GetMyTrips {
   getMyTrips {
-    id
-    owner_id
-    start_date
-    status
-    end_date
-    start_time
-    end_time
-    transaction {
-      channel
-      amount
-    }
+    ...tripInfo
   }
 }
-    `;
+    ${TripInfoFragmentDoc}`;
 
 /**
  * __useGetMyTripsQuery__

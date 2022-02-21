@@ -41,21 +41,32 @@ const Trips: FC<TripsProps> = (props) => {
             <Loading />
           ) : trips && trips.length > 0 ? (
             <div className="p-2 my-4">
+              <h3>Trips</h3>
               <div className="lg-tripboxes-wrapper">
-                <div className="container">
-                  <h3>Trips</h3>
-                  <div className="row">
-                    <div className="col">
-                      <p className="fw-bold">Info</p>
-                    </div>
-                    <div className="col-2">
-                      <p className="fw-bold">Status</p>
-                    </div>
-                    {/* <div className="col-1">
-                      <p className="fw-bold">Action</p>
-                    </div> */}
+                <div className="row m-0">
+                  <div className="col-1">
+                    <p className="fw-bold">Car</p>
+                  </div>
+                  <div className="col-2">
+                    <p className="fw-bold">Start Date</p>
+                  </div>
+                  <div className="col-2">
+                    <p className="fw-bold">End Date</p>
+                  </div>
+                  <div className="col">
+                    <p className="fw-bold">Start Time</p>
+                  </div>
+                  <div className="col">
+                    <p className="fw-bold">End Time</p>
+                  </div>
+                  <div className="col-2">
+                    <p className="fw-bold">Trip Duration</p>
+                  </div>
+                  <div className="col-1">
+                    <p className="fw-bold">Status</p>
                   </div>
                 </div>
+
                 {trips.map((trip) => (
                   <TripBox key={trip.id} data={trip} />
                 ))}
@@ -65,6 +76,12 @@ const Trips: FC<TripsProps> = (props) => {
                   <SmTripBox key={trip.id} data={trip} />
                 ))}
               </div>
+
+              {/* <div className="sm-tripboxes-wrapper">
+                {trips.map((trip) => (
+                  <SmTripBox key={trip.id} data={trip} />
+                ))}
+              </div> */}
             </div>
           ) : (
             <div
