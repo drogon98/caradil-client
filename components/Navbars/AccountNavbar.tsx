@@ -134,7 +134,7 @@ const AccountNavbar = (props: AccountNavbarProps): JSX.Element => {
                         height={20}
                         strokeWidth={1}
                         rotate={0}
-                        color="black"
+                        color="white"
                         borderRadius={0}
                         animationDuration={0.5}
                       />

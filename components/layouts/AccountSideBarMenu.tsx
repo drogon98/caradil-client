@@ -309,34 +309,73 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
         </li>
 
         <li>
-          <button
-            className="sm-logout-burger-link link white-link btn p-0 m-0"
-            onClick={async () => {
-              try {
-                dispatch(startLogout());
-                const response = await (
-                  await fetch(`${baseHttpDomain}logout`, {
-                    credentials: "include",
-                  })
-                ).json();
+          <div className="sm-logout-burger-link  link white-link">
+            <div className="account-menu-icon-wrapper">
+              {/* <svg
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                role="img"
+                width="1em"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                viewBox="0 0 8 8"
+                
+              >
+                <path
+                  fill="currentColor"
+                  d="M3 0v1h4v5H3v1h5V0H3zM2 2L0 3.5L2 5V4h4V3H2V2z"
+                />
+              </svg> */}
 
-                if (response.success) {
-                  // if (props.isAdmin) {
-                  //   await router.push("/root/login");
-                  // } else {
-                  await router.push("/");
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                role="img"
+                width="1em"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                viewBox="0 0 512 512"
+                className="account-menu-icon"
+              >
+                <path
+                  fill="currentColor"
+                  d="M77.155 272.034H351.75v-32.001H77.155l75.053-75.053v-.001l-22.628-22.626l-113.681 113.68l.001.001h-.001L129.58 369.715l22.628-22.627v-.001l-75.053-75.053z"
+                />
+                <path
+                  fill="currentColor"
+                  d="M160 16v32h304v416H160v32h336V16H160z"
+                />
+              </svg>
+            </div>
+            <button
+              className="sm-logout-burger-link  link white-link btn p-0 m-0"
+              onClick={async () => {
+                try {
+                  dispatch(startLogout());
+                  const response = await (
+                    await fetch(`${baseHttpDomain}logout`, {
+                      credentials: "include",
+                    })
+                  ).json();
+
+                  if (response.success) {
+                    // if (props.isAdmin) {
+                    //   await router.push("/root/login");
+                    // } else {
+                    await router.push("/");
+                    dispatch(endLogout());
+                    // }
+                    dispatch(unsetToken());
+                  }
+                } catch (error) {
                   dispatch(endLogout());
-                  // }
-                  dispatch(unsetToken());
+                  console.log("error :>> ", error);
                 }
-              } catch (error) {
-                dispatch(endLogout());
-                console.log("error :>> ", error);
-              }
-            }}
-          >
-            Logout
-          </button>
+              }}
+            >
+              Logout
+            </button>
+          </div>
         </li>
       </ul>
     </div>

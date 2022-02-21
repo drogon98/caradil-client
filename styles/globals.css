@@ -909,6 +909,7 @@ label {
 .admin-content {
   position: relative;
   background-color: var(--dashboard-bright-bg);
+  min-height: calc(100vh - var(--navbar-height));
 }
 
 .account-side-menu,
@@ -970,7 +971,7 @@ label {
   }
 
   .sm-logout-burger-link {
-    display: block !important;
+    display: flex !important;
   }
 
   /* .account-content,
