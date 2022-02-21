@@ -198,18 +198,16 @@ export const Photos: FC<PhotosProps> = (props) => {
         </small>
       </p>
 
-      <div className="mb-3">
+      <div className="mb-2">
         <small>
           <b>Note:These photos should be real and exactly your car.</b>
         </small>
       </div>
 
       <div className="mb-3">
-        <small>
-          <b>
-            Note:Uploading photos containing your contact info might make your
-            car be suspended.
-          </b>
+        <small className="text-danger">
+          Note:Uploading photos containing your contact info might result to
+          your car or account being suspended.
         </small>
       </div>
 

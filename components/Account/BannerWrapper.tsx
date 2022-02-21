@@ -156,7 +156,7 @@ export function BannerWrapper(props: BannerWrapperProps) {
             >
               <div className="d-flex align-items-center">
                 <p
-                  style={{ fontSize: "12px", minHeight: "16px" }}
+                  style={{ fontSize: "12px" }}
                   className="text-light text-center m-0 d-flex align-items-center"
                 >
                   {bannerMessage}

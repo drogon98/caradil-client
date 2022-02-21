@@ -141,7 +141,7 @@ export const Rates: FC<RatesProps> = (props) => {
               // placeholder="eg John Doe"
               onFocus={handleFocus}
             />
-            <span className="input-group-text">KSH</span>
+            <span className="input-group-text">Ksh</span>
           </div>
           {/* <input
             type="number"
@@ -174,7 +174,7 @@ export const Rates: FC<RatesProps> = (props) => {
               // placeholder="eg John Doe"
               onFocus={handleFocus}
             />
-            <span className="input-group-text">KSH</span>
+            <span className="input-group-text">Ksh</span>
           </div>
           {/* <input
             type="number"
@@ -289,7 +289,7 @@ export const Rates: FC<RatesProps> = (props) => {
                 required
                 onChange={handleChange}
               />
-              <span className="input-group-text">KSH</span>
+              <span className="input-group-text">Ksh</span>
             </div>
             <input
               type="number"
@@ -322,7 +322,7 @@ export const Rates: FC<RatesProps> = (props) => {
                 required
                 onChange={handleChange}
               />
-              <span className="input-group-text">KSH/Km</span>
+              <span className="input-group-text">Ksh/Km</span>
             </div>
             {/* <input
               type="number"

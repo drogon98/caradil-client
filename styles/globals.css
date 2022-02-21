@@ -1688,6 +1688,7 @@ car-input-container select:focus {
   position: sticky;
   top: calc(var(--navbar-height));
   z-index: 1000;
+  background-color: var(--dashboard-bright-bg);
 }
 
 .manage-car-left {
