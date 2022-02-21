@@ -3,9 +3,11 @@ import { useRouter } from "next/router";
 import React from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { RiArrowDropDownFill } from "react-icons/ri";
+import client from "../../apollo";
 import { unsetToken } from "../../redux/authSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { endLogout, startLogout } from "../../redux/logoutSlice";
+import { unsetUser } from "../../redux/userSlice";
 import { baseHttpDomain } from "../../utils/baseDomain";
 
 interface UserNavIconProps {
@@ -79,7 +81,9 @@ export function UserNavIcon(props: UserNavIconProps) {
                   } else {
                     await router.push("/");
                   }
+                  await client.clearStore();
                   dispatch(endLogout());
+                  dispatch(unsetUser());
                   dispatch(unsetToken());
                 }
               } catch (error) {

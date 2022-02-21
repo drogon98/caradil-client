@@ -30,4 +30,5 @@ fragment tripInfo on Trip {
   car_owner_id
   trip_canceller
   why_cancel_trip
+  created_at
 }

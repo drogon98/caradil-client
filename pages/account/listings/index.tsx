@@ -47,7 +47,7 @@ const Listings: FC<ListingsProps> = (props) => {
             <div className="p-2 my-4">
               {cars && cars?.length > 0 ? (
                 <div className="w-100">
-                  <div className="d-flex justify-content-between m-0">
+                  <div className="d-flex justify-content-between m-0 px-2">
                     <h3>Cars</h3>
 
                     <div>

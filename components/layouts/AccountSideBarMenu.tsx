@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
+import client from "../../apollo";
 import { unsetToken } from "../../redux/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { endLogout, startLogout } from "../../redux/logoutSlice";
+import { unsetUser } from "../../redux/userSlice";
 import { baseHttpDomain } from "../../utils/baseDomain";
 
 interface AccountSideBarMenuProps {
@@ -343,12 +345,10 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
                   ).json();
 
                   if (response.success) {
-                    // if (props.isAdmin) {
-                    //   await router.push("/root/login");
-                    // } else {
                     await router.push("/");
+                    await client.clearStore();
                     dispatch(endLogout());
-                    // }
+                    dispatch(unsetUser());
                     dispatch(unsetToken());
                   }
                 } catch (error) {

@@ -1,33 +1,96 @@
 import Link from "next/link";
 import React, { ReactElement } from "react";
 import { Trip } from "../../../graphql_types/generated/graphql";
+import { getTripDuration } from "../../../utils/trip_duration_ttl_calc";
 
 interface Props {
   data: Trip;
 }
 
 export default function SmBookBox(props: Props): ReactElement {
+  const duration = () => {
+    let obj = getTripDuration(
+      {
+        startDate: props.data.start_date,
+        endDate: props.data.end_date,
+        startTime: props.data.start_time,
+        endTime: props.data.end_time,
+      },
+      false,
+      true
+    );
+
+    return `${obj.duration} ${obj.type_}(s)`;
+  };
   return (
     <div className="shadow py-3 mb- d-flex align-items-center justify-content-between">
       <Link href={`/account/bookings/${props.data.id}`}>
-        <a className="container">
-          <div>
-            {props.data.status === "cancelled" && (
-              <div className="col">{`This trip was cancelled`}</div>
-            )}
+        <a className="d-block w-100">
+          <div className="w-100 p-2">
+            <div className="d-flex justify-content-between">
+              <h6 className="w-50">Car:</h6>
+              <h6 className="w-50">{props.data.car?.reg_no}</h6>
+            </div>
+            <div className="d-flex justify-content-between">
+              <h6 className="w-50">Start Date:</h6>
+              <h6 className="w-50">
+                {new Date(props.data.start_date).toDateString()}
+              </h6>
+            </div>
+            <div className="d-flex justify-content-between">
+              <h6 className="w-50">End Date:</h6>
+              <h6 className="w-50">
+                {new Date(props.data.end_date).toDateString()}
+              </h6>
+            </div>
+            <div className="d-flex justify-content-between">
+              <h6 className="w-50">Start Time:</h6>
+              <h6 className="w-50">{props.data.start_time}hrs</h6>
+            </div>
+            <div className="d-flex justify-content-between">
+              <h6 className="w-50">End Time:</h6>
+              <h6 className="w-50">{props.data.end_time}hrs</h6>
+            </div>
+            <div className="d-flex justify-content-between">
+              <h6 className="w-50">Duration:</h6>
+              <h6 className="w-50">{duration()}</h6>
+            </div>
+            <div className="d-flex justify-content-between">
+              <h6 className="w-50">Status:</h6>
+              <div className="w-50">
+                {props.data.status === "confirmed" && (
+                  <button
+                    className={`btn p-0 bg-success book-status-btn text-light`}
+                  >
+                    <small>{props.data.status}</small>
+                  </button>
+                )}
 
-            {props.data.status === "confirmed" && (
-              <div className="col">{`You confirmed this trip!`}</div>
-            )}
+                {props.data.status === "successful" && (
+                  <button
+                    className={`btn p-0 bg-success book-status-btn text-light`}
+                  >
+                    <small>{props.data.status}</small>
+                  </button>
+                )}
 
-            {props.data.status === "successful" && (
-              <div className="col">{`This trip was successful!`}</div>
-            )}
+                {props.data.status === "cancelled" && (
+                  <button
+                    className={`btn p-0 bg-danger book-status-btn text-light`}
+                  >
+                    <small>{props.data.status}</small>
+                  </button>
+                )}
 
-            {props.data.status === "pending" && (
-              <div className="col">{`Please confirm this trip!`}</div>
-            )}
-            <p>{props.data.status}</p>
+                {props.data.status === "pending" && (
+                  <button
+                    className={`btn p-0 bg-primary book-status-btn text-light`}
+                  >
+                    <small>{props.data.status}</small>
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </a>
       </Link>

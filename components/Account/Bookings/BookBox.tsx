@@ -1,34 +1,76 @@
 import Link from "next/link";
 import React, { ReactElement } from "react";
 import { Trip } from "../../../graphql_types/generated/graphql";
+import { getTripDuration } from "../../../utils/trip_duration_ttl_calc";
 
 interface Props {
   data: Trip;
 }
 
 export default function BookBox(props: Props): ReactElement {
+  const duration = () => {
+    let obj = getTripDuration(
+      {
+        startDate: props.data.start_date,
+        endDate: props.data.end_date,
+        startTime: props.data.start_time,
+        endTime: props.data.end_time,
+      },
+      false,
+      true
+    );
+
+    return `${obj.duration} ${obj.type_}(s)`;
+  };
   return (
-    <div className="shadow py-3 mb- d-flex align-items-center justify-content-between mb-4">
+    <div className="shadow bgWhite py-3 d-flex align-items-center justify-content-between mb-4">
       <Link href={`/account/bookings/${props.data.id}`}>
-        <a className="container">
-          <div className="row">
-            {props.data.status === "cancelled" && (
-              <div className="col">{`This trip was cancelled`}</div>
-            )}
+        <a className="d-block w-100">
+          <div className="row m-0 w-100">
+            <div className="col-1">{props.data.car?.reg_no}</div>
+            <div className="col-2">
+              {new Date(props.data.start_date).toDateString()}
+            </div>
+            <div className="col-2">
+              {new Date(props.data.end_date).toDateString()}
+            </div>
+            <div className="col">{props.data.start_time}hrs</div>
+            <div className="col">{props.data.end_time}hrs</div>
+            <div className="col-2">{duration()}</div>
 
-            {props.data.status === "confirmed" && (
-              <div className="col">{`You confirmed this trip!`}</div>
-            )}
+            <div className="col-1">
+              {props.data.status === "confirmed" && (
+                <button
+                  className={`w-100 btn p-0 bg-success book-status-btn text-light`}
+                >
+                  <small>{props.data.status}</small>
+                </button>
+              )}
 
-            {props.data.status === "successful" && (
-              <div className="col">{`This trip was successful!`}</div>
-            )}
+              {props.data.status === "successful" && (
+                <button
+                  className={`w-100 btn p-0 bg-success book-status-btn text-light`}
+                >
+                  <small>{props.data.status}</small>
+                </button>
+              )}
 
-            {props.data.status === "pending" && (
-              <div className="col">{`Please confirm this trip!`}</div>
-            )}
+              {props.data.status === "cancelled" && (
+                <button
+                  className={`w-100 btn p-0 bg-danger book-status-btn text-light`}
+                >
+                  <small>{props.data.status}</small>
+                </button>
+              )}
 
-            <div className="col-2">{props.data.status}</div>
+              {props.data.status === "pending" && (
+                <button
+                  className={`w-100 btn p-0 bg-primary book-status-btn text-light`}
+                >
+                  <small>{props.data.status}</small>
+                </button>
+              )}
+            </div>
           </div>
         </a>
       </Link>

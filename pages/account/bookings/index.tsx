@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, { ReactElement, useEffect, useState } from "react";
 import BookBox from "../../../components/Account/Bookings/BookBox";
 import SmBookBox from "../../../components/Account/Bookings/SmBookBox";
@@ -43,21 +42,32 @@ export default function index(props: Props): ReactElement {
             <Loading />
           ) : bookings && bookings.length > 0 ? (
             <div className="p-2 my-4">
+              <h3>Bookings</h3>
               <div className="lg-tripboxes-wrapper">
-                <div className="container">
-                  <h3>Bookings</h3>
-                  <div className="row">
-                    <div className="col">
-                      <p className="fw-bold">Info</p>
-                    </div>
-                    <div className="col-2">
-                      <p className="fw-bold">Status</p>
-                    </div>
-                    {/* <div className="col-1">
-                      <p className="fw-bold">Action</p>
-                    </div> */}
+                <div className="row m-0">
+                  <div className="col-1">
+                    <p className="fw-bold">Car</p>
+                  </div>
+                  <div className="col-2">
+                    <p className="fw-bold">Start Date</p>
+                  </div>
+                  <div className="col-2">
+                    <p className="fw-bold">End Date</p>
+                  </div>
+                  <div className="col">
+                    <p className="fw-bold">Start Time</p>
+                  </div>
+                  <div className="col">
+                    <p className="fw-bold">End Time</p>
+                  </div>
+                  <div className="col-2">
+                    <p className="fw-bold">Trip Duration</p>
+                  </div>
+                  <div className="col-1">
+                    <p className="fw-bold">Status</p>
                   </div>
                 </div>
+
                 {bookings.map((trip) => (
                   <BookBox key={trip.id} data={trip} />
                 ))}

@@ -8,7 +8,7 @@ interface SmListBoxProps {
 
 export const SmListBox: FC<SmListBoxProps> = (props) => {
   return (
-    <div className="shadow sm-listbox-wrapper py-3">
+    <div className="shadow bgWhite sm-listbox-wrapper py-3">
       <div className="container">
         <Link
           href={{

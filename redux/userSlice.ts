@@ -23,7 +23,7 @@ export const userSlice = createSlice({
       state.user = action.payload;
     },
     unsetUser: (state) => {
-      state.user = {};
+      state.user = undefined;
     },
   },
 });

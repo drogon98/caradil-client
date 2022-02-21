@@ -3,7 +3,8 @@ import { Car, CustomAvailabilityObj } from "../graphql_types/generated/graphql";
 
 export const getTripDuration = (
   dateTime: CustomAvailabilityObj,
-  canRentHourly: boolean
+  canRentHourly: boolean = false,
+  isBookDuration: boolean = false
 ): { duration: number; type_: string } => {
   //   console.log("dateTime", dateTime);
   let startDate = new Date(dateTime.startDate!);
@@ -18,7 +19,7 @@ export const getTripDuration = (
   //   console.log("Difference_In_Days", Difference_In_Days);
 
   if (Difference_In_Days === 0) {
-    if (canRentHourly) {
+    if (canRentHourly || isBookDuration) {
       let startTimeSections = dateTime.startTime?.split(":");
       let endTimeSections = dateTime.endTime?.split(":");
 
