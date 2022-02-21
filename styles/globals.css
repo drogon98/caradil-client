@@ -1209,7 +1209,7 @@ car-input-container select:focus {
 
 .car-input-width,
 .car-general-info-input-width {
-  width: 200px !important;
+  width: 280px !important;
 }
 
 @media screen and (max-width: 800px) {
@@ -1687,7 +1687,6 @@ car-input-container select:focus {
   position: -webkit-sticky;
   position: sticky;
   top: calc(var(--navbar-height));
-  background-color: #fff;
   z-index: 1000;
 }
 
@@ -2237,6 +2236,12 @@ car-input-container select:focus {
 .overview-box-wrapper {
   background-color: #fff;
   border-radius: 10px;
+}
+
+@media screen and (max-width: 800px) {
+  .bs-column {
+    padding: 0 !important;
+  }
 }
 
 @media screen and (max-width: 420px) {

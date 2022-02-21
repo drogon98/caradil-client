@@ -65,6 +65,9 @@ const BrowseCarsNavbar = (): JSX.Element => {
             end_date: parseInt(router.query.end_date as string, 10),
           };
           setDateTime({ ...tempDateTime });
+        } else {
+          setDateTime(undefined);
+          setDateTimeInput("");
         }
 
         let tempValues = {};
@@ -77,6 +80,8 @@ const BrowseCarsNavbar = (): JSX.Element => {
 
         if (router.query.location) {
           setLocation(router.query.location as string);
+        } else {
+          setLocation("");
         }
 
         if (router.query.name) {

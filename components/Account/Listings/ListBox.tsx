@@ -1,9 +1,6 @@
-import React, { FC } from "react";
 import Link from "next/link";
+import React, { FC } from "react";
 import { Car } from "../../../graphql_types/generated/graphql";
-
-import { MoreButton } from "../MoreButton";
-import slugify from "slugify";
 
 interface ListBoxProps {
   data: Car;
@@ -11,14 +8,14 @@ interface ListBoxProps {
 
 export const ListBox: FC<ListBoxProps> = (props) => {
   return (
-    <div className="shadow py-2 mb-4">
+    <div className="shadow bgWhite py-2 mb-4">
       <Link
         href={{
           pathname: `/account/listings/manage/${props.data.id}`,
           query: { active: 1 },
         }}
       >
-        <div className="container p-0 cursor-pointer">
+        <div>
           <a className="row m-0 align-items-center p-0">
             <div className="col-1">
               <div className="list-name-circle">

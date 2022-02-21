@@ -65,7 +65,7 @@ const Account: FC<IProps> = (props) => {
             <div className="p-2 my-4">
               {hasCompleteProfile ? (
                 <div className="row m-0">
-                  <div className="col-lg-9 p-0">
+                  <div className="col-lg-9 bs-column overview-left">
                     <p>Welcome Back,</p>
                     <div className="d-flex justify-content-between">
                       <h3 className="m-0">{`${user?.first_name} ${user?.last_name}`}</h3>
@@ -109,8 +109,9 @@ const Account: FC<IProps> = (props) => {
                       </BoxWrapper>
                     </div>
                   </div>
-                  <div className="col-lg-3 mt-4 mt-lg-0">
+                  <div className="col-lg-3 bs-column mt-4 mt-lg-0">
                     <h6>Activities</h6>
+                    <p className="mt-2">No activities yet!</p>
                   </div>
                 </div>
               ) : (
@@ -125,9 +126,7 @@ const Account: FC<IProps> = (props) => {
                       }}
                     >
                       <a>
-                        <small className="colorOrange">
-                          Complete Your Profile
-                        </small>
+                        <p className="colorOrange">Complete Your Profile</p>
                       </a>
                     </Link>
                   </div>
@@ -135,7 +134,7 @@ const Account: FC<IProps> = (props) => {
               )}
               {isToCar && (
                 <>
-                  <small>List your first car.</small>
+                  <p>List your first car.</p>
                   <div>
                     <Link
                       href={{
@@ -143,7 +142,7 @@ const Account: FC<IProps> = (props) => {
                       }}
                     >
                       <a>
-                        <small className="colorOrange">Go to list car</small>
+                        <p className="colorOrange">Go to list car</p>
                       </a>
                     </Link>
                   </div>

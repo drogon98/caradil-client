@@ -46,8 +46,8 @@ const Listings: FC<ListingsProps> = (props) => {
           ) : (
             <div className="p-2 my-4">
               {cars && cars?.length > 0 ? (
-                <div className="pt-lg-3">
-                  <div className="container d-flex justify-content-between m-0">
+                <div className="w-100">
+                  <div className="d-flex justify-content-between m-0">
                     <h3>Cars</h3>
 
                     <div>
@@ -58,7 +58,7 @@ const Listings: FC<ListingsProps> = (props) => {
                   </div>
                   <div className="mt-3 large-screen-listings">
                     <div className="listings-header">
-                      <div className="container p-0">
+                      <div className="p-0">
                         <div className="row m-0 align-items-center p-0">
                           <div className="col-1">
                             <p className="fw-bold m-0">Photo</p>
