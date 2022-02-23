@@ -13,8 +13,8 @@ export const TripBox: FC<TripBoxProps> = (props) => {
       {
         startDate: props.data.start_date,
         endDate: props.data.end_date,
-        startTime: props.data.start_time,
-        endTime: props.data.end_time,
+        startTime: props.data.start_time as string,
+        endTime: props.data.end_time as string,
       },
       false,
       true
