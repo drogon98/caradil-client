@@ -13,8 +13,8 @@ export default function SmBookBox(props: Props): ReactElement {
       {
         startDate: props.data.start_date,
         endDate: props.data.end_date,
-        startTime: props.data.start_time,
-        endTime: props.data.end_time,
+        startTime: props.data.start_time as string,
+        endTime: props.data.end_time as string,
       },
       false,
       true
@@ -23,9 +23,9 @@ export default function SmBookBox(props: Props): ReactElement {
     return `${obj.duration} ${obj.type_}(s)`;
   };
   return (
-    <div className="shadow py-3 mb- d-flex align-items-center justify-content-between">
+    <div className="shadow mb- d-flex align-items-center justify-content-between">
       <Link href={`/account/bookings/${props.data.id}`}>
-        <a className="d-block w-100">
+        <a className="d-block py-3 w-100">
           <div className="w-100 p-2">
             <div className="d-flex justify-content-between">
               <h6 className="w-50">Car:</h6>

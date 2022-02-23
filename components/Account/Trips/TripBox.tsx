@@ -23,9 +23,9 @@ export const TripBox: FC<TripBoxProps> = (props) => {
     return `${obj.duration} ${obj.type_}(s)`;
   };
   return (
-    <div className="shadow py-3 mb-4 d-flex align-items-center justify-content-between">
+    <div className="shadow mb-4 d-flex align-items-center justify-content-between">
       <Link href={`/account/trips/${props.data.id}`}>
-        <a className="d-block w-100">
+        <a className="py-3 d-block w-100">
           <div className="row m-0 w-100">
             <div className="col-1">{props.data.car?.reg_no}</div>
             <div className="col-2">

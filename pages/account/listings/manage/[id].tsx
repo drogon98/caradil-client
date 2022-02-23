@@ -8,12 +8,13 @@ import React, {
 } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { IoIosMenu } from "react-icons/io";
-import { Availability } from "../../../../components/AddEditCar/Availability";
+import { Trips } from "../../../../components/AddEditCar/Trips";
 import { Categories } from "../../../../components/AddEditCar/Categories";
 import { Description } from "../../../../components/AddEditCar/Description";
 import { Distance } from "../../../../components/AddEditCar/Distance";
 import { Documents } from "../../../../components/AddEditCar/Documents";
 import { Features } from "../../../../components/AddEditCar/Features";
+import { Fueling } from "../../../../components/AddEditCar/Fueling";
 import { GeneralInfo } from "../../../../components/AddEditCar/GeneralInfo";
 import { Location } from "../../../../components/AddEditCar/LocationAndDelivery";
 import Menu from "../../../../components/AddEditCar/ManageCar/Menu";
@@ -26,7 +27,7 @@ import AccountLayout from "../../../../components/layouts/AccountLayout";
 import { Loading } from "../../../../components/Loading";
 import {
   Car,
-  CarAvailabilityInput,
+  CarTripSettingsInput,
   DocumentInput,
   FeatureInput,
   FileInput,
@@ -45,8 +46,8 @@ export default function ManageCar(props: Props): ReactElement {
   const [featuresData, setFeaturesData] = useState<FeatureInput[]>();
   const [photosData, setPhotosData] = useState<FileInput[]>();
   const [documentsData, setDocumentsData] = useState<DocumentInput[]>();
-  const [availabilityData, setAvailabilityData] =
-    useState<CarAvailabilityInput>();
+  const [tripSettingsData, setTripSettingsData] =
+    useState<CarTripSettingsInput>();
   const [showBurgerDropdown, setShowBurgerDropdown] = useState(false);
   const [showRequestVerificationModal, setShowRequestVerificationModal] =
     useState(false);
@@ -155,28 +156,16 @@ export default function ManageCar(props: Props): ReactElement {
 
   useEffect(() => {
     if (carData?.id) {
-      const tempCustomAvailabilityData = {
-        startDate: carData?.custom_availability_data?.startDate,
-        startTime: carData?.custom_availability_data?.startTime,
-        endDate: carData?.custom_availability_data?.endDate,
-        endTime: carData?.custom_availability_data?.endTime,
-      };
-      const tempAvailableData = {
-        // car_has_other_use: carData?.car_has_other_use ?? false,
-        advance_book_period: carData?.advance_book_period ?? "",
-        // available: carData?.available ?? false,
-        custom_availability: carData?.custom_availability ?? false,
-        custom_availability_data: tempCustomAvailabilityData,
-        // can_rent_hourly: carData?.can_rent_hourly ?? false,
-        fuel_policy: carData.fuel_policy!,
-        fuel_efficiency: carData.fuel_efficiency!,
+      const tempTripSettingsData = {
+        advance_book_period: carData?.advance_book_period ?? 1,
+        can_rent_hourly: carData?.can_rent_hourly ?? false,
+        book_and_trip_days: carData.book_and_trip_days ?? [],
+        car_market_class: carData.car_market_class ?? "",
         trip_type: carData.trip_type!,
-        trip_duration: carData.trip_duration!,
-        // driver_mode: carData.driver_mode ?? 3,
-        // manual_transmission_test: carData.manual_transmission_test ?? true,
+        manual_transmission_test: carData.manual_transmission_test ?? false,
       };
 
-      setAvailabilityData({ ...tempAvailableData });
+      setTripSettingsData({ ...tempTripSettingsData });
     }
     // else {
     // setAvailabilityData();
@@ -342,10 +331,11 @@ export default function ManageCar(props: Props): ReactElement {
                         {
                           name: carData?.name ?? "",
                           reg_no: carData?.reg_no ?? "",
+                          id_or_passport_no: carData?.id_or_passport_no ?? "",
                           make: carData?.make ?? "",
                           odometer_reading: carData?.odometer_reading ?? 0,
-                          has_driver: carData?.has_driver ?? true,
-                          // is_gps_enabled: carData?.is_gps_enabled ?? true,
+                          end_user_type: carData?.end_user_type ?? "",
+                          is_gps_enabled: carData?.is_gps_enabled ?? true,
                         }!
                       }
                       setCompData={setCarData}
@@ -372,6 +362,7 @@ export default function ManageCar(props: Props): ReactElement {
                         gas: carData?.gas ?? "",
                         color: carData?.color ?? "",
                         doors: carData?.doors ?? 0,
+                        bags: carData?.bags ?? 0,
                         seats: carData?.seats ?? 0,
                         features: featuresData ?? [],
                       }}
@@ -432,14 +423,15 @@ export default function ManageCar(props: Props): ReactElement {
                   )}
 
                   {activeSection === 6 && (
-                    <Availability
+                    <Trips
                       setCompData={setCarData}
                       isManage
                       carId={carId}
                       value={{
-                        ...availabilityData!,
+                        ...tripSettingsData!,
                       }}
-                      // manual={carData?.transmission === "manual"}
+                      manual={carData?.transmission === "manual"}
+                      isSelfDriven={carData?.end_user_type === "self_driven"}
                       // booked={carData?.booked!}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
@@ -448,6 +440,19 @@ export default function ManageCar(props: Props): ReactElement {
                   )}
 
                   {activeSection === 7 && (
+                    <Fueling
+                      isManage
+                      setCompData={setCarData}
+                      carId={carId}
+                      value={{
+                        fuel_efficiency: carData?.fuel_efficiency ?? "",
+                        fuel_policy: carData?.fuel_policy ?? "",
+                      }}
+                      // manual={compData?.transmission === "manual"}
+                    />
+                  )}
+
+                  {activeSection === 8 && (
                     <Location
                       setCompData={setCarData}
                       isManage
@@ -462,7 +467,7 @@ export default function ManageCar(props: Props): ReactElement {
                     />
                   )}
 
-                  {activeSection === 8 && (
+                  {activeSection === 9 && (
                     <Categories
                       isManage
                       setCompData={setCarData}
@@ -478,7 +483,7 @@ export default function ManageCar(props: Props): ReactElement {
                     />
                   )}
 
-                  {activeSection === 9 && (
+                  {activeSection === 10 && (
                     <Distance
                       setCompData={setCarData}
                       isManage
@@ -491,21 +496,22 @@ export default function ManageCar(props: Props): ReactElement {
                           carData?.charge_extra_distance_travelled ?? false,
                         distance_per_hour: carData?.distance_per_hour ?? 0,
                       }}
-                      canRentHourly={
-                        carData?.trip_duration! === "less_24" ||
-                        carData?.trip_duration! === "both"
-                      }
+                      canRentHourly={carData?.can_rent_hourly!}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
                       // }
                     />
                   )}
 
-                  {activeSection === 10 && (
+                  {activeSection === 11 && (
                     <Rates
                       setCompData={setCarData}
                       isManage
                       carId={carId}
+                      isChauffeurDriven={
+                        carData?.end_user_type === "chauffeur_driven"
+                      }
+                      canRentHourly={carData?.can_rent_hourly!}
                       value={{
                         daily_rate: carData?.daily_rate ?? 0,
                         delivery_rate: carData?.delivery_rate ?? 0,

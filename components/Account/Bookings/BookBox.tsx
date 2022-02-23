@@ -13,8 +13,8 @@ export default function BookBox(props: Props): ReactElement {
       {
         startDate: props.data.start_date,
         endDate: props.data.end_date,
-        startTime: props.data.start_time,
-        endTime: props.data.end_time,
+        startTime: props.data.start_time as string,
+        endTime: props.data.end_time as string,
       },
       false,
       true
@@ -23,9 +23,9 @@ export default function BookBox(props: Props): ReactElement {
     return `${obj.duration} ${obj.type_}(s)`;
   };
   return (
-    <div className="shadow bgWhite py-3 d-flex align-items-center justify-content-between mb-4">
+    <div className="shadow bgWhite d-flex align-items-center justify-content-between mb-4">
       <Link href={`/account/bookings/${props.data.id}`}>
-        <a className="d-block w-100">
+        <a className="py-3 d-block w-100">
           <div className="row m-0 w-100">
             <div className="col-1">{props.data.car?.reg_no}</div>
             <div className="col-2">

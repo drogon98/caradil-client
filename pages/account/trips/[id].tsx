@@ -48,7 +48,9 @@ export default function Trip(props: Props): ReactElement {
         }
 
         setTripId(tripID);
-      } catch (error) {}
+      } catch (error) {
+        console.log("error", error);
+      }
     }
   }, [router.query]);
 

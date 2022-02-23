@@ -1,0 +1,9 @@
+mutation EditCarTripSettings($carId: Float!, $input: CarTripSettingsInput!) {
+  editCarTripSettings(carId: $carId, input: $input) {
+    error
+    carId
+    car {
+      ...carPrivateInfo
+    }
+  }
+}

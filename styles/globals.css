@@ -1291,6 +1291,10 @@ car-input-container select:focus {
   .car-details-host-left {
     flex: 1.4;
   }
+
+  .car-general-info-input-width {
+    width: 95% !important;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -1301,10 +1305,6 @@ car-input-container select:focus {
 
   .secondary-feature-icon {
     font-size: 20px;
-  }
-
-  .car-general-info-input-width {
-    width: 100% !important;
   }
 }
 

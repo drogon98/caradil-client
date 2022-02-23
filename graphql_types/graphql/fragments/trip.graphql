@@ -15,10 +15,15 @@ fragment tripInfo on Trip {
     transmission
     seats
     doors
+    gas
+    make
     daily_rate
+    hourly_rate
     photos {
       secure_url
     }
+    categories
+    location
   }
   start_date
   end_date
@@ -30,5 +35,7 @@ fragment tripInfo on Trip {
   car_owner_id
   trip_canceller
   why_cancel_trip
+  delivery_location
+  delivery_distance
   created_at
 }

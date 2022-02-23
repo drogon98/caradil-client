@@ -49,7 +49,7 @@ const CancellationAndRefund: NextPage = () => {
             24hrs after booking and it lasts less than 24hrs. Guests may cancel
             free of charge within 24hrs after booking if the trip is scheduled
             to start after 24hrs from booking time and it lasts more than 24hrs.
-            If a guest wants to cancel a confirmed trip, we encourage them to
+            If guest wants to cancel a confirmed trip, we encourage them to
             notify their host as soon as possible via Caradil messaging and to
             process the cancellation themselves through the Caradil website.
           </p>
@@ -166,17 +166,37 @@ const CancellationAndRefund: NextPage = () => {
             Caradil
           </h3>
           <p>Guest trips canceled by host and host no-shows</p>
+          <p>Free cancellation period for host</p>
+
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">TRIP DURATION</th>
+                <th scope="col">FREE CANCELLATION PERIOD</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Less than 24hrs</td>
+                <td>1hr before trip start</td>
+              </tr>
+              <tr>
+                <td>More than 24hrs</td>
+                <td>24hrs before trip start</td>
+              </tr>
+            </tbody>
+          </table>
           <p>
             On occasion, a host might cancel a guest’s trip or fail to show up
             at trip start. If a host cancels a guest’s trip or has not canceled
             and doesn’t show up for the trip within 45 minutes of the scheduled
             start time, it’s a host no-show, and the guest will receive a full
-            refund. Funds from the canceled or no-show trip will be available
-            for 24 hours after the cancellation to be used to rebook a trip.
-            After 24 hours, we’ll automatically issue a full refund. Guests who
-            don’t want to rebook and don’t want to wait 24 hours for Caradil to
-            issue a refund can follow the instructions in the cancellation email
-            to initiate their refund.
+            refund.Also if the host cancels a trip after the free cancellation
+            period above,he is charged a ksh. 350 fee. Funds from the canceled
+            or no-show trip will be available instantly after the cancellation
+            to be used to rebook a trip. Guests who don’t want to rebook can
+            follow the instructions in the cancellation email to initiate their
+            refund.
           </p>
           <p>Trips canceled by Caradil</p>
           <p>

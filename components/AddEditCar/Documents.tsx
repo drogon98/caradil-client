@@ -265,8 +265,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
       )}
       <h3>Documents</h3>
       <p className="mb-3">
-        These documents will help us verify this car is yours. Ensure they are
-        clear and original copies. Otherwise, your car will be rejected.
+        These documents are important to make it possible to verify this car.
       </p>
 
       <form
@@ -321,7 +320,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
           )}
         </div>
         <br />
-        <label>Car Logbook</label>
+        <label>Car Logbook(Optional)</label>
         <div>
           {props.carVerified ? (
             <DocumentContent
@@ -464,7 +463,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
         {props.isManage ? (
           <UpdateBtn
             loading={loading && !secondaryLoading}
-            disabled={documents.documents.length < 2}
+            disabled={!documents.documents[0]}
           />
         ) : (
           <FormNextPrevButton

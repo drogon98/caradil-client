@@ -9,5 +9,9 @@ fragment userInfo on User {
   avatar {
     ...fileInfo
   }
+  top_up_transaction {
+    amount
+  }
+  debit_amount
   business_name
 }

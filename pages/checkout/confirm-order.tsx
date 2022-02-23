@@ -19,7 +19,6 @@ import Layout from "../../components/layouts/Layout";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import { AutoComplete } from "../../components/Location/AutoComplete";
 import {
-  CustomAvailabilityObj,
   OnReserveForBookingDocument,
   useCheckReservedGuestIdMutation,
   useEditCarReservedForBookingMutation,
@@ -29,6 +28,7 @@ import {
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 import { baseHttpDomain } from "../../utils/baseDomain";
+import { TripDatesObj } from "../../utils/interfaces";
 import { getTripDuration } from "../../utils/trip_duration_ttl_calc";
 
 interface ConfirmOrderProps {}
@@ -167,7 +167,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
         // // To calculate the no. of days between two dates
         // let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-        let payload: CustomAvailabilityObj = {
+        let payload: TripDatesObj = {
           startDate,
           startTime,
           endDate,
@@ -176,9 +176,8 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
 
         let durationData = getTripDuration(
           payload,
-          // data.getCar.car.can_rent_hourly!
-          data.getCar.car?.trip_duration! === "less_24" ||
-            data.getCar.car?.trip_duration! === "both"
+
+          data.getCar.car?.can_rent_hourly!
         );
 
         // console.log("Difference_In_Days :>> ", Difference_In_Days);

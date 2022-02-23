@@ -107,10 +107,10 @@ const BrowseCarsNavbar = (): JSX.Element => {
           };
         }
 
-        if (router.query.trip_duration) {
+        if (router.query.car_class) {
           tempValues = {
             ...tempValues,
-            trip_duration: router.query.trip_duration as string,
+            car_class: router.query.car_class as string,
           };
         }
 
@@ -716,14 +716,14 @@ const BrowseCarsNavbar = (): JSX.Element => {
 
                         <div className="mb-4">
                           <div className="d-flex justify-content-between">
-                            <label htmlFor="trip_duration">Trip Duration</label>
+                            <label htmlFor="car_class">Car Class</label>
                             <button
                               className="btn p-0 m-0 more-filters-mini-clear"
                               onClick={async (e) => {
                                 e.preventDefault();
                                 try {
-                                  if (values?.trip_duration) {
-                                    delete values?.trip_duration;
+                                  if (values?.car_class) {
+                                    delete values?.car_class;
                                     setValues({ ...values });
                                     await router.push(
                                       {
@@ -736,7 +736,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   }
                                 } catch (error) {}
                               }}
-                              disabled={!values?.trip_duration}
+                              disabled={!values?.car_class}
                             >
                               Clear
                             </button>
@@ -745,35 +745,35 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             <div className="custom-control custom-radio d-inline-block w-50 mt-1">
                               <input
                                 type="radio"
-                                id="trip_duration_less_than_24hrs"
-                                name="trip_duration"
+                                id="car_class_budget_car"
+                                name="car_class"
                                 className="custom-control-input w-25"
-                                value={"less_24"}
+                                value={"budget_car"}
                                 onChange={handleChange}
-                                checked={values?.trip_duration === "less_24"}
+                                checked={values?.car_class === "budget_car"}
                               />
                               <p
                                 className="custom-control-label m-0 more-filters-text w-75"
-                                // htmlFor="trip_duration_less_than_24hrs"
+                                // htmlFor="car_class_budget_car"
                               >
-                                Less than 24hrs
+                                Budget/Economy Car
                               </p>
                             </div>
                             <div className="custom-control custom-radio d-inline-block w-50">
                               <input
                                 type="radio"
-                                id="trip_duration_more_than_24hrs"
-                                name="trip_duration"
+                                id="car_class_luxury_car"
+                                name="car_class"
                                 className="custom-control-input w-25"
-                                value={"more_24"}
+                                value={"luxury_car"}
                                 onChange={handleChange}
-                                checked={values?.trip_duration === "more_24"}
+                                checked={values?.car_class === "luxury_car"}
                               />
                               <p
                                 className="custom-control-label more-filters-text w-75"
-                                // htmlFor="trip_duration_more_than_24hrs"
+                                // htmlFor="car_class_luxury_car"
                               >
-                                More than 24hrs
+                                Luxury/Premium Car
                               </p>
                             </div>
                           </div>

@@ -21,8 +21,6 @@ import SharedSections from "../../components/PublicCar/SharedSections";
 import { TripDates } from "../../components/PublicCar/TripDates";
 import {
   Car,
-  CustomAvailabilityObj,
-  Maybe,
   OnReserveForBookingDocument,
   useEditCarReservedForBookingMutation,
   // useCheckIfDriverIsApprovedToDriveLazyQuery,
@@ -30,6 +28,7 @@ import {
   useUpdateCarFavouriteMutation,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
+import { TripDatesObj } from "../../utils/interfaces";
 import {
   getTripDuration,
   startHourGreaterThanOrEqualToEndHour,
@@ -47,17 +46,13 @@ const Car: FC<CarProps> = (props) => {
   const role = useRole(token);
   const userId = useUserId(token);
   const [isFavourite, setIsFavourite] = useState<boolean>();
-  const [values, setValues] = useState<
-    Maybe<CustomAvailabilityObj> | undefined
-  >({
+  const [values, setValues] = useState<TripDatesObj>({
     startDate: "",
     startTime: "",
     endDate: "",
     endTime: "",
   });
-  const [userDates, setUserDates] = useState<
-    Maybe<CustomAvailabilityObj> | undefined
-  >({
+  const [userDates, setUserDates] = useState<TripDatesObj>({
     startDate: "",
     startTime: "",
     endDate: "",
@@ -158,16 +153,16 @@ const Car: FC<CarProps> = (props) => {
     }
   }, [data, carId]);
 
-  useEffect(() => {
-    if (car?.custom_availability_data) {
-      setValues({
-        startDate: car?.custom_availability_data.startDate,
-        endDate: car?.custom_availability_data.endDate,
-        startTime: car?.custom_availability_data.startTime,
-        endTime: car?.custom_availability_data.endTime,
-      });
-    }
-  }, [car]);
+  // useEffect(() => {
+  //   // if (car?.custom_availability_data) {
+  //   //   setValues({
+  //   //     startDate: car?.custom_availability_data.startDate,
+  //   //     endDate: car?.custom_availability_data.endDate,
+  //   //     startTime: car?.custom_availability_data.startTime,
+  //   //     endTime: car?.custom_availability_data.endTime,
+  //   //   });
+  //   // }
+  // }, [car]);
 
   // useEffect(() => {
   //   if (validDates && car && values) {
@@ -197,12 +192,7 @@ const Car: FC<CarProps> = (props) => {
   const handleRouteNext = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      if (
-        getTripDuration(
-          userDates!,
-          car?.trip_duration! === "less_24" || car?.trip_duration! === "both"
-        ).type_ === "hour"
-      ) {
+      if (getTripDuration(userDates!, car?.can_rent_hourly!).type_ === "hour") {
         if (startHourGreaterThanOrEqualToEndHour(userDates!)) {
           setTimeError(true);
           setTimeout(() => {
@@ -505,18 +495,16 @@ const Car: FC<CarProps> = (props) => {
                             `Total Ksh.${totalCharge.toLocaleString()}`}
                         </small>
                       </div>
-                      {(car?.trip_duration! === "less_24" ||
-                        car?.trip_duration! === "both") &&
-                        !car?.booked && (
-                          <div style={{ lineHeight: "11px" }}>
-                            <small style={{ fontSize: "11px" }}>
-                              You can rent this car for trips lasting less than
-                              24hrs. By doing so you will be charged hourly. The
-                              hourly rate for this car is{" "}
-                              <b>Ksh.{car?.hourly_rate}/hr</b>
-                            </small>
-                          </div>
-                        )}
+                      {car?.can_rent_hourly && !car?.booked && (
+                        <div style={{ lineHeight: "11px" }}>
+                          <small style={{ fontSize: "11px" }}>
+                            You can rent this car for trips lasting less than
+                            24hrs. By doing so you will be charged hourly. The
+                            hourly rate for this car is{" "}
+                            <b>Ksh.{car?.hourly_rate}/hr</b>
+                          </small>
+                        </div>
+                      )}
                     </div>
 
                     <hr />
@@ -529,7 +517,7 @@ const Car: FC<CarProps> = (props) => {
                       setTotalCharge={setTotalCharge}
                       // validDates={validDates}
                       car={car!}
-                      hasCustomAvailability={car?.custom_availability!}
+                      // hasCustomAvailability={car?.custom_availability!}
                     />
                     {timeError && (
                       <div>
@@ -654,8 +642,7 @@ const Car: FC<CarProps> = (props) => {
                         )}
                       </div>
                     </div>
-                    {(car?.trip_duration! === "less_24" ||
-                      car?.trip_duration! === "both") &&
+                    {car?.can_rent_hourly &&
                       !car?.booked &&
                       (car?.reserved_for_booking_guest_id === userId ||
                         car?.reserved_for_booking_guest_id === 0) && (
@@ -707,7 +694,7 @@ const Car: FC<CarProps> = (props) => {
                     setTotalCharge={setTotalCharge}
                     car={car!}
                     // validDates={validDates}
-                    hasCustomAvailability={car?.custom_availability!}
+                    // hasCustomAvailability={car?.custom_availability!}
                   />
                   {timeError && (
                     <div>

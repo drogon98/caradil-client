@@ -204,6 +204,15 @@ export const Photos: FC<PhotosProps> = (props) => {
         </small>
       </div>
 
+      <div className="mb-2">
+        <small>
+          <b>
+            Note:These photos should only belong to one car. If you have other
+            car,list it as a separate car.
+          </b>
+        </small>
+      </div>
+
       <div className="mb-3">
         <small className="text-danger">
           Note:Uploading photos containing your contact info might result to

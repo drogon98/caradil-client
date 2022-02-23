@@ -1,8 +1,9 @@
 import { Dispatch } from "react";
-import { Car, CustomAvailabilityObj } from "../graphql_types/generated/graphql";
+import { Car } from "../graphql_types/generated/graphql";
+import { TripDatesObj } from "./interfaces";
 
 export const getTripDuration = (
-  dateTime: CustomAvailabilityObj,
+  dateTime: TripDatesObj,
   canRentHourly: boolean = false,
   isBookDuration: boolean = false
 ): { duration: number; type_: string } => {
@@ -88,13 +89,10 @@ export const getTripDuration = (
 
 export const totalChargeCalculator = (
   car: Car,
-  dates: CustomAvailabilityObj,
+  dates: TripDatesObj,
   setTotalCharge: Dispatch<React.SetStateAction<number>>
 ) => {
-  let durationData = getTripDuration(
-    dates,
-    car?.trip_duration! === "less_24" || car?.trip_duration! === "both"!
-  );
+  let durationData = getTripDuration(dates, car?.can_rent_hourly!);
 
   //   console.log("durationData", durationData);
 
@@ -111,9 +109,7 @@ export const totalChargeCalculator = (
   setTotalCharge(total!);
 };
 
-export const startHourGreaterThanOrEqualToEndHour = (
-  dates: CustomAvailabilityObj
-) => {
+export const startHourGreaterThanOrEqualToEndHour = (dates: TripDatesObj) => {
   let startTimeSections = dates.startTime?.split(":");
   let endTimeSections = dates.endTime?.split(":");
 

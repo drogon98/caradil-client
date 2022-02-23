@@ -6,16 +6,12 @@ import React, {
   useState,
 } from "react";
 import { Modal } from "react-bootstrap";
-import { useRole } from "../../../components/hooks/useRole";
 import { ButtonLoading } from "../../../components/Loading/ButtonLoading";
 import {
-  CustomAvailabilityObj,
-  Maybe,
   Trip,
-  useCancelTripMutation,
   useRescheduleTripMutation,
 } from "../../../graphql_types/generated/graphql";
-import { useAppSelector } from "../../../redux/hooks";
+import { TripDatesObj } from "../../../utils/interfaces";
 import { TripDates } from "../../PublicCar/TripDates";
 
 interface Props {
@@ -31,17 +27,13 @@ export default function RescheduleTripModal(props: Props): ReactElement {
   //   const token = useAppSelector((state) => state.auth._id);
   const [rescheduleReason, setRescheduleReason] = useState("");
   const [validDates, setValidDates] = useState(true);
-  const [userDates, setUserDates] = useState<
-    Maybe<CustomAvailabilityObj> | undefined
-  >({
+  const [userDates, setUserDates] = useState<TripDatesObj>({
     startDate: "",
     startTime: "",
     endDate: "",
     endTime: "",
   });
-  const [values, setValues] = useState<
-    Maybe<CustomAvailabilityObj> | undefined
-  >({
+  const [values, setValues] = useState<TripDatesObj>({
     startDate: "",
     startTime: "",
     endDate: "",
@@ -55,8 +47,8 @@ export default function RescheduleTripModal(props: Props): ReactElement {
       setValues({
         startDate: props.trip.start_date,
         endDate: props.trip.end_date,
-        startTime: props.trip.start_time,
-        endTime: props.trip.end_time,
+        startTime: props.trip.start_time as string,
+        endTime: props.trip.end_time as string,
       });
     }
   }, [props.trip]);

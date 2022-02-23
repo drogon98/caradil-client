@@ -1,5 +1,5 @@
-mutation CancelTrip($tripId: Float!, $cancelReason: String!) {
-  cancelTrip(tripId: $tripId, cancelReason: $cancelReason) {
+mutation CancelTrip($tripId: Float!, $input: CancelTripInput!) {
+  cancelTrip(tripId: $tripId, input: $input) {
     trip {
       ...tripInfo
     }

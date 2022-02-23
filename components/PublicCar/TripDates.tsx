@@ -7,29 +7,23 @@ import React, {
   useState,
 } from "react";
 import { time24hrs } from "../../data";
-import {
-  Car,
-  CustomAvailabilityObj,
-  Maybe,
-} from "../../graphql_types/generated/graphql";
+import { Car } from "../../graphql_types/generated/graphql";
+import { TripDatesObj } from "../../utils/interfaces";
 import { totalChargeCalculator } from "../../utils/trip_duration_ttl_calc";
 
 interface TripDatesProps {
-  // setData: Dispatch<SetStateAction<Maybe<CustomAvailabilityObj> | undefined>>;
-  values: Maybe<CustomAvailabilityObj> | undefined;
+  values: TripDatesObj;
   setValidDates: Dispatch<SetStateAction<boolean>>;
-  setTripDates: Dispatch<
-    SetStateAction<Maybe<CustomAvailabilityObj> | undefined>
-  >;
-  userDates: Maybe<CustomAvailabilityObj> | undefined;
+  setTripDates: Dispatch<SetStateAction<TripDatesObj>>;
+  userDates: TripDatesObj;
   setTotalCharge?: Dispatch<React.SetStateAction<number>>;
   car?: Car;
-  hasCustomAvailability?: boolean;
+  // hasCustomAvailability?: boolean;
   isReschedule?: boolean;
 }
 
 export const TripDates: FC<TripDatesProps> = (props) => {
-  const [values, setValues] = useState<CustomAvailabilityObj>({
+  const [values, setValues] = useState<TripDatesObj>({
     endDate: "",
     endTime: "",
     startDate: "",
@@ -43,8 +37,8 @@ export const TripDates: FC<TripDatesProps> = (props) => {
     if (props.values && props.isReschedule) {
       setValues({
         ...props.values!,
-        startDate: createDateValue(new Date(props.values.startDate!)),
-        endDate: createDateValue(new Date(props.values.endDate!)),
+        startDate: createDateValue(new Date(props.values.startDate!))!,
+        endDate: createDateValue(new Date(props.values.endDate!))!,
       });
     }
   }, [props.values, props.isReschedule]);
@@ -121,13 +115,13 @@ export const TripDates: FC<TripDatesProps> = (props) => {
   }, [values, props.car]);
 
   useEffect(() => {
-    if (props.car && props.hasCustomAvailability) {
-      setMinDate(getMinDate(props.values?.startDate as string)!);
-      setMaxDate(getMaxDate(props.values?.endDate as string)!);
-    } else {
-      const date = new Date();
-      setMinDate(createDateValue(date)!);
-    }
+    // if (props.car && props.hasCustomAvailability) {
+    //   setMinDate(getMinDate(props.values?.startDate as string)!);
+    //   setMaxDate(getMaxDate(props.values?.endDate as string)!);
+    // } else {
+    const date = new Date();
+    setMinDate(createDateValue(date)!);
+    // }
     // if (
     //   props.values?.startDate &&
     //   props.values?.endDate &&
@@ -147,7 +141,10 @@ export const TripDates: FC<TripDatesProps> = (props) => {
       setMinDate(getMinDate(e.target.value)!);
     }
     setValues({ ...values, [e.target.name]: e.target.value });
-    props.setTripDates({ ...props.userDates, [e.target.name]: e.target.value });
+    props.setTripDates({
+      ...props.userDates!,
+      [e.target.name]: e.target.value,
+    });
   };
 
   // console.log("minDate :>> ", minDate);

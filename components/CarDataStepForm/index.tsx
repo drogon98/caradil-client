@@ -3,19 +3,20 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import {
   Car,
-  CarAvailabilityInput,
+  CarTripSettingsInput,
   DocumentInput,
   FeatureInput,
   FileInput,
   useGetPrivateCarQuery,
 } from "../../graphql_types/generated/graphql";
 import { AddCarStart } from "../AddEditCar/AddCarStart";
-import { Availability } from "../AddEditCar/Availability";
+import { Trips } from "../AddEditCar/Trips";
 import { Categories } from "../AddEditCar/Categories";
 import { Description } from "../AddEditCar/Description";
 import { Distance } from "../AddEditCar/Distance";
 import { Documents } from "../AddEditCar/Documents";
 import { Features } from "../AddEditCar/Features";
+import { Fueling } from "../AddEditCar/Fueling";
 import { GeneralInfo } from "../AddEditCar/GeneralInfo";
 import { Location } from "../AddEditCar/LocationAndDelivery";
 import { Photos } from "../AddEditCar/Photos";
@@ -40,8 +41,8 @@ export default function CarDataStepForm(props: Props): ReactElement {
   const [skip, setSkip] = useState(true);
   const [photosData, setPhotosData] = useState<FileInput[]>();
   const [documentsData, setDocumentsData] = useState<DocumentInput[]>();
-  const [availabilityData, setAvailabilityData] =
-    useState<CarAvailabilityInput>();
+  const [tripSettingsData, setTripSettingsData] =
+    useState<CarTripSettingsInput>();
   const [featuresData, setFeaturesData] = useState<FeatureInput[]>();
 
   const { data, loading } = useGetPrivateCarQuery({
@@ -128,28 +129,16 @@ export default function CarDataStepForm(props: Props): ReactElement {
 
   useEffect(() => {
     if (compData?.id) {
-      const tempCustomAvailabilityData = {
-        startDate: compData?.custom_availability_data?.startDate,
-        startTime: compData?.custom_availability_data?.startTime,
-        endDate: compData?.custom_availability_data?.endDate,
-        endTime: compData?.custom_availability_data?.endTime,
-      };
-      const tempAvailableData = {
-        // car_has_other_use: compData?.car_has_other_use ?? false,
-        advance_book_period: compData?.advance_book_period ?? "",
-        // available: compData?.available ?? false,
-        custom_availability: compData?.custom_availability ?? false,
-        custom_availability_data: tempCustomAvailabilityData,
-        // can_rent_hourly: compData?.can_rent_hourly ?? false,
-        fuel_policy: compData.fuel_policy!,
-        fuel_efficiency: compData.fuel_efficiency!,
+      const tempTripSettingsData = {
+        advance_book_period: compData?.advance_book_period ?? 1,
+        can_rent_hourly: compData?.can_rent_hourly ?? false,
+        book_and_trip_days: compData.book_and_trip_days ?? [],
+        car_market_class: compData.car_market_class ?? "",
         trip_type: compData.trip_type!,
-        trip_duration: compData.trip_duration!,
-        // driver_mode: compData.driver_mode ?? 3,
-        // manual_transmission_test: compData.manual_transmission_test ?? true,
+        manual_transmission_test: compData.manual_transmission_test ?? false,
       };
 
-      setAvailabilityData({ ...tempAvailableData });
+      setTripSettingsData({ ...tempTripSettingsData });
     }
     // else {
     // setAvailabilityData();
@@ -245,7 +234,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
   }, [data]);
 
   useEffect(() => {
-    const step = 100 / 10;
+    const step = 100 / 11;
     // const step = 100 / slides;
 
     setProgress(step * activeSlide);
@@ -301,10 +290,11 @@ export default function CarDataStepForm(props: Props): ReactElement {
             value={{
               name: compData?.name ?? "",
               reg_no: compData?.reg_no ?? "",
+              id_or_passport_no: compData?.id_or_passport_no ?? "",
               make: compData?.make ?? "",
               odometer_reading: compData?.odometer_reading ?? 0,
-              has_driver: compData?.has_driver ?? true,
-              // is_gps_enabled: compData?.is_gps_enabled ?? true,
+              end_user_type: compData?.end_user_type ?? "",
+              is_gps_enabled: compData?.is_gps_enabled ?? true,
             }}
           />
         </div>
@@ -321,6 +311,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
               gas: compData?.gas ?? "",
               color: compData?.color ?? "",
               doors: compData?.doors ?? 0,
+              bags: compData?.bags ?? 0,
               seats: compData?.seats ?? 0,
               features: featuresData ?? [],
             }}
@@ -374,20 +365,37 @@ export default function CarDataStepForm(props: Props): ReactElement {
 
       {activeSlide === 5 && (
         <div className="col-md-7 col-lg-6 mx-auto mt-5">
-          <Availability
+          <Trips
             setActiveSlide={setActiveSlide}
             activeSlide={activeSlide}
             setCompData={setCompData}
             carId={carId}
             value={{
-              ...availabilityData!,
+              ...tripSettingsData!,
+            }}
+            manual={compData?.transmission === "manual"}
+            isSelfDriven={compData?.end_user_type === "self_driven"}
+          />
+        </div>
+      )}
+
+      {activeSlide === 6 && (
+        <div className="col-md-7 col-lg-6 mx-auto mt-5">
+          <Fueling
+            setActiveSlide={setActiveSlide}
+            activeSlide={activeSlide}
+            setCompData={setCompData}
+            carId={carId}
+            value={{
+              fuel_efficiency: compData?.fuel_efficiency ?? "",
+              fuel_policy: compData?.fuel_policy ?? "",
             }}
             // manual={compData?.transmission === "manual"}
           />
         </div>
       )}
 
-      {activeSlide === 6 && (
+      {activeSlide === 7 && (
         <div className="col-md-7 col-lg-6 mx-auto mt-5">
           <Location
             setActiveSlide={setActiveSlide}
@@ -401,7 +409,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
           />
         </div>
       )}
-      {activeSlide === 7 && (
+      {activeSlide === 8 && (
         <div className="col-md-7 col-lg-6 mx-auto mt-5">
           <Categories
             setActiveSlide={setActiveSlide}
@@ -415,7 +423,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
           />
         </div>
       )}
-      {activeSlide === 8 && (
+      {activeSlide === 9 && (
         <div className="col-md-7 col-lg-6 mx-auto mt-5">
           <Distance
             setActiveSlide={setActiveSlide}
@@ -429,21 +437,20 @@ export default function CarDataStepForm(props: Props): ReactElement {
                 compData?.charge_extra_distance_travelled ?? false,
               distance_per_hour: compData?.distance_per_hour ?? 0,
             }}
-            canRentHourly={
-              compData?.trip_duration! === "less_24" ||
-              compData?.trip_duration! === "both"
-            }
+            canRentHourly={compData?.can_rent_hourly!}
           />
         </div>
       )}
 
-      {activeSlide === 9 && (
+      {activeSlide === 10 && (
         <div className="col-md-7 col-lg-6 mx-auto mt-5">
           <Rates
             setActiveSlide={setActiveSlide}
             activeSlide={activeSlide}
             setCompData={setCompData}
             carId={carId}
+            isChauffeurDriven={compData?.end_user_type === "chauffeur_driven"}
+            canRentHourly={compData?.can_rent_hourly!}
             value={{
               daily_rate: compData?.daily_rate ?? 0,
               delivery_rate: compData?.delivery_rate ?? 0,
@@ -457,7 +464,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
         </div>
       )}
 
-      {activeSlide === 10 && (
+      {activeSlide === 11 && (
         <div className="col-md-7 col-lg-6 mx-auto mt-5">
           <Publish carId={carId} car={compData!} />
         </div>

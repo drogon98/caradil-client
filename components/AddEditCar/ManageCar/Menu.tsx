@@ -92,7 +92,7 @@ export default function Menu(props: Props): ReactElement {
           }`}
           onClick={(e) => props.handleClick(e, 6, props.setShowBurgerDropdown)}
         >
-          <span>Availability</span>
+          <span>Trips</span>
           <span>
             <MdKeyboardArrowRight
               size={props.activeSection === 6 ? `22px` : ``}
@@ -107,7 +107,7 @@ export default function Menu(props: Props): ReactElement {
           }`}
           onClick={(e) => props.handleClick(e, 7, props.setShowBurgerDropdown)}
         >
-          <span>Location</span>
+          <span>Fueling</span>
           <span>
             <MdKeyboardArrowRight
               size={props.activeSection === 7 ? `22px` : ``}
@@ -122,14 +122,14 @@ export default function Menu(props: Props): ReactElement {
           }`}
           onClick={(e) => props.handleClick(e, 8, props.setShowBurgerDropdown)}
         >
-          <span>Categories</span>
+          <span>Location</span>
           <span>
             <MdKeyboardArrowRight
               size={props.activeSection === 8 ? `22px` : ``}
             />
           </span>
         </button>
-      </div>{" "}
+      </div>
       <div>
         <button
           className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
@@ -137,7 +137,7 @@ export default function Menu(props: Props): ReactElement {
           }`}
           onClick={(e) => props.handleClick(e, 9, props.setShowBurgerDropdown)}
         >
-          <span>Distance</span>
+          <span>Categories</span>
           <span>
             <MdKeyboardArrowRight
               size={props.activeSection === 9 ? `22px` : ``}
@@ -152,10 +152,25 @@ export default function Menu(props: Props): ReactElement {
           }`}
           onClick={(e) => props.handleClick(e, 10, props.setShowBurgerDropdown)}
         >
-          <span>Rates</span>
+          <span>Distance</span>
           <span>
             <MdKeyboardArrowRight
               size={props.activeSection === 10 ? `22px` : ``}
+            />
+          </span>
+        </button>
+      </div>{" "}
+      <div>
+        <button
+          className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
+            props.activeSection === 11 && `fw-bold`
+          }`}
+          onClick={(e) => props.handleClick(e, 11, props.setShowBurgerDropdown)}
+        >
+          <span>Rates</span>
+          <span>
+            <MdKeyboardArrowRight
+              size={props.activeSection === 11 ? `22px` : ``}
             />
           </span>
         </button>

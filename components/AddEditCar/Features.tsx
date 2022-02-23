@@ -46,6 +46,7 @@ export const Features: FC<FeaturesProps> = (props) => {
       doors: props.value.doors,
       transmission: props.value.transmission,
       seats: props.value.seats,
+      bags: props.value.bags,
       color: props.value.color,
       features: props.value.features,
     });
@@ -95,6 +96,7 @@ export const Features: FC<FeaturesProps> = (props) => {
       color: values?.color!,
       doors: parseInt(values?.doors as unknown as string, 10)!,
       seats: parseInt(values?.seats as unknown as string, 10)!,
+      bags: parseInt(values?.bags as unknown as string, 10)!,
       features: values?.features!,
     };
 
@@ -249,6 +251,20 @@ export const Features: FC<FeaturesProps> = (props) => {
               name="doors"
               className="form-control car-input-width"
               value={values?.doors}
+              required
+              onChange={handleChange}
+              min={0}
+              onFocus={handleFocus}
+              // disabled={props.isManage && !props.isEdit}
+            />
+          </div>
+          <div className="col-6">
+            <label htmlFor="carName">Bags</label>
+            <input
+              type="number"
+              name="bags"
+              className="form-control car-input-width"
+              value={values?.bags}
               required
               onChange={handleChange}
               min={0}

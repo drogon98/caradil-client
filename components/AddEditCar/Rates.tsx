@@ -28,6 +28,8 @@ interface RatesProps {
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   compData: Car;
   isManage?: boolean;
+  isChauffeurDriven: boolean;
+  canRentHourly: boolean;
   // verificationInProgress?: boolean;
 }
 
@@ -116,49 +118,40 @@ export const Rates: FC<RatesProps> = (props) => {
             Daily rate should be a value greater than zero!
           </small>
         )}
+        {props.canRentHourly && (
+          <div className="mb-4">
+            <label htmlFor="mileage">Hourly Rate</label>
+            <div>
+              <small>
+                This is amount guest will pay for your car in an hour.{" "}
+                {props.isChauffeurDriven && "It should include the driver fee"}
+              </small>
+            </div>
 
-        {}
-
-        <div className="mb-4">
-          <label htmlFor="mileage">Hourly Rate</label>
-          <div>
-            <small>
-              This is amount guest will pay for your car in an hour. It should
-              include the driver fee
-            </small>
+            <div className="input-group car-input-width mb-3">
+              <input
+                type="number"
+                name="hourly_rate"
+                className="form-control"
+                value={values?.hourly_rate}
+                required
+                onChange={handleChange}
+                placeholder="eg John Doe"
+                min={0}
+                // placeholder="eg John Doe"
+                onFocus={handleFocus}
+              />
+              <span className="input-group-text">Ksh</span>
+            </div>
           </div>
+        )}
 
-          <div className="input-group car-input-width mb-3">
-            <input
-              type="number"
-              name="hourly_rate"
-              className="form-control"
-              value={values?.hourly_rate}
-              required
-              onChange={handleChange}
-              placeholder="eg John Doe"
-              min={0}
-              // placeholder="eg John Doe"
-              onFocus={handleFocus}
-            />
-            <span className="input-group-text">Ksh</span>
-          </div>
-          {/* <input
-            type="number"
-            name="hourly_rate"
-            className="form-control"
-            value={props.value.hourly_rate}
-            required
-            onChange={handleChange}
-            placeholder="eg John Doe"
-          /> */}
-        </div>
         <div className="mb-4">
           <label htmlFor="mileage">Daily Rate</label>
           <div>
             <small>
-              This is amount guest will pay for your car in a day. It should
-              include the driver fee
+              This is amount guest will pay for your car in a day.{" "}
+              {props.isChauffeurDriven && "It should include the driver fee"}
             </small>
           </div>
 
@@ -194,10 +187,7 @@ export const Rates: FC<RatesProps> = (props) => {
             <small>
               You may want to give discount to your guests based on various
               things. eg. No. of days they rent your car{" "}
-              <b>
-                Note: This discount will be applied on the total amount of your
-                car
-              </b>
+              <b>Note: This discount will be applied on the total trip fee</b>
             </small>
           </div>
           <div className="input-group car-input-width mb-3">

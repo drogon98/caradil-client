@@ -29,6 +29,7 @@ fragment carInfo on Car {
   # verified
   published
   seats
+  bags
   doors
   transmission
   gas
@@ -36,13 +37,13 @@ fragment carInfo on Car {
   discount
   discount_days
   # available
-  custom_availability
-  custom_availability_data {
-    startDate
-    startTime
-    endDate
-    endTime
-  }
+  # custom_availability
+  # custom_availability_data {
+  #   startDate
+  #   startTime
+  #   endDate
+  #   endTime
+  # }
   make
   location
   distance_per_day
@@ -54,21 +55,23 @@ fragment carInfo on Car {
   categories
   luxury_vip_services
   color
-  has_driver
+  # has_driver
   # driver_daily_rate
   delivery
   delivery_rate
-  # can_rent_hourly
-  trip_duration
+  can_rent_hourly
+  # trip_duration
   hourly_rate
   has_unlimited_distance
   # car_has_other_use
   # driver_mode
   advance_book_period
-  # manual_transmission_test
+  manual_transmission_test
   charge_extra_distance_travelled
-  # is_gps_enabled
+  is_gps_enabled
   being_edited
+  car_market_class
+  book_and_trip_days
   # has_edit_request
   # verification_in_progress
   fuel_efficiency
@@ -77,4 +80,6 @@ fragment carInfo on Car {
   suspended
   reserved_for_booking_guest_id
   trip_type
+  end_user_type
+  id_or_passport_no
 }

@@ -48,10 +48,11 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
     let tempData = {
       name: props.value.name,
       reg_no: props.value.reg_no,
+      id_or_passport_no: props.value.id_or_passport_no,
       make: props.value.make,
       odometer_reading: props.value.odometer_reading,
-      has_driver: props.value.has_driver,
-      // is_gps_enabled: props.value.is_gps_enabled,
+      end_user_type: props.value.end_user_type,
+      is_gps_enabled: props.value.is_gps_enabled,
     };
 
     setValues({ ...tempData });
@@ -67,7 +68,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
       });
     } else if (e.target.name === "odometer_reading") {
       setValues({ ...values!, [e.target.name]: parseInt(e.target.value, 10) });
-    } else if (e.target.name === "has_driver") {
+    } else if (e.target.name === "is_gps_enabled") {
       setValues({
         ...values!,
         [e.target.name]: e.target.value === "true" ? true : false,
@@ -100,8 +101,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           options: {
             ...values!,
             name: values?.name.trim()!,
-            has_driver:
-              values?.has_driver === undefined ? false : values.has_driver,
+            // has_driver:
+            //   values?.has_driver === undefined ? false : values.has_driver,
           },
           isEdit: props.isResume || props.isManage ? true : false,
           carId: props.carId,
@@ -249,7 +250,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
                 </small>
               )}
             </div>
-            <label htmlFor="name">Name</label>
+            <label>Name</label>
             <input
               id="name"
               type="text"
@@ -265,8 +266,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               // disabled={props.isManage && !props.isEdit}
             />
           </div>
-          <div className="col-6">
-            <label htmlFor="carMake">Make</label>
+          <div className="col-6 p-0">
+            <label>Make</label>
             <select
               className="form-select form-control car-general-info-input-width"
               aria-label="Default select example"
@@ -287,7 +288,21 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         </div>
         <div className="row m-0 mt-3">
           <div className="col-6 p-0">
-            <label htmlFor="carName">Registration No.</label>
+            <label>Owner Id/Passport No.</label>
+            <input
+              type="text"
+              name="id_or_passport_no"
+              className="form-control car-general-info-input-width"
+              value={values?.id_or_passport_no}
+              required
+              onChange={handleChange}
+              placeholder="eg 11111111"
+              onFocus={handleRegNoFocus}
+              // disabled={props.isManage && !props.isEdit}
+            />
+          </div>
+          <div className="col-6 p-0">
+            <label>Registration No.</label>
             <input
               type="text"
               name="reg_no"
@@ -300,45 +315,65 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               // disabled={props.isManage && !props.isEdit}
             />
           </div>
-          <div className="col-6">
-            <label htmlFor="carName">Odometer Reading</label>
-            <input
-              type="number"
-              name="odometer_reading"
-              className="form-control car-general-info-input-width"
-              value={values?.odometer_reading}
-              required
-              onChange={handleChange}
-              placeholder="eg 80000"
-              min={0}
-              onFocus={handleOdoFocus}
-              // disabled={props.isManage && !props.isEdit}
-            />
+        </div>
+
+        <div className="row m-0 mt-3">
+          <div className="container p-0">
+            <label>Which driving mode is this car elligible for?</label>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                value={"self_driven"}
+                id="end_user_type_self"
+                checked={values?.end_user_type === "self_driven"}
+                name="end_user_type"
+                onChange={handleChange}
+              />
+              <label className="form-check-label" htmlFor="flexRadioDefault1">
+                Self Driven (Guest will have to drive the car)
+              </label>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                value={"chauffeur_driven"}
+                id="end_user_type_chauffeur"
+                checked={values?.end_user_type === "chauffeur_driven"}
+                name="end_user_type"
+                onChange={handleChange}
+              />
+              <label className="form-check-label" htmlFor="flexRadioDefault2">
+                Chauffer Driven (This is your driver or you)
+              </label>
+            </div>
           </div>
         </div>
-        <div className="row m-0">
+        {/* </div> */}
+
+        <div className="row m-0 mt-3">
           <div className="container p-0">
-            <div className="form-check mt-3">
+            <div className="form-check">
               <input
                 className="form-check-input"
                 type="checkbox"
-                value={values?.has_driver ? "false" : "true"}
+                value={values?.is_gps_enabled ? "false" : "true"}
                 id="gps-enabled"
-                checked={values?.has_driver}
-                name="has_driver"
+                checked={values?.is_gps_enabled}
+                name="is_gps_enabled"
                 onChange={handleChange}
                 // disabled={props.isManage && !props.isEdit}
               />
               <label className="form-check-label" htmlFor="gps-enabled">
-                I Will Provide a Driver?
+                Is GPS enabled
               </label>
             </div>
-            {values && !values.has_driver && (
-              <div>
-                <small className="text-danger">
-                  <b>
-                    We are only listings cars that will have drivers on renting.
-                  </b>
+            {!values?.is_gps_enabled && (
+              <div className="text-danger">
+                <small>
+                  Listing a car that is not gps enabled is at your own risk. GPS
+                  will help us track the car if there are any issues.
                 </small>
               </div>
             )}
@@ -370,7 +405,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         ) : (
           <FormNextPrevButton
             loading={loading}
-            disabled={loading || !values?.has_driver}
+            disabled={loading}
             setActiveSlide={props.setActiveSlide!}
             activeSlide={props.activeSlide!}
           />
