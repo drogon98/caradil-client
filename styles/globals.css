@@ -267,10 +267,6 @@ label {
 }
 
 @media screen and (max-width: 500px) {
-  * {
-    font-size: 17px;
-  }
-
   .how-it-works-circle {
     height: 50px;
     width: 50px;
@@ -338,6 +334,8 @@ label {
 .brand {
   flex: 1;
   font-family: "Archivo", sans-serif;
+  font-size: larger;
+  font-weight: bolder;
 }
 
 .mainNavLinks {
@@ -1307,10 +1305,6 @@ car-input-container select:focus {
 @media screen and (max-width: 500px) {
   .details-top-icon {
     font-size: 20px;
-  }
-
-  * {
-    font-size: 13px;
   }
 
   .details-top-icons-wrapper {
