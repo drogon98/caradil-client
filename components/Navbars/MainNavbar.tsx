@@ -81,11 +81,13 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
     >
       <div className="customContainer d-flex py-2 my-auto">
         <div className="brand">
-          <Link href="/">
-            <a>
-              <h1 className="m0 brand-head">Caradil</h1>
-            </a>
-          </Link>
+          <h1 className="m0">
+            <Link href="/">
+              <a>
+                <span>Caradil</span>
+              </a>
+            </Link>
+          </h1>
         </div>
         <div className="mainNavLinks d-flex">
           <div className="mainNavLinksLeft d-flex align-items-center justify-content-around">
