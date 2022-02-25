@@ -38,7 +38,8 @@ fragment carInfo on Car {
   discount_days
   # available
   # custom_availability
-  # custom_availability_data {
+  # trips_data {
+  #   id
   #   startDate
   #   startTime
   #   endDate

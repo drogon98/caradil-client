@@ -39,8 +39,10 @@ export default function ConfirmTripModal(props: Props): ReactElement {
         <Modal.Title>Confirm Trip</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        By confirming this trip you agree that you are ready to provide your car
-        on the specified date, on time and in good condition.
+        <p>
+          By confirming this trip you agree that you are ready to provide your
+          car on the specified date, on time and in good condition.
+        </p>
         <form onSubmit={handleConfirmTrip} className="mt-3">
           <div className="d-grid gap-2">
             <button

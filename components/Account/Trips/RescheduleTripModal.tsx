@@ -12,7 +12,7 @@ import {
   useRescheduleTripMutation,
 } from "../../../graphql_types/generated/graphql";
 import { TripDatesObj } from "../../../utils/interfaces";
-import { TripDates } from "../../PublicCar/TripDates";
+// import { TripDates } from "../../PublicCar/TripDates";
 
 interface Props {
   //   children: ReactChild;
@@ -28,16 +28,16 @@ export default function RescheduleTripModal(props: Props): ReactElement {
   const [rescheduleReason, setRescheduleReason] = useState("");
   const [validDates, setValidDates] = useState(true);
   const [userDates, setUserDates] = useState<TripDatesObj>({
-    startDate: "",
-    startTime: "",
-    endDate: "",
-    endTime: "",
+    start_date: new Date().getTime(),
+    end_date: new Date().getTime(),
+    start_time: "",
+    end_time: "",
   });
   const [values, setValues] = useState<TripDatesObj>({
-    startDate: "",
-    startTime: "",
-    endDate: "",
-    endTime: "",
+    start_date: new Date().getTime(),
+    end_date: new Date().getTime(),
+    start_time: "",
+    end_time: "",
   });
   const [rescheduleTrip, { loading }] = useRescheduleTripMutation();
   //   const [tripDatesError, setTripDatesError] = useState(false);
@@ -45,10 +45,10 @@ export default function RescheduleTripModal(props: Props): ReactElement {
   useEffect(() => {
     if (props.trip) {
       setValues({
-        startDate: props.trip.start_date,
-        endDate: props.trip.end_date,
-        startTime: props.trip.start_time as string,
-        endTime: props.trip.end_time as string,
+        start_date: props.trip.start_date,
+        end_date: props.trip.end_date,
+        start_time: props.trip.start_time as string,
+        end_time: props.trip.end_time as string,
       });
     }
   }, [props.trip]);
@@ -64,10 +64,10 @@ export default function RescheduleTripModal(props: Props): ReactElement {
         variables: {
           tripId: props.tripId!,
           input: {
-            start_date: userDates?.startDate!,
-            end_date: userDates?.endDate!,
-            start_time: userDates?.startTime!,
-            end_time: userDates?.endTime!,
+            start_date: userDates?.start_date!,
+            end_date: userDates?.end_date!,
+            start_time: userDates?.start_time!,
+            end_time: userDates?.end_time!,
             reschedule_reason: rescheduleReason,
           },
         },
@@ -123,13 +123,13 @@ export default function RescheduleTripModal(props: Props): ReactElement {
               </small>
             </div>
           )} */}
-          <TripDates
+          {/* <TripDates
             setValidDates={setValidDates}
             setTripDates={setUserDates}
             userDates={userDates}
             values={values}
             isReschedule
-          />
+          /> */}
 
           <label className="mt-3">Reschedule Reason</label>
           <textarea

@@ -10,12 +10,14 @@ import authReducer from "./authSlice";
 import logoutReducer from "./logoutSlice";
 import notificationReducer from "./notificationSlice";
 import userReducer from "./userSlice";
+import searchReducer from "./searchSlice";
 
 const reducers = combineReducers({
   auth: authReducer,
   logout: logoutReducer,
   notifications: notificationReducer,
   user: userReducer,
+  search: searchReducer,
 });
 
 const persistConfig = {

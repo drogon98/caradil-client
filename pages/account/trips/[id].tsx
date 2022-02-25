@@ -211,7 +211,61 @@ export default function Trip(props: Props): ReactElement {
                 </div>
               </div>
               <div>
-                <div>
+                <div className="my-4">
+                  {/* <h6 className="fw-bolder">Trip Status</h6> */}
+                  <div>
+                    <div className="mb-2">
+                      {trip?.status === "pending" && (
+                        <p>
+                          This trip is{" "}
+                          <span className="colorOrange fw-bold">waiting</span>{" "}
+                          confirmation from host.
+                        </p>
+                      )}
+                      {trip?.status === "confirmed" && (
+                        <p>
+                          This trip is{" "}
+                          <span className="text-primary fw-bold">
+                            in progress
+                          </span>{" "}
+                          .
+                        </p>
+                      )}
+                      {trip?.status === "successful" && (
+                        <p>
+                          This trip is{" "}
+                          <span className="text-success fw-bold">
+                            successful
+                          </span>
+                          .{" "}
+                        </p>
+                      )}
+                      {trip?.status === "cancelled" && (
+                        <p>
+                          This trip is{" "}
+                          <span className="text-danger fw-bold">cancelled</span>
+                          .{" "}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  {trip?.status === "cancelled" && (
+                    <div>
+                      <label>
+                        Why {trip?.trip_canceller === "HOST" ? "host" : "you"}{" "}
+                        cancelled trip?
+                      </label>
+                      <textarea
+                        value={trip?.why_cancel_trip!}
+                        style={{ resize: "none" }}
+                        readOnly
+                        className="form-control"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* <div>
                   <h6 className="fw-bolder">Car Details</h6>
                   <div>
                     <div className="d-flex w-100 justify-content-between mb-2">
@@ -222,14 +276,7 @@ export default function Trip(props: Props): ReactElement {
                       <p>Registration No.</p>
                       <span>{trip?.car?.reg_no}</span>
                     </div>
-                    {/* <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Seats</p>
-                      <span>{trip?.car?.seats}</span>
-                    </div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Doors</p>
-                      <span>{trip?.car?.doors}</span>
-                    </div> */}
+                    
                     <div className="d-flex w-100 justify-content-between mb-2">
                       <p>Daily Rate</p>
                       <span>ksh.{trip?.car?.daily_rate?.toLocaleString()}</span>
@@ -239,11 +286,32 @@ export default function Trip(props: Props): ReactElement {
                       <span>Yes</span>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="my-4">
-                  <h6 className="fw-bolder">Trip Dates</h6>
-                  <div>
+                  {/* <h6 className="fw-bolder">Trip Dates</h6> */}
+                  <p>
+                    This trip is scheduled to start on{" "}
+                    <b>{new Date(trip?.start_date).toLocaleDateString()}</b> at{" "}
+                    <b>{trip?.start_time}hrs</b>
+                  </p>{" "}
+                  and end on{" "}
+                  <b>{new Date(trip?.end_date).toLocaleDateString()}</b> at{" "}
+                  {trip?.end_time}hrs.
+                  {trip?.status === "confirmed" && (
+                    <>
+                      <p>You need to reschedule the trip?</p>
+                      <div className="mt-2">
+                        <button
+                          className="btn bgOrange"
+                          onClick={handleRescheduleTrip}
+                        >
+                          Reschedule Trip
+                        </button>
+                      </div>
+                    </>
+                  )}
+                  {/* <div>
                     <div className="d-flex w-100 justify-content-between mb-2">
                       <p>Start Date</p>
                       <span>
@@ -264,31 +332,64 @@ export default function Trip(props: Props): ReactElement {
                       <p>End Time</p>
                       <span>{trip?.end_time}hrs</span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
-                <div className="my-4">
-                  <h6 className="fw-bolder">Trip Status</h6>
-                  <div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Status</p>
-                      <span>{trip?.status}</span>
-                    </div>
-                  </div>
-                  {trip?.status === "cancelled" && (
-                    <div>
-                      <label>
-                        Why {trip?.trip_canceller === "HOST" ? "host" : "you"}{" "}
-                        cancelled trip?
-                      </label>
-                      <textarea
-                        value={trip?.why_cancel_trip!}
-                        style={{ resize: "none" }}
-                        readOnly
-                        className="form-control"
-                      />
-                    </div>
-                  )}
+                {/* Show when trip status is not pending or cancelled */}
+                <div>
+                  <h6>Important things to note</h6>
+                  <ul className="my-2">
+                    <li>
+                      <small>
+                        This car has limited distance coverage. Exceeding the
+                        set distance will attract a fee.
+                      </small>
+                    </li>
+                    <li>
+                      <small>
+                        This host demands to put the driver in a 30 minutes gear
+                        shift test. Get ready for the test.
+                      </small>
+                    </li>
+                    <li>
+                      <small>
+                        Carry with you a valid driving license and national
+                        id/passport. This documents should belong to the one who
+                        booked the car.
+                      </small>
+                    </li>
+                    <li>
+                      <small>
+                        If you have a driver other than you, he should also show
+                        up with his valid driving license and national
+                        id/passport.
+                      </small>
+                    </li>
+                    <li>
+                      <small>
+                        Take many photos as possible of the car outer and inner
+                        views before the host hands you the key. In case you
+                        spot a defect,let the host know to avoid extra charges
+                        when you return the car.
+                      </small>
+                    </li>
+                    <li>
+                      <small>
+                        Check fuel reading to see if it meets the car fueling
+                        policy
+                      </small>
+                    </li>
+                    <li>
+                      <small>
+                        Record the car odometer reading with host, to help you
+                        calculate if you travelled extra distance when you
+                        return the car.
+                      </small>
+                    </li>
+                    <li>
+                      <small>Check if the car has enough spare parts.</small>
+                    </li>
+                  </ul>
                 </div>
 
                 <div className="d-grid gap-2 mb-2">
@@ -310,17 +411,6 @@ export default function Trip(props: Props): ReactElement {
                       onClick={handleAddToFavourite}
                     >
                       Add to favourites
-                    </button>
-                  </div>
-                )}
-
-                {trip?.status === "confirmed" && (
-                  <div className="d-grid gap-2 mb-2">
-                    <button
-                      className="btn bgOrange"
-                      onClick={handleRescheduleTrip}
-                    >
-                      Reschedule Trip
                     </button>
                   </div>
                 )}

@@ -112,10 +112,10 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
       setSkip(false);
       setValues({
         ...values,
-        p1: router.query.startDate as string,
-        p2: router.query.startTime as string,
-        p3: router.query.endDate as string,
-        p4: `${router.query.endTime as string} ${router.query.carId}`,
+        p1: router.query.start_date as string,
+        p2: router.query.start_time as string,
+        p3: router.query.end_date as string,
+        p4: `${router.query.end_time as string} ${router.query.carId}`,
       });
     }
   }, [router.query]);
@@ -155,23 +155,23 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
 
   useEffect(() => {
     try {
-      if (data?.getCar.car && router.query.startDate) {
-        let startDate = router.query.startDate! as string;
-        let endDate = router.query.endDate! as string;
-        let startTime = router.query.startTime! as string;
-        let endTime = router.query.endTime! as string;
+      if (data?.getCar.car && router.query.start_date) {
+        let start_date = parseInt(router.query.start_date! as string);
+        let end_date = parseInt(router.query.end_date! as string);
+        let start_time = router.query.start_time! as string;
+        let end_time = router.query.end_time! as string;
 
         // To calculate the time difference of two dates
-        // let Difference_In_Time = endDate.getTime() - startDate.getTime();
+        // let Difference_In_Time = end_date.getTime() - startDate.getTime();
 
         // // To calculate the no. of days between two dates
         // let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
         let payload: TripDatesObj = {
-          startDate,
-          startTime,
-          endDate,
-          endTime,
+          start_date,
+          start_time,
+          end_date,
+          end_time,
         };
 
         let durationData = getTripDuration(

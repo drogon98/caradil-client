@@ -115,6 +115,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           response?.data?.addEditCarGeneralInfo.error
         );
       } else if (response?.data?.addEditCarGeneralInfo.carId) {
+        console.log("Test.....");
+
         props.setCompData(response.data.addEditCarGeneralInfo.car!);
         if (!props.isResume && !props.isManage) {
           sessionStorage.setItem(
@@ -129,6 +131,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           props.setCarId!(response.data.addEditCarGeneralInfo.car?.id!);
           props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
         }
+
+        console.log("Test.....1");
       }
     } catch (error) {
       let errorMessage = "";
@@ -297,7 +301,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               required
               onChange={handleChange}
               placeholder="eg 11111111"
-              onFocus={handleRegNoFocus}
+              // onFocus={handleRegNoFocus}
               // disabled={props.isManage && !props.isEdit}
             />
           </div>
@@ -316,6 +320,22 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             />
           </div>
         </div>
+        <div className="row m-0 mt-3">
+          <div className="col-6 p-0">
+            <label>Odometer Reading</label>
+            <input
+              type="number"
+              name="odometer_reading"
+              className="form-control car-general-info-input-width"
+              value={values?.odometer_reading}
+              required
+              onChange={handleChange}
+              placeholder="eg 12000"
+              // onFocus={handleRegNoFocus}
+              // disabled={props.isManage && !props.isEdit}
+            />
+          </div>
+        </div>
 
         <div className="row m-0 mt-3">
           <div className="container p-0">
@@ -329,6 +349,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
                 checked={values?.end_user_type === "self_driven"}
                 name="end_user_type"
                 onChange={handleChange}
+                required
               />
               <label className="form-check-label" htmlFor="flexRadioDefault1">
                 Self Driven (Guest will have to drive the car)
@@ -343,6 +364,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
                 checked={values?.end_user_type === "chauffeur_driven"}
                 name="end_user_type"
                 onChange={handleChange}
+                required
               />
               <label className="form-check-label" htmlFor="flexRadioDefault2">
                 Chauffer Driven (This is your driver or you)

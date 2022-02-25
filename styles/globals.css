@@ -334,8 +334,6 @@ label {
 .brand {
   flex: 1;
   font-family: "Archivo", sans-serif;
-  font-size: larger;
-  font-weight: bolder;
 }
 
 .mainNavLinks {
@@ -554,7 +552,7 @@ label {
 
 .browse-cars-nav-when-tooltip {
   position: absolute;
-  width: 300px;
+  width: 366px;
   background-color: #fff;
   top: 130%;
   /* height: 400px; */
@@ -578,7 +576,18 @@ label {
 }
 
 .rlc-calendar {
-  width: 100% !important;
+  width: 350px !important;
+}
+
+.rlc-day-label,
+.rlc-day {
+  width: 14.28% !important;
+  height: 50px !important;
+}
+
+.trip-dates-modal {
+  width: 360px;
+  margin: auto;
 }
 
 @media screen and (max-width: 1000px) {
@@ -602,6 +611,7 @@ label {
     /* width: 100% !important; */
     background-color: #fff !important;
     top: 130%;
+    z-index: 800;
   }
 
   /* .sdp {
@@ -682,6 +692,21 @@ label {
     height: 35px;
     width: 250px;
   }
+
+  .rlc-calendar {
+    width: 320px !important;
+  }
+
+  .rlc-day-label,
+  .rlc-day {
+    width: 14.28% !important;
+    height: 45px !important;
+  }
+
+  .trip-dates-modal {
+    width: 330px;
+    margin: auto;
+  }
 }
 
 @media screen and (max-width: 350px) {
@@ -701,6 +726,21 @@ label {
   .browse-cars-nav-form {
     height: 35px;
     width: 200px;
+  }
+
+  .rlc-calendar {
+    width: 300px !important;
+  }
+
+  .rlc-day-label,
+  .rlc-day {
+    width: 14.28% !important;
+    height: 44px !important;
+  }
+
+  .trip-dates-modal {
+    width: 310px;
+    margin: auto;
   }
 }
 
@@ -1226,7 +1266,7 @@ car-input-container select:focus {
     bottom: 5px;
     left: 98vw;
     width: 98vw;
-    height: 80px;
+    height: 140px;
     background-color: #fff;
     box-shadow: 0 0 11px rgba(0, 0, 0, 0.5);
     border-radius: 5px;

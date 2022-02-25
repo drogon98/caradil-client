@@ -9,10 +9,12 @@ import React, {
   useState,
 } from "react";
 import { time24hrs } from "../../data";
+import { TripDatesObj } from "../../utils/interfaces";
+import { TripDates } from "../PublicCar/TripDates";
 
 interface BrowseCarsWhenCompProps {
   whenCompRef: any;
-  dateTime: any;
+  dateTime: TripDatesObj;
   setDateTime: any;
   dateTimeInput: string;
   setShowWhenComp: any;
@@ -20,56 +22,72 @@ interface BrowseCarsWhenCompProps {
   setDateTimeInput: any;
   searchBtnRef: RefObject<HTMLElement>;
   setValues: any;
+  startDate: number;
+  endDate: number;
+  setStartDate: any;
+  setEndDate: any;
 }
 
 const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
-  const router = useRouter();
-  const [startDate, setStartDate] = useState(() => {
-    let date = new Date();
-    return date.getTime();
+  // const router = useRouter();
+  const [values, setValues] = useState<TripDatesObj>({
+    start_date: null,
+    end_date: null,
+    start_time: "",
+    end_time: "",
   });
-  const [endDate, setEndDate] = useState(() => {
-    let date = new Date();
-    return date.getTime() + 14;
-  });
-  const [startTime, setStartTime] = useState<string>();
-  const [endTime, setEndTime] = useState<string>();
+  // const [startDate, setStartDate] = useState(() => {
+  //   let date = new Date();
+  //   return date.getTime();
+  // });
+  // const [endDate, setEndDate] = useState(() => {
+  //   let date = new Date();
+  //   return date.getTime() + 14;
+  // });
+  // const [startTime, setStartTime] = useState<string>();
+  // const [endTime, setEndTime] = useState<string>();
   const [timeError, setTimeError] = useState("");
 
   useEffect(() => {
     if (props.dateTime) {
       try {
-        console.log("props.dateTime :>> ", props.dateTime);
-        setEndDate(props.dateTime.end_date);
-        setStartDate(props.dateTime.start_date);
-        setStartTime(props.dateTime.start_time);
-        setEndTime(props.dateTime.end_time);
+        // console.log("props.dateTime :>> ", props.dateTime);
+        // setEndDate(props.dateTime.end_date);
+        // setStartDate(props.dateTime.start_date);
+        // setStartTime(props.dateTime.start_time);
+        // setEndTime(props.dateTime.end_time);
+        setValues({
+          ...values,
+          start_date: props.dateTime.start_date,
+          end_date: props.dateTime.end_date,
+          start_time: props.dateTime.start_time,
+          end_time: props.dateTime.end_time,
+        });
       } catch (error) {
         console.log("error :>> ", error);
       }
     }
   }, [props.dateTime]);
 
-  const handleDateChange = (
-    startDate: React.SetStateAction<number>,
-    endDate: React.SetStateAction<number>
-  ) => {
-    setStartDate(startDate);
-    if (!endDate) {
-      setEndDate(startDate);
-    } else {
-      setEndDate(endDate);
-    }
-  };
+  // const handleDateChange = (
+  //   startDate: React.SetStateAction<number>,
+  //   endDate: React.SetStateAction<number>
+  // ) => {
+  //   setStartDate(startDate);
+  //   if (!endDate) {
+  //     setEndDate(startDate);
+  //   } else {
+  //     setEndDate(endDate);
+  //   }
+  // };
+
+  const disableDates = (date: number) => date < new Date().getTime() - 86400000;
 
   const handleApplyTime = (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // console.log("startTime :>> ", startTime);
-    // console.log("endTime :>> ", endTime);
-    // console.log("startDate :>> ", startDate);
-    // console.log("endDate :>> ", endDate);
+
     try {
-      if (!startTime) {
+      if (!values.start_time) {
         setTimeError("Please select start time!");
         setTimeout(() => {
           setTimeError("");
@@ -77,7 +95,7 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
         return;
       }
 
-      if (!endTime) {
+      if (!values.end_time) {
         setTimeError("Please select end time!");
         setTimeout(() => {
           setTimeError("");
@@ -85,9 +103,9 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
         return;
       }
 
-      if (startDate >= endDate) {
-        let startTimeSections = startTime?.split(":");
-        let endTimeSections = endTime?.split(":");
+      if (props.startDate >= props.endDate) {
+        let startTimeSections = values.start_time?.split(":");
+        let endTimeSections = values.end_time?.split(":");
 
         let startTimeHour = parseInt(startTimeSections?.[0]!, 10);
         let endTimeHour = parseInt(endTimeSections?.[0]!, 10);
@@ -102,13 +120,11 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
         // return false;
       }
 
-      // let tempStartTime = combineTimeObj(startTime!);
-      // let tempEndTime = combineTimeObj(endTime!);
       props.setDateTime({
-        start_time: startTime,
-        end_time: endTime,
-        start_date: startDate,
-        end_date: endDate,
+        start_time: values.start_time,
+        end_time: values.end_time,
+        start_date: props.startDate,
+        end_date: props.endDate,
       });
     } catch (error) {
       console.log("error :>> ", error);
@@ -143,21 +159,26 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
       className="browse-cars-nav-when-tooltip shadow p-2"
       ref={props.whenCompRef}
     >
-      {timeError && (
-        <p>
-          <small className="text-danger">{timeError}</small>
-        </p>
-      )}
+      <TripDates
+        disableDates={disableDates}
+        values={values}
+        setValues={setValues}
+        timeError={timeError}
+        startDate={props.startDate}
+        endDate={props.endDate}
+        setStartDate={props.setStartDate}
+        setEndDate={props.setEndDate}
+      />
 
-      <div className="d-flex mb-3">
-        <div className="d-flex align-items-center w-50">
+      {/* <div className="row mb-2">
+        <div className="col d-flex flex-column w-50">
           <div>
-            <label style={{ fontSize: "11px" }}>Start Time:</label>
+            <label style={{ fontSize: "11px" }}>Start Time</label>
           </div>
           <div>
             <div className="w-100">
               <select
-                className="w-100"
+                className="w-100 form-control"
                 name="startTime"
                 onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                   setStartTime(e.target.value);
@@ -174,14 +195,14 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
             </div>
           </div>
         </div>
-        <div className="d-flex align-items-center w-50">
+        <div className="col d-flex flex-column w-50">
           <div>
-            <label style={{ fontSize: "11px" }}>End Time:</label>
+            <label style={{ fontSize: "11px" }}>End Time</label>
           </div>
           <div>
             <div className="w-100">
               <select
-                className="w-100"
+                className="w-100 form-control"
                 name="endTime"
                 onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                   setEndTime(e.target.value);
@@ -198,6 +219,9 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
             </div>
           </div>
         </div>
+        <div>
+          <small style={{ fontSize: "11px" }}>This is EAT time</small>
+        </div>
       </div>
       <div className="d-flex flex-column justify-content-between w-100">
         <div>
@@ -207,11 +231,13 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
           <Calendar
             startDate={startDate}
             endDate={endDate}
-            // disableDates={(date: number) => date < new Date().getTime()}
+            disableDates={(date: number) =>
+              date < new Date().getTime() - 86400000
+            }
             onChange={handleDateChange}
           />
         </div>
-      </div>
+      </div> */}
 
       <div className="d-flex justify-content-end mt-2" style={{ zIndex: 0 }}>
         {props.dateTimeInput && (

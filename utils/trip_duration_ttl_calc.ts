@@ -7,9 +7,9 @@ export const getTripDuration = (
   canRentHourly: boolean = false,
   isBookDuration: boolean = false
 ): { duration: number; type_: string } => {
-  //   console.log("dateTime", dateTime);
-  let startDate = new Date(dateTime.startDate!);
-  let endDate = new Date(dateTime.endDate!);
+  // console.log("dateTime", dateTime);
+  let startDate = new Date(dateTime.start_date!);
+  let endDate = new Date(dateTime.end_date!);
 
   // To calculate the time difference of two dates
   let Difference_In_Time = endDate.getTime() - startDate.getTime();
@@ -17,12 +17,12 @@ export const getTripDuration = (
   // To calculate the no. of days between two dates
   let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-  //   console.log("Difference_In_Days", Difference_In_Days);
+  // console.log("Difference_In_Days", Difference_In_Days);
 
   if (Difference_In_Days === 0) {
     if (canRentHourly || isBookDuration) {
-      let startTimeSections = dateTime.startTime?.split(":");
-      let endTimeSections = dateTime.endTime?.split(":");
+      let startTimeSections = dateTime.start_time?.split(":");
+      let endTimeSections = dateTime.end_time?.split(":");
 
       let duration: number;
 
@@ -81,7 +81,7 @@ export const getTripDuration = (
     }
   } else {
     return {
-      duration: Difference_In_Days,
+      duration: Difference_In_Days + 1,
       type_: "day",
     };
   }
@@ -92,6 +92,7 @@ export const totalChargeCalculator = (
   dates: TripDatesObj,
   setTotalCharge: Dispatch<React.SetStateAction<number>>
 ) => {
+  // console.log("dates", dates);
   let durationData = getTripDuration(dates, car?.can_rent_hourly!);
 
   //   console.log("durationData", durationData);
@@ -110,8 +111,8 @@ export const totalChargeCalculator = (
 };
 
 export const startHourGreaterThanOrEqualToEndHour = (dates: TripDatesObj) => {
-  let startTimeSections = dates.startTime?.split(":");
-  let endTimeSections = dates.endTime?.split(":");
+  let startTimeSections = dates.start_time?.split(":");
+  let endTimeSections = dates.end_time?.split(":");
 
   let startTimeHour = parseInt(startTimeSections?.[0]!, 10);
   let endTimeHour = parseInt(endTimeSections?.[0]!, 10);

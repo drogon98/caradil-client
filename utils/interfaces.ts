@@ -6,8 +6,8 @@ export interface CustomJwtPayload extends JwtPayload {
 }
 
 export interface TripDatesObj {
-  startDate: string;
-  startTime: string;
-  endDate: string;
-  endTime: string;
+  start_date: number | null;
+  start_time: string;
+  end_date: number | null;
+  end_time: string;
 }

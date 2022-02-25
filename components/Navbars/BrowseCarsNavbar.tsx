@@ -10,7 +10,8 @@ import React, {
 } from "react";
 import { Offcanvas } from "react-bootstrap";
 import { carCategories, carColors, carMakes, carSeats } from "../../data";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { closeMoreFilters, showMoreFilters } from "../../redux/searchSlice";
 import { numericInput } from "../../utils/regex_";
 import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
 import { useRole } from "../hooks/useRole";
@@ -25,9 +26,15 @@ const BrowseCarsNavbar = (): JSX.Element => {
   const role = useRole(token);
   const [isAuth, setIsAuth] = useState<boolean>();
   const loggingOut = useAppSelector((state) => state.logout.loggingOut);
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const [show, setShow] = useState(false);
+  const dispatch = useAppDispatch();
+  const show = useAppSelector((state) => state.search.show_more_filters);
+  const handleClose = () => {
+    dispatch(closeMoreFilters());
+  };
+  const handleShow = () => {
+    dispatch(showMoreFilters());
+  };
   const [values, setValues] = useState<any>();
   const searchBtnRef = useRef<HTMLButtonElement>(null);
   const [showWhenComp, setShowWhenComp] = useState(false);
@@ -41,6 +48,14 @@ const BrowseCarsNavbar = (): JSX.Element => {
   const [showClearFilter, setShowClearFilter] = useState(false);
   const [location, setLocation] = useState("");
   const [rateError, setRateError] = useState(false);
+  const [startDate, setStartDate] = useState(() => {
+    let date = new Date();
+    return date.getTime();
+  });
+  const [endDate, setEndDate] = useState(() => {
+    let date = new Date();
+    return date.getTime();
+  });
 
   useOutsideClickHandler(whenCompRef, setShowWhenComp, whenInputRef);
   useOutsideClickHandler(whenSmCompRef, setShowSmWhenComp, whenSmDivRef);
@@ -321,6 +336,10 @@ const BrowseCarsNavbar = (): JSX.Element => {
                       setValues={setValues}
                       setDateTimeInput={setDateTimeInput}
                       searchBtnRef={searchBtnRef}
+                      startDate={startDate}
+                      endDate={endDate}
+                      setStartDate={setStartDate}
+                      setEndDate={setEndDate}
                     />
                   )}
                 </div>
@@ -483,7 +502,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             className="cursor-pointer sm-when-input p-2 mt-1"
                             style={{
                               border: "1px solid #d4d4d4",
-                              height: "32px",
+                              // height: "32px",
                               overflow: "hidden",
                             }}
                             // placeholder="When?"
@@ -509,6 +528,10 @@ const BrowseCarsNavbar = (): JSX.Element => {
                               setDateTimeInput={setDateTimeInput}
                               searchBtnRef={searchBtnRef}
                               setValues={setValues}
+                              startDate={startDate}
+                              endDate={endDate}
+                              setStartDate={setStartDate}
+                              setEndDate={setEndDate}
                             />
                             // </div>
                           )}

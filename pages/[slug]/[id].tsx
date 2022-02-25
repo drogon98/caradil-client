@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
-import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
+import { IoIosArrowDropup } from "react-icons/io";
 import LoginWithModal from "../../components/Auth/LoginWithModal";
 import { CustomHead } from "../../components/CustomHead";
 import { useOutsideClickHandler } from "../../components/hooks/useOutsideClickHandler";
@@ -18,7 +18,7 @@ import { CarDetailsSecondaryFeatures } from "../../components/PublicCar/CarDetai
 // import { CarDetailsReviews } from "../../components/PublicCar/CarDetailsReviews";
 import { CarDetailsTop } from "../../components/PublicCar/CarDetailsTop";
 import SharedSections from "../../components/PublicCar/SharedSections";
-import { TripDates } from "../../components/PublicCar/TripDates";
+import TripDatesModal from "../../components/PublicCar/TripDatesModal";
 import {
   Car,
   OnReserveForBookingDocument,
@@ -29,10 +29,7 @@ import {
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 import { TripDatesObj } from "../../utils/interfaces";
-import {
-  getTripDuration,
-  startHourGreaterThanOrEqualToEndHour,
-} from "../../utils/trip_duration_ttl_calc";
+import { totalChargeCalculator } from "../../utils/trip_duration_ttl_calc";
 import { unslugify } from "../../utils/unslugify";
 
 interface CarProps {}
@@ -47,25 +44,33 @@ const Car: FC<CarProps> = (props) => {
   const userId = useUserId(token);
   const [isFavourite, setIsFavourite] = useState<boolean>();
   const [values, setValues] = useState<TripDatesObj>({
-    startDate: "",
-    startTime: "",
-    endDate: "",
-    endTime: "",
+    start_date: null,
+    end_date: null,
+    start_time: "",
+    end_time: "",
   });
-  const [userDates, setUserDates] = useState<TripDatesObj>({
-    startDate: "",
-    startTime: "",
-    endDate: "",
-    endTime: "",
-  });
+  // const [userDates, setUserDates] = useState<TripDatesObj>({
+  //   start_date: "",
+  //   start_time: "",
+  //   end_date: "",
+  //   end_time: "",
+  // });
   const [selectingDates, setSelectingDates] = useState<boolean | undefined>();
   const [validDates, setValidDates] = useState<boolean>(false);
   const pickDatesButtonRef = useRef<HTMLButtonElement>(null);
   const pickDatesRef = useRef<HTMLDivElement>(null);
   useOutsideClickHandler(pickDatesRef, setSelectingDates, pickDatesButtonRef);
   const [isCarPreview, setIsCarPreview] = useState(false);
-  const [timeError, setTimeError] = useState(false);
-
+  const [timeError, setTimeError] = useState("");
+  const [showTripDatesModal, setShowTripDatesModal] = useState<boolean>(false);
+  const [startDate, setStartDate] = useState(() => {
+    let date = new Date();
+    return date.getTime();
+  });
+  const [endDate, setEndDate] = useState(() => {
+    let date = new Date();
+    return date.getTime();
+  });
   // const [
   //   checkIfDriverIsApproved,
   //   { data: approvedData, loading: approvedLoading },
@@ -164,11 +169,22 @@ const Car: FC<CarProps> = (props) => {
   //   // }
   // }, [car]);
 
-  // useEffect(() => {
-  //   if (validDates && car && values) {
-  //     totalChargeCalculator(car, values, setTotalCharge);
-  //   }
-  // }, [validDates, values, car]);
+  useEffect(() => {
+    if (
+      values?.start_date &&
+      values?.start_time &&
+      values?.end_date &&
+      values?.end_time
+    ) {
+      setValidDates(true);
+    }
+  }, [values]);
+
+  useEffect(() => {
+    if (validDates && car && values) {
+      totalChargeCalculator(car, values, setTotalCharge);
+    }
+  }, [validDates, values, car]);
 
   useEffect(() => {
     if (data && !loading) {
@@ -192,15 +208,15 @@ const Car: FC<CarProps> = (props) => {
   const handleRouteNext = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      if (getTripDuration(userDates!, car?.can_rent_hourly!).type_ === "hour") {
-        if (startHourGreaterThanOrEqualToEndHour(userDates!)) {
-          setTimeError(true);
-          setTimeout(() => {
-            setTimeError(false);
-          }, 5000);
-          return;
-        }
-      }
+      // if (getTripDuration(userDates!, car?.can_rent_hourly!).type_ === "hour") {
+      //   if (startHourGreaterThanOrEqualToEndHour(userDates!)) {
+      //     setTimeError(true);
+      //     setTimeout(() => {
+      //       setTimeError(false);
+      //     }, 5000);
+      //     return;
+      //   }
+      // }
 
       if (
         !(
@@ -215,7 +231,7 @@ const Car: FC<CarProps> = (props) => {
         if (response.data?.editCarReservedForBooking) {
           await router.push({
             pathname: "/checkout/confirm-order",
-            query: { carId, ...userDates, approved: true },
+            query: { carId, ...values, approved: true },
           });
         } else {
           // Car already reserved for booking by other user
@@ -224,7 +240,7 @@ const Car: FC<CarProps> = (props) => {
         // Current user reserved car for booking
         await router.push({
           pathname: "/checkout/confirm-order",
-          query: { carId, ...userDates, approved: true },
+          query: { carId, ...values, approved: true },
         });
       }
     } catch (error) {
@@ -259,6 +275,78 @@ const Car: FC<CarProps> = (props) => {
       setSelectingDates(!selectingDates);
     }
   };
+
+  const disableDates = (date: number) => date < new Date().getTime() - 86400000;
+
+  const handleApplyTime = () => {
+    try {
+      if (!values.start_time) {
+        setTimeError("Please select start time!");
+        setTimeout(() => {
+          setTimeError("");
+        }, 5000);
+        return;
+      }
+
+      if (!values.end_time) {
+        setTimeError("Please select end time!");
+        setTimeout(() => {
+          setTimeError("");
+        }, 5000);
+        return;
+      }
+
+      if (startDate >= endDate) {
+        let startTimeSections = values.start_time?.split(":");
+        let endTimeSections = values.end_time?.split(":");
+
+        let startTimeHour = parseInt(startTimeSections?.[0]!, 10);
+        let endTimeHour = parseInt(endTimeSections?.[0]!, 10);
+
+        if (startTimeHour >= endTimeHour) {
+          setTimeError("End time must be greater than start time!");
+          setTimeout(() => {
+            setTimeError("");
+          }, 5000);
+          return;
+        }
+        // return false;
+      }
+
+      setValues({
+        start_time: values.start_time,
+        end_time: values.end_time,
+        start_date: startDate,
+        end_date: endDate,
+      });
+      setShowTripDatesModal(false);
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+    // props.setSho(false);
+  };
+
+  // const handleClearTime = (e: SyntheticEvent<HTMLButtonElement>) => {
+  //   // e.preventDefault();
+  //   try {
+  //     delete values.start_time;
+  //     delete values.end_time;
+  //     delete values.start_date;
+  //     delete values.end_date;
+  //     let newValues = { ...values };
+  //     props.setValues({ ...newValues });
+  //     props.setDateTime(undefined);
+  //     props.setDateTimeInput("");
+
+  //     // if (props.searchBtnRef.current) {
+  //     //   props.searchBtnRef.current?.click();
+  //     // }
+
+  //     props.setShowWhenComp(false);
+  //   } catch (error) {
+  //     console.log("error :>> ", error);
+  //   }
+  // };
 
   // console.log("car", car);
 
@@ -508,8 +596,31 @@ const Car: FC<CarProps> = (props) => {
                     </div>
 
                     <hr />
-                    <h6>Select Trip Dates And Time</h6>
-                    <TripDates
+                    {/* <h6>Select Trip Dates And Time</h6> */}
+                    <TripDatesModal
+                      disableDates={disableDates}
+                      values={values}
+                      setValues={setValues}
+                      timeError={timeError}
+                      applyTime={handleApplyTime}
+                      show={showTripDatesModal}
+                      hide={() => setShowTripDatesModal(false)}
+                      startDate={startDate}
+                      endDate={endDate}
+                      setStartDate={setStartDate}
+                      setEndDate={setEndDate}
+                    >
+                      <div className="d-grid gap-2">
+                        <button
+                          className="btn bg-success"
+                          onClick={() => setShowTripDatesModal(true)}
+                        >
+                          Select Trip Dates
+                        </button>
+                      </div>
+                    </TripDatesModal>
+                    <hr />
+                    {/* <TripDates
                       values={values}
                       setTripDates={setUserDates}
                       setValidDates={setValidDates}
@@ -518,14 +629,14 @@ const Car: FC<CarProps> = (props) => {
                       // validDates={validDates}
                       car={car!}
                       // hasCustomAvailability={car?.custom_availability!}
-                    />
-                    {timeError && (
+                    /> */}
+                    {/* {timeError && (
                       <div>
                         <small className="text-danger">
                           End time should be greater than start time!
                         </small>
                       </div>
-                    )}
+                    )} */}
 
                     <div className="d-grid gap-2">
                       {token && role ? (
@@ -621,9 +732,7 @@ const Car: FC<CarProps> = (props) => {
                 )}
 
               <div
-                className={`d-flex justify-content-between align-items-center w-100 h-100 ${
-                  !car?.booked && `h-100`
-                }`}
+                className={`d-flex justify-content-between align-items-center w-100 h-75`}
               >
                 <div style={{ flex: "2" }}>
                   <div>
@@ -659,33 +768,58 @@ const Car: FC<CarProps> = (props) => {
                 </div>
 
                 <button
-                  onClick={handleSelectDates}
+                  onClick={() => {
+                    setShowTripDatesModal(true);
+                  }}
+                  // onClick={handleSelectDates}
                   disabled={car?.booked || !car?.published}
                   className="btn m-0 p-0"
                   style={{ flex: 1, fontSize: "500", width: "250px" }}
                   ref={pickDatesButtonRef}
                 >
-                  <small className="mr-2">
+                  {/* <small className="mr-2">
                     {selectingDates ? "Close trip dates" : "Pick trip dates"}
-                  </small>
+                  </small> */}
+                  <small className="mr-2">Pick trip dates</small>
                   <span>
                     {" "}
-                    {selectingDates ? (
-                      <IoIosArrowDropdown size={"25px"} />
-                    ) : (
-                      <IoIosArrowDropup size={"25px"} />
-                    )}
+                    {/* {selectingDates ? ( */}
+                    {/* <IoIosArrowDropdown size={"25px"} />
+                    ) : ( */}
+                    <IoIosArrowDropup size={"25px"} />
+                    {/* )} */}
                   </span>
                 </button>
               </div>
+              <div className="h-25">
+                <div className="d-grid gap-2 h-100">
+                  {token && role ? (
+                    <button
+                      className="btn bgOrange py-0"
+                      onClick={handleRouteNext}
+                      disabled={!validDates || isCarPreview}
+                    >
+                      Continue
+                    </button>
+                  ) : (
+                    <LoginWithModal>
+                      <div className="d-grid gap-2 h-100">
+                        <button type="submit" className="btn bgOrange py-0">
+                          Continue
+                        </button>
+                      </div>
+                    </LoginWithModal>
+                  )}
+                </div>
+              </div>
 
               {/* </div> */}
-              {selectingDates && (
+              {/* {selectingDates && (
                 <div
                   className="car-small-screen-select-dates p-2"
                   ref={pickDatesRef}
                 >
-                  {/* <h5>Select Trip Dates</h5> */}
+                  <h5>Select Trip Dates</h5>
                   <TripDates
                     values={values}
                     setTripDates={setUserDates}
@@ -703,35 +837,8 @@ const Car: FC<CarProps> = (props) => {
                       </small>
                     </div>
                   )}
-                  <div className="d-grid gap-2">
-                    {token && role ? (
-                      <button
-                        className="btn bgOrange"
-                        onClick={handleRouteNext}
-                        disabled={!validDates || isCarPreview}
-                      >
-                        Continue
-                        {/* {approvedLoading ? (
-                          <ButtonLoading
-                            spinnerColor="white"
-                            dimensions={{ height: "18px", width: "18px" }}
-                          />
-                        ) : (
-                          "Continue"
-                        )} */}
-                      </button>
-                    ) : (
-                      <LoginWithModal>
-                        <div className="d-grid gap-2">
-                          <button type="submit" className="btn bgOrange">
-                            Continue
-                          </button>
-                        </div>
-                      </LoginWithModal>
-                    )}
-                  </div>
                 </div>
-              )}
+              )} */}
             </div>
           </>
         )}

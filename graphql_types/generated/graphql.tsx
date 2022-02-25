@@ -66,7 +66,6 @@ export type Car = {
   besties?: Maybe<Array<User>>;
   book_and_trip_days?: Maybe<Array<Scalars['Float']>>;
   booked?: Maybe<Scalars['Boolean']>;
-  bookings?: Maybe<Array<Scalars['Float']>>;
   can_rent_hourly?: Maybe<Scalars['Boolean']>;
   car_market_class?: Maybe<Scalars['String']>;
   categories?: Maybe<Array<Scalars['String']>>;
@@ -827,9 +826,9 @@ export type TripInput = {
   car_id: Scalars['Float'];
   delivery_distance: Scalars['String'];
   delivery_location: Scalars['String'];
-  end_date: Scalars['String'];
+  end_date: Scalars['Float'];
   end_time: Scalars['String'];
-  start_date: Scalars['String'];
+  start_date: Scalars['Float'];
   start_time: Scalars['String'];
   transaction_amount: Scalars['String'];
   transaction_channel: Scalars['String'];
@@ -840,10 +839,10 @@ export type TripInput = {
 };
 
 export type TripRescheduleInput = {
-  end_date: Scalars['String'];
+  end_date: Scalars['Float'];
   end_time: Scalars['String'];
   reschedule_reason: Scalars['String'];
-  start_date: Scalars['String'];
+  start_date: Scalars['Float'];
   start_time: Scalars['String'];
 };
 

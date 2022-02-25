@@ -1,17 +1,21 @@
 import { useRouter } from "next/router";
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import { Car } from "../../graphql_types/generated/graphql";
+import { useAppDispatch } from "../../redux/hooks";
+import { showMoreFilters } from "../../redux/searchSlice";
 import { CarBox } from "../Home/CarBox";
 import { Loading } from "../Loading";
 
 interface SearchContentProps {
   loading: boolean;
   cars: Car[];
+  showModifyFilters: boolean;
 }
 
 export function SearchContent(props: SearchContentProps) {
   const [searching, setSearching] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (router.query) {
@@ -24,18 +28,20 @@ export function SearchContent(props: SearchContentProps) {
   const handleClearFilters = (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    try {
-      router.push(
-        {
-          pathname: "/browse-cars",
-          query: {},
-        },
-        ``,
-        { shallow: true }
-      );
-    } catch (error) {
-      console.log("error :>> ", error);
-    }
+    dispatch(showMoreFilters());
+
+    // try {
+    //   router.push(
+    //     {
+    //       pathname: "/browse-cars",
+    //       query: {},
+    //     },
+    //     ``,
+    //     { shallow: true }
+    //   );
+    // } catch (error) {
+    //   console.log("error :>> ", error);
+    // }
   };
 
   return (
@@ -50,12 +56,14 @@ export function SearchContent(props: SearchContentProps) {
             {searching ? (
               <>
                 <p>No car matching filters.</p>
-                <button
-                  className="btn bg-secondary mt-2"
-                  onClick={handleClearFilters}
-                >
-                  Clear Filters
-                </button>
+                {props.showModifyFilters && (
+                  <button
+                    className="btn bg-secondary mt-2"
+                    onClick={handleClearFilters}
+                  >
+                    Modify Filters
+                  </button>
+                )}
               </>
             ) : (
               <p>No cars</p>
