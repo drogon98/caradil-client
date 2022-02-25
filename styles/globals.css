@@ -1116,7 +1116,7 @@ label {
   display: grid;
   grid-template-columns: 3fr 1.5fr;
   column-gap: 16px;
-  margin-bottom: 80px;
+  margin-bottom: 150px;
 }
 
 .carDetailsChargeCard {
@@ -1272,6 +1272,10 @@ car-input-container select:focus {
     border-radius: 5px;
     left: 50%;
     transform: translate(-50%, 0);
+  }
+
+  .car-small-screen-bottom-hourly-text-not {
+    height: 100px !important;
   }
 
   .car-small-screen-select-dates {

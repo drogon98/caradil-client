@@ -690,7 +690,12 @@ const Car: FC<CarProps> = (props) => {
               </div>
             </div>
             {/* </div> */}
-            <div className="car-small-screen-bottom d-flex flex-column justify-content-center p-2">
+            <div
+              className={`car-small-screen-bottom ${
+                !car?.can_rent_hourly &&
+                `car-small-screen-bottom-hourly-text-not`
+              } d-flex flex-column justify-content-center p-2 `}
+            >
               {(car?.booked ||
                 !car?.published ||
                 (car.reserved_for_booking &&
@@ -698,7 +703,7 @@ const Car: FC<CarProps> = (props) => {
                 !isCarPreview && (
                   <div
                     style={{ height: "10px", fontSize: "12px" }}
-                    // className="mb-3"
+                    className="h-25"
                   >
                     <small className="fw-bolder text-danger">
                       This car is unavailable!
@@ -732,19 +737,30 @@ const Car: FC<CarProps> = (props) => {
                 )}
 
               <div
-                className={`d-flex justify-content-between align-items-center w-100 h-75`}
+                className={`d-flex justify-content-between align-items-center w-100 ${
+                  (car?.booked ||
+                    !car?.published ||
+                    (car.reserved_for_booking &&
+                      car.reserved_for_booking_guest_id !== userId)) &&
+                  !isCarPreview
+                    ? `h-50`
+                    : `h-75`
+                }`}
               >
                 <div style={{ flex: "2" }}>
                   <div>
                     <div className="d-flex justify-content-between">
-                      <h5 className="m-0">
+                      <h6 className="m-0">
                         Ksh.{car?.daily_rate!.toLocaleString()}/day
-                      </h5>
+                      </h6>
                       <div>
                         {validDates && (
                           <>
                             {"Total "}
-                            <small className="fw-bold">
+                            <small
+                              className="fw-bolder"
+                              style={{ fontSize: "13px" }}
+                            >
                               Ksh.{totalCharge.toLocaleString()}
                             </small>
                           </>
@@ -775,20 +791,12 @@ const Car: FC<CarProps> = (props) => {
                   disabled={car?.booked || !car?.published}
                   className="btn m-0 p-0"
                   style={{ flex: 1, fontSize: "500", width: "250px" }}
-                  ref={pickDatesButtonRef}
+                  // ref={pickDatesButtonRef}
                 >
                   {/* <small className="mr-2">
                     {selectingDates ? "Close trip dates" : "Pick trip dates"}
                   </small> */}
                   <small className="mr-2">Pick trip dates</small>
-                  <span>
-                    {" "}
-                    {/* {selectingDates ? ( */}
-                    {/* <IoIosArrowDropdown size={"25px"} />
-                    ) : ( */}
-                    <IoIosArrowDropup size={"25px"} />
-                    {/* )} */}
-                  </span>
                 </button>
               </div>
               <div className="h-25">
