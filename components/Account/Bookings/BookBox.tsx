@@ -11,10 +11,10 @@ export default function BookBox(props: Props): ReactElement {
   const duration = () => {
     let obj = getTripDuration(
       {
-        startDate: props.data.start_date,
-        endDate: props.data.end_date,
-        startTime: props.data.start_time as string,
-        endTime: props.data.end_time as string,
+        start_date: props.data.start_date,
+        end_date: props.data.end_date,
+        start_time: props.data.start_time as string,
+        end_time: props.data.end_time as string,
       },
       false,
       true

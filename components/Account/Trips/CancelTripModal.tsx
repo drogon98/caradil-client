@@ -42,10 +42,10 @@ export default function CancelTripMoal(props: Props): ReactElement {
       if (props.trip) {
         let obj = getTripDuration(
           {
-            startDate: props.trip.start_date,
-            endDate: props.trip.end_date,
-            startTime: props.trip.start_time as string,
-            endTime: props.trip.end_time as string,
+            start_date: props.trip.start_date,
+            end_date: props.trip.end_date,
+            start_time: props.trip.start_time as string,
+            end_time: props.trip.end_time as string,
           },
           props.trip.car?.can_rent_hourly!
         );
