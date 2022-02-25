@@ -40,8 +40,8 @@ function Booking(props: BookingProps) {
             const response = await createTrip({
               variables: {
                 input: {
-                  start_date: router.query.p1 as string,
-                  end_date: router.query.p3 as string,
+                  start_date: parseInt(router.query.p1 as string, 10),
+                  end_date: parseInt(router.query.p3 as string, 10),
                   start_time: start_time,
                   end_time,
                   delivery_distance,
