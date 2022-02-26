@@ -2,7 +2,7 @@ import { ApolloProvider } from "@apollo/client";
 import "bootstrap/dist/css/bootstrap.css";
 import jwtDecode from "jwt-decode";
 import type { AppProps } from "next/app";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
@@ -20,6 +20,16 @@ let persistor = persistStore(store);
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
+  useEffect(() => {
+    Router.events.on("routeChangeComplete", () => {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    });
+  }, [router]);
 
   useEffect(() => {
     // Bootstrap uses some only-client-side objects (window, document) to
