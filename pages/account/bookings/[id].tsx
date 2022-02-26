@@ -160,6 +160,7 @@ export default function Booking(props: Props): ReactElement {
                   showModal={showConfirmTripModal}
                   handleClose={() => setShowConfirmTripModal(false)}
                   // setTrip={setBooking}
+                  trip={booking!}
                   tripId={bookingId}
                 />
               )}
@@ -180,16 +181,14 @@ export default function Booking(props: Props): ReactElement {
                     onClick={handleConfirmTrip}
                     disabled={booking?.status === "confirmed"}
                   >
-                    {booking?.status === "confirmed"
-                      ? "Trip Confirmed"
-                      : "Confirm Trip"}
+                    {booking?.status === "confirmed" ? "Confirmed" : "Confirm"}
                   </button>
                 </div>
               </div>
 
               <div>
                 <div>
-                  <h6 className="fw-bolder">User Details</h6>
+                  {/* <h6 className="fw-bolder">User Details</h6>
                   <div>
                     <div className="d-flex w-100 justify-content-between mb-2">
                       <p>First Name</p>
@@ -203,16 +202,23 @@ export default function Booking(props: Props): ReactElement {
                       <p>Email</p>
                       <span>{booking?.owner?.email}</span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="my-4">
-                  <h6 className="fw-bolder">Trip Dates</h6>
+                  <p>
+                    This trip is scheduled to start on{" "}
+                    <b>{new Date(booking?.start_date!).toLocaleDateString()}</b>{" "}
+                    at <b>{booking?.start_time}hrs</b> and end on{" "}
+                    <b>{new Date(booking?.end_date!).toLocaleDateString()}</b>{" "}
+                    at <b>{booking?.end_time}hrs</b>.
+                  </p>{" "}
+                  {/* <h6 className="fw-bolder">Trip Dates</h6>
                   <div>
                     <div className="d-flex w-100 justify-content-between mb-2">
                       <p>Start Date</p>
                       <span>
-                        {new Date(booking?.start_date).toLocaleDateString()}
+                        {new Date(booking?.start_date!).toLocaleDateString()}
                       </span>
                     </div>
                     <div className="d-flex w-100 justify-content-between mb-2">
@@ -222,14 +228,14 @@ export default function Booking(props: Props): ReactElement {
                     <div className="d-flex w-100 justify-content-between mb-2">
                       <p>End Date</p>
                       <span>
-                        {new Date(booking?.end_date).toLocaleDateString()}
+                        {new Date(booking?.end_date!).toLocaleDateString()}
                       </span>
                     </div>
                     <div className="d-flex w-100 justify-content-between mb-2">
                       <p>End Time</p>
                       <span>{booking?.end_time}hrs</span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="my-4">

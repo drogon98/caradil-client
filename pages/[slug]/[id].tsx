@@ -267,16 +267,24 @@ const Car: FC<CarProps> = (props) => {
     }
   };
 
-  const handleSelectDates = (e: SyntheticEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (selectingDates === undefined) {
-      setSelectingDates(true);
-    } else {
-      setSelectingDates(!selectingDates);
-    }
-  };
+  // const handleSelectDates = (e: SyntheticEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  //   if (selectingDates === undefined) {
+  //     setSelectingDates(true);
+  //   } else {
+  //     setSelectingDates(!selectingDates);
+  //   }
+  // };
 
-  const disableDates = (date: number) => date < new Date().getTime() - 86400000;
+  const disableDates = (date: number) => {
+    const operationDays = car?.book_and_trip_days;
+
+    let isOperationDay = operationDays?.some(
+      (d) => d === new Date(date).getDay()
+    );
+
+    return date < new Date().getTime() - 86400000 || !isOperationDay;
+  };
 
   const handleApplyTime = () => {
     try {
@@ -348,7 +356,7 @@ const Car: FC<CarProps> = (props) => {
   //   }
   // };
 
-  // console.log("car", car);
+  console.log("car", car);
 
   return (
     <>
@@ -609,6 +617,7 @@ const Car: FC<CarProps> = (props) => {
                       endDate={endDate}
                       setStartDate={setStartDate}
                       setEndDate={setEndDate}
+                      isCarPage
                     >
                       <div className="d-grid gap-2">
                         <button

@@ -42,8 +42,8 @@ export default function CancelTripMoal(props: Props): ReactElement {
       if (props.trip) {
         let obj = getTripDuration(
           {
-            start_date: props.trip.start_date,
-            end_date: props.trip.end_date,
+            start_date: props.trip.start_date!,
+            end_date: props.trip.end_date!,
             start_time: props.trip.start_time as string,
             end_time: props.trip.end_time as string,
           },
@@ -65,7 +65,7 @@ export default function CancelTripMoal(props: Props): ReactElement {
         let now = new Date();
         let time = now.getTime();
 
-        let tripStartDate = new Date(props.trip.start_date);
+        let tripStartDate = new Date(props.trip.start_date!);
 
         let rawTripStartTime = props.trip?.start_time?.split(":");
 

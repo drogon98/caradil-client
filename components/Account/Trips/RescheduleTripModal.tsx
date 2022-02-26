@@ -45,8 +45,8 @@ export default function RescheduleTripModal(props: Props): ReactElement {
   useEffect(() => {
     if (props.trip) {
       setValues({
-        start_date: props.trip.start_date,
-        end_date: props.trip.end_date,
+        start_date: props.trip.start_date!,
+        end_date: props.trip.end_date!,
         start_time: props.trip.start_time as string,
         end_time: props.trip.end_time as string,
       });

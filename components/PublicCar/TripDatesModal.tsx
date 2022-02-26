@@ -21,6 +21,7 @@ interface Props {
   endDate: number;
   setStartDate: any;
   setEndDate: any;
+  isCarPage?: boolean;
 }
 
 export default function TripDateModal(props: Props): ReactElement {
@@ -49,6 +50,7 @@ export default function TripDateModal(props: Props): ReactElement {
               endDate={props.endDate}
               setStartDate={props.setStartDate}
               setEndDate={props.setEndDate}
+              isCarPage={props.isCarPage}
             />
             <div className="d-flex justify-content-end mt-2">
               <button

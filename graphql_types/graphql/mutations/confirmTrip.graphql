@@ -1,5 +1,5 @@
-mutation ConfirmTrip($tripId: Float!) {
-  confirmTrip(tripId: $tripId) {
+mutation ConfirmTrip($tripId: Float!, $publish: Boolean!) {
+  confirmTrip(tripId: $tripId, publish: $publish) {
     trip {
       ...tripInfo
     }

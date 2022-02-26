@@ -8,6 +8,7 @@ import React, {
 import { BsArrowLeft } from "react-icons/bs";
 import CancelTripMoal from "../../../components/Account/Trips/CancelTripModal";
 import RescheduleTripModal from "../../../components/Account/Trips/RescheduleTripModal";
+import ReviewTripModal from "../../../components/Account/Trips/ReviewTripModal";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import { CustomHead } from "../../../components/CustomHead";
 import { useWindowDimensions } from "../../../components/hooks/useWindowDimensions";
@@ -38,6 +39,7 @@ export default function Trip(props: Props): ReactElement {
   });
   // const [updateFavourite, { loading: updatingFavourite }] =
   // useUpdateCarFavouriteMutation();
+  const [showReviewModal, setShowReviewModal] = useState(false);
 
   useEffect(() => {
     if (router.query) {
@@ -146,6 +148,12 @@ export default function Trip(props: Props): ReactElement {
     }
   };
 
+  const handleAddReview = (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    setShowReviewModal(true);
+  };
+
   // console.log("trip :>> ", trip);
 
   return (
@@ -170,6 +178,16 @@ export default function Trip(props: Props): ReactElement {
                 <RescheduleTripModal
                   showModal={showRescheduleModal}
                   handleClose={() => setShowRescheduleModal(false)}
+                  // setTrip={setTrip}
+                  tripId={tripId}
+                  trip={trip!}
+                />
+              )}
+
+              {showReviewModal && (
+                <ReviewTripModal
+                  showModal={showReviewModal}
+                  handleClose={() => setShowReviewModal(false)}
                   // setTrip={setTrip}
                   tripId={tripId}
                   trip={trip!}
@@ -292,15 +310,15 @@ export default function Trip(props: Props): ReactElement {
                   {/* <h6 className="fw-bolder">Trip Dates</h6> */}
                   <p>
                     This trip is scheduled to start on{" "}
-                    <b>{new Date(trip?.start_date).toLocaleDateString()}</b> at{" "}
-                    <b>{trip?.start_time}hrs</b>
+                    <b>{new Date(trip?.start_date!).toLocaleDateString()}</b> at{" "}
+                    <b>{trip?.start_time}hrs</b> and end on{" "}
+                    <b>{new Date(trip?.end_date!).toLocaleDateString()}</b> at{" "}
+                    <b>{trip?.end_time}hrs</b>.
                   </p>{" "}
-                  and end on{" "}
-                  <b>{new Date(trip?.end_date).toLocaleDateString()}</b> at{" "}
-                  {trip?.end_time}hrs.
+                  {/* If a book is impossible with current host transfer it to another host without any charges */}
                   {trip?.status === "confirmed" && (
                     <>
-                      <p>You need to reschedule the trip?</p>
+                      <p className="pt-3">You need to reschedule the trip?</p>
                       <div className="mt-2">
                         <button
                           className="btn bgOrange"
@@ -311,28 +329,6 @@ export default function Trip(props: Props): ReactElement {
                       </div>
                     </>
                   )}
-                  {/* <div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Start Date</p>
-                      <span>
-                        {new Date(trip?.start_date).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Start Time</p>
-                      <span>{trip?.start_time}hrs</span>
-                    </div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>End Date</p>
-                      <span>
-                        {new Date(trip?.end_date).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>End Time</p>
-                      <span>{trip?.end_time}hrs</span>
-                    </div>
-                  </div> */}
                 </div>
 
                 {/* Show when trip status is not pending or cancelled */}
@@ -416,13 +412,13 @@ export default function Trip(props: Props): ReactElement {
                 )}
 
                 {/* Only show when trip is successful */}
-                {trip?.status === "successful" && (
-                  <div className="d-grid gap-2 mb-2">
-                    <button className="btn bgOrange" onClick={handleCancelTrip}>
-                      Review Car
-                    </button>
-                  </div>
-                )}
+                {/* {trip?.status === "successful" && ( */}
+                <div className="d-grid gap-2 mb-2">
+                  <button className="btn bgOrange" onClick={handleAddReview}>
+                    Review Car
+                  </button>
+                </div>
+                {/* )} */}
               </div>
             </div>
           )}

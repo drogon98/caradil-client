@@ -1,0 +1,3 @@
+mutation CreateReview($tripId: Float!, $input: ReviewInput!) {
+  createReview(tripId: $tripId, input: $input)
+}
