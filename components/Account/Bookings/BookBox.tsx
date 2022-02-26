@@ -11,8 +11,8 @@ export default function BookBox(props: Props): ReactElement {
   const duration = () => {
     let obj = getTripDuration(
       {
-        start_date: props.data.start_date,
-        end_date: props.data.end_date,
+        start_date: props.data.start_date!,
+        end_date: props.data.end_date!,
         start_time: props.data.start_time as string,
         end_time: props.data.end_time as string,
       },
@@ -29,10 +29,10 @@ export default function BookBox(props: Props): ReactElement {
           <div className="row m-0 w-100">
             <div className="col-1">{props.data.car?.reg_no}</div>
             <div className="col-2">
-              {new Date(props.data.start_date).toDateString()}
+              {new Date(props.data.start_date!).toDateString()}
             </div>
             <div className="col-2">
-              {new Date(props.data.end_date).toDateString()}
+              {new Date(props.data.end_date!).toDateString()}
             </div>
             <div className="col">{props.data.start_time}hrs</div>
             <div className="col">{props.data.end_time}hrs</div>

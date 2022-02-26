@@ -11,8 +11,8 @@ export const SmTripBox: FC<SmTripBoxProps> = (props) => {
   const duration = () => {
     let obj = getTripDuration(
       {
-        start_date: props.data.start_date,
-        end_date: props.data.end_date,
+        start_date: props.data.start_date!,
+        end_date: props.data.end_date!,
         start_time: props.data.start_time as string,
         end_time: props.data.end_time as string,
       },
@@ -34,13 +34,13 @@ export const SmTripBox: FC<SmTripBoxProps> = (props) => {
             <div className="d-flex justify-content-between">
               <h6 className="w-50">Start Date:</h6>
               <h6 className="w-50">
-                {new Date(props.data.start_date).toDateString()}
+                {new Date(props.data.start_date!).toDateString()}
               </h6>
             </div>
             <div className="d-flex justify-content-between">
               <h6 className="w-50">End Date:</h6>
               <h6 className="w-50">
-                {new Date(props.data.end_date).toDateString()}
+                {new Date(props.data.end_date!).toDateString()}
               </h6>
             </div>
             <div className="d-flex justify-content-between">
