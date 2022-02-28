@@ -90,17 +90,17 @@ export const CarBox: FC<CarBoxProps> = (props) => {
             style={{ objectFit: "cover" }}
           />
           <div className="p-2">
-            <h4 className="m-0">{props.data.name}</h4>
+            <h5 className="m-0">{props.data.name}</h5>
             {/* <p>Seats:{ props.data.seats}</p> */}
             {/* <p className="m-0">Trips:5</p> */}
             <hr />
             <div className="d-flex justify-content-end">
-              <h6 className="fw-bolder">
+              <p className="fw-bolder">
                 Ksh.
                 {props.data?.daily_rate &&
                   props.data?.daily_rate.toLocaleString()}
                 /day
-              </h6>
+              </p>
             </div>
           </div>
         </a>

@@ -504,6 +504,10 @@ label {
 
 .gp-suggestions-container {
   background-color: #fff;
+  /* width: 300px; */
+  left: 0;
+  height: 200px;
+  overflow-y: auto;
 }
 
 .gp-location-suggestion {
@@ -625,12 +629,12 @@ label {
   }
 
   .browse-nav-where-input {
-    width: 85%;
+    width: 83%;
     /* position: relative; */
   }
 
   .browse-nav-search-input {
-    width: 15%;
+    width: 17%;
   }
 }
 
@@ -665,8 +669,8 @@ label {
   }
 
   .browse-cars-filter-icon {
-    height: 20px;
-    width: 20px;
+    height: 25px;
+    width: 25px;
   }
 }
 
@@ -677,10 +681,24 @@ label {
   }
 }
 
+@media screen and (max-width: 400px) {
+  .browse-cars-nav-form {
+    height: 35px;
+    width: 250px;
+  }
+}
+
 @media screen and (max-width: 380px) {
   .browse-cars-nav-form {
     height: 35px;
-    width: 255px;
+    width: 240px;
+  }
+}
+
+@media screen and (max-width: 365px) {
+  .browse-cars-nav-form {
+    height: 35px;
+    width: 230px;
   }
 }
 
@@ -689,10 +707,10 @@ label {
     width: 280px;
   }
 
-  .browse-cars-nav-form {
+  /* .browse-cars-nav-form {
     height: 35px;
     width: 250px;
-  }
+  } */
 
   .rlc-calendar {
     width: 320px !important;
@@ -713,7 +731,7 @@ label {
 @media screen and (max-width: 350px) {
   .browse-cars-nav-form {
     height: 35px;
-    width: 230px;
+    width: 220px;
   }
 }
 
@@ -854,9 +872,22 @@ label {
   height: 200px;
 }
 
-/* .find-your-drive {
-  font-size: 80px;
-} */
+.home-promise {
+  background-color: var(--orange);
+}
+
+.manage-trip {
+  background-image: url("../public/images/manage-trip.jpg");
+  background-position: center center;
+  height: 350px;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.manage-trip-overlay {
+  height: 350px;
+}
 
 @media screen and (max-width: 1200px) {
   .cars-wrapper {

@@ -377,9 +377,12 @@ const BrowseCarsNavbar = (): JSX.Element => {
               </div>
               <div>
                 <>
-                  <div style={{ position: "relative" }}>
+                  <div
+                    className="d-flex align-items-center h-100"
+                    style={{ position: "relative" }}
+                  >
                     <button
-                      className="btn browse-cars-nav-filter-btn pr-0"
+                      className="btn browse-cars-nav-filter-btn py-0 pr-0"
                       onClick={(e: SyntheticEvent<HTMLButtonElement>) => {
                         e.preventDefault();
                         handleShow();

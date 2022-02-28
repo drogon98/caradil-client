@@ -3,8 +3,10 @@ import { CustomHead } from "../components/CustomHead";
 import { BrowseByMake } from "../components/Home/BrowseByMake";
 import Hero from "../components/Home/Hero";
 import { HeroBottom } from "../components/Home/HeroBottom";
+import { ManageTravel } from "../components/Home/ManageTravel";
 // import HowItWorks from "../components/Home/HowItWorks";
 import { PopularCars } from "../components/Home/PopularCars";
+import { Promise } from "../components/Home/Promise";
 import Layout from "../components/layouts/Layout";
 
 const Home: NextPage = () => {
@@ -16,7 +18,9 @@ const Home: NextPage = () => {
         <HeroBottom />
         {/* <HowItWorks /> */}
         <PopularCars />
+        <Promise />
         <BrowseByMake />
+        <ManageTravel />
       </Layout>
     </>
   );
