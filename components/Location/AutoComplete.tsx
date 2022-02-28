@@ -20,6 +20,7 @@ export interface AutoCompleteProps {
   value: string;
   inputRef: any;
   required?: any;
+  geocodeEstablishments?: boolean;
 }
 
 export function AutoComplete(props: AutoCompleteProps) {
@@ -27,7 +28,9 @@ export function AutoComplete(props: AutoCompleteProps) {
     apiKey: "AIzaSyArIv424bNBpfMVIWSnie8aX1WGDI4wTDk",
     onPlaceSelected: (place) => props.handler(place),
     options: {
-      types: ["(cities)"],
+      types: props.geocodeEstablishments
+        ? ["establishment", "geocode"]
+        : ["(cities)"],
       // types: ["(regions)"],
       // types: ["geocode"],
       componentRestrictions: { country: "ke" },
@@ -91,7 +94,7 @@ export const PlacesAutocomplete = (props: {
     clearSuggestions,
   } = usePlacesAutocomplete({
     requestOptions: {
-      types: ["(cities)"],
+      types: ["establishment", "geocode"],
       componentRestrictions: { country: "ke" },
     },
     debounce: 300,

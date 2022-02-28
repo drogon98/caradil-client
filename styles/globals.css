@@ -34,6 +34,7 @@ body {
   --navbar-height: 70px;
   --hero-height: 37rem;
   --dashboard-bright-bg: #fbf7f6;
+  /* --vh:-webkit */
 }
 
 .bgWhite {
@@ -923,36 +924,48 @@ label {
   grid-template-columns: 230px 5fr;
   position: relative;
   top: var(--navbar-height);
+  min-height: 100%;
 }
 
 .admin-wrapper {
   grid-template-columns: 220px auto;
 }
 
+/* .account-nav-wrapper {
+  height: var(--navbar-height);
+} */
+
 .account-sidebar,
 .admin-sidebar {
-  height: calc(100vh - var(--navbar-height));
-  position: -webkit-sticky;
-  position: sticky;
+  /* min-height: calc(100vh - var(--navbar-height)); */
+  /* position: -webkit-sticky; */
+  /* position: sticky; */
+  position: relative;
   background-color: var(--orange);
-  top: var(--navbar-height);
-  z-index: 1003;
+  /* top: var(--navbar-height); */
+  top: 0;
+  bottom: 0 !important;
+  /* z-index: 1003; */
+  /* overflow-y: scroll; */
+  /* background-color: blue !important; */
 }
-
-/* .admin-sidebar {
-  width: 200px;
-} */
 
 .account-content,
 .admin-content {
   position: relative;
   background-color: var(--dashboard-bright-bg);
+  height: 100%;
   min-height: calc(100vh - var(--navbar-height));
+  top: 0;
 }
 
 .account-side-menu,
 .admin-side-menu {
-  overflow-y: auto;
+  position: -webkit-sticky;
+  position: sticky;
+  top: var(--navbar-height);
+
+  /* overflow-y: auto; */
 }
 
 .account-side-menu ul li,

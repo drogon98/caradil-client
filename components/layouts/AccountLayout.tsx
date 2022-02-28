@@ -91,6 +91,7 @@ const AccountLayout = (props: AccountProps): JSX.Element => {
     <div id="accountLayoutWrapper">
       <div id="accountContentWrapper">
         <header>
+          {/* <div className="account-nav-wrapper"> */}
           {isChatsMdPage && width <= 800 ? (
             <ChatNavbarMd />
           ) : isChatsPage && width <= 800 ? (
@@ -98,10 +99,11 @@ const AccountLayout = (props: AccountProps): JSX.Element => {
           ) : (
             <AccountNavbar />
           )}
+          {/* </div> */}
         </header>
         <main>
           <div className="account-wrapper">
-            <div className="account-sidebar pt-4">
+            <div className="account-sidebar">
               <AccountSideBarMenu isHost={isHost} />
             </div>
             <div className="account-content">

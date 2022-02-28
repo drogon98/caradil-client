@@ -5,7 +5,6 @@ import { Messages } from "../../../components/Account/Chats/Messages";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import { CustomHead } from "../../../components/CustomHead";
 import { useRole } from "../../../components/hooks/useRole";
-import { useUserId } from "../../../components/hooks/useUserId";
 import AccountLayout from "../../../components/layouts/AccountLayout";
 import { Loading } from "../../../components/Loading";
 import {
@@ -20,8 +19,6 @@ interface ChatsProps {}
 const Chats = (props: ChatsProps) => {
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
-  const userId = useUserId(token);
-  const [skip, setSkip] = useState(true);
   const [mainLoading, setMainLoading] = useState(true);
   const [metaId, setMetaId] = useState<number>();
   const [chatProfiles, setChatProfiles] = useState<ChatMeta[]>();
@@ -103,9 +100,10 @@ const Chats = (props: ChatsProps) => {
 
       if (metaId) {
         tempProf = chatProfiles.filter((cP) => cP.id === metaId);
-      } else if (activeChatId) {
-        tempProf = chatProfiles.filter((cP) => cP.id === activeChatId);
       }
+      //  else if (activeChatId) {
+      //   tempProf = chatProfiles.filter((cP) => cP.id === activeChatId);
+      // }
 
       if (tempProf) {
         setReceiverId(tempProf[0]?.receiver?.id!);
@@ -113,18 +111,20 @@ const Chats = (props: ChatsProps) => {
         setSenderProfile(tempProf[0].sender!);
       }
     }
-  }, [metaId, activeChatId, chatProfiles]);
+  }, [metaId, chatProfiles]);
 
-  // useEffect(() => {
-  //   if (activeChatId && chatProfiles) {
-  //     let tempProf = chatProfiles.filter((cP) => cP.id === activeChatId);
-  //     if (tempProf) {
-  //       // console.log("tempProf :>> ", tempProf);
-  //       setReceiverProfile(tempProf[0]?.receiver!);
-  //       setReceiverId(tempProf[0]?.receiver?.id!);
-  //     }
-  //   }
-  // }, [activeChatId, chatProfiles]);
+  useEffect(() => {
+    if (activeChatId && chatProfiles) {
+      let tempProf = chatProfiles.filter((cP) => cP.id === activeChatId);
+      if (tempProf) {
+        // console.log("tempProf :>> ", tempProf);
+        setReceiverProfile(tempProf[0]?.receiver!);
+        setReceiverId(tempProf[0]?.receiver?.id!);
+      }
+    }
+  }, [activeChatId, chatProfiles]);
+
+  console.log("receiverProfile", receiverProfile);
 
   return (
     <>

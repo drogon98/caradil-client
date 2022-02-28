@@ -576,6 +576,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                           name="location"
                           value={location}
                           required={true}
+                          geocodeEstablishments
                         />
                         <button
                           className="btn bgOrange mt-2"

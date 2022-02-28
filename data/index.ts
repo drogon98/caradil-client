@@ -113,6 +113,7 @@ export const carFeatures: string[] = [
   "USB Charger",
   "USB Input",
   "Wifi",
+  "Popup Roof",
   // "Baby Chair",
   // "GPS",
   // "",
