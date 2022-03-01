@@ -356,7 +356,7 @@ const Car: FC<CarProps> = (props) => {
   //   }
   // };
 
-  console.log("car", car);
+  // console.log("car", car);
 
   return (
     <>
@@ -509,7 +509,8 @@ const Car: FC<CarProps> = (props) => {
                         gas: car?.gas,
                         transmission: car?.transmission,
                         seats: car?.seats,
-                        doors: car?.doors,
+                        // doors: car?.doors,
+                        bags: car?.bags,
                       }}
                     />
                   </div>

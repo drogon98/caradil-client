@@ -17,7 +17,7 @@ import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
 import { useRole } from "../hooks/useRole";
 import { PlacesAutocomplete } from "../Location/AutoComplete";
 import { LogoutOverlay } from "../LogoutOverlay";
-import BrowseCarsWhenComp from "./BrowseCarsWhenComp";
+import BrowseCarsWhenComp from "../BrowseCars/BrowseCarsWhenComp";
 import { UserNavIcon } from "./UserNavIcon";
 
 const BrowseCarsNavbar = (): JSX.Element => {
@@ -115,6 +115,20 @@ const BrowseCarsNavbar = (): JSX.Element => {
           tempValues = { ...tempValues, seats: router.query.seats as string };
         }
 
+        if (router.query.end_user_type) {
+          tempValues = {
+            ...tempValues,
+            end_user_type: router.query.end_user_type as string,
+          };
+        }
+
+        if (router.query.trip_duration) {
+          tempValues = {
+            ...tempValues,
+            trip_duration: router.query.trip_duration as string,
+          };
+        }
+
         if (router.query.trip_type) {
           tempValues = {
             ...tempValues,
@@ -122,10 +136,10 @@ const BrowseCarsNavbar = (): JSX.Element => {
           };
         }
 
-        if (router.query.car_class) {
+        if (router.query.car_market_class) {
           tempValues = {
             ...tempValues,
-            car_class: router.query.car_class as string,
+            car_market_class: router.query.car_market_class as string,
           };
         }
 
@@ -501,21 +515,13 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             </button>
                           </div>
                           <div
-                            // type="text"
                             className="cursor-pointer sm-when-input p-2 mt-1"
                             style={{
                               border: "1px solid #d4d4d4",
-                              // height: "32px",
                               overflow: "hidden",
                             }}
-                            // placeholder="When?"
-                            // aria-describedby="basic-addon2"
                             ref={whenSmDivRef}
-                            // readOnly
-                            // onChange={handleWhenChange}
                             onClick={handleSmWhenFocus}
-                            // value={dateTimeInput}
-                            // value={values.}
                           >
                             {dateTimeInput ? dateTimeInput : "When?"}
                           </div>
@@ -679,6 +685,75 @@ const BrowseCarsNavbar = (): JSX.Element => {
 
                         <div className="mb-4">
                           <div className="d-flex justify-content-between">
+                            <label htmlFor="trip_duration">End User Type</label>
+                            <button
+                              className="btn p-0 m-0 more-filters-mini-clear"
+                              onClick={async (e) => {
+                                e.preventDefault();
+                                try {
+                                  if (values?.trip_duration) {
+                                    delete values?.trip_duration;
+                                    setValues({ ...values });
+                                    await router.push(
+                                      {
+                                        pathname: "/browse-cars",
+                                        query: { ...values },
+                                      },
+                                      ``,
+                                      { shallow: true }
+                                    );
+                                  }
+                                } catch (error) {}
+                              }}
+                              disabled={!values?.trip_duration}
+                            >
+                              Clear
+                            </button>
+                          </div>
+                          <div>
+                            <div className="custom-control custom-radio d-inline-block w-50 mt-1">
+                              <input
+                                type="radio"
+                                id="end_user_type_chauffeur_self"
+                                name="end_user_type"
+                                className="custom-control-input w-25"
+                                value={"self_driven"}
+                                onChange={handleChange}
+                                checked={
+                                  values?.end_user_type === "self_driven"
+                                }
+                              />
+                              <p
+                                className="custom-control-label ml-3 more-filters-text w-75"
+                                // htmlFor="trip_type_leisure"
+                              >
+                                Self Driven
+                              </p>
+                            </div>
+                            <div className="custom-control custom-radio d-inline-block w-50">
+                              <input
+                                type="radio"
+                                id="end_user_type_chauffeur"
+                                name="end_user_type"
+                                className="custom-control-input w-25"
+                                value={"chauffeur_driven"}
+                                onChange={handleChange}
+                                checked={
+                                  values?.end_user_type === "chauffeur_driven"
+                                }
+                              />
+                              <p
+                                className="custom-control-label more-filters-text w-75"
+                                // htmlFor="trip_type_business"
+                              >
+                                Chauffeur Driven
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mb-4">
+                          <div className="d-flex justify-content-between">
                             <label htmlFor="trip_type">Trip Type</label>
                             <button
                               className="btn p-0 m-0 more-filters-mini-clear"
@@ -744,14 +819,16 @@ const BrowseCarsNavbar = (): JSX.Element => {
 
                         <div className="mb-4">
                           <div className="d-flex justify-content-between">
-                            <label htmlFor="car_class">Car Class</label>
+                            <label htmlFor="car_market_class">
+                              Car Market Class
+                            </label>
                             <button
                               className="btn p-0 m-0 more-filters-mini-clear"
                               onClick={async (e) => {
                                 e.preventDefault();
                                 try {
-                                  if (values?.car_class) {
-                                    delete values?.car_class;
+                                  if (values?.car_market_class) {
+                                    delete values?.car_market_class;
                                     setValues({ ...values });
                                     await router.push(
                                       {
@@ -764,7 +841,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   }
                                 } catch (error) {}
                               }}
-                              disabled={!values?.car_class}
+                              disabled={!values?.car_market_class}
                             >
                               Clear
                             </button>
@@ -774,11 +851,13 @@ const BrowseCarsNavbar = (): JSX.Element => {
                               <input
                                 type="radio"
                                 id="car_class_budget_car"
-                                name="car_class"
+                                name="car_market_class"
                                 className="custom-control-input w-25"
                                 value={"budget_car"}
                                 onChange={handleChange}
-                                checked={values?.car_class === "budget_car"}
+                                checked={
+                                  values?.car_market_class === "budget_car"
+                                }
                               />
                               <p
                                 className="custom-control-label m-0 more-filters-text w-75"
@@ -791,17 +870,84 @@ const BrowseCarsNavbar = (): JSX.Element => {
                               <input
                                 type="radio"
                                 id="car_class_luxury_car"
-                                name="car_class"
+                                name="car_market_class"
                                 className="custom-control-input w-25"
                                 value={"luxury_car"}
                                 onChange={handleChange}
-                                checked={values?.car_class === "luxury_car"}
+                                checked={
+                                  values?.car_market_class === "luxury_car"
+                                }
                               />
                               <p
                                 className="custom-control-label more-filters-text w-75"
                                 // htmlFor="car_class_luxury_car"
                               >
                                 Luxury/Premium Car
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mb-4">
+                          <div className="d-flex justify-content-between">
+                            <label htmlFor="trip_duration">Trip Duration</label>
+                            <button
+                              className="btn p-0 m-0 more-filters-mini-clear"
+                              onClick={async (e) => {
+                                e.preventDefault();
+                                try {
+                                  if (values?.trip_duration) {
+                                    delete values?.trip_duration;
+                                    setValues({ ...values });
+                                    await router.push(
+                                      {
+                                        pathname: "/browse-cars",
+                                        query: { ...values },
+                                      },
+                                      ``,
+                                      { shallow: true }
+                                    );
+                                  }
+                                } catch (error) {}
+                              }}
+                              disabled={!values?.trip_duration}
+                            >
+                              Clear
+                            </button>
+                          </div>
+                          <div>
+                            <div className="custom-control custom-radio d-inline-block w-50 mt-1">
+                              <input
+                                type="radio"
+                                id="trip_duration_less_24"
+                                name="trip_duration"
+                                className="custom-control-input w-25"
+                                value={"less_24"}
+                                onChange={handleChange}
+                                checked={values?.trip_duration === "less_24"}
+                              />
+                              <p
+                                className="custom-control-label ml-3 more-filters-text w-75"
+                                // htmlFor="trip_type_leisure"
+                              >
+                                less than 24 hrs
+                              </p>
+                            </div>
+                            <div className="custom-control custom-radio d-inline-block w-50">
+                              <input
+                                type="radio"
+                                id="trip_duration_more_24"
+                                name="trip_duration"
+                                className="custom-control-input w-25"
+                                value={"more_24"}
+                                onChange={handleChange}
+                                checked={values?.trip_duration === "more_24"}
+                              />
+                              <p
+                                className="custom-control-label more-filters-text w-75"
+                                // htmlFor="trip_type_business"
+                              >
+                                more than 24 hrs
                               </p>
                             </div>
                           </div>

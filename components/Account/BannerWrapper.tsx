@@ -92,9 +92,9 @@ export function BannerWrapper(props: BannerWrapperProps) {
             Please verify your email. A link was sent to your inbox to verify
             the email. Didn't receive it? Request another link
           </span>
-
+          &nbsp;
           <span
-            className="btn mt-0 pl-0 ml-2 text-light cursor-pointer"
+            className="ext-light cursor-pointer"
             style={{
               fontSize: "inherit",
               textDecoration: "underline",
@@ -116,10 +116,10 @@ export function BannerWrapper(props: BannerWrapperProps) {
             It seems you have not completed your profile yet. Please complete
             your profile
           </span>
-
+          &nbsp;
           <Link href="/account/profile">
             <a
-              className="btn mt-0 pl-0 ml-2 text-light cursor-pointer"
+              className="text-light cursor-pointer"
               style={{
                 fontSize: "inherit",
                 textDecoration: "underline",

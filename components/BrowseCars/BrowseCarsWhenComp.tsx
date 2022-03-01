@@ -1,14 +1,5 @@
-import Calendar from "@lls/react-light-calendar";
 import "@lls/react-light-calendar/dist/index.css";
-import { useRouter } from "next/router";
-import React, {
-  ChangeEvent,
-  RefObject,
-  SyntheticEvent,
-  useEffect,
-  useState,
-} from "react";
-import { time24hrs } from "../../data";
+import React, { RefObject, SyntheticEvent, useEffect, useState } from "react";
 import { TripDatesObj } from "../../utils/interfaces";
 import { TripDates } from "../PublicCar/TripDates";
 

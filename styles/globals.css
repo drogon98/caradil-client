@@ -34,6 +34,7 @@ body {
   --navbar-height: 70px;
   --hero-height: 37rem;
   --dashboard-bright-bg: #fbf7f6;
+  --success: #4d7701;
   /* --vh:-webkit */
 }
 
@@ -49,8 +50,12 @@ body {
   background-color: red !important;
 }
 
-.bgSuccess {
-  background-color: green !important;
+.bg-success {
+  background-color: #4d7701 !important;
+}
+
+.text-success {
+  color: #4d7701 !important;
 }
 
 .bgPrimary {
@@ -581,7 +586,18 @@ label {
 }
 
 .rlc-calendar {
-  width: 350px !important;
+  width: 100% !important;
+}
+
+.rlc-day-selected,
+.rlc-day-start-selection,
+.rlc-day-end-selection,
+.rlc-day-inside-selection {
+  background-color: var(--success) !important;
+}
+
+.rlc-day-today {
+  background-color: var(--success) !important;
 }
 
 .rlc-day-label,
@@ -693,6 +709,14 @@ label {
     height: 35px;
     width: 240px;
   }
+
+  .browse-cars-nav-when-tooltip {
+    width: 350px;
+  }
+
+  /* .rlc-calendar {
+    width: 100% !important;
+  } */
 }
 
 @media screen and (max-width: 365px) {
@@ -712,9 +736,9 @@ label {
     width: 250px;
   } */
 
-  .rlc-calendar {
+  /* .rlc-calendar {
     width: 320px !important;
-  }
+  } */
 
   .rlc-day-label,
   .rlc-day {
@@ -747,9 +771,9 @@ label {
     width: 200px;
   }
 
-  .rlc-calendar {
+  /* .rlc-calendar {
     width: 300px !important;
-  }
+  } */
 
   .rlc-day-label,
   .rlc-day {
@@ -1278,7 +1302,8 @@ car-input-container select:focus {
 
 .carTopIcon,
 .carFeatureIcon {
-  width: 45px;
+  width: 30px;
+  height: 30px;
 }
 
 .secondary-feature-icon {
