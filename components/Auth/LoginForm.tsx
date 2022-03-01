@@ -80,7 +80,9 @@ export default function LoginForm(props: Props): ReactElement {
               let pathname = router.query.next as string;
               await router.push({
                 pathname,
-                query: JSON.parse(router.query.nextQuery! as string),
+                query: router.query.nextQuery
+                  ? JSON.parse(router.query.nextQuery! as string)
+                  : {},
               });
               // }
             } else {

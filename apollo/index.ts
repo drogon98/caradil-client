@@ -6,13 +6,13 @@ import {
   split,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { onError } from "@apollo/client/link/error";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { createUploadLink } from "apollo-upload-client";
 import { store } from "../redux/store";
 import { baseHttpDomain, baseWsDomain } from "../utils/baseDomain";
 import { tokenRefreshLink } from "./tokenRefreshLink";
-import { onError } from "@apollo/client/link/error";
 
 const httpLink = createUploadLink({
   uri: `${baseHttpDomain}graphql`,
@@ -60,8 +60,21 @@ const splitLink = process.browser
     )
   : httpLink;
 
-const errorLink = onError((obj) => {
-  console.log("obj", obj);
+const errorLink = onError(({ graphQLErrors }) => {
+  // console.log("obj", obj);
+  if (graphQLErrors) {
+    let hasUnAuthError = graphQLErrors.some(
+      (err) => err.extensions.code === "UNAUTHENTICATED"
+    );
+
+    if (hasUnAuthError) {
+      let toRedirectTo = window.location.pathname;
+
+      // console.log("toRedirectTo", toRedirectTo);
+
+      window.location.replace(`/login?next=${toRedirectTo}`);
+    }
+  }
 });
 
 const client = new ApolloClient({

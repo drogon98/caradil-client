@@ -1,6 +1,5 @@
 import { ApolloProvider } from "@apollo/client";
 import "bootstrap/dist/css/bootstrap.css";
-import jwtDecode from "jwt-decode";
 import type { AppProps } from "next/app";
 import { Router, useRouter } from "next/router";
 import { useEffect } from "react";
@@ -10,11 +9,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import client from "../apollo";
 // import FloatingWhatsApp from "react-floating-whatsapp";
 import { Wrapper } from "../components/Wrapper";
-import { setToken, unsetToken } from "../redux/authSlice";
 import { store } from "../redux/store";
 import "../styles/globals.css";
-import { baseHttpDomain } from "../utils/baseDomain";
-import { CustomJwtPayload } from "../utils/interfaces";
 
 let persistor = persistStore(store);
 
