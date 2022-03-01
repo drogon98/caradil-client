@@ -611,6 +611,15 @@ label {
   margin: auto;
 }
 
+.sm-when-input {
+  overflow: hidden;
+  border: 1px solid #d4d4d4;
+}
+
+.more-filter-active {
+  border: 1.5px solid var(--orange) !important;
+}
+
 @media screen and (max-width: 1000px) {
   .browse-cars-nav-list-car {
     display: none !important;

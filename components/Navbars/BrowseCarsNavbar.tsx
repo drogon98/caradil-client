@@ -471,7 +471,9 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             </button>
                           </div>
                           <input
-                            className="form-control form-control-md mt-1"
+                            className={`form-control form-control-md mt-1 ${
+                              values?.name && `more-filter-active`
+                            }`}
                             type="text"
                             id="name"
                             name="name"
@@ -515,18 +517,15 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             </button>
                           </div>
                           <div
-                            className="cursor-pointer sm-when-input p-2 mt-1"
-                            style={{
-                              border: "1px solid #d4d4d4",
-                              overflow: "hidden",
-                            }}
+                            className={`cursor-pointer sm-when-input p-2 mt-1 ${
+                              dateTimeInput && `more-filter-active`
+                            }`}
                             ref={whenSmDivRef}
                             onClick={handleSmWhenFocus}
                           >
                             {dateTimeInput ? dateTimeInput : "When?"}
                           </div>
                           {showSmWhenComp && (
-                            // <div>
                             <BrowseCarsWhenComp
                               whenCompRef={whenSmCompRef}
                               dateTime={dateTime}
@@ -542,7 +541,6 @@ const BrowseCarsNavbar = (): JSX.Element => {
                               setStartDate={setStartDate}
                               setEndDate={setEndDate}
                             />
-                            // </div>
                           )}
                         </div>
 
@@ -577,7 +575,9 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             id="make"
                             value={values?.make ?? ""}
                             name="make"
-                            className="form-control mt-1"
+                            className={`form-control form-control-md mt-1 ${
+                              values?.make && `more-filter-active`
+                            }`}
                             onChange={handleChange}
                           >
                             <option value={""}>Choose Make...</option>
@@ -620,7 +620,9 @@ const BrowseCarsNavbar = (): JSX.Element => {
                           </div>
                           <select
                             id="color"
-                            className="form-control mt-1"
+                            className={`form-control form-control-md mt-1 ${
+                              values?.color && `more-filter-active`
+                            }`}
                             onChange={handleChange}
                             value={values?.color ?? ""}
                             name="color"
@@ -1000,7 +1002,9 @@ const BrowseCarsNavbar = (): JSX.Element => {
                               <div className="input-group m-0 p-0">
                                 <input
                                   type="text"
-                                  className="form-control"
+                                  className={`form-control ${
+                                    values?.min_rate && `more-filter-active`
+                                  }`}
                                   placeholder="Min rate"
                                   name="min_rate"
                                   value={values?.min_rate ?? ""}
@@ -1019,7 +1023,9 @@ const BrowseCarsNavbar = (): JSX.Element => {
                               <div className="input-group m-0 p-0">
                                 <input
                                   type="text"
-                                  className="form-control"
+                                  className={`form-control ${
+                                    values?.max_rate && `more-filter-active`
+                                  }`}
                                   placeholder="Max rate"
                                   name="max_rate"
                                   value={values?.max_rate ?? ""}

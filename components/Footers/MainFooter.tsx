@@ -81,13 +81,13 @@ export const MainFooter: FC<IProps> = (props) => {
                 <Link href="/browse-cars">Browse cars</Link>
               </p>{" "}
               <p>
-                <Link href="/">Weddings</Link>
+                <Link href="/weddings">Weddings</Link>
               </p>{" "}
-              <p>
+              {/* <p>
                 <Link href="/">Luxuries & VIPs</Link>
-              </p>{" "}
+              </p>{" "} */}
               <p>
-                <Link href="/">Tours & Safaris</Link>
+                <Link href="/tours">Tours & Safaris</Link>
               </p>
               <p>
                 <Link href="/">Sports</Link>
