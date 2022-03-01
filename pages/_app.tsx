@@ -22,6 +22,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
+    // Bootstrap uses some only-client-side objects (window, document) to
+    // handle events.On the other hand, Next.js renders the app on both the server -
+    // side and client - side.There is no window, document on the server - side thus
+    // you can see some error messages like the following: document is not defined
+    // windows is not defiend
+    // @ts-ignore
+    import("bootstrap/dist/js/bootstrap");
+  }, []);
+
+  useEffect(() => {
     Router.events.on("routeChangeComplete", () => {
       window.scroll({
         top: 0,
@@ -31,85 +41,58 @@ function MyApp({ Component, pageProps }: AppProps) {
     });
   }, [router]);
 
-  useEffect(() => {
-    // Bootstrap uses some only-client-side objects (window, document) to
-    // handle events.On the other hand, Next.js renders the app on both the server -
-    // side and client - side.There is no window, document on the server - side thus
-    // you can see some error messages like the following: document is not defined
-    // windows is not defiend
-    // @ts-ignore
-    import("bootstrap/dist/js/bootstrap");
-    const intervalId = setInterval(async () => {
-      const token = store.getState().auth._id;
-      // console.log("token :>> ", token);
-      if (token) {
-        try {
-          const { exp } = jwtDecode<CustomJwtPayload>(token);
+  // useEffect(() => {
 
-          if (exp) {
-            if (Date.now() >= (exp - 10) * 1000) {
-              let fetchRes = await fetch(`${baseHttpDomain}refresh-token`, {
-                method: "POST",
-                credentials: "include",
-              });
+  //   const intervalId = setInterval(async () => {
+  //     const token = store.getState().auth._id;
+  //     // console.log("token :>> ", token);
+  //     if (token) {
+  //       try {
+  //         const { exp } = jwtDecode<CustomJwtPayload>(token);
 
-              let resData = await fetchRes.json();
+  //         if (exp) {
+  //           if (Date.now() >= (exp - 10) * 1000) {
+  //             let fetchRes = await fetch(`${baseHttpDomain}refresh-token`, {
+  //               method: "POST",
+  //               credentials: "include",
+  //             });
 
-              let token = resData.access_token;
-              // console.log("token2 :>> ", token);
-              if (token) {
-                store.dispatch(setToken(token));
-              } else {
-                store.dispatch(unsetToken());
-                await router.push({
-                  pathname: "/login",
-                  query: {
-                    next: router.pathname,
-                    nextQuery: JSON.stringify(router.query),
-                  },
-                });
-              }
+  //             let resData = await fetchRes.json();
 
-              // fetch(`${baseHttpDomain}refresh-token`, {
-              //   method: "POST",
-              //   credentials: "include",
-              // }).then(async (res) => {
-              //   const data = await res.json();
-              //   let token = data.access_token;
-              //   // console.log("token2 :>> ", token);
-              //   if (token) {
-              //     store.dispatch(setToken(token));
-              //   } else {
-              //     store.dispatch(unsetToken());
-              //     await router.push({
-              //       pathname: "/login",
-              //       query: {
-              //         next: router.pathname,
-              //         nextQuery: JSON.stringify(router.query),
-              //       },
-              //     });
-              //   }
-              // });
-            }
-          }
-        } catch (error) {
-          // Logout the user
-          store.dispatch(unsetToken());
-          await router.push({
-            pathname: "/login",
-            query: {
-              next: router.pathname,
-              nextQuery: JSON.stringify(router.query),
-            },
-          });
-          console.log("error :>> ", error);
-        }
-      }
-      // You are guest or not logged in
-    }, 1000);
+  //             let token = resData.access_token;
+  //             // console.log("token2 :>> ", token);
+  //             if (token) {
+  //               store.dispatch(setToken(token));
+  //             } else {
+  //               store.dispatch(unsetToken());
+  //               await router.push({
+  //                 pathname: "/login",
+  //                 query: {
+  //                   next: router.pathname,
+  //                   nextQuery: JSON.stringify(router.query),
+  //                 },
+  //               });
+  //             }
+  //           }
+  //         }
+  //       } catch (error) {
+  //         // Logout the user
+  //         store.dispatch(unsetToken());
+  //         await router.push({
+  //           pathname: "/login",
+  //           query: {
+  //             next: router.pathname,
+  //             nextQuery: JSON.stringify(router.query),
+  //           },
+  //         });
+  //         console.log("error :>> ", error);
+  //       }
+  //     }
+  //     // You are guest or not logged in
+  //   }, 1000);
 
-    return () => clearInterval(intervalId);
-  }, []);
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   return (
     <ApolloProvider client={client}>
@@ -136,13 +119,3 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 
 export default MyApp;
-
-{
-  /* <ApolloProvider client={client}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Component {...pageProps} />
-        </PersistGate>
-      </Provider>
-    </ApolloProvider> */
-}

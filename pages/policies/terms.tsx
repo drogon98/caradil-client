@@ -1,20 +1,21 @@
 import type { NextPage } from "next";
 import { CustomHead } from "../../components/CustomHead";
 import Layout from "../../components/layouts/Layout";
+import DropDown from "../../components/Policies/DropDown";
 
 const TermsOfService: NextPage = () => {
   return (
     <>
       <CustomHead title="Terms Of Service" />
       <Layout>
-        <div className="customContainer my-3">
-          <h2>
-            <strong>Terms Of Service</strong>
-          </h2>
+        <div className="customContainer my-4">
+          <DropDown />
 
-          <p>Welcome to caradil!</p>
+          <h1 className="mb-4">Terms Of Service</h1>
 
-          <p>
+          <h6>Welcome to caradil!</h6>
+
+          <p className="mb-2">
             These terms and conditions outline the rules and regulations for the
             use of Caradil's Website, located at https://caradil.com.
           </p>
@@ -25,11 +26,8 @@ const TermsOfService: NextPage = () => {
             take all of the terms and conditions stated on this page.
           </p>
 
-          <h3>
-            <strong>
-              <span className="ql-cursor">﻿</span>Introduction
-            </strong>
-          </h3>
+          <br />
+          <h3>Introduction</h3>
           <p>
             Caradil and its subsidiaries (collectively, “Caradil”, “we”, or
             “us”), provide an online car sharing platform that connects vehicle
@@ -42,16 +40,17 @@ const TermsOfService: NextPage = () => {
             >
               Caradil.com
             </a>
-            The Caradil websites, blog and associated services are collectively
-            referred to as “the Services”. By accessing or using the Services,
-            including by communicating with us or other Caradil users, you agree
-            to comply with, and be legally bound by, the provisions of these
-            Terms of Service (these “Terms”), whether or not you become a
-            registered user of the Services. These Terms govern your access to
-            and use of the Services and constitute a binding legal agreement
-            between you and Caradil.
+            . &nbsp; The Caradil websites, blog and associated services are
+            collectively referred to as “the Services”. By accessing or using
+            the Services, including by communicating with us or other Caradil
+            users, you agree to comply with, and be legally bound by, the
+            provisions of these Terms of Service (these “Terms”), whether or not
+            you become a registered user of the Services. These Terms govern
+            your access to and use of the Services and constitute a binding
+            legal agreement between you and Caradil.
           </p>
 
+          <br />
           <p>
             <strong>Modification.</strong>&nbsp;Caradil reserves the right, at
             our sole discretion, to modify the Services or to modify the
@@ -67,16 +66,16 @@ const TermsOfService: NextPage = () => {
             unless you use the Services during the intervening 30 day period, in
             which case the new version of these Terms will apply to you.
           </p>
-          <h3>
-            <strong>Eligibility, registration, verification</strong>
-          </h3>
-          <h4>Eligibility</h4>
+          <br />
+          <h3 className="mb-2">Eligibility, registration, verification</h3>
+          <h5>Eligibility</h5>
           <p>
-            The Services are intended solely for persons who are 18. Any use of
-            the Services by anyone that does not meet these age requirements is
-            expressly prohibited.
+            The Services are intended solely for persons who are 18 years and
+            above of age. Any use of the Services by anyone that does not meet
+            these age requirements is expressly prohibited.
           </p>
-          <h4>Registration</h4>
+          <br />
+          <h5>Registration</h5>
           <p>
             To access certain features of the Services, you must sign up for an
             account with us (a “Caradil Account”). You can create a Caradil
@@ -90,7 +89,8 @@ const TermsOfService: NextPage = () => {
             booking, and/or listing process. You must keep your Caradil Account
             up to date at all times.
           </p>
-          <h4>Verification</h4>
+          <br />
+          <h5>Verification</h5>
           <p>
             Where permitted, Caradil has the right, but not the obligation, to
             undertake screenings, checks, and engage in processes designed to
@@ -111,11 +111,9 @@ const TermsOfService: NextPage = () => {
             that require hosts to ensure their vehicles are in safe and operable
             condition, legally registered to be driven on public roads.
           </p>
-
-          <h3>
-            <strong>Fees</strong>
-          </h3>
-          <h4>Fees</h4>
+          <br />
+          <h3 className="mb-2">Fees</h3>
+          {/* <h4>Fees</h4> */}
           <p>
             The fees we charge for using the Services and other cost structures
             will be itemized at checkout for guests. You can verify the amount
@@ -125,15 +123,14 @@ const TermsOfService: NextPage = () => {
             providers acting on behalf of Caradil, to store your payment
             credential for future use in the event you owe Caradil any money.
           </p>
-
-          <h3>
-            <strong>Your commitments</strong>
-          </h3>
+          <br />
+          <h3>Your commitments</h3>
           <p>
             You agree that you will always use your Caradil Account and the
             Services in compliance with these Terms, applicable law, and any
             other policies and standards provided to you by Caradil.
           </p>
+          <br />
           <p>
             <strong>Account Activity.</strong>&nbsp;You are, and will be solely
             responsible for, all of the activity that occurs through your
@@ -148,9 +145,8 @@ const TermsOfService: NextPage = () => {
             delay in shutting down or protecting your Caradil Account unless you
             have reported unauthorized access to us.
           </p>
-          <h3>
-            <strong>Content</strong>
-          </h3>
+          <br />
+          <h3>Content</h3>
           <p>
             <strong>Caradil Content and User Content License.</strong>
             &nbsp;Subject to your compliance with the provisions of these Terms,
@@ -163,6 +159,7 @@ const TermsOfService: NextPage = () => {
             property rights owned or controlled by Caradil or its licensors,
             except for the licenses and rights expressly granted in these Terms.
           </p>
+          <br />
           <p>
             <strong>User Content.</strong>&nbsp;We may, in our sole discretion,
             permit you to post, upload, publish, submit or transmit content
@@ -182,16 +179,14 @@ const TermsOfService: NextPage = () => {
             restrict any rights that you may have to use and exploit any such
             content.
           </p>
-
-          <h3>
-            <strong>Prohibited activities</strong>
-          </h3>
-          <p>
+          <br />
+          <h3>Prohibited activities</h3>
+          <p className="mb-3">
             In connection with your use of or access to the Services, you agree
             that you will not, nor advocate, encourage, request, or assist any
             third party to:
           </p>
-          <h4>Violate any law, including:</h4>
+          <h5>Violate any law, including:</h5>
           <ul>
             <li>
               Post false, inaccurate, misleading, defamatory, or libelous
@@ -207,10 +202,10 @@ const TermsOfService: NextPage = () => {
               rights, except with prior express written permission of Caradil
             </li>
           </ul>
-          <h4>
+          <h5>
             Dilute, tarnish, or otherwise harm the Caradil brand in any way,
             including:
-          </h4>
+          </h5>
           <ul>
             <li>
               Through unauthorized use of the Services and/or user content
@@ -227,9 +222,9 @@ const TermsOfService: NextPage = () => {
               user content
             </li>
           </ul>
-          <h4>
+          <h5>
             Provide or submit any false or misleading information, including:
-          </h4>
+          </h5>
           <ul>
             <li>
               False name, date of birth, driver’s license details, payment
@@ -248,7 +243,7 @@ const TermsOfService: NextPage = () => {
               entity
             </li>
           </ul>
-          <h4>Fail to honor your commitments, including:</h4>
+          <h5>Fail to honor your commitments, including:</h5>
           <ul>
             <li>
               Fail, as either a guest or host, to timely deliver, make
@@ -268,7 +263,7 @@ const TermsOfService: NextPage = () => {
               without our consent
             </li>
           </ul>
-          <h4>Harm or threaten to harm users of our community, including:</h4>
+          <h5>Harm or threaten to harm users of our community, including:</h5>
           <ul>
             <li>
               Harass, stalk, or defame any other Caradil user or collect or
@@ -297,9 +292,9 @@ const TermsOfService: NextPage = () => {
               any manner prohibited or waived by these Terms
             </li>
           </ul>
-          <h4>
+          <h5>
             Use the Services for your own unrelated purposes, including to:
-          </h4>
+          </h5>
           <ul>
             <li>
               Contact another Caradil user for any purpose other than in
@@ -384,9 +379,8 @@ const TermsOfService: NextPage = () => {
               Account holder that has been suspended, terminated, or closed
             </li>
           </ul>
-          <h3>
-            <strong>Other legal matters</strong>
-          </h3>
+          <br />
+          <h3 className="mb-3">Other legal matters</h3>
           <p>
             <strong>Violations.</strong>&nbsp;Caradil has the right, but not the
             obligation, to investigate, pursue, and seek to prosecute, litigate,
@@ -410,7 +404,7 @@ const TermsOfService: NextPage = () => {
             the Services to anyone for any reason at our discretion to the full
             extent permitted under applicable law.
           </p>
-
+          <br />
           <p>
             <strong>Communications with you.</strong>&nbsp;In order to contact
             you more efficiently, you agree that we may at times contact you
@@ -435,17 +429,16 @@ const TermsOfService: NextPage = () => {
             be overheard, monitored, or recorded without further notice or
             warning.
           </p>
+          <br />
           <p>
             <strong>Non-disparagement.</strong>&nbsp;The Parties agree that they
             will not take any action that will harm the reputation of the other
             Party, or which would reasonably be expected to lead to unwanted or
             unfavorable publicity to either of the other Party.
           </p>
-
-          <h3>
-            <strong>Specific terms for hosts</strong>
-          </h3>
-          <p>
+          <br />
+          <h3>Specific terms for hosts</h3>
+          <p className="mb-3">
             The following sections also apply if you share your vehicle through
             the Services:
           </p>
@@ -476,6 +469,7 @@ const TermsOfService: NextPage = () => {
             a guest. You will repay loans related to your Caradil business on
             time and in full.
           </p>
+          <br />
           <h4>Information given at registration</h4>
           <p>
             When you sign up for Caradil, you will identify passenger vehicle(s)
@@ -484,7 +478,7 @@ const TermsOfService: NextPage = () => {
             otherwise have all the necessary rights and permissions to share for
             compensation.
           </p>
-
+          <br />
           <h4>Caradil photography</h4>
           <p>
             Caradil may offer hosts the option of having photographers take
@@ -512,18 +506,20 @@ const TermsOfService: NextPage = () => {
             assist Caradil to acquire, perfect, and maintain its intellectual
             property rights and other legal protection in the Images.
           </p>
+          <br />
           <h4>Vehicle availability</h4>
           <p>
             Once a trip is booked, you must make the vehicle available or
             deliver the vehicle as expected by the guest.
           </p>
+          <br />
           <h4>Pricing, earnings, and payments</h4>
           <p>
             You will have the ability to set and revise the vehicle’s pricing as
             you choose. Caradil will pay you the amount collected from guests
             that book your vehicle, less the applicable fees payable to Caradil.
           </p>
-
+          <br />
           <h4>Maintenance</h4>
           <p>
             You are required to regularly check your vehicle for any defects in
@@ -541,11 +537,9 @@ const TermsOfService: NextPage = () => {
             commit to, undertake efforts to ensure the safety of vehicles booked
             through the Services.
           </p>
+          <br />
 
-          <h3>
-            <strong>General provisions</strong>
-          </h3>
-          <h4>Termination</h4>
+          <h3>Termination</h3>
           <p>
             You may discontinue your use of the Services at any time and Caradil
             may terminate your access to the Services and remove any listings
@@ -559,6 +553,7 @@ const TermsOfService: NextPage = () => {
             disputes provisions under the Agreement and/or any fees due, and all
             of those terms will survive any termination of the Agreement.
           </p>
+          <br />
           <h4>No vehicle transfer or assignment</h4>
           <p>
             Except as otherwise provided herein, guests and hosts agree that
@@ -566,9 +561,10 @@ const TermsOfService: NextPage = () => {
             or assignment of any right or interest in a vehicle or optional
             Extras shared through the Services.
           </p>
+          <br />
           <h4>Disclaimers</h4>
 
-          <h4>Not a rental car business</h4>
+          <h5>Not a rental car business</h5>
           <p>
             Caradil is not a rental car business. It does not own a fleet of
             vehicles, and is not in the business of renting vehicles to the
@@ -576,7 +572,8 @@ const TermsOfService: NextPage = () => {
             those in need of a vehicle can meet and share vehicles amongst
             themselves subject to these Terms.
           </p>
-          <h4>Rounding off</h4>
+          <br />
+          <h5>Rounding off</h5>
           <p>
             Caradil may, in its sole discretion, round up or down amounts that
             are payable from or to hosts or guests to the nearest whole

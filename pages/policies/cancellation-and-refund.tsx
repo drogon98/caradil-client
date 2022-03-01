@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { CustomHead } from "../../components/CustomHead";
 import Layout from "../../components/layouts/Layout";
+import DropDown from "../../components/Policies/DropDown";
 
 const CancellationAndRefund: NextPage = () => {
   return (
@@ -8,6 +9,7 @@ const CancellationAndRefund: NextPage = () => {
       <CustomHead title="Cancellation And Refund" />
       <Layout>
         <div className="customContainer my-5">
+          <DropDown />
           <h1>Cancellation And Refund</h1>
           <h3 className="mt-4">Guest cancellation</h3>
           <p>
@@ -17,8 +19,9 @@ const CancellationAndRefund: NextPage = () => {
             circumstances. The total amount refunded will depend on when the
             guest cancels the trip.
           </p>
-          <h3>Full refund: Free cancellation period and cancellation</h3>
-          <p>Free cancellation period</p>
+          <br />
+          <h5>Full refund: Free cancellation period and cancellation</h5>
+          <h6>Free cancellation period</h6>
 
           <table className="table table-hover">
             <thead>
@@ -53,18 +56,19 @@ const CancellationAndRefund: NextPage = () => {
             notify their host as soon as possible via Caradil messaging and to
             process the cancellation themselves through the Caradil website.
           </p>
-          <p>Trip modifications</p>
+          <br />
+          <h6>Trip modifications</h6>
           <p>
             If a guest requests a trip modification and the host accepts, that
             modification does not reset the free cancellation period for the
             trip. It remains tied to the original booking time.
           </p>
-
-          <h3>
+          <br />
+          <h5>
             Partial refund: Cancellations outside the free period and guest
             no-shows
-          </h3>
-          <p>Cancellations outside the free period</p>
+          </h5>
+          <h6>Cancellations outside the free period</h6>
           <p>
             If a guest wants to cancel a confirmed trip, we encourage them to
             notify the host via Caradil messaging as soon as possible and to
@@ -75,8 +79,8 @@ const CancellationAndRefund: NextPage = () => {
             trip fee minus 1 hour fee. For cancelled trips that are longer than
             24 hours, we’ll refund the guest the trip fee minus one day's fee.
           </p>
-
-          <p>Guest no-show</p>
+          <br />
+          <h6>Guest no-show</h6>
           <p>
             If a guest fails to cancel and doesn't show up for the trip within
             45 minutes of the trip's scheduled start time, it's a guest no-show.
@@ -161,12 +165,13 @@ const CancellationAndRefund: NextPage = () => {
             </a>
             .
           </p> */}
+          <br />
           <h3>
             Guest trips canceled by host, host no-shows, and trips canceled by
             Caradil
           </h3>
-          <p>Guest trips canceled by host and host no-shows</p>
-          <p>Free cancellation period for host</p>
+
+          <h6>Free cancellation period for host</h6>
 
           <table className="table table-hover">
             <thead>
@@ -186,6 +191,7 @@ const CancellationAndRefund: NextPage = () => {
               </tr>
             </tbody>
           </table>
+          <h6>Guest trips canceled by host and host no-shows</h6>
           <p>
             On occasion, a host might cancel a guest’s trip or fail to show up
             at trip start. If a host cancels a guest’s trip or has not canceled
@@ -198,14 +204,16 @@ const CancellationAndRefund: NextPage = () => {
             follow the instructions in the cancellation email to initiate their
             refund.
           </p>
-          <p>Trips canceled by Caradil</p>
+          <br />
+          <h6>Trips canceled by Caradil</h6>
           <p>
             In some cases, Caradil’s trust and safety team will cancel a guest’s
             booked trip. If that were to happen, Caradil will contact the guest
             and host, and the guest will receive a full refund.
           </p>
+          <br />
           <h3>Guest trips impacted by flight delays, flight cancellations</h3>
-          <p>Flight delays or flight cancellations</p>
+          <h6>Flight delays or flight cancellations</h6>
           <p>
             If a guest’s flight is delayed or canceled, they must message their
             host to tell them and to request a trip modification for a new start

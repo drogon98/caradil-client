@@ -12,6 +12,7 @@ import { createUploadLink } from "apollo-upload-client";
 import { store } from "../redux/store";
 import { baseHttpDomain, baseWsDomain } from "../utils/baseDomain";
 import { tokenRefreshLink } from "./tokenRefreshLink";
+import { onError } from "@apollo/client/link/error";
 
 const httpLink = createUploadLink({
   uri: `${baseHttpDomain}graphql`,
@@ -35,7 +36,7 @@ const wsLink: any = process.browser
       uri: `${baseWsDomain}subscriptions`,
       options: {
         reconnect: true,
-        // lazy: true,
+        lazy: true,
         connectionParams: () => {
           return {
             authToken: `Bearer ${store.getState().auth._id}`,
@@ -59,19 +60,18 @@ const splitLink = process.browser
     )
   : httpLink;
 
+const errorLink = onError((obj) => {
+  console.log("obj", obj);
+});
+
 const client = new ApolloClient({
-  // uri: baseHttpDomain,
   cache: new InMemoryCache(),
   //  Pass the credentials option e.g. credentials: 'same-origin'
   // if your backend server is the same domain, as shown below, or else credentials: 'include'
   // if your backend is a different domain.
-  link: ApolloLink.from([
-    tokenRefreshLink,
-    authLink,
-    splitLink,
-    // httpLink,
-    // NetwworkErrorRetryLink,
-  ]),
+  link: errorLink.concat(
+    ApolloLink.from([tokenRefreshLink, authLink, splitLink])
+  ),
   ssrMode: true,
   // link: authLink.concat(httpLink),
 });

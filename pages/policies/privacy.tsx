@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { CustomHead } from "../../components/CustomHead";
 import Layout from "../../components/layouts/Layout";
+import DropDown from "../../components/Policies/DropDown";
 
 const Privacy: NextPage = () => {
   return (
@@ -8,7 +9,8 @@ const Privacy: NextPage = () => {
       <CustomHead title="Privacy Policy" />
       <Layout>
         <div className="customContainer my-4">
-          <h1 className="mb-3">Privacy Policy</h1>
+          <DropDown />
+          <h1 className="mb-4">Privacy Policy</h1>
           <h3>Personal information we collect</h3>
           <p>
             <strong>Account data.</strong>&nbsp;When you register for an account
@@ -46,7 +48,8 @@ const Privacy: NextPage = () => {
             communicate with other users, we collect information about your
             communication and any information you choose to provide.
           </p>
-          <h4>Personal information we automatically collect.</h4>
+          <br />
+          <h3>Personal information we automatically collect.</h3>
           <p>
             <strong>Usage data</strong>. We collect information about your
             interactions with the Services, such as the pages or other content
@@ -88,16 +91,14 @@ const Privacy: NextPage = () => {
             local storage provided by your browser or associated applications
             (collectively “Cookies”).
           </p>
-
-          <h3>
-            <strong>How we use your personal information</strong>
-          </h3>
+          <br />
+          <h3>How we use your personal information</h3>
           <p>
             We use, store, and process your personal information to provide and
             improve the Services and for security and safety purposes. For
             example, we may use your information:
           </p>
-          <h4>To provide the Services, including to:</h4>
+          <h5>To provide the Services, including to:</h5>
           <ul>
             <li>Provide and operate the Services</li>
             <li>Provide customer support</li>
@@ -124,7 +125,7 @@ const Privacy: NextPage = () => {
               collection
             </li>
           </ul>
-          <h4>For research and development:</h4>
+          <h5>For research and development:</h5>
           <p>
             We may use your personal information to analyze and improve the
             Services and to develop new products and services, including by
@@ -136,7 +137,7 @@ const Privacy: NextPage = () => {
             with third parties for our lawful business purposes, including to
             analyze and improve the Services and promote our business.
           </p>
-          <h4>For marketing and advertising:</h4>
+          <h5>For marketing and advertising:</h5>
           <p>
             We and our third party advertising partners may collect and use your
             personal information for marketing and advertising purposes:
@@ -148,7 +149,7 @@ const Privacy: NextPage = () => {
             communications however.
           </p>
 
-          <h4>For security and safety, including to:</h4>
+          <h5>For security and safety, including to:</h5>
           <ul>
             <li>
               Verify your identity or authenticate information that you provide,
@@ -171,14 +172,14 @@ const Privacy: NextPage = () => {
             </li>
             <li>Perform creditworthiness and solvency checks</li>
           </ul>
-          <h4>To comply with law:</h4>
+          <h5>To comply with law:</h5>
           <p>
             We use your personal information as we believe necessary or
             appropriate to comply with applicable laws, lawful requests, and
             legal processes, such as to respond to subpoenas or requests from
             government authorities.
           </p>
-          <h4>With your consent:</h4>
+          <h5>With your consent:</h5>
           <p>
             In some cases, we may specifically ask for your consent to process
             your personal information.
@@ -188,15 +189,14 @@ const Privacy: NextPage = () => {
             this Privacy Policy or as disclosed to you at the time of
             collection.
           </p>
-          <h3>
-            <strong>How we disclose your personal information</strong>
-          </h3>
-          <h4>With your consent</h4>
+          <br />
+          <h3>How we disclose your personal information</h3>
+          <h5>With your consent</h5>
           <p>
             We may share your information at your direction or with your
             consent.
           </p>
-          <h4>Profiles, listings, and other public information</h4>
+          <h5>Profiles, listings, and other public information</h5>
           <p>
             Your public listing page on the Services will always include some
             basic information, such as your user ID or name associated with your
@@ -216,7 +216,7 @@ const Privacy: NextPage = () => {
             public listing pages may be indexed by search engines and may be
             published as search results.
           </p>
-          <h4>Sharing between hosts and guests</h4>
+          <h5>Sharing between hosts and guests</h5>
           <p>
             Caradil enables car owners to offer and share their vehicles with
             other individuals. If you agree to a booking through the Services,
@@ -227,7 +227,7 @@ const Privacy: NextPage = () => {
             identification. We will also share the address of the vehicle and,
             if applicable, the proposed delivery location with the other party.
           </p>
-          <h4>Service providers</h4>
+          <h5>Service providers</h5>
           <p>
             We may share information with vendors and service providers who
             support the operation of the Services and business and who need
@@ -241,18 +241,16 @@ const Privacy: NextPage = () => {
             These service providers may use your personal information only as
             directed or authorized by us.
           </p>
-
-          <h3>
-            <strong>Your preferences and choices</strong>
-          </h3>
-          <h4>Communication preferences</h4>
+          <br />
+          <h3>Your preferences and choices</h3>
+          <h5>Communication preferences</h5>
           <p>
             You can control the methods by which we may contact you about your
             account, your booking and listing activities, promotions, and
             announcements in the Notifications section within your Caradil
             account.
           </p>
-          <h4>Opting out of marketing communications</h4>
+          <h5>Opting out of marketing communications</h5>
           <p>
             You may opt out of marketing-related emails by following the opt-out
             or unsubscribe instructions at the bottom of the email. You may
@@ -261,7 +259,7 @@ const Privacy: NextPage = () => {
             receiving further marketing text messages from us by replying STOP
             to our marketing message or as described in the message.
           </p>
-          <h4>Correct and update</h4>
+          <h5>Correct and update</h5>
           <p>
             You can review, correct, update, and edit certain information that
             has been previously provided to us by you at any time by logging in
