@@ -19,7 +19,7 @@ export const HowItWorks: FC<IProps> = (props) => {
       </div>
       <div className="text-center">
         <h2 className="mb-5 section-heading">
-          Its Easy to Create a Host Business Account
+          Its Easy to Create a Host Account
         </h2>
       </div>
       <div className="row m-0">

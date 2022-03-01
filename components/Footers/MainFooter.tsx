@@ -115,10 +115,12 @@ export const MainFooter: FC<IProps> = (props) => {
             <h5>Contact Info</h5>
             <p>
               <FiSmartphone />
+              &nbsp;&nbsp;
               <a href="tel:+254799204524">+254799204524</a>
             </p>
             <p>
               <AiOutlineMail />
+              &nbsp;&nbsp;
               <a href="mailto:contact@caradil.com">contact@caradil.com</a>
             </p>
           </div>

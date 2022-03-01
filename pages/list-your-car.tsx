@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { CustomHead } from "../components/CustomHead";
+import { Faqs } from "../components/Home/Faqs";
 import Layout from "../components/layouts/Layout";
 import { HowItWorks } from "../components/ListYourCar/HowItWorks";
 import { KickOff } from "../components/ListYourCar/KickOff";
@@ -14,6 +15,7 @@ const ListYourCar: FC<IProps> = (props) => {
         <div>
           <KickOff />
           <HowItWorks />
+          <Faqs />
         </div>
       </Layout>
     </>

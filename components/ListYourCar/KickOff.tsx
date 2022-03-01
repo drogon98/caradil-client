@@ -17,7 +17,7 @@ export const KickOff: FC<IProps> = (props) => {
       <div className="row w-100 m-0 align-items-center">
         <div className="col-lg-6 pl-lg-0 text-center">
           <h2 className="mb-3 section-heading">
-            Kick Off your Car Business Today
+            Start your Car Business Today
           </h2>
 
           <p>

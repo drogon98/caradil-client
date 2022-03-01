@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { FC } from "react";
 
 interface ManageTravelProps {}
@@ -5,25 +6,27 @@ interface ManageTravelProps {}
 export const ManageTravel: FC<ManageTravelProps> = (props) => {
   return (
     <div className="page-section customContainer">
-      <div className="row">
+      <div className="row align-items-center">
         <div className="col-md-6">
           <img
             src="images/manage-trip.jpg"
             width={"100%"}
-            height="350px"
+            height="280px"
             style={{ objectFit: "cover" }}
           />
         </div>
-        <div className="col-md-6 py-5">
-          <h4>Manage your travel with ease</h4>
+        <div className="col-md-6 py-5 text-center">
+          <h3>Manage your travel with ease</h3>
 
-          <h3>
+          <p className="lead">
             Caradil makes finding and booking trip car simple with a product
             designed just for you. Find best trip cars you will love, supported
             by humans who care.
-          </h3>
+          </p>
           <div className="mt-4">
-            <button className="btn bgOrange">Get Started</button>
+            <Link href="/browse-cars">
+              <a className="btn bgOrange">Browse Cars</a>
+            </Link>
           </div>
         </div>
       </div>
