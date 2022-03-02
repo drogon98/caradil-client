@@ -13,6 +13,7 @@ import { Loading } from "../../components/Loading";
 import { CarDetailsDescription } from "../../components/PublicCar/CarDetailsDescription";
 // import { CarDetailsGuidelines } from "../../components/PublicCar/CarDetailsGuidelines";
 import { CarDetailsHost } from "../../components/PublicCar/CarDetailsHost";
+import { CarDetailsReviews } from "../../components/PublicCar/CarDetailsReviews";
 // import { CarDetailsFaqs } from "../../components/PublicCar/CarDetailsFaqs";
 import { CarDetailsSecondaryFeatures } from "../../components/PublicCar/CarDetailsSecondaryFeatures";
 // import { CarDetailsReviews } from "../../components/PublicCar/CarDetailsReviews";
@@ -528,10 +529,10 @@ const Car: FC<CarProps> = (props) => {
                   </div>
                    <div className="carDetailsFaqs mb-4">
                     <CarDetailsFaqs />
-                  </div>
+                  </div>*/}
                   <div className="carDetailsReviews mb-4">
-                    <CarDetailsReviews />
-                  </div> */}
+                    <CarDetailsReviews carId={car?.id!} />
+                  </div>
                   <div className="shared-section-sm-screen">
                     <SharedSections
                       isFavourite={isFavourite!}
@@ -618,7 +619,8 @@ const Car: FC<CarProps> = (props) => {
                       endDate={endDate}
                       setStartDate={setStartDate}
                       setEndDate={setEndDate}
-                      isCarPage
+                      isNotBrowseCarsPage
+                      car={car!}
                     >
                       <div className="d-grid gap-2">
                         <button

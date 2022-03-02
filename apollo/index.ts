@@ -60,10 +60,10 @@ const splitLink = process.browser
     )
   : httpLink;
 
-const errorLink = onError(({ graphQLErrors }) => {
-  // console.log("obj", obj);
-  if (graphQLErrors) {
-    let hasUnAuthError = graphQLErrors.some(
+const errorLink = onError((obj) => {
+  console.log("obj", obj);
+  if (obj.graphQLErrors) {
+    let hasUnAuthError = obj.graphQLErrors.some(
       (err) => err.extensions.code === "UNAUTHENTICATED"
     );
 

@@ -1,0 +1,14 @@
+query GetCarReviews($carId: Float!) {
+  getCarReviews(carId: $carId) {
+    id
+    reviewer {
+      first_name
+      avatar {
+        secure_url
+      }
+    }
+    comment
+    stars
+    created_at
+  }
+}

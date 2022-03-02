@@ -5,6 +5,7 @@ import React, {
   useState,
 } from "react";
 import { Modal } from "react-bootstrap";
+import { Car } from "../../graphql_types/generated/graphql";
 import { TripDatesObj } from "../../utils/interfaces";
 import { TripDates } from "./TripDates";
 
@@ -21,7 +22,8 @@ interface Props {
   endDate: number;
   setStartDate: any;
   setEndDate: any;
-  isCarPage?: boolean;
+  isNotBrowseCarsPage?: boolean;
+  car?: Car;
 }
 
 export default function TripDateModal(props: Props): ReactElement {
@@ -50,11 +52,12 @@ export default function TripDateModal(props: Props): ReactElement {
               endDate={props.endDate}
               setStartDate={props.setStartDate}
               setEndDate={props.setEndDate}
-              isCarPage={props.isCarPage}
+              isNotBrowseCarsPage={props.isNotBrowseCarsPage}
+              car={props.car}
             />
             <div className="d-flex justify-content-end mt-2">
               <button
-                className="btn bg-secondary"
+                className="btn bg-secondary text-light"
                 onClick={(e: SyntheticEvent<HTMLButtonElement>) => {
                   e.preventDefault();
                   props.applyTime();

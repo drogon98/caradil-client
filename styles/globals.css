@@ -597,7 +597,7 @@ label {
 }
 
 .rlc-day-today {
-  background-color: var(--success) !important;
+  background-color: var(--success);
 }
 
 .rlc-day-label,

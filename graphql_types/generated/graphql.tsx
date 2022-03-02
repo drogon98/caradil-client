@@ -707,7 +707,7 @@ export type QueryGetCarArgs = {
 
 
 export type QueryGetCarReviewsArgs = {
-  tripId: Scalars['Float'];
+  carId: Scalars['Float'];
 };
 
 
@@ -758,9 +758,10 @@ export type ResetPasswordInput = {
 export type Review = {
   __typename?: 'Review';
   car?: Maybe<Car>;
-  comment?: Maybe<Scalars['Float']>;
+  comment?: Maybe<Scalars['String']>;
   created_at?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Float']>;
+  reviewer?: Maybe<User>;
   reviewer_id?: Maybe<Scalars['Float']>;
   stars?: Maybe<Scalars['Float']>;
   updated_at?: Maybe<Scalars['DateTime']>;
@@ -772,10 +773,12 @@ export type ReviewInput = {
 };
 
 export type SearchInput = {
+  car_market_class?: InputMaybe<Scalars['String']>;
   categories?: InputMaybe<Scalars['String']>;
   color?: InputMaybe<Scalars['String']>;
   end_date?: InputMaybe<Scalars['String']>;
   end_time?: InputMaybe<Scalars['String']>;
+  end_user_type?: InputMaybe<Scalars['String']>;
   location?: InputMaybe<Scalars['String']>;
   make?: InputMaybe<Scalars['String']>;
   max_rate?: InputMaybe<Scalars['String']>;
@@ -1276,6 +1279,13 @@ export type GetCarQueryVariables = Exact<{
 
 
 export type GetCarQuery = { __typename?: 'Query', getCar: { __typename?: 'CarResponse', car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, bags?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, distance_per_hour?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: number | null | undefined, manual_transmission_test?: boolean | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, car_market_class?: string | null | undefined, book_and_trip_days?: Array<number> | null | undefined, fuel_efficiency?: string | null | undefined, fuel_policy?: string | null | undefined, reserved_for_booking?: boolean | null | undefined, suspended?: boolean | null | undefined, reserved_for_booking_guest_id?: number | null | undefined, trip_type?: string | null | undefined, end_user_type?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined } | null | undefined } };
+
+export type GetCarReviewsQueryVariables = Exact<{
+  carId: Scalars['Float'];
+}>;
+
+
+export type GetCarReviewsQuery = { __typename?: 'Query', getCarReviews: Array<{ __typename?: 'Review', id?: number | null | undefined, comment?: string | null | undefined, stars?: number | null | undefined, created_at?: any | null | undefined, reviewer?: { __typename?: 'User', first_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', secure_url?: string | null | undefined } | null | undefined } | null | undefined }> };
 
 export type GetCarsQueryVariables = Exact<{
   input: SearchInput;
@@ -3143,6 +3153,50 @@ export function useGetCarLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get
 export type GetCarQueryHookResult = ReturnType<typeof useGetCarQuery>;
 export type GetCarLazyQueryHookResult = ReturnType<typeof useGetCarLazyQuery>;
 export type GetCarQueryResult = Apollo.QueryResult<GetCarQuery, GetCarQueryVariables>;
+export const GetCarReviewsDocument = gql`
+    query GetCarReviews($carId: Float!) {
+  getCarReviews(carId: $carId) {
+    id
+    reviewer {
+      first_name
+      avatar {
+        secure_url
+      }
+    }
+    comment
+    stars
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useGetCarReviewsQuery__
+ *
+ * To run a query within a React component, call `useGetCarReviewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCarReviewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCarReviewsQuery({
+ *   variables: {
+ *      carId: // value for 'carId'
+ *   },
+ * });
+ */
+export function useGetCarReviewsQuery(baseOptions: Apollo.QueryHookOptions<GetCarReviewsQuery, GetCarReviewsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCarReviewsQuery, GetCarReviewsQueryVariables>(GetCarReviewsDocument, options);
+      }
+export function useGetCarReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCarReviewsQuery, GetCarReviewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCarReviewsQuery, GetCarReviewsQueryVariables>(GetCarReviewsDocument, options);
+        }
+export type GetCarReviewsQueryHookResult = ReturnType<typeof useGetCarReviewsQuery>;
+export type GetCarReviewsLazyQueryHookResult = ReturnType<typeof useGetCarReviewsLazyQuery>;
+export type GetCarReviewsQueryResult = Apollo.QueryResult<GetCarReviewsQuery, GetCarReviewsQueryVariables>;
 export const GetCarsDocument = gql`
     query GetCars($input: SearchInput!) {
   getCars(input: $input) {

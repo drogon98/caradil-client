@@ -16,16 +16,82 @@ interface TripDatesProps {
   endDate: number;
   setStartDate: any;
   setEndDate: any;
-  isCarPage?: boolean;
+  isNotBrowseCarsPage?: boolean;
 }
 
 export let TripDates = (props: TripDatesProps) => {
   const handleDateChange = (start_date: number, end_date: number) => {
     props.setStartDate(start_date);
-    if (!end_date) {
-      props.setEndDate(start_date);
+
+    if (!props.isNotBrowseCarsPage) {
+      if (!end_date) {
+        props.setEndDate(start_date);
+      } else {
+        props.setEndDate(end_date);
+      }
     } else {
-      props.setEndDate(end_date);
+      if (start_date !== end_date) {
+        // console.log("start_date :>> ", start_date);
+        // console.log("end_date :>> ", end_date);
+        try {
+          let invalidTripDates: number[] = [];
+
+          let tripDates: number[] = [];
+          // let tripDates= props.car?.trips_data
+
+          let operationDays = props.car?.book_and_trip_days!;
+
+          // invalidTripDates = [...operationDays, ...tripDates];
+          invalidTripDates = [...tripDates];
+
+          let tripDatesRange: number[] = [];
+
+          let currentDate = start_date;
+
+          while (currentDate <= end_date) {
+            let dateTime = new Date(currentDate).getTime();
+
+            tripDatesRange = [...tripDatesRange, dateTime];
+
+            currentDate += 86400000;
+          }
+
+          // console.log("tripDatesRange", tripDatesRange);
+
+          let isValidTripDay = true;
+
+          let idx = 0;
+
+          while (idx < tripDatesRange.length) {
+            // console.log("idx", idx);
+            let existsInTripDates = invalidTripDates.some((d) => {
+              return d === tripDatesRange[idx];
+            });
+
+            let inOperationDays = operationDays.some((d) => {
+              return d === new Date(tripDatesRange[idx]).getDay();
+            });
+
+            let exists = existsInTripDates || !inOperationDays;
+
+            if (exists) {
+              isValidTripDay = false;
+              break;
+            }
+            idx++;
+          }
+
+          // props.setEndDate(end_date);
+          if (isValidTripDay) {
+            props.setEndDate(end_date);
+          } else {
+            props.setStartDate(end_date);
+            props.setEndDate(end_date);
+          }
+        } catch (error) {
+          console.log("error :>> ", error);
+        }
+      }
     }
   };
 
