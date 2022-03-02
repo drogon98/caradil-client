@@ -110,6 +110,7 @@ export default function LoginForm(props: Props): ReactElement {
 
   return (
     <>
+      <h3>Sign In</h3>
       <div style={{ height: "10px" }}>
         {error && <small className="text-danger">{error}</small>}
       </div>
@@ -172,13 +173,15 @@ export default function LoginForm(props: Props): ReactElement {
                   </a>
                 </Link>
               </span>
-              <span>
-                <Link href="/register">
-                  <a className="cursor-pointer">
-                    <small>Don't have account?</small>
-                  </a>
-                </Link>
-              </span>
+              {props.isModal && (
+                <span>
+                  <Link href="/register">
+                    <a className="cursor-pointer">
+                      <small>Don't have account?</small>
+                    </a>
+                  </Link>
+                </span>
+              )}
             </div>
           )}
         </div>

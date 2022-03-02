@@ -122,18 +122,18 @@ const RegisterForm: FC<IProps> = (props) => {
 
   return (
     <>
-      {/* <h3 className="text-center">Register</h3> */}
+      <h3>Sign Up</h3>
       <div style={{ height: "10px" }}>
         {error && <small className="text-danger">{error}</small>}
       </div>
       <form
-        className="form-group mt-3"
+        className="form-group mb-3"
         onSubmit={(e) => {
           handleSubmit(e);
         }}
       >
         <div className="row mb-3">
-          <div className="col">
+          <div className="col-6">
             <label htmlFor="firstName">First Name</label>
             <input
               type="text"
@@ -147,7 +147,7 @@ const RegisterForm: FC<IProps> = (props) => {
               value={values.first_name}
             />
           </div>
-          <div className="col">
+          <div className="col-6">
             <label htmlFor="lastName">Last Name</label>
             <input
               type="text"
@@ -261,7 +261,7 @@ const RegisterForm: FC<IProps> = (props) => {
             </button>
           </div>
 
-          {!props.isAdmin && (
+          {/* {!props.isAdmin && (
             <div className="d-flex mt-3 justify-content-between">
               <span></span>
               <span>
@@ -272,7 +272,7 @@ const RegisterForm: FC<IProps> = (props) => {
                 </Link>
               </span>
             </div>
-          )}
+          )} */}
         </div>
       </form>
     </>

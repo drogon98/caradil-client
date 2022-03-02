@@ -669,7 +669,9 @@ const BrowseCarsNavbar = (): JSX.Element => {
                           </div>
                           <select
                             id="seats"
-                            className="form-control mt-1"
+                            className={`form-control form-control-md mt-1 ${
+                              values?.seats && `more-filter-active`
+                            }`}
                             onChange={handleChange}
                             value={values?.seats ?? ""}
                             name="seats"

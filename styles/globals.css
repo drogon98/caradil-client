@@ -183,17 +183,20 @@ p {
   margin-left: 30px;
 }
 
-#mainLayoutWrapper {
+#mainLayoutWrapper,
+#auth-page-wrapper {
   display: flex;
   width: 100%;
   flex-direction: column;
   min-height: 100vh;
 }
 
-#mainContentWrapper {
+#mainContentWrapper,
+#auth-page-content-wrapper {
   flex: 1 0 auto;
 }
-#footerWrapper {
+#footerWrapper,
+#auth-page-footer-wrapper {
   flex-shrink: 0;
 }
 
@@ -614,6 +617,7 @@ label {
 .sm-when-input {
   overflow: hidden;
   border: 1px solid #d4d4d4;
+  border-radius: 3px;
 }
 
 .more-filter-active {
@@ -959,18 +963,17 @@ label {
 /* =============================END HOME PAGE================================= */
 
 /* ===============================AUTH PAGES======================================= */
-.authWrapper {
+/* .authWrapper {
   height: 100%;
-  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
-.authContent {
+/* .authContent {
   min-height: 50vh;
-  width: 400px;
-}
+  width: 380px;
+} */
 
 .auth-btn {
   height: 50px;
