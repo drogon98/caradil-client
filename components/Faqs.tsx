@@ -56,7 +56,7 @@ export const Faqs: FC<FaqsProps> = (props) => {
             ))}
           </div>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-6 lg-faqs">
           <div className="accordion" id="accordionPanelsStayOpenExampleR">
             {faqsR?.map((faq, idx) => {
               idx += 5;

@@ -46,14 +46,14 @@ const ContactUs: NextPage = () => {
     <>
       <CustomHead title="Contact Us" />
       <Layout>
-        <div className="mb-5">
-          <div className="contact-hero d-flex align-items-center justify-content-center">
+        <div className="my-5">
+          {/* <div className="contact-hero d-flex align-items-center justify-content-center">
             <div className="contact-overlay" />
             <div className="contact-hero-content colorOrange text-center">
               <h1 className="section-heading">How can we help?</h1>
               <p>Send us a message</p>
             </div>
-          </div>
+          </div> */}
           <div className="row m-0">
             {showSaveToast && (
               <ToastWrapper
@@ -64,8 +64,8 @@ const ContactUs: NextPage = () => {
               />
             )}
 
-            <div className="col-md-7 col-lg-5  mt-3 mx-auto">
-              {/* <h3>Reach Out</h3> */}
+            <div className="col-md-7 col-lg-4 mx-auto">
+              <h1>Contact Us</h1>
 
               <form
                 className="form-group mt-3"
@@ -73,42 +73,46 @@ const ContactUs: NextPage = () => {
                   handleSubmit(e);
                 }}
               >
-                <div className="mb-3">
-                  <label htmlFor="email">Email</label>
+                <div className="mb-4">
+                  {/* <label htmlFor="email">Email</label> */}
                   <input
-                    className="form-control"
+                    className="form-control px-2"
+                    style={{ padding: "10px 0" }}
                     required
                     id="email"
-                    placeholder="johndoe@gmail.com"
+                    placeholder="Email"
                     name="email"
                     onChange={handleChange}
                     value={values.email}
                   />
                 </div>
-                <div className="mb-3">
-                  <label htmlFor="subject">Subject</label>
+                <div className="mb-4">
+                  {/* <label htmlFor="subject">What is this about?</label> */}
                   <select
-                    className="form-select form-control"
+                    className="form-select form-control px-2"
                     aria-label="Default select example"
                     onChange={handleChange}
                     value={values.subject}
                     name="subject"
+                    style={{ padding: "10px 0" }}
                   >
-                    <option value={""}>Select Subject</option>
+                    <option value={""}>What is this about?</option>
                     <option value="General Inquiry">General Inquiry</option>
                     <option value="Technical Inquiry">Technical Inquiry</option>
                     <option value="Feedback">Feedback</option>
                   </select>
                 </div>
-                <div className="mb-3">
-                  <label htmlFor="message">Message</label>
+                <div className="mb-4">
+                  {/* <label htmlFor="message">Message</label> */}
                   <textarea
+                    placeholder="Go ahead, we are listening..."
                     className="form-control"
                     id="message"
                     value={values.message}
                     name="message"
                     onChange={handleChange}
                     required
+                    rows={5}
                   />
                 </div>
                 <div>

@@ -948,6 +948,12 @@ label {
   }
 }
 
+@media screen and (max-width: 768px) {
+  .lg-faqs {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 500px) {
   .find-your-drive {
     font-size: 30px;

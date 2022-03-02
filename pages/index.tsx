@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { CustomHead } from "../components/CustomHead";
 import { BrowseByMake } from "../components/Home/BrowseByMake";
-import { Faqs } from "../components/Home/Faqs";
+import { Faqs } from "../components/Faqs";
 import Hero from "../components/Home/Hero";
 import { HeroBottom } from "../components/Home/HeroBottom";
 import { ManageTravel } from "../components/Home/ManageTravel";
