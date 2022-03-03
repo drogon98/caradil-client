@@ -1,5 +1,6 @@
-import { Dispatch } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Car } from "../graphql_types/generated/graphql";
+import { roundAmount } from "./amount";
 import { TripDatesObj } from "./interfaces";
 
 export const getTripDuration = (
@@ -14,12 +15,14 @@ export const getTripDuration = (
   // To calculate the time difference of two dates
   let Difference_In_Time = endDate.getTime() - startDate.getTime();
 
+  // console.log("Difference_In_Time", Difference_In_Time);
+
   // To calculate the no. of days between two dates
   let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
   // console.log("Difference_In_Days", Difference_In_Days);
 
-  if (Difference_In_Days === 0) {
+  if (Difference_In_Days < 1) {
     if (canRentHourly || isBookDuration) {
       let startTimeSections = dateTime.start_time?.split(":");
       let endTimeSections = dateTime.end_time?.split(":");
@@ -80,20 +83,29 @@ export const getTripDuration = (
       };
     }
   } else {
-    return {
-      duration: Difference_In_Days + 1,
-      type_: "day",
-    };
+    if (Difference_In_Days.toString().includes(".")) {
+      return {
+        duration: parseFloat(Number(Difference_In_Days).toFixed(1)) + 1,
+        type_: "day",
+      };
+    } else {
+      return {
+        duration: Difference_In_Days + 1,
+        type_: "day",
+      };
+    }
   }
 };
 
 export const totalChargeCalculator = (
   car: Car,
   dates: TripDatesObj,
-  setTotalCharge: Dispatch<React.SetStateAction<number>>
+  setTotalCharge: Dispatch<SetStateAction<number | undefined>>
 ) => {
   // console.log("dates", dates);
   let durationData = getTripDuration(dates, car?.can_rent_hourly!);
+
+  // console.log("durationData", durationData);
 
   //   console.log("durationData", durationData);
 
@@ -107,7 +119,7 @@ export const totalChargeCalculator = (
     total = car?.daily_rate! * durationData.duration;
   }
 
-  setTotalCharge(total!);
+  setTotalCharge(roundAmount(total!, 2));
 };
 
 export const startHourGreaterThanOrEqualToEndHour = (dates: TripDatesObj) => {

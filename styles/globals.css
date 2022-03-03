@@ -1789,6 +1789,10 @@ car-input-container select:focus {
 
 /* ================================FAQ========================================== */
 
+.accordion {
+  border: none !important;
+}
+
 .faq-accordion-button.collapsed {
   color: #000 !important;
   font-weight: inherit;

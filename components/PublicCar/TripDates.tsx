@@ -30,7 +30,7 @@ export let TripDates = (props: TripDatesProps) => {
         props.setEndDate(end_date);
       }
     } else {
-      if (start_date !== end_date) {
+      if (start_date && end_date && start_date !== end_date) {
         // console.log("start_date :>> ", start_date);
         // console.log("end_date :>> ", end_date);
         try {
@@ -91,9 +91,20 @@ export let TripDates = (props: TripDatesProps) => {
         } catch (error) {
           console.log("error :>> ", error);
         }
+      } else {
+        // console.log("Helloo");
+        props.setStartDate(start_date);
+        if (!end_date) {
+          // console.log("Helloo2");
+          props.setEndDate(start_date);
+        } else {
+          props.setEndDate(end_date);
+        }
       }
     }
   };
+
+  // console.log("props.endDate :>> ", props.endDate);
 
   const handleTimeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     props.setValues({ ...props.values, [e.target.name]: e.target.value });

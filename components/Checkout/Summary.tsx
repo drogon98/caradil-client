@@ -54,7 +54,7 @@ export default function Summary(props: Props): ReactElement {
         <>
           <div className="mb-2 d-flex justify-content-between">
             <p>Delivery Fee</p>
-            <p>Ksh.{props.car.delivery_rate?.toLocaleString()}/km</p>
+            <p>Ksh.{props.car?.delivery_rate?.toLocaleString()}/km</p>
           </div>
           {props.distance && (
             <div className="mb-2 d-flex justify-content-between">

@@ -8,14 +8,15 @@ interface WrapperProps {
 
 export default function Wrapper(props: WrapperProps) {
   const [isLogin, setIsLogin] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
 
   const router = useRouter();
 
   useEffect(() => {
     if (router.pathname.includes("/login")) {
       setIsLogin(true);
-    } else {
-      setIsLogin(false);
+    } else if (router.pathname.includes("/register")) {
+      setIsRegister(false);
     }
   }, [router]);
 
@@ -37,7 +38,7 @@ export default function Wrapper(props: WrapperProps) {
             </Link>
           </div>
           <div className="d-flex h-100 align-items-center">
-            {isLogin ? (
+            {isLogin && (
               <>
                 {" "}
                 <span>New to Caradil?</span>
@@ -46,7 +47,9 @@ export default function Wrapper(props: WrapperProps) {
                   <a className="btn btn-outline-secondary">Sign Up</a>
                 </Link>
               </>
-            ) : (
+            )}
+
+            {isRegister && (
               <>
                 {" "}
                 <span>Have an account?</span>
@@ -56,6 +59,17 @@ export default function Wrapper(props: WrapperProps) {
                 </Link>
               </>
             )}
+
+            {/* {!isRegister && !isLogin && (
+              <>
+             
+               
+                &nbsp;&nbsp;
+                <Link href="/browse-cars">
+                  <a>Browse Cars</a>
+                </Link>
+              </>
+            )} */}
           </div>
         </div>
         {/* <div className="row"></div> */}

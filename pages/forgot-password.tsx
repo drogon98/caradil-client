@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import Wrapper from "../components/Auth/Wrapper";
 import { CustomHead } from "../components/CustomHead";
 import Layout from "../components/layouts/Layout";
 import { ButtonLoading } from "../components/Loading/ButtonLoading";
@@ -46,61 +47,61 @@ function ForgotPassword(props: ForgotPasswordProps) {
   return (
     <div>
       <CustomHead title="Forgot Password" />
-      <Layout>
+      {/* <Layout>
         <div className="customContainer py-4">
           <div className="row">
-            <div className="col-md-8 col-lg-6 mx-auto">
-              <h3>Forgot Password</h3>
+            <div className="col-md-8 col-lg-6 mx-auto"> */}
+      <Wrapper>
+        <div className="mt-3">
+          <h3 className="mb-3">Forgot Password</h3>
 
-              {success && (
-                <div className="bg-success text-light p-3">
-                  <small>
-                    A link to reset your password has been sent to your inbox.
-                  </small>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit}>
-                {error && (
-                  <p className="text-danger">
-                    <small>{error}</small>
-                  </p>
-                )}
-
-                <div className="mb-3">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    className="form-control"
-                    required
-                    id="email"
-                    value={email}
-                    placeholder="johndoe@gmail.com"
-                    onChange={handleChange}
-                    name="email"
-                    onFocus={handleFocus}
-                  />
-                </div>
-                <div className="d-grid gap-2">
-                  <button
-                    type="submit"
-                    className="btn bgOrange"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <ButtonLoading
-                        spinnerColor="white"
-                        dimensions={{ height: "24px", width: "24px" }}
-                      />
-                    ) : (
-                      "Send"
-                    )}
-                  </button>
-                </div>
-              </form>
+          {success && (
+            <div className="bg-success text-light p-3">
+              <small>
+                A link to reset your password has been sent to your inbox.
+              </small>
             </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            {error && (
+              <p className="text-danger">
+                <small>{error}</small>
+              </p>
+            )}
+
+            <div className="mb-3">
+              <label htmlFor="email">Email</label>
+              <input
+                className="form-control"
+                required
+                id="email"
+                value={email}
+                placeholder="johndoe@gmail.com"
+                onChange={handleChange}
+                name="email"
+                onFocus={handleFocus}
+              />
+            </div>
+            <div className="d-grid gap-2">
+              <button type="submit" className="btn bgOrange" disabled={loading}>
+                {loading ? (
+                  <ButtonLoading
+                    spinnerColor="white"
+                    dimensions={{ height: "24px", width: "24px" }}
+                  />
+                ) : (
+                  "Send"
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
+      </Wrapper>
+      {/* </div>
           </div>
         </div>
-      </Layout>
+      </Layout> */}
     </div>
   );
 }

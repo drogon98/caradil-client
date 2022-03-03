@@ -1,11 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
+import React, { FC, SyntheticEvent, useEffect, useState } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
-import { IoIosArrowDropup } from "react-icons/io";
 import LoginWithModal from "../../components/Auth/LoginWithModal";
 import { CustomHead } from "../../components/CustomHead";
-import { useOutsideClickHandler } from "../../components/hooks/useOutsideClickHandler";
 import { useRole } from "../../components/hooks/useRole";
 import { useUserId } from "../../components/hooks/useUserId";
 import Layout from "../../components/layouts/Layout";
@@ -56,11 +54,11 @@ const Car: FC<CarProps> = (props) => {
   //   end_date: "",
   //   end_time: "",
   // });
-  const [selectingDates, setSelectingDates] = useState<boolean | undefined>();
+  // const [selectingDates, setSelectingDates] = useState<boolean | undefined>();
   const [validDates, setValidDates] = useState<boolean>(false);
-  const pickDatesButtonRef = useRef<HTMLButtonElement>(null);
-  const pickDatesRef = useRef<HTMLDivElement>(null);
-  useOutsideClickHandler(pickDatesRef, setSelectingDates, pickDatesButtonRef);
+  // const pickDatesButtonRef = useRef<HTMLButtonElement>(null);
+  // const pickDatesRef = useRef<HTMLDivElement>(null);
+  // useOutsideClickHandler(pickDatesRef, setSelectingDates, pickDatesButtonRef);
   const [isCarPreview, setIsCarPreview] = useState(false);
   const [timeError, setTimeError] = useState("");
   const [showTripDatesModal, setShowTripDatesModal] = useState<boolean>(false);
@@ -85,7 +83,7 @@ const Car: FC<CarProps> = (props) => {
   const [editReservedForBooking, { loading: editingReservedForBooking }] =
     useEditCarReservedForBookingMutation();
 
-  const [totalCharge, setTotalCharge] = useState<number>(0);
+  const [totalCharge, setTotalCharge] = useState<number>();
 
   const carId = parseInt(router.query.id as string, 10);
 
@@ -178,12 +176,16 @@ const Car: FC<CarProps> = (props) => {
       values?.end_time
     ) {
       setValidDates(true);
+    } else {
+      setValidDates(false);
     }
   }, [values]);
 
   useEffect(() => {
     if (validDates && car && values) {
       totalChargeCalculator(car, values, setTotalCharge);
+    } else {
+      setTotalCharge(undefined);
     }
   }, [validDates, values, car]);
 
@@ -205,6 +207,40 @@ const Car: FC<CarProps> = (props) => {
       }
     }
   }, [router]);
+
+  const getTimeBeforeTrip = (): number => {
+    let daysBeforeTrip = car?.advance_book_period;
+
+    let timeBeforeTrip = 0;
+
+    if (daysBeforeTrip !== 4) {
+      timeBeforeTrip = 86400000 * daysBeforeTrip!;
+    }
+
+    return timeBeforeTrip;
+  };
+
+  useEffect(() => {
+    if (car) {
+      let time = new Date().getTime() + 86400000;
+      let timeBeforeTrip = getTimeBeforeTrip();
+      if (timeBeforeTrip !== 0) {
+        setStartDate(time + timeBeforeTrip);
+        setEndDate(time + timeBeforeTrip);
+      }
+    }
+  }, [car]);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("trip_dates")) {
+      let storedData: TripDatesObj = JSON.parse(
+        sessionStorage.getItem("trip_dates")!
+      );
+      setValues({ ...storedData });
+      setStartDate(storedData.start_date!);
+      setEndDate(storedData.end_date!);
+    }
+  }, []);
 
   const handleRouteNext = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -284,7 +320,14 @@ const Car: FC<CarProps> = (props) => {
       (d) => d === new Date(date).getDay()
     );
 
-    return date < new Date().getTime() - 86400000 || !isOperationDay;
+    let disabledTime = getTimeBeforeTrip();
+
+    if (disabledTime === 0) {
+      return date < new Date().getTime() - 86400000 || !isOperationDay;
+    } else {
+      return date < new Date().getTime() + disabledTime || !isOperationDay;
+    }
+    // return date < new Date().getTime() - 86400000 || !isOperationDay;
   };
 
   const handleApplyTime = () => {
@@ -304,6 +347,8 @@ const Car: FC<CarProps> = (props) => {
         }, 5000);
         return;
       }
+
+      // console.log("values", values);
 
       if (startDate >= endDate) {
         let startTimeSections = values.start_time?.split(":");
@@ -328,6 +373,15 @@ const Car: FC<CarProps> = (props) => {
         start_date: startDate,
         end_date: endDate,
       });
+      sessionStorage.setItem(
+        "trip_dates",
+        JSON.stringify({
+          start_time: values.start_time,
+          end_time: values.end_time,
+          start_date: startDate,
+          end_date: endDate,
+        })
+      );
       setShowTripDatesModal(false);
     } catch (error) {
       console.log("error :>> ", error);
@@ -335,27 +389,31 @@ const Car: FC<CarProps> = (props) => {
     // props.setSho(false);
   };
 
-  // const handleClearTime = (e: SyntheticEvent<HTMLButtonElement>) => {
-  //   // e.preventDefault();
-  //   try {
-  //     delete values.start_time;
-  //     delete values.end_time;
-  //     delete values.start_date;
-  //     delete values.end_date;
-  //     let newValues = { ...values };
-  //     props.setValues({ ...newValues });
-  //     props.setDateTime(undefined);
-  //     props.setDateTimeInput("");
-
-  //     // if (props.searchBtnRef.current) {
-  //     //   props.searchBtnRef.current?.click();
-  //     // }
-
-  //     props.setShowWhenComp(false);
-  //   } catch (error) {
-  //     console.log("error :>> ", error);
-  //   }
-  // };
+  const handleClearDates = (e: SyntheticEvent<HTMLButtonElement>) => {
+    // e.preventDefault();
+    try {
+      if (car) {
+        let time = new Date().getTime();
+        let timeBeforeTrip = getTimeBeforeTrip();
+        if (timeBeforeTrip !== 0) {
+          setStartDate(time + 86400000 + timeBeforeTrip);
+          setEndDate(time + 86400000 + timeBeforeTrip);
+        } else {
+          setStartDate(time);
+          setEndDate(time);
+        }
+        setValues({
+          start_date: null,
+          end_date: null,
+          start_time: "",
+          end_time: "",
+        });
+        sessionStorage.removeItem("trip_dates");
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
 
   // console.log("car", car);
 
@@ -590,7 +648,7 @@ const Car: FC<CarProps> = (props) => {
                         </h6>
                         <small className="fw-bold ml-3">
                           {validDates &&
-                            `Total Ksh.${totalCharge.toLocaleString()}`}
+                            `Total Ksh.${totalCharge?.toLocaleString()}`}
                         </small>
                       </div>
                       {car?.can_rent_hourly && !car?.booked && (
@@ -621,6 +679,7 @@ const Car: FC<CarProps> = (props) => {
                       setEndDate={setEndDate}
                       isNotBrowseCarsPage
                       car={car!}
+                      clearDates={handleClearDates}
                     >
                       <div className="d-grid gap-2">
                         <button
@@ -632,29 +691,9 @@ const Car: FC<CarProps> = (props) => {
                       </div>
                     </TripDatesModal>
                     <hr />
-                    {/* <TripDates
-                      values={values}
-                      setTripDates={setUserDates}
-                      setValidDates={setValidDates}
-                      userDates={userDates}
-                      setTotalCharge={setTotalCharge}
-                      // validDates={validDates}
-                      car={car!}
-                      // hasCustomAvailability={car?.custom_availability!}
-                    /> */}
-                    {/* {timeError && (
-                      <div>
-                        <small className="text-danger">
-                          End time should be greater than start time!
-                        </small>
-                      </div>
-                    )} */}
 
                     <div className="d-grid gap-2">
                       {token && role ? (
-                        // <button
-                        //   className="btn"
-                        // >
                         <button
                           className="btn bgOrange"
                           onClick={handleRouteNext}
@@ -761,23 +800,21 @@ const Car: FC<CarProps> = (props) => {
               >
                 <div style={{ flex: "2" }}>
                   <div>
-                    <div className="d-flex justify-content-between">
-                      <h6 className="m-0">
-                        Ksh.{car?.daily_rate!.toLocaleString()}/day
-                      </h6>
-                      <div>
-                        {validDates && (
-                          <>
-                            {"Total "}
-                            <small
-                              className="fw-bolder"
-                              style={{ fontSize: "13px" }}
-                            >
+                    <div className="d-flex justify-content-between align-items-center">
+                      {totalCharge ? (
+                        <div className=" text-success">
+                          {validDates && (
+                            <p className="m-0 fw-bolder">
+                              {"Total "}
                               Ksh.{totalCharge.toLocaleString()}
-                            </small>
-                          </>
-                        )}
-                      </div>
+                            </p>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="m-0 fw-bolder">
+                          Ksh.{car?.daily_rate!.toLocaleString()}/day
+                        </p>
+                      )}
                     </div>
                     {car?.can_rent_hourly &&
                       !car?.booked &&
@@ -832,33 +869,6 @@ const Car: FC<CarProps> = (props) => {
                   )}
                 </div>
               </div>
-
-              {/* </div> */}
-              {/* {selectingDates && (
-                <div
-                  className="car-small-screen-select-dates p-2"
-                  ref={pickDatesRef}
-                >
-                  <h5>Select Trip Dates</h5>
-                  <TripDates
-                    values={values}
-                    setTripDates={setUserDates}
-                    setValidDates={setValidDates}
-                    userDates={userDates}
-                    setTotalCharge={setTotalCharge}
-                    car={car!}
-                    // validDates={validDates}
-                    // hasCustomAvailability={car?.custom_availability!}
-                  />
-                  {timeError && (
-                    <div>
-                      <small className="text-danger">
-                        End time should be greater than start time!
-                      </small>
-                    </div>
-                  )}
-                </div>
-              )} */}
             </div>
           </>
         )}

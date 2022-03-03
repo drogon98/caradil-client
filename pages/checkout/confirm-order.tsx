@@ -667,7 +667,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                     car={data?.getCar.car!}
                   />
                 </div>
-                <div className="sm-screen-checkout-btn mt-4 d-md-none">
+                <div className="sm-screen-checkout-btn d-md-none">
                   <div className="form-check mt-5 mb-3">
                     <input
                       className="form-check-input"

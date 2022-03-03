@@ -24,6 +24,7 @@ interface Props {
   setEndDate: any;
   isNotBrowseCarsPage?: boolean;
   car?: Car;
+  clearDates: any;
 }
 
 export default function TripDateModal(props: Props): ReactElement {
@@ -55,7 +56,18 @@ export default function TripDateModal(props: Props): ReactElement {
               isNotBrowseCarsPage={props.isNotBrowseCarsPage}
               car={props.car}
             />
-            <div className="d-flex justify-content-end mt-2">
+            <div className="d-flex justify-content-end mt-2 align-items-center">
+              <button
+                className="btn"
+                onClick={(e: SyntheticEvent<HTMLButtonElement>) => {
+                  e.preventDefault();
+                  props.clearDates();
+                  props.hide();
+                }}
+              >
+                Clear All
+              </button>
+              &nbsp;&nbsp;
               <button
                 className="btn bg-secondary text-light"
                 onClick={(e: SyntheticEvent<HTMLButtonElement>) => {

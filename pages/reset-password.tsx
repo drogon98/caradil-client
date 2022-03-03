@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import Wrapper from "../components/Auth/Wrapper";
 import { CustomHead } from "../components/CustomHead";
 import Layout from "../components/layouts/Layout";
 import { ButtonLoading } from "../components/Loading/ButtonLoading";
@@ -75,83 +76,87 @@ function ResetPassword(props: ResetPasswordProps) {
   return (
     <div>
       <CustomHead title="Forgot Password" />
-      <Layout>
+      {/* <Layout>
         <div className="customContainer py-4">
           <div className="row">
-            <div className="col-md-8 col-lg-6 mx-auto">
-              <h3>Reset Password</h3>
+            <div className="col-md-8 col-lg-6 mx-auto"> */}
+      <Wrapper>
+        <>
+          <h3 className="my-3">Reset Password</h3>
 
-              {tokenError && (
-                <div className="bg-danger text-light p-3">
-                  <small>
-                    Your reset password token is invalid. Request a new one{" "}
-                    <Link href="/forgot-password">
-                      <a
-                        className="colorOrange"
-                        style={{ textDecoration: "underline" }}
-                      >
-                        here
-                      </a>
-                    </Link>
-                  </small>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit}>
-                {!isMatch && (
-                  <p className="text-danger">
-                    <small>Passwords mismatch!</small>
-                  </p>
-                )}
-
-                <div className="mb-3">
-                  <label htmlFor="new-pass">New Password</label>
-                  <input
-                    className="form-control"
-                    required
-                    id="new-pass"
-                    value={values?.password}
-                    type="password"
-                    onChange={handleChange}
-                    name="password"
-                    onFocus={handleFocus}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="confirm-pass">Confirm Password</label>
-                  <input
-                    className="form-control"
-                    required
-                    id="confirm-pass"
-                    value={values?.confirmPassword}
-                    type="password"
-                    onChange={handleChange}
-                    name="confirmPassword"
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                  />
-                </div>
-                <div className="d-grid gap-2">
-                  <button
-                    type="submit"
-                    className="btn bgOrange"
-                    disabled={loading || !isMatch}
+          {tokenError && (
+            <div className="bg-danger text-light p-3">
+              <small>
+                Your reset password token is invalid. Request a new one{" "}
+                <Link href="/forgot-password">
+                  <a
+                    className="colorOrange"
+                    style={{ textDecoration: "underline" }}
                   >
-                    {loading ? (
-                      <ButtonLoading
-                        spinnerColor="white"
-                        dimensions={{ height: "24px", width: "24px" }}
-                      />
-                    ) : (
-                      "Submit"
-                    )}
-                  </button>
-                </div>
-              </form>
+                    here
+                  </a>
+                </Link>
+              </small>
             </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            {!isMatch && (
+              <p className="text-danger">
+                <small>Passwords mismatch!</small>
+              </p>
+            )}
+
+            <div className="mb-3">
+              <label htmlFor="new-pass">New Password</label>
+              <input
+                className="form-control"
+                required
+                id="new-pass"
+                value={values?.password}
+                type="password"
+                onChange={handleChange}
+                name="password"
+                onFocus={handleFocus}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="confirm-pass">Confirm Password</label>
+              <input
+                className="form-control"
+                required
+                id="confirm-pass"
+                value={values?.confirmPassword}
+                type="password"
+                onChange={handleChange}
+                name="confirmPassword"
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+            </div>
+            <div className="d-grid gap-2">
+              <button
+                type="submit"
+                className="btn bgOrange"
+                disabled={loading || !isMatch}
+              >
+                {loading ? (
+                  <ButtonLoading
+                    spinnerColor="white"
+                    dimensions={{ height: "24px", width: "24px" }}
+                  />
+                ) : (
+                  "Submit"
+                )}
+              </button>
+            </div>
+          </form>
+        </>
+      </Wrapper>
+      {/* </div>
           </div>
         </div>
-      </Layout>
+      </Layout> */}
     </div>
   );
 }
