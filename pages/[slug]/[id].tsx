@@ -690,6 +690,19 @@ const Car: FC<CarProps> = (props) => {
                         </button>
                       </div>
                     </TripDatesModal>
+
+                    {car?.discount && car.discount_days && (
+                      <div
+                        className="p-2 mt-3"
+                        style={{ backgroundColor: "rgba(0,0,0,.1)" }}
+                      >
+                        <small>
+                          {`${car.discount}%`} discount for trips{" "}
+                          {`${car.discount_days}+ days`} long
+                        </small>
+                      </div>
+                    )}
+
                     <hr />
 
                     <div className="d-grid gap-2">
@@ -788,7 +801,7 @@ const Car: FC<CarProps> = (props) => {
                 )}
 
               <div
-                className={`d-flex justify-content-between align-items-center w-100 ${
+                className={`d-flex flex-column justify-content-around w-100 ${
                   (car?.booked ||
                     !car?.published ||
                     (car.reserved_for_booking &&
@@ -798,55 +811,72 @@ const Car: FC<CarProps> = (props) => {
                     : `h-75`
                 }`}
               >
-                <div style={{ flex: "2" }}>
-                  <div>
-                    <div className="d-flex justify-content-between align-items-center">
-                      {totalCharge ? (
-                        <div className=" text-success">
-                          {validDates && (
-                            <p className="m-0 fw-bolder">
-                              {"Total "}
-                              Ksh.{totalCharge.toLocaleString()}
-                            </p>
-                          )}
-                        </div>
-                      ) : (
-                        <p className="m-0 fw-bolder">
-                          Ksh.{car?.daily_rate!.toLocaleString()}/day
-                        </p>
-                      )}
+                <div className="d-flex justify-content-between">
+                  <div style={{ flex: "2" }}>
+                    <div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        {totalCharge ? (
+                          <div className=" text-success">
+                            {validDates && (
+                              <p className="m-0 fw-bolder">
+                                {"Total "}
+                                Ksh.{totalCharge.toLocaleString()}
+                              </p>
+                            )}
+                          </div>
+                        ) : (
+                          <p className="m-0 fw-bolder">
+                            Ksh.{car?.daily_rate!.toLocaleString()}/day
+                          </p>
+                        )}
+                      </div>
+                      {car?.can_rent_hourly &&
+                        !car?.booked &&
+                        (car?.reserved_for_booking_guest_id === userId ||
+                          car?.reserved_for_booking_guest_id === 0) &&
+                        !totalCharge && (
+                          <div style={{ lineHeight: "12px" }}>
+                            <small style={{ fontSize: "10px" }}>
+                              You can rent this car for trips lasting less than
+                              24hrs. By doing so you will be charged hourly. The
+                              hourly rate for this car is{" "}
+                              <b>Ksh.{car?.hourly_rate}/hr</b>
+                            </small>
+                          </div>
+                        )}
                     </div>
-                    {car?.can_rent_hourly &&
-                      !car?.booked &&
-                      (car?.reserved_for_booking_guest_id === userId ||
-                        car?.reserved_for_booking_guest_id === 0) && (
-                        <div style={{ lineHeight: "12px" }}>
-                          <small style={{ fontSize: "10px" }}>
-                            You can rent this car for trips lasting less than
-                            24hrs. By doing so you will be charged hourly. The
-                            hourly rate for this car is{" "}
-                            <b>Ksh.{car?.hourly_rate}/hr</b>
-                          </small>
-                        </div>
-                      )}
                   </div>
-                </div>
 
-                <button
-                  onClick={() => {
-                    setShowTripDatesModal(true);
-                  }}
-                  // onClick={handleSelectDates}
-                  disabled={car?.booked || !car?.published}
-                  className="btn m-0 p-0"
-                  style={{ flex: 1, fontSize: "500", width: "250px" }}
-                  // ref={pickDatesButtonRef}
-                >
-                  {/* <small className="mr-2">
+                  <button
+                    onClick={() => {
+                      setShowTripDatesModal(true);
+                    }}
+                    // onClick={handleSelectDates}
+                    disabled={car?.booked || !car?.published}
+                    className="btn m-0 p-0"
+                    style={{ flex: 1, fontSize: "500", width: "250px" }}
+                    // ref={pickDatesButtonRef}
+                  >
+                    {/* <small className="mr-2">
                     {selectingDates ? "Close trip dates" : "Pick trip dates"}
                   </small> */}
-                  <small className="mr-2">Pick trip dates</small>
-                </button>
+                    <small className="mr-2">Pick trip dates</small>
+                  </button>
+                </div>
+                {car?.discount && car.discount_days && (
+                  <div
+                    className="p-1 my-1"
+                    style={{
+                      backgroundColor: "rgba(0,0,0,.1)",
+                      fontSize: "10px",
+                    }}
+                  >
+                    <small>
+                      {`${car.discount}%`} discount for trips{" "}
+                      {`${car.discount_days}+ days`} long
+                    </small>
+                  </div>
+                )}
               </div>
               <div className="h-25">
                 <div className="d-grid gap-2 h-100">

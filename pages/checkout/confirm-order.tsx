@@ -13,7 +13,7 @@ import { AuthWrapper } from "../../components/AuthWrapper";
 import ReserveSessionExpiredModal from "../../components/Checkout/ReserveSessionExpiredModal";
 import Summary from "../../components/Checkout/Summary";
 import { CustomHead } from "../../components/CustomHead";
-import { useUserId } from "../../components/hooks/useUserId";
+// import { useUserId } from "../../components/hooks/useUserId";
 import Layout from "../../components/layouts/Layout";
 // import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
@@ -29,7 +29,10 @@ import {
 import { useAppSelector } from "../../redux/hooks";
 import { baseHttpDomain } from "../../utils/baseDomain";
 import { TripDatesObj } from "../../utils/interfaces";
-import { getTripDuration } from "../../utils/trip_duration_ttl_calc";
+import {
+  getTripDuration,
+  totalChargeCalculator,
+} from "../../utils/trip_duration_ttl_calc";
 
 interface ConfirmOrderProps {}
 
@@ -59,11 +62,11 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     fetchPolicy: "no-cache",
   });
   const token = useAppSelector((state) => state.auth._id);
-  const userId = useUserId(token);
-  const [ttl, setTtl] = useState(0);
-  const [driverTtl, setDriverTtl] = useState(0);
+  // const userId = useUserId(token);
+  const [ttl, setTtl] = useState<number>();
+  // const [driverTtl, setDriverTtl] = useState(0);
   const [deliverTtl, setDeliverTtl] = useState(0);
-  const [totalCharge, setTotalCharge] = useState<string>("");
+  // const [totalCharge, setTotalCharge] = useState<string>("");
   const [values, setValues] = useState<PayData>({
     p1: "",
     p2: "",
@@ -180,6 +183,8 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
           data.getCar.car?.can_rent_hourly!
         );
 
+        totalChargeCalculator(data.getCar.car, payload, setTtl);
+
         // console.log("Difference_In_Days :>> ", Difference_In_Days);
         setTripDuration(durationData.duration);
         setDurationType(durationData.type_);
@@ -193,17 +198,17 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     }
   }, [router.query, data]);
 
-  useEffect(() => {
-    if (data && tripDuration && durationType) {
-      if (durationType === "hour") {
-        let total = data?.getCar.car?.hourly_rate! * tripDuration;
-        setTtl(total);
-      } else {
-        let total = data?.getCar.car?.daily_rate! * tripDuration;
-        setTtl(total);
-      }
-    }
-  }, [tripDuration, data, durationType]);
+  // useEffect(() => {
+  //   if (data && tripDuration && durationType) {
+  //     if (durationType === "hour") {
+  //       let total = data?.getCar.car?.hourly_rate! * tripDuration;
+  //       setTtl(total);
+  //     } else {
+  //       let total = data?.getCar.car?.daily_rate! * tripDuration;
+  //       setTtl(total);
+  //     }
+  //   }
+  // }, [tripDuration, data, durationType]);
 
   // useEffect(() => {}, [totalCharge, tripDays, data]);
 
@@ -362,7 +367,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
 
   const getTotal = () => {
     try {
-      let tempTtl = ttl + deliverTtl;
+      let tempTtl = ttl! + deliverTtl;
       // + driverTtl;
       if (discountEligible && tripDuration && durationType === "day") {
         if (data?.getCar.car?.discount_days) {
