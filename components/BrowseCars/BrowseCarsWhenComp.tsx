@@ -17,6 +17,7 @@ interface BrowseCarsWhenCompProps {
   endDate: number;
   setStartDate: any;
   setEndDate: any;
+  setTripDuration: any;
 }
 
 const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
@@ -130,10 +131,12 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
       delete props.values.end_time;
       delete props.values.start_date;
       delete props.values.end_date;
+      delete props.values.trip_duration;
       let newValues = { ...props.values };
       props.setValues({ ...newValues });
       props.setDateTime(undefined);
       props.setDateTimeInput("");
+      props.setTripDuration("");
 
       // if (props.searchBtnRef.current) {
       //   props.searchBtnRef.current?.click();

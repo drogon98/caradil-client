@@ -79,7 +79,8 @@ export const BrowseByMake: FC<IProps> = (props) => {
                 <div className="makeSlideInner shadow">
                   <Link
                     href={{
-                      pathname: `/browse-cars/${make.title.toLowerCase()}`,
+                      pathname: `/browse-cars`,
+                      query: { make: make.title.toLowerCase() },
                     }}
                   >
                     <a>

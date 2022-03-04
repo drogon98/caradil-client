@@ -102,8 +102,26 @@ export const totalChargeCalculator = (
   dates: TripDatesObj,
   setTotalCharge: Dispatch<SetStateAction<number | undefined>>
 ) => {
-  // console.log("dates", dates);
-  let durationData = getTripDuration(dates, car?.can_rent_hourly!);
+  let startTimeSections = dates.start_time?.split(":");
+  let endTimeSections = dates.end_time?.split(":");
+
+  let tempStartDate = new Date(dates.start_date!).setHours(
+    parseInt(startTimeSections[0], 10),
+    parseInt(startTimeSections[1], 10)
+  );
+  let tempEndDate = new Date(dates.end_date!).setHours(
+    parseInt(endTimeSections[0], 10),
+    parseInt(endTimeSections[1], 10)
+  );
+
+  let dateTimePayload: TripDatesObj = {
+    start_time: dates.start_time,
+    end_time: dates.end_time,
+    start_date: tempStartDate,
+    end_date: tempEndDate,
+  };
+
+  let durationData = getTripDuration(dateTimePayload, car?.can_rent_hourly!);
 
   // console.log("durationData", durationData);
 

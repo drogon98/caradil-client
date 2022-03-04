@@ -141,7 +141,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
           if (!subscriptionData.data) return prev;
           const reserveData: any = { ...subscriptionData.data };
           return {
-            getCar: { car: { ...prev.getCar.car, ...reserveData } },
+            getCar: { car: { ...prev.getCar?.car, ...reserveData } },
           };
         },
       });
@@ -462,11 +462,11 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
               car={data?.getCar.car!}
             />
           )}
-          <div className="customCarDetailsContainer my-4">
+          <div className="customCarDetailsContainer my-4 mb-5">
             {/* <div className="container"> */}
             <form onSubmit={handleSubmit}>
-              <div className="row m-0">
-                <div className="col-md-7 col-lg-8">
+              <div className="row m-0 ">
+                <div className="col-md-7 col-lg-8 mt-4">
                   <h3>Billing Details</h3>
                   <div className="mb-3">
                     <label htmlFor="firstName">First Name</label>
@@ -656,7 +656,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-5 col-lg-4">
+                <div className="col-md-5 col-lg-4 mt-md-4">
                   <Summary
                     includeDriver={includeDriver}
                     deliverToMe={deliverToMe}
@@ -673,7 +673,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                   />
                 </div>
                 <div className="sm-screen-checkout-btn d-md-none">
-                  <div className="form-check mt-5 mb-3">
+                  <div className="form-check mt-4 mt-md-3 mb-3">
                     <input
                       className="form-check-input"
                       type="checkbox"

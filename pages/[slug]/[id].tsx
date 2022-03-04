@@ -28,7 +28,10 @@ import {
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 import { TripDatesObj } from "../../utils/interfaces";
-import { totalChargeCalculator } from "../../utils/trip_duration_ttl_calc";
+import {
+  getTripDuration,
+  totalChargeCalculator,
+} from "../../utils/trip_duration_ttl_calc";
 import { unslugify } from "../../utils/unslugify";
 
 interface CarProps {}
@@ -157,17 +160,6 @@ const Car: FC<CarProps> = (props) => {
     }
   }, [data, carId]);
 
-  // useEffect(() => {
-  //   // if (car?.custom_availability_data) {
-  //   //   setValues({
-  //   //     startDate: car?.custom_availability_data.startDate,
-  //   //     endDate: car?.custom_availability_data.endDate,
-  //   //     startTime: car?.custom_availability_data.startTime,
-  //   //     endTime: car?.custom_availability_data.endTime,
-  //   //   });
-  //   // }
-  // }, [car]);
-
   useEffect(() => {
     if (
       values?.start_date &&
@@ -233,14 +225,28 @@ const Car: FC<CarProps> = (props) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("trip_dates")) {
-      let storedData: TripDatesObj = JSON.parse(
-        sessionStorage.getItem("trip_dates")!
+      let storedData = JSON.parse(sessionStorage.getItem("trip_dates")!);
+
+      let tripDuration = getTripDuration(
+        { ...storedData },
+        car?.can_rent_hourly!
       );
-      setValues({ ...storedData });
-      setStartDate(storedData.start_date!);
-      setEndDate(storedData.end_date!);
+
+      if (car?.id === storedData.carId) {
+        delete storedData.carId;
+
+        if (tripDuration.duration === 1 || tripDuration.type_ === "hour") {
+          setValues({ ...storedData });
+          setStartDate(storedData.start_date!);
+          setEndDate(storedData.start_date!);
+        } else {
+          setValues({ ...storedData });
+          setStartDate(storedData.start_date!);
+          setEndDate(storedData.end_date!);
+        }
+      }
     }
-  }, []);
+  }, [car?.id]);
 
   const handleRouteNext = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -350,10 +356,10 @@ const Car: FC<CarProps> = (props) => {
 
       // console.log("values", values);
 
-      if (startDate >= endDate) {
-        let startTimeSections = values.start_time?.split(":");
-        let endTimeSections = values.end_time?.split(":");
+      let startTimeSections = values.start_time?.split(":");
+      let endTimeSections = values.end_time?.split(":");
 
+      if (startDate >= endDate) {
         let startTimeHour = parseInt(startTimeSections?.[0]!, 10);
         let endTimeHour = parseInt(endTimeSections?.[0]!, 10);
 
@@ -367,6 +373,12 @@ const Car: FC<CarProps> = (props) => {
         // return false;
       }
 
+      // setStartDate(tempStartDate);
+      // setEndDate(tempEndDate);
+
+      // console.log("startDate :>> ", startDate);
+      // console.log("tempStartDate :>> ", tempStartDate);
+
       setValues({
         start_time: values.start_time,
         end_time: values.end_time,
@@ -376,6 +388,7 @@ const Car: FC<CarProps> = (props) => {
       sessionStorage.setItem(
         "trip_dates",
         JSON.stringify({
+          carId: car?.id,
           start_time: values.start_time,
           end_time: values.end_time,
           start_date: startDate,
@@ -837,10 +850,9 @@ const Car: FC<CarProps> = (props) => {
                         !totalCharge && (
                           <div style={{ lineHeight: "12px" }}>
                             <small style={{ fontSize: "10px" }}>
-                              You can rent this car for trips lasting less than
-                              24hrs. By doing so you will be charged hourly. The
-                              hourly rate for this car is{" "}
-                              <b>Ksh.{car?.hourly_rate}/hr</b>
+                              You can rent this car for trips less than 24hrs
+                              long. You will be charged hourly. The hourly rate
+                              is <b>Ksh.{car?.hourly_rate}/hr</b>
                             </small>
                           </div>
                         )}
