@@ -78,9 +78,10 @@ const BrowseCars: NextPage = () => {
       <CustomHead title="Browse Cars" />
       <Layout>
         <SearchContent
-          loading={mainLoading || searching}
+          loading={mainLoading || searching || loading}
           cars={cars!}
           showModifyFilters={showModifyFilters}
+          hasMore={true}
         />
       </Layout>
     </>

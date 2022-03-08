@@ -601,7 +601,7 @@ const Car: FC<CarProps> = (props) => {
                    <div className="carDetailsFaqs mb-4">
                     <CarDetailsFaqs />
                   </div>*/}
-                  <div className="carDetailsReviews mb-4">
+                  <div className="carDetailsReviews car-reviews-md mb-4">
                     <CarDetailsReviews carId={car?.id!} />
                   </div>
                   <div className="shared-section-sm-screen">
@@ -763,6 +763,10 @@ const Car: FC<CarProps> = (props) => {
                       isCarPreview={isCarPreview}
                     />
                   </div>
+                </div>
+
+                <div className="px-2 car-reviews-sm">
+                  <CarDetailsReviews carId={car?.id!} />
                 </div>
               </div>
             </div>

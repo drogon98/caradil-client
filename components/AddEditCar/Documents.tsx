@@ -261,6 +261,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
           show={showSaveToast}
           message={"Updated successfully!"}
           position="bottom-end"
+          bg="success"
         />
       )}
       <h3>Documents</h3>

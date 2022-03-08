@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, {
   ReactElement,
@@ -7,7 +8,6 @@ import React, {
 } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import CancelTripMoal from "../../../components/Account/Trips/CancelTripModal";
-import RescheduleTripModal from "../../../components/Account/Trips/RescheduleTripModal";
 import ReviewTripModal from "../../../components/Account/Trips/ReviewTripModal";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import { CustomHead } from "../../../components/CustomHead";
@@ -15,6 +15,7 @@ import { useWindowDimensions } from "../../../components/hooks/useWindowDimensio
 import AccountLayout from "../../../components/layouts/AccountLayout";
 import { Loading } from "../../../components/Loading";
 import { ButtonLoading } from "../../../components/Loading/ButtonLoading";
+import { ToastWrapper } from "../../../components/Toast/ToastWrapper";
 import {
   Trip as Trip_,
   OnTripStatusDocument,
@@ -31,12 +32,15 @@ export default function Trip(props: Props): ReactElement {
   const [skip, setSkip] = useState(true);
   const [trip, setTrip] = useState<Trip_>();
   const [showCancelTripModal, setShowCancelTripModal] = useState(false);
-  const [showRescheduleModal, setShowRescheduleModal] = useState(false);
+
   const { data, loading, subscribeToMore } = useGetTripQuery({
     variables: { tripId: tripId! },
     skip,
-    // fetchPolicy: "network-only",
+    fetchPolicy: "no-cache",
   });
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setShowToastMessage] = useState("");
+  const [toastDelay, setToastDelay] = useState(3000);
   // const [updateFavourite, { loading: updatingFavourite }] =
   // useUpdateCarFavouriteMutation();
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -114,12 +118,6 @@ export default function Trip(props: Props): ReactElement {
     setShowCancelTripModal(true);
   };
 
-  const handleRescheduleTrip = (e: SyntheticEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    setShowRescheduleModal(true);
-  };
-
   const handleAddToFavourite = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -165,6 +163,16 @@ export default function Trip(props: Props): ReactElement {
             <Loading />
           ) : (
             <div className="p-2 col-md-8 col-lg-6 mx-auto">
+              {showToast && (
+                <ToastWrapper
+                  setShow={setShowToast}
+                  show={showToast}
+                  message={toastMessage}
+                  position="bottom-end"
+                  delay={toastDelay}
+                  bg="success"
+                />
+              )}
               {showCancelTripModal && (
                 <CancelTripMoal
                   showModal={showCancelTripModal}
@@ -172,15 +180,9 @@ export default function Trip(props: Props): ReactElement {
                   // setTrip={setTrip}
                   tripId={tripId}
                   trip={trip!}
-                />
-              )}
-              {showRescheduleModal && (
-                <RescheduleTripModal
-                  showModal={showRescheduleModal}
-                  handleClose={() => setShowRescheduleModal(false)}
-                  // setTrip={setTrip}
-                  tripId={tripId}
-                  trip={trip!}
+                  setShowToast={setShowToast}
+                  setShowToastMessage={setShowToastMessage}
+                  setToastDelay={setToastDelay}
                 />
               )}
 
@@ -214,7 +216,7 @@ export default function Trip(props: Props): ReactElement {
                     ) : (
                       <div>
                         <button className="btn bg-warning d-flex text-light align-items-center">
-                          <span>Host Confirming</span>{" "}
+                          <span>Host Confirming</span> &nbsp;&nbsp;
                           <span>
                             {" "}
                             <ButtonLoading
@@ -320,12 +322,9 @@ export default function Trip(props: Props): ReactElement {
                     <>
                       <p className="pt-3">You need to reschedule the trip?</p>
                       <div className="mt-2">
-                        <button
-                          className="btn bgOrange"
-                          onClick={handleRescheduleTrip}
-                        >
-                          Reschedule Trip
-                        </button>
+                        <Link href={`/account/trips/${tripId}/reschedule`}>
+                          <a className="btn bgOrange">Reschedule Trip</a>
+                        </Link>
                       </div>
                     </>
                   )}
@@ -390,7 +389,7 @@ export default function Trip(props: Props): ReactElement {
 
                 <div className="d-grid gap-2 mb-2">
                   <button
-                    className="btn bg-danger"
+                    className="btn bg-dark"
                     onClick={handleCancelTrip}
                     disabled={trip?.status === "cancelled"}
                   >

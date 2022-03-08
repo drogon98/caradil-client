@@ -260,7 +260,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
       )}
 
       {activeSlide !== -1 && (
-        <div className="col-md-10 mx-auto">
+        <div className="col-md-7 mx-auto">
           <div className="progress w-100">
             <div
               className="progress-bar bg-success"

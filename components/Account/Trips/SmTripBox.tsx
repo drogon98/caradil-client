@@ -76,7 +76,7 @@ export const SmTripBox: FC<SmTripBoxProps> = (props) => {
 
                 {props.data.status === "cancelled" && (
                   <button
-                    className={`btn p-0 bg-danger book-status-btn text-light`}
+                    className={`btn p-0 bg-dark book-status-btn text-light`}
                   >
                     <small>{props.data.status}</small>
                   </button>

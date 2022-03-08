@@ -85,7 +85,7 @@ function ResetPassword(props: ResetPasswordProps) {
           <h3 className="my-3">Reset Password</h3>
 
           {tokenError && (
-            <div className="bg-danger text-light p-3">
+            <div className="bg-dark text-light p-3">
               <small>
                 Your reset password token is invalid. Request a new one{" "}
                 <Link href="/forgot-password">

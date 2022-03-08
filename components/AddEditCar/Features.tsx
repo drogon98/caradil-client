@@ -159,6 +159,7 @@ export const Features: FC<FeaturesProps> = (props) => {
           show={showSaveToast}
           message={"Updated successfully!"}
           position="bottom-end"
+          bg="success"
         />
       )}
       <h3>Features</h3>
@@ -310,9 +311,9 @@ export const Features: FC<FeaturesProps> = (props) => {
                   id="flexCheckDefault"
                   onChange={handleFeatureChange}
                 />
-                <label className="form-check-label" htmlFor="flexCheckDefault">
-                  {feature}
-                </label>
+                <p className="form-check-label">
+                  <small>{feature}</small>
+                </p>
               </div>
             );
           })}

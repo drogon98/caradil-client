@@ -147,6 +147,7 @@ export const Trips: FC<TripsProps> = (props) => {
           show={showSaveToast}
           message={"Updated successfully!"}
           position="bottom-end"
+          bg="success"
         />
       )}
       <h3>Trips Settings</h3>
@@ -274,7 +275,9 @@ export const Trips: FC<TripsProps> = (props) => {
         </div>
 
         <div className="mb-4">
-          <p className="mb-2">Which type of trips is this car elligible for?</p>
+          <label className="mb-2">
+            Which type of trips is this car elligible for?
+          </label>
           <div className="form-check mb-1">
             <input
               className="form-check-input"
@@ -286,9 +289,9 @@ export const Trips: FC<TripsProps> = (props) => {
               onChange={handleChange}
               // required
             />
-            <label className="form-check-label" htmlFor="trip_type_leisure">
-              Leisure trips
-            </label>
+            <p className="form-check-label">
+              <small>Leisure trips</small>
+            </p>
           </div>
           <div className="form-check mb-1">
             <input
@@ -301,9 +304,9 @@ export const Trips: FC<TripsProps> = (props) => {
               onChange={handleChange}
               // required
             />
-            <label className="form-check-label" htmlFor="trip_type_business">
-              Business trips
-            </label>
+            <p className="form-check-label">
+              <small>Business trips</small>
+            </p>
           </div>
           <div className="form-check mb-1">
             <input
@@ -316,9 +319,9 @@ export const Trips: FC<TripsProps> = (props) => {
               onChange={handleChange}
               // required
             />
-            <label className="form-check-label" htmlFor="both_trip_types">
-              Both leisure and business trips
-            </label>
+            <p className="form-check-label">
+              <small>Both leisure and business trips</small>
+            </p>
           </div>
         </div>
 
@@ -336,12 +339,10 @@ export const Trips: FC<TripsProps> = (props) => {
               onChange={handleChange}
               checked={values?.car_market_class === "budget_car"}
             />
-            <label
-              className="form-check-label"
-              htmlFor="car_market_class_budget"
-            >
-              Budget Car
-            </label>
+
+            <p className="form-check-label">
+              <small>Budget Car</small>
+            </p>
           </div>
           <div className="form-check form-check-inline">
             <input
@@ -353,12 +354,10 @@ export const Trips: FC<TripsProps> = (props) => {
               onChange={handleChange}
               checked={values?.car_market_class === "luxury_car"}
             />
-            <label
-              className="form-check-label"
-              htmlFor="car_market_class_luxury"
-            >
-              Luxury Car
-            </label>
+
+            <p className="form-check-label">
+              <small>Luxury Car</small>
+            </p>
           </div>
         </div>
 

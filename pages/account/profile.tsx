@@ -85,6 +85,10 @@ const Profile: FC<ProfileProps> = (props) => {
       delete tempData.__typename;
       delete tempData.id;
       delete tempData.email_verified;
+      delete tempData.debit_amount;
+      delete tempData.top_up_transaction;
+      delete tempData.top_up_transaction_id;
+
       if (tempData.avatar?.public_id) {
         const tempAvatar: FileInput = {
           secure_url: tempData.avatar.secure_url!,
@@ -106,7 +110,14 @@ const Profile: FC<ProfileProps> = (props) => {
   // }, [data, loading]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    if (e.target.name === "phone") {
+      setValues({
+        ...values,
+        [e.target.name]: e.target.value.replace(/\D/g, ""),
+      });
+    } else {
+      setValues({ ...values, [e.target.name]: e.target.value });
+    }
   };
 
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -224,6 +235,7 @@ const Profile: FC<ProfileProps> = (props) => {
                 message={"Profile updated successfully!"}
                 show={showSaveToast}
                 position="bottom-end"
+                bg={"success"}
               />
             )}
             <h3 className="text-center my-3">Profile</h3>
@@ -347,9 +359,13 @@ const Profile: FC<ProfileProps> = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className="d-grid gap-2 mt-3">
+                <div className="d-flex justify-content-end mt-3">
                   {/* editLoading */}
-                  <button type="submit" className="btn bgOrange">
+                  <button
+                    type="submit"
+                    className="btn bgOrange"
+                    style={{ width: "100px" }}
+                  >
                     {editLoading && !secondaryLoading ? (
                       <ButtonLoading
                         spinnerColor="white"

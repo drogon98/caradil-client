@@ -57,7 +57,7 @@ export default function BookBox(props: Props): ReactElement {
 
               {props.data.status === "cancelled" && (
                 <button
-                  className={`w-100 btn p-0 bg-danger book-status-btn text-light`}
+                  className={`w-100 btn p-0 bg-dark book-status-btn text-light`}
                 >
                   <small>{props.data.status}</small>
                 </button>

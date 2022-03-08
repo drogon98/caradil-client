@@ -16,7 +16,7 @@ interface CarBoxProps {
 }
 
 export const CarBox: FC<CarBoxProps> = (props) => {
-  const router = useRouter();
+  // const router = useRouter();
   const [isFavourite, setIsFavourite] = useState<boolean>();
   const token = useAppSelector((state) => state.auth._id);
   const userId = useUserId(token);

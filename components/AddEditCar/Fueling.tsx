@@ -94,6 +94,7 @@ export const Fueling: FC<FuelingProps> = (props) => {
           show={showSaveToast}
           message={"Updated successfully!"}
           position="bottom-end"
+          bg="success"
         />
       )}
       <h3>Fueling</h3>

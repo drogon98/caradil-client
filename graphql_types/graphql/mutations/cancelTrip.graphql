@@ -1,8 +1,7 @@
 mutation CancelTrip($tripId: Float!, $input: CancelTripInput!) {
   cancelTrip(tripId: $tripId, input: $input) {
-    trip {
-      ...tripInfo
-    }
+    success
+    email_sent
     error
   }
 }

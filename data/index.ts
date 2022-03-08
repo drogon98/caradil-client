@@ -12,6 +12,7 @@ export const carCategories: string[] = [
   "Convertible",
   "Limousine",
   "Hummer",
+  "Rovers",
   // "Ambulance",
   // "Towing",
 ];
@@ -20,6 +21,7 @@ export const carVipAndLuxuryServices: string[] = [
   "Airport transfers",
   "Police escort",
   "Event and concert vehicles",
+  "Wedding fleets",
 ];
 
 export const carColors: string[] = [

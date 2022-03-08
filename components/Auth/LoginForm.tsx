@@ -111,9 +111,7 @@ export default function LoginForm(props: Props): ReactElement {
   return (
     <>
       <h3>Sign In</h3>
-      <div style={{ height: "10px" }}>
-        {error && <small className="text-danger">{error}</small>}
-      </div>
+      <div>{error && <small className="text-danger">{error}</small>}</div>
       <form
         className="form-group mt-2"
         onSubmit={(e) => {

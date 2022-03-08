@@ -179,6 +179,7 @@ const Settings = (props: SettingsProps) => {
                   show={showSaveToast}
                   message={toastMessage}
                   position="bottom-end"
+                  bg="success"
                 />
               )}
               {/* {showSuccessToast && (

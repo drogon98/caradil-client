@@ -86,7 +86,7 @@ function VerifyEmail(props: ResetPasswordProps) {
       <Layout>
         {error && (
           <div className="my-5 p-2">
-            <div className="col-md-8 mx-auto bg-danger text-light text-center">
+            <div className="col-md-8 mx-auto bg-dark text-light text-center">
               <small className="m-0">
                 {" "}
                 We are having issues verifying your account. Request another
@@ -123,6 +123,7 @@ function VerifyEmail(props: ResetPasswordProps) {
             show={showSuccessToast}
             message={toastMessage}
             position="bottom-end"
+            bg="success"
           />
         )}
         {mainLoading && <Loading />}

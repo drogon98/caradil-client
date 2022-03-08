@@ -7,9 +7,11 @@ interface Props {
   show: boolean;
   message: string;
   position: ToastPosition | undefined;
+  delay?: number;
+  bg: string;
 }
 
-export default function Save(props: Props): ReactElement {
+export default function CustomToast(props: Props): ReactElement {
   return (
     <Row>
       <Col xs={6}>
@@ -17,9 +19,9 @@ export default function Save(props: Props): ReactElement {
           <Toast
             onClose={() => props.setShow(false)}
             show={props.show}
-            delay={3000}
+            delay={props.delay ? props.delay : 3000}
             autohide
-            bg="success"
+            bg={props.bg}
           >
             <Toast.Body>
               <small className="text-light">{props.message}</small>

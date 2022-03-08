@@ -46,8 +46,12 @@ body {
   background-color: #000000 !important;
 }
 
-.bgDanger {
-  background-color: red !important;
+.bg-dark {
+  background-color: #000000 !important;
+}
+
+.text-danger {
+  color: red !important;
 }
 
 .bg-success {
@@ -337,7 +341,8 @@ label {
   position: fixed;
   width: 100%;
   z-index: 1002; /* Side menu */
-  background-color: var(--dashboard-bright-bg);
+  background-color: #fff;
+  /* background-color: var(--dashboard-bright-bg); */
 }
 
 .brand {
@@ -588,7 +593,7 @@ label {
   display: none !important;
 }
 
-.rlc-calendar {
+.browse-car-trip .rlc-calendar {
   width: 100% !important;
 }
 
@@ -599,12 +604,17 @@ label {
   background-color: var(--success) !important;
 }
 
-.rlc-day-today {
+/* .rlc-day-today {
   background-color: var(--success);
-}
+} */
 
 .rlc-day-label,
 .rlc-day {
+  width: 14.28% !important;
+}
+
+.browse-car-trip .rlc-day-label,
+.browse-car-trip .rlc-day {
   width: 14.28% !important;
   height: 50px !important;
 }
@@ -753,8 +763,8 @@ label {
     width: 320px !important;
   } */
 
-  .rlc-day-label,
-  .rlc-day {
+  .browse-car-trip .rlc-day-label,
+  .browse-car-trip .rlc-day {
     width: 14.28% !important;
     height: 45px !important;
   }
@@ -788,8 +798,8 @@ label {
     width: 300px !important;
   } */
 
-  .rlc-day-label,
-  .rlc-day {
+  .browse-car-trip .rlc-day-label,
+  .browse-car-trip .rlc-day {
     width: 14.28% !important;
     height: 44px !important;
   }
@@ -1014,7 +1024,8 @@ label {
   /* position: -webkit-sticky; */
   /* position: sticky; */
   position: relative;
-  background-color: var(--orange);
+  background-color: #000;
+  /* background-color: var(--orange); */
   /* top: var(--navbar-height); */
   top: 0;
   bottom: 0 !important;
@@ -1026,7 +1037,8 @@ label {
 .account-content,
 .admin-content {
   position: relative;
-  background-color: var(--dashboard-bright-bg);
+  background-color: #fff;
+  /* background-color: var(--dashboard-bright-bg); */
   height: 100%;
   min-height: calc(100vh - var(--navbar-height));
   top: 0;
@@ -1111,7 +1123,7 @@ label {
 
 .sm-side-menu {
   width: 200px;
-  background-color: var(--orange);
+  background-color: #000;
   position: fixed;
   left: -200px;
   z-index: 1001;
@@ -1333,6 +1345,10 @@ car-input-container select:focus {
   width: 280px !important;
 }
 
+.car-reviews-sm {
+  display: none !important;
+}
+
 @media screen and (max-width: 800px) {
   .carDetailsChargeCard {
     display: none !important;
@@ -1381,6 +1397,14 @@ car-input-container select:focus {
 
   .shared-section-sm-screen {
     display: block;
+  }
+
+  .car-reviews-md {
+    display: none !important;
+  }
+
+  .car-reviews-sm {
+    display: block !important;
   }
 }
 
@@ -1828,7 +1852,8 @@ car-input-container select:focus {
   position: sticky;
   top: calc(var(--navbar-height));
   z-index: 1000;
-  background-color: var(--dashboard-bright-bg);
+  /* background-color: var(--dashboard-bright-bg); */
+  background-color: #fff;
 }
 
 .manage-car-left {

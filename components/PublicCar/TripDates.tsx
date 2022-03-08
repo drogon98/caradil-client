@@ -166,16 +166,19 @@ export let TripDates = (props: TripDatesProps) => {
         </div>
         {/* {} */}
       </div>
-      <div>
-        <small style={{ fontSize: "11px" }}>
-          Disabled dates mean the car is not available
-        </small>
-      </div>
+      {props.isNotBrowseCarsPage && (
+        <div>
+          <small style={{ fontSize: "11px" }}>
+            Disabled dates mean the car is not available
+          </small>
+        </div>
+      )}
+
       <div className="d-flex flex-column justify-content-between w-100">
         <div>
           <label style={{ fontSize: "11px" }}>Start & End Dates</label>
         </div>
-        <div className="w-100">
+        <div className="w-100 browse-car-trip">
           <Calendar
             startDate={props.startDate}
             endDate={props.endDate}

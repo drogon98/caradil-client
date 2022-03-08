@@ -1,8 +1,6 @@
 mutation ConfirmTrip($tripId: Float!, $publish: Boolean!) {
   confirmTrip(tripId: $tripId, publish: $publish) {
-    trip {
-      ...tripInfo
-    }
+    success
     error
   }
 }

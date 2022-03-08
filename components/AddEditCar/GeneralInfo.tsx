@@ -74,7 +74,19 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         [e.target.name]: e.target.value === "true" ? true : false,
       });
     } else {
-      setValues({ ...values!, [e.target.name]: e.target.value });
+      if (e.target.name === "name") {
+        let val = e.target.value;
+        //  Check if statement contains car, for, hire etc
+        setValues({
+          ...values!,
+          [e.target.name]: e.target.value.replace(
+            /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi,
+            ""
+          ),
+        });
+      } else {
+        setValues({ ...values!, [e.target.name]: e.target.value });
+      }
     }
   };
 
@@ -222,6 +234,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           show={showSaveToast}
           message={"Updated successfully!"}
           position="bottom-end"
+          bg="success"
         />
       )}
       <h4>General Info</h4>
@@ -351,9 +364,9 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
                 onChange={handleChange}
                 required
               />
-              <label className="form-check-label" htmlFor="flexRadioDefault1">
-                Self Driven (Guest will have to drive the car)
-              </label>
+              <p className="form-check-label">
+                <small>Self Driven (Guest will have to drive the car)</small>
+              </p>
             </div>
             <div className="form-check">
               <input
@@ -366,9 +379,9 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
                 onChange={handleChange}
                 required
               />
-              <label className="form-check-label" htmlFor="flexRadioDefault2">
-                Chauffer Driven (This is your driver or you)
-              </label>
+              <p className="form-check-label">
+                <small>Chauffer Driven (This is your driver or you)</small>
+              </p>
             </div>
           </div>
         </div>
@@ -387,9 +400,9 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
                 onChange={handleChange}
                 // disabled={props.isManage && !props.isEdit}
               />
-              <label className="form-check-label" htmlFor="gps-enabled">
-                Is GPS enabled
-              </label>
+              <p className="form-check-label">
+                <small>Is GPS enabled</small>
+              </p>
             </div>
             {!values?.is_gps_enabled && (
               <div className="text-danger">

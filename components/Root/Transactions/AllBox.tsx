@@ -20,7 +20,7 @@ export const AllBox: FC<AllBoxProps> = (props) => {
         {/* <div>
           {props.data.suspended ? (
             <button
-              className="btn text-light bg-danger"
+              className="btn text-light bg-dark"
               style={{ width: "100px" }}
               onClick={handleSuspendEdit}
             >

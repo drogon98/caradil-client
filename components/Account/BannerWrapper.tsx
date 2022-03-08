@@ -25,8 +25,9 @@ export function BannerWrapper(props: BannerWrapperProps) {
   const [
     resendEmailVerifyLink,
     { data: resendVerifyLinkData, loading: resendingVerifyLink },
-  ] = useResendEmailVerifyLinkLazyQuery();
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  ] = useResendEmailVerifyLinkLazyQuery({ fetchPolicy: "no-cache" });
+  const [showToast, setShowToast] = useState(false);
+  const [toastBg, setToastBg] = useState("success");
   const [toastMessage, setToastMessage] = useState("");
   const [isChatPage, setIsChatPage] = useState(false);
 
@@ -69,19 +70,23 @@ export function BannerWrapper(props: BannerWrapperProps) {
     if (resendVerifyLinkData) {
       if (resendVerifyLinkData?.resendVerifyEmailLink) {
         setToastMessage("Verify link successfully sent to your inbox!");
-        setShowSuccessToast(true);
+        setToastBg("success");
+        setShowToast(true);
       } else {
-        console.log("Error :>> ");
+        setToastMessage("Could not send email. Try again later!");
+        setToastBg("danger");
+        setShowToast(true);
       }
     }
   }, [resendVerifyLinkData]);
 
-  const handleRequestVerifyLinkClick = async () => {
-    try {
-      resendEmailVerifyLink();
-    } catch (error) {
-      console.log("error :>> ", error);
-    }
+  const handleRequestVerifyLinkClick = () => {
+    console.log("Helloo");
+    // try {
+    resendEmailVerifyLink();
+    // } catch (error) {
+    //   console.log("error :>> ", error);
+    // }
   };
 
   useEffect(() => {
@@ -90,18 +95,17 @@ export function BannerWrapper(props: BannerWrapperProps) {
         <>
           <span>
             Please verify your email. A link was sent to your inbox to verify
-            the email. Didn't receive it? Request another link
-          </span>
-          &nbsp;
-          <span
-            className="ext-light cursor-pointer"
-            style={{
-              fontSize: "inherit",
-              textDecoration: "underline",
-            }}
-            onClick={handleRequestVerifyLinkClick}
-          >
-            here
+            the email. Didn't receive it? Request another link &nbsp;
+            <span
+              className="ext-light cursor-pointer"
+              style={{
+                fontSize: "inherit",
+                textDecoration: "underline",
+              }}
+              onClick={handleRequestVerifyLinkClick}
+            >
+              here
+            </span>
           </span>
         </>
       );
@@ -114,36 +118,36 @@ export function BannerWrapper(props: BannerWrapperProps) {
         <>
           <span>
             It seems you have not completed your profile yet. Please complete
-            your profile
+            your profile &nbsp;
+            <Link href="/account/profile">
+              <a
+                className="text-light cursor-pointer"
+                style={{
+                  fontSize: "inherit",
+                  textDecoration: "underline",
+                }}
+              >
+                here
+              </a>
+            </Link>
           </span>
-          &nbsp;
-          <Link href="/account/profile">
-            <a
-              className="text-light cursor-pointer"
-              style={{
-                fontSize: "inherit",
-                textDecoration: "underline",
-              }}
-            >
-              here
-            </a>
-          </Link>
         </>
       );
       setLoading(false);
       return;
     }
     setLoading(false);
-  }, [emailNotVerified, profileNotComplete]);
+  }, [emailNotVerified, profileNotComplete, resendVerifyLinkData]);
 
   return (
     <div>
-      {showSuccessToast && (
+      {showToast && (
         <ToastWrapper
-          setShow={setShowSuccessToast}
-          show={showSuccessToast}
+          setShow={setShowToast}
+          show={showToast}
           message={toastMessage}
           position="bottom-end"
+          bg={toastBg}
         />
       )}
       {!loading && user && (
@@ -157,7 +161,7 @@ export function BannerWrapper(props: BannerWrapperProps) {
               <div className="d-flex align-items-center">
                 <p
                   style={{ fontSize: "12px" }}
-                  className="text-light text-center m-0 d-flex align-items-center"
+                  className="text-light m-0 d-flex align-items-center"
                 >
                   {bannerMessage}
                 </p>

@@ -29,9 +29,7 @@ export const Faqs: FC<FaqsProps> = (props) => {
                   id={`panelsStayOpen-heading${idx}`}
                 >
                   <button
-                    className={`accordion-button faq-accordion-button ${
-                      idx !== 0 && `collapsed`
-                    }`}
+                    className={`accordion-button faq-accordion-button ${`collapsed`}`}
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target={`#panelsStayOpen-collapse${idx}`}
@@ -43,9 +41,7 @@ export const Faqs: FC<FaqsProps> = (props) => {
                 </h2>
                 <div
                   id={`panelsStayOpen-collapse${idx}`}
-                  className={`accordion-collapse collapse ${
-                    idx === 0 && `show`
-                  }`}
+                  className={`accordion-collapse collapse`}
                   aria-labelledby={`panelsStayOpen-heading${idx}`}
                 >
                   <div className="accordion-body faq-accordion-answer">

@@ -8,14 +8,18 @@ interface AddCarStartProps {
 export const AddCarStart = (props: AddCarStartProps) => {
   return (
     <>
-      <h1>Let's set you up for success!</h1>
-      <h6>Requirements to list your car</h6>
+      {/* <h1>List Car</h1> */}
+      <h4>Requirements to list your car</h4>
       <ul>
         <li>Car Owner National ID copy</li>
-        <li>Car Logbook Scanned Copy</li>
-        <li>At least 5 clean photos of your car</li>
+        <li>Car Logbook Scanned Copy (Can add later)</li>
+        <li>
+          At least 5 clean photos of your car. These should be rear,fore,both
+          sides and inner photos of the car. These photos <b>should not</b>{" "}
+          contain any contact information like phone no. or email
+        </li>
       </ul>
-      <div className="d-flex justify-content-between mt-4">
+      <div className="d-flex justify-content-end mt-4">
         <button
           className="btn bgOrange"
           type="submit"

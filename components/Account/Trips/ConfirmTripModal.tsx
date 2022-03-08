@@ -72,7 +72,7 @@ export default function ConfirmTripModal(props: Props): ReactElement {
 
       // console.log("response :>> ", response);
 
-      if (response.data?.confirmTrip.trip?.id) {
+      if (response.data?.confirmTrip.success) {
         // props.setTrip(response.data?.confirmTrip.trip);
         props.handleClose();
       }

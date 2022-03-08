@@ -29,7 +29,7 @@ const RegisterForm: FC<IProps> = (props) => {
     first_name: "",
     last_name: "",
     email: "",
-    country: "Kenya",
+    country: "kenya",
     password: "",
     confirmPassword: "",
     role: 1,
@@ -123,9 +123,7 @@ const RegisterForm: FC<IProps> = (props) => {
   return (
     <>
       <h3>Sign Up</h3>
-      <div style={{ height: "10px" }}>
-        {error && <small className="text-danger">{error}</small>}
-      </div>
+      <div>{error && <small className="text-danger">{error}</small>}</div>
       <form
         className="form-group mb-3"
         onSubmit={(e) => {

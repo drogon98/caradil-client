@@ -179,24 +179,21 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
 
         let durationData = getTripDuration(
           payload,
-
           data.getCar.car?.can_rent_hourly!
         );
+        console.log("durationData", durationData);
 
         totalChargeCalculator(data.getCar.car, payload, setTtl);
 
-        // console.log("Difference_In_Days :>> ", Difference_In_Days);
         setTripDuration(durationData.duration);
         setDurationType(durationData.type_);
-        // setTotalCharge(() => {
-        //   let total = data.getCar.car?.daily_rate! * Difference_In_Days;
-        //   return total as unknown as string;
-        // });
       }
     } catch (error) {
       console.log("error :>> ", error);
     }
   }, [router.query, data]);
+
+  console.log("tripDuration", tripDuration);
 
   // useEffect(() => {
   //   if (data && tripDuration && durationType) {

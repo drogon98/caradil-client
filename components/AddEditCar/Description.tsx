@@ -126,6 +126,7 @@ export const Description: FC<DescriptionProps> = (props) => {
           show={showSaveToast}
           message={"Updated successfully!"}
           position="bottom-end"
+          bg="success"
         />
       )}
       <h3>Description</h3>

@@ -7,6 +7,8 @@ interface ToastWrapperProps {
   show: boolean;
   message: string;
   position: ToastPosition | undefined;
+  delay?: number;
+  bg: string;
 }
 
 export const ToastWrapper: FC<ToastWrapperProps> = (props) => {
@@ -17,6 +19,8 @@ export const ToastWrapper: FC<ToastWrapperProps> = (props) => {
         show={props.show}
         message={props.message}
         position={props.position}
+        delay={props.delay}
+        bg={props.bg}
       />
     </div>
   );

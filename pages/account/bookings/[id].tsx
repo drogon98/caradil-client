@@ -265,7 +265,7 @@ export default function Booking(props: Props): ReactElement {
                   booking?.status !== "cancelled" && (
                     <div className="d-grid gap-2 mt-3">
                       <button
-                        className="btn bg-danger"
+                        className="btn bg-dark"
                         onClick={handleCancelTrip}
                       >
                         Cancel Trip

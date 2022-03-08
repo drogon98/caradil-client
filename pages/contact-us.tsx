@@ -61,6 +61,7 @@ const ContactUs: NextPage = () => {
                 show={showSaveToast}
                 message={"Message sent successfully!"}
                 position="bottom-end"
+                bg="success"
               />
             )}
 

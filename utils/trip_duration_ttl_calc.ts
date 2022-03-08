@@ -9,11 +9,13 @@ export const getTripDuration = (
   isBookDuration: boolean = false
 ): { duration: number; type_: string } => {
   // console.log("dateTime", dateTime);
-  let startDate = new Date(dateTime.start_date!);
-  let endDate = new Date(dateTime.end_date!);
+  // let startDate = new Date(dateTime.start_date!);
+  // let endDate = new Date(dateTime.end_date!);
+
+  let exactTimes = getExactStartAndEndTime(dateTime);
 
   // To calculate the time difference of two dates
-  let Difference_In_Time = endDate.getTime() - startDate.getTime();
+  let Difference_In_Time = exactTimes.endTime - exactTimes.startTime;
 
   // console.log("Difference_In_Time", Difference_In_Time);
 
@@ -84,13 +86,14 @@ export const getTripDuration = (
     }
   } else {
     if (Difference_In_Days.toString().includes(".")) {
+      console.log("Difference_In_Days", Difference_In_Days);
       return {
-        duration: parseFloat(Number(Difference_In_Days).toFixed(1)) + 1,
+        duration: parseFloat(Number(Difference_In_Days).toFixed(1)),
         type_: "day",
       };
     } else {
       return {
-        duration: Difference_In_Days + 1,
+        duration: Difference_In_Days,
         type_: "day",
       };
     }
@@ -102,23 +105,25 @@ export const totalChargeCalculator = (
   dates: TripDatesObj,
   setTotalCharge: Dispatch<SetStateAction<number | undefined>>
 ) => {
-  let startTimeSections = dates.start_time?.split(":");
-  let endTimeSections = dates.end_time?.split(":");
+  // let startTimeSections = dates.start_time?.split(":");
+  // let endTimeSections = dates.end_time?.split(":");
 
-  let tempStartDate = new Date(dates.start_date!).setHours(
-    parseInt(startTimeSections[0], 10),
-    parseInt(startTimeSections[1], 10)
-  );
-  let tempEndDate = new Date(dates.end_date!).setHours(
-    parseInt(endTimeSections[0], 10),
-    parseInt(endTimeSections[1], 10)
-  );
+  // let tempStartDate = new Date(dates.start_date!).setHours(
+  //   parseInt(startTimeSections[0], 10),
+  //   parseInt(startTimeSections[1], 10)
+  // );
+  // let tempEndDate = new Date(dates.end_date!).setHours(
+  //   parseInt(endTimeSections[0], 10),
+  //   parseInt(endTimeSections[1], 10)
+  // );
+
+  let exactTimes = getExactStartAndEndTime(dates);
 
   let dateTimePayload: TripDatesObj = {
     start_time: dates.start_time,
     end_time: dates.end_time,
-    start_date: tempStartDate,
-    end_date: tempEndDate,
+    start_date: exactTimes.startTime,
+    end_date: exactTimes.endTime,
   };
 
   let durationData = getTripDuration(dateTimePayload, car?.can_rent_hourly!);
@@ -151,4 +156,22 @@ export const startHourGreaterThanOrEqualToEndHour = (dates: TripDatesObj) => {
     return true;
   }
   return false;
+};
+
+export const getExactStartAndEndTime = (
+  dates: TripDatesObj
+): { startTime: number; endTime: number } => {
+  let startTimeSections = dates.start_time?.split(":");
+  let endTimeSections = dates.end_time?.split(":");
+
+  let tempStartTime = new Date(dates.start_date!).setHours(
+    parseInt(startTimeSections[0], 10),
+    parseInt(startTimeSections[1], 10)
+  );
+  let tempEndTime = new Date(dates.end_date!).setHours(
+    parseInt(endTimeSections[0], 10),
+    parseInt(endTimeSections[1], 10)
+  );
+
+  return { startTime: tempStartTime, endTime: tempEndTime };
 };

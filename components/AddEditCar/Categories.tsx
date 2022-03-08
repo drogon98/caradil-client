@@ -130,6 +130,7 @@ export const Categories: FC<CategoryProps> = (props) => {
           show={showSaveToast}
           message={"Updated successfully!"}
           position="bottom-end"
+          bg="success"
         />
       )}
       <h3>Categories</h3>

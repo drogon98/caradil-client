@@ -10,6 +10,7 @@ import { onError } from "@apollo/client/link/error";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { createUploadLink } from "apollo-upload-client";
+import { unsetToken } from "../redux/authSlice";
 import { store } from "../redux/store";
 import { baseHttpDomain, baseWsDomain } from "../utils/baseDomain";
 import { tokenRefreshLink } from "./tokenRefreshLink";
@@ -69,7 +70,7 @@ const errorLink = onError((obj) => {
 
     if (hasUnAuthError) {
       let toRedirectTo = window.location.pathname;
-
+      store.dispatch(unsetToken());
       // console.log("toRedirectTo", toRedirectTo);
 
       window.location.replace(`/login?next=${toRedirectTo}`);

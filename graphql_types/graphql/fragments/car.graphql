@@ -82,5 +82,6 @@ fragment carInfo on Car {
   reserved_for_booking_guest_id
   trip_type
   end_user_type
+
   # id_or_passport_no
 }

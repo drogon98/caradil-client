@@ -101,6 +101,7 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
           show={showSaveToast}
           message={"Updated successfully!"}
           position="bottom-end"
+          bg="success"
         />
       )}
       <h3>Location</h3>

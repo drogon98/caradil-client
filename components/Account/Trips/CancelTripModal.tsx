@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, {
   ChangeEvent,
@@ -7,6 +8,7 @@ import React, {
   useState,
 } from "react";
 import { Modal } from "react-bootstrap";
+import { clearInterval } from "timers";
 import { useRole } from "../../../components/hooks/useRole";
 import { ButtonLoading } from "../../../components/Loading/ButtonLoading";
 import {
@@ -15,7 +17,10 @@ import {
   useCancelTripMutation,
 } from "../../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../../redux/hooks";
-import { getTripDuration } from "../../../utils/trip_duration_ttl_calc";
+import {
+  getExactStartAndEndTime,
+  getTripDuration,
+} from "../../../utils/trip_duration_ttl_calc";
 
 interface Props {
   //   children: ReactChild;
@@ -24,18 +29,21 @@ interface Props {
   tripId: number | undefined;
   trip: Trip;
   // setTrip: Dispatch<SetStateAction<Trip | undefined>>;
+  setShowToast: any;
+  setShowToastMessage: any;
+  setToastDelay: any;
 }
 
 export default function CancelTripMoal(props: Props): ReactElement {
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
-  const [cancelRadioInputReason, setCancelRadioInputReason] =
-    useState("no-show");
+  const [cancelRadioInputReason, setCancelRadioInputReason] = useState("");
   const [cancelReason, setCancelReason] = useState<string>("");
   const [cancelTrip, { loading: cancelingTrip }] = useCancelTripMutation();
   const [cancelAction, setCancelAction] = useState("");
   const router = useRouter();
-  const [hostGuestNoShow, setHostGuestNoShow] = useState(false);
+  // const [hostGuestNoShow, setHostGuestNoShow] = useState(false);
+  const [showNoShow, setShowNoShow] = useState(false);
 
   useEffect(() => {
     try {
@@ -59,34 +67,74 @@ export default function CancelTripMoal(props: Props): ReactElement {
     }
   }, [props.trip]);
 
+  // useEffect(() => {
+  //   try {
+  //     if (props.trip) {
+  //       let now = new Date();
+  //       let time = now.getTime();
+
+  //       let tripStartDate = new Date(props.trip.start_date!);
+
+  //       let rawTripStartTime = props.trip?.start_time?.split(":");
+
+  //       if (rawTripStartTime) {
+  //         tripStartDate.setHours(
+  //           parseInt(rawTripStartTime[0]!, 10),
+  //           parseInt(rawTripStartTime[1]!, 10)
+  //         );
+
+  //         if (time > tripStartDate.getTime()) {
+  //           setHostGuestNoShow(true);
+  //         } else {
+  //           setHostGuestNoShow(false);
+  //         }
+  //       }
+
+  //       // console.log("now :>> ", now);
+  //     }
+  //   } catch (error) {
+  //     console.log("error :>> ", error);
+  //   }
+  // }, [props.trip]);
+
   useEffect(() => {
-    try {
-      if (props.trip) {
-        let now = new Date();
-        let time = now.getTime();
+    let intervalId: NodeJS.Timeout;
+    if (props.trip) {
+      try {
+        let exactTimes = getExactStartAndEndTime({
+          start_date: props.trip.start_date!,
+          end_date: props.trip.end_date!,
+          start_time: props.trip.start_time!,
+          end_time: props.trip.end_time!,
+        });
 
-        let tripStartDate = new Date(props.trip.start_date!);
+        let now = new Date().getTime();
 
-        let rawTripStartTime = props.trip?.start_time?.split(":");
+        let exactStartTimePlusOneHour = exactTimes.startTime + 3600000;
 
-        if (rawTripStartTime) {
-          tripStartDate.setHours(
-            parseInt(rawTripStartTime[0]!, 10),
-            parseInt(rawTripStartTime[1]!, 10)
-          );
-
-          if (time > tripStartDate.getTime()) {
-            setHostGuestNoShow(true);
-          } else {
-            setHostGuestNoShow(false);
-          }
+        if (now > exactStartTimePlusOneHour) {
+          setShowNoShow(true);
+        } else {
+          setShowNoShow(false);
         }
 
-        // console.log("now :>> ", now);
+        setInterval(() => {
+          if (now > exactStartTimePlusOneHour) {
+            setShowNoShow(true);
+          } else {
+            setShowNoShow(false);
+          }
+        }, 60000);
+      } catch (error) {
+        console.log("error", error);
       }
-    } catch (error) {
-      console.log("error :>> ", error);
     }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
   }, [props.trip]);
 
   const handleChange = (
@@ -127,15 +175,26 @@ export default function CancelTripMoal(props: Props): ReactElement {
         variables: { tripId: props.tripId!, input: payload },
       });
 
-      // console.log("response :>> ", response);
-
-      if (response.data?.cancelTrip.trip?.id) {
-        // if (true) {
-        // Show toast
-        if (cancelAction === "cancel_trip_find_other") {
-          await router.push("/browse-cars");
-        } else if (cancelAction === "cancel_trip_refund") {
-          await router.push("/account/trips/1/request-refund");
+      if (response.data?.cancelTrip.success) {
+        if (response.data?.cancelTrip.email_sent) {
+          props.setToastDelay(10000);
+          props.setShowToastMessage(
+            `${
+              role === 1 ? `Trip` : `Booking`
+            } successfully cancelled. An email to ${
+              role === 1 ? `request refund` : `request delivery compensation`
+            } has been sent to your inbox!`
+          );
+          props.setShowToast(true);
+        } else {
+          props.setToastDelay(3000);
+          props.setShowToastMessage(
+            `${role === 1 ? `Trip` : `Booking`} successfully cancelled!.`
+          );
+          props.setShowToast(true);
+          if (cancelAction === "cancel_trip_find_other") {
+            await router.push("/browse-cars");
+          }
         }
         props.handleClose();
       }
@@ -178,9 +237,11 @@ export default function CancelTripMoal(props: Props): ReactElement {
               </label>
             </div>
           )}
-          {hostGuestNoShow && props.trip.status === "confirmed" && (
-            <>
-              <label className="mt-3">Cancel Reason</label>
+
+          {/* {props.trip.status !== "pending" && ( */}
+          <>
+            <label className="mt-3">Cancel Reason</label>
+            {showNoShow && (
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -190,6 +251,7 @@ export default function CancelTripMoal(props: Props): ReactElement {
                   value={"no-show"}
                   onChange={handleChange}
                   checked={cancelRadioInputReason === "no-show"}
+                  disabled={cancelingTrip}
                 />
                 <label
                   className="form-check-label"
@@ -198,37 +260,44 @@ export default function CancelTripMoal(props: Props): ReactElement {
                   {role === 1 ? "Host no-show" : "Guest no-show"}
                 </label>
               </div>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="cancelRadioReason"
-                  id="cancelReasonOther"
-                  value={"other"}
-                  onChange={handleChange}
-                  checked={cancelRadioInputReason === "other"}
-                />
-                <label className="form-check-label" htmlFor="cancelReasonOther">
-                  Other Reason
-                </label>
-              </div>
+            )}
+
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="cancelRadioReason"
+                id="cancelReasonOther"
+                value={"other"}
+                onChange={handleChange}
+                checked={cancelRadioInputReason === "other"}
+                disabled={cancelingTrip}
+              />
+              <label className="form-check-label" htmlFor="cancelReasonOther">
+                Other Reason
+              </label>
+            </div>
+          </>
+          {/* )} */}
+
+          {/* {props.trip.status !== "pending" ? (
+            <>
+               */}
+          {!cancelRadioInputReason.includes("no-show") && (
+            <>
+              <label className="mt-1">Reason</label>
+              <textarea
+                className="form-control"
+                value={cancelReason}
+                required
+                onChange={handleChange}
+                style={{ resize: "none" }}
+                name="cancelReason"
+                disabled={cancelingTrip}
+              />
             </>
           )}
-
-          {props.trip.status === "confirmed" ? (
-            <>
-              {!cancelRadioInputReason.includes("no-show") && (
-                <>
-                  <label className="mt-1">Reason</label>
-                  <textarea
-                    className="form-control"
-                    value={cancelReason}
-                    required
-                    onChange={handleChange}
-                    style={{ resize: "none" }}
-                    name="cancelReason"
-                  />
-                </>
+          {/* </>
               )}
             </>
           ) : (
@@ -242,10 +311,11 @@ export default function CancelTripMoal(props: Props): ReactElement {
                   onChange={handleChange}
                   style={{ resize: "none" }}
                   name="cancelReason"
+                  disabled={cancelingTrip}
                 />
               </>
             </>
-          )}
+          )} */}
 
           {role === 1 ? (
             <>
@@ -261,6 +331,7 @@ export default function CancelTripMoal(props: Props): ReactElement {
                     onChange={handleChange}
                     checked={cancelAction === "cancel_trip_find_other"}
                     value={"cancel_trip_find_other"}
+                    disabled={cancelingTrip}
                   />
                   <label
                     className="form-check-label"
@@ -269,6 +340,7 @@ export default function CancelTripMoal(props: Props): ReactElement {
                     Cancel this trip and help me find another car
                   </label>
                 </div>
+
                 <div className="form-check">
                   <input
                     className="form-check-input"
@@ -279,6 +351,7 @@ export default function CancelTripMoal(props: Props): ReactElement {
                     checked={cancelAction === "cancel_trip_refund"}
                     value={"cancel_trip_refund"}
                     required
+                    disabled={cancelingTrip}
                   />
                   <label
                     className="form-check-label"
@@ -287,10 +360,40 @@ export default function CancelTripMoal(props: Props): ReactElement {
                     Cancel this trip and refund me
                   </label>
                 </div>
+                {cancelAction === "cancel_trip_refund" &&
+                  props.trip.status === "pending" && (
+                    <div className="text-danger">
+                      <small>
+                        The amount refunded to you might be less due to
+                        transaction charges.
+                      </small>
+                    </div>
+                  )}
+
+                {cancelAction && props.trip.status !== "pending" && (
+                  <div className="text-danger">
+                    <small>
+                      You are cancelling this trip beyond the free cancellation
+                      period. This attracts a cancellation fee. To learn more
+                      about how we calculate this cancellation fee, read out
+                      cancellation and refund policy{" "}
+                      <span>
+                        <Link href="/policies/cancellation-and-refund">
+                          <a
+                            target={"_blank"}
+                            style={{ textDecoration: "underline" }}
+                          >
+                            here
+                          </a>
+                        </Link>
+                      </span>
+                    </small>
+                  </div>
+                )}
               </div>
             </>
           ) : (
-            hostGuestNoShow &&
+            showNoShow &&
             props.trip.status === "confirmed" &&
             props.trip.delivery_distance &&
             props.trip.delivery_location &&
@@ -309,6 +412,7 @@ export default function CancelTripMoal(props: Props): ReactElement {
                       checked={
                         cancelAction === "cancel_trip_delivery_compensation"
                       }
+                      disabled={cancelingTrip}
                     />
                     <label
                       className="form-check-label"
@@ -321,6 +425,20 @@ export default function CancelTripMoal(props: Props): ReactElement {
                 </div>
               </>
             )
+          )}
+
+          {props.trip.status !== "pending" && (
+            <div>
+              <small className="text-danger">
+                Cancelling a confirmed trip will attract a cancel fee. Learn
+                more about our cancellation policy{" "}
+                <Link href="/policies/cancellation-and-refund">
+                  <a target={"_blank"} style={{ textDecoration: "underline" }}>
+                    here
+                  </a>
+                </Link>
+              </small>
+            </div>
           )}
 
           <div className="d-grid gap-2 mt-3">

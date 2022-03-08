@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { CustomHead } from "../components/CustomHead";
-import { BrowseByMake } from "../components/Home/BrowseByMake";
+import { BrowseByMake } from "../components/BrowseByMake";
 import { Faqs } from "../components/Faqs";
 import Hero from "../components/Home/Hero";
 import { HeroBottom } from "../components/Home/HeroBottom";

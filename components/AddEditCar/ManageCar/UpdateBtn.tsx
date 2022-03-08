@@ -8,11 +8,12 @@ interface Props {
 
 export default function UpdateBtn(props: Props): ReactElement {
   return (
-    <div className="d-grid gap-2 mt-4">
+    <div className="d-flex justify-content-end mt-5">
       <button
         type="submit"
         className="btn bgOrange"
         disabled={props.loading || props.disabled}
+        style={{ width: "100px" }}
       >
         {props.loading ? (
           <ButtonLoading

@@ -80,6 +80,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
     // Populate values,datetime and location
     try {
       if (router && router.query) {
+        console.log("router.query", router.query);
         if (router.query.start_time) {
           let tempDateTime = {
             start_time: router.query.start_time as string,
@@ -172,7 +173,13 @@ const BrowseCarsNavbar = (): JSX.Element => {
   }, [router.query]);
 
   useEffect(() => {
-    if (dateTime) {
+    if (
+      dateTime &&
+      dateTime.start_date &&
+      dateTime.start_time &&
+      dateTime.end_date &&
+      dateTime.end_time
+    ) {
       let s = `start_time=${dateTime.start_time}&end_time=${dateTime.end_time}&start_date=${dateTime.start_date}&end_date=${dateTime.end_date}`;
       setDateTimeInput(s);
       let tempTripDuration = getTripDuration(dateTime);
@@ -181,6 +188,8 @@ const BrowseCarsNavbar = (): JSX.Element => {
       } else {
         setTripDuration("more_24");
       }
+    } else {
+      setDateTimeInput("");
     }
   }, [dateTime]);
 
@@ -386,7 +395,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                   <button
                     type="submit"
                     ref={searchBtnRef}
-                    className="btn bgOrange text-light h-100"
+                    className="btn bgOrange text-light h-100 d-flex align-items-center"
                     style={{
                       borderTopLeftRadius: 0,
                       borderBottomLeftRadius: 0,

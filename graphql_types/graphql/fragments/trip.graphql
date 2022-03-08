@@ -37,5 +37,18 @@ fragment tripInfo on Trip {
   why_cancel_trip
   delivery_location
   delivery_distance
+  car_trips_data {
+    id
+    car {
+      ...carInfo
+    }
+    data {
+      id
+      start_date
+      start_time
+      end_date
+      end_time
+    }
+  }
   created_at
 }

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
 import Slider from "react-slick";
-import { useGetMakesQuery } from "../../graphql_types/generated/graphql";
-import { useWindowDimensions } from "../hooks/useWindowDimensions";
-import FlexibleLoader from "../Loading/FlexibleLoader";
+import { useGetMakesQuery } from "../graphql_types/generated/graphql";
+import { useWindowDimensions } from "./hooks/useWindowDimensions";
+import FlexibleLoader from "./Loading/FlexibleLoader";
 
 interface IProps {}
 
