@@ -302,6 +302,7 @@ const RescheduleTrip: FC<RescheduleTripProps> = (props) => {
                   show={showToast}
                   message={"Trip successfully rescheduled!"}
                   position="bottom-end"
+                  bg="success"
                 />
               )}{" "}
               <div className="d-flex align-items-center">
