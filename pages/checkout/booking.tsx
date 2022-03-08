@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
-import Layout from "../../components/layouts/Layout";
+import Layout from "../../components/Layouts/Layout";
 import { Loading } from "../../components/Loading";
 import { useCreateTripMutation } from "../../graphql_types/generated/graphql";
 

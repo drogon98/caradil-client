@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { CustomHead } from "../components/CustomHead";
 import { BrowseByMake } from "../components/BrowseByMake";
-import Layout from "../components/layouts/Layout";
+import Layout from "../components/Layouts/Layout";
 
 export default function Weddings() {
   return (

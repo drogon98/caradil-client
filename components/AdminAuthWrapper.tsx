@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { FC, ReactChild, useEffect } from "react";
 import { useState } from "react";
 import { useAppSelector } from "../redux/hooks";
-import { useRole } from "./hooks/useRole";
+import { useRole } from "./Hooks/useRole";
 
 interface AdminAuthWrapperProps {
   children: ReactChild;

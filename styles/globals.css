@@ -1049,6 +1049,7 @@ label {
   position: -webkit-sticky;
   position: sticky;
   top: var(--navbar-height);
+  bottom: 0;
 
   /* overflow-y: auto; */
 }
@@ -1129,6 +1130,7 @@ label {
   z-index: 1001;
   height: calc(100vh - var(--navbar-height));
   top: var(--navbar-height);
+  overflow-y: auto;
 }
 
 @keyframes showSmSideMenu {

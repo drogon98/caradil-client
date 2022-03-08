@@ -11,7 +11,7 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
+import { useOutsideClickHandler } from "../Hooks/useOutsideClickHandler";
 
 export interface AutoCompleteProps {
   placeholder: string;

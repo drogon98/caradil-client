@@ -70,10 +70,9 @@ const errorLink = onError((obj) => {
 
     if (hasUnAuthError) {
       let toRedirectTo = window.location.pathname;
-      store.dispatch(unsetToken());
       // console.log("toRedirectTo", toRedirectTo);
-
       window.location.replace(`/login?next=${toRedirectTo}`);
+      store.dispatch(unsetToken());
     }
   }
 });

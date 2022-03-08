@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { AdminAuthWrapper } from "../../components/AdminAuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
-import AdminLayout from "../../components/layouts/AdminLayout";
+import AdminLayout from "../../components/Layouts/AdminLayout";
 
 interface IProps {}
 

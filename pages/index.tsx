@@ -8,7 +8,7 @@ import { ManageTravel } from "../components/Home/ManageTravel";
 // import HowItWorks from "../components/Home/HowItWorks";
 import { PopularCars } from "../components/Home/PopularCars";
 import { Promise } from "../components/Home/Promise";
-import Layout from "../components/layouts/Layout";
+import Layout from "../components/Layouts/Layout";
 
 const Home: NextPage = () => {
   return (

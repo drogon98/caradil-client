@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import Wrapper from "../components/Auth/Wrapper";
 import { CustomHead } from "../components/CustomHead";
-import Layout from "../components/layouts/Layout";
+import Layout from "../components/Layouts/Layout";
 import { ButtonLoading } from "../components/Loading/ButtonLoading";
 import { useResetPasswordMutation } from "../graphql_types/generated/graphql";
 

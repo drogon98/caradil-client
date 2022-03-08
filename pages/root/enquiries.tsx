@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { AdminAuthWrapper } from "../../components/AdminAuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
-import AdminLayout from "../../components/layouts/AdminLayout";
+import AdminLayout from "../../components/Layouts/AdminLayout";
 import { Loading } from "../../components/Loading";
 import { EnquiryBox } from "../../components/Root/Enquiries/EnquiryBox";
 import {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
-import { useRole } from "../hooks/useRole";
+import { useRole } from "../Hooks/useRole";
 import AdminNavbar from "../Navbars/AdminNavbar";
 
 interface AdminLayoutProps {

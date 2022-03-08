@@ -4,8 +4,8 @@ import { ChatUserProfile } from "../../../components/Account/Chats/ChatUserProfi
 import { Messages } from "../../../components/Account/Chats/Messages";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import { CustomHead } from "../../../components/CustomHead";
-import { useRole } from "../../../components/hooks/useRole";
-import AccountLayout from "../../../components/layouts/AccountLayout";
+import { useRole } from "../../../components/Hooks/useRole";
+import AccountLayout from "../../../components/Layouts/AccountLayout";
 import { Loading } from "../../../components/Loading";
 import {
   ChatMeta,

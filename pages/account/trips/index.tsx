@@ -3,7 +3,7 @@ import { SmTripBox } from "../../../components/Account/Trips/SmTripBox";
 import { TripBox } from "../../../components/Account/Trips/TripBox";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import { CustomHead } from "../../../components/CustomHead";
-import AccountLayout from "../../../components/layouts/AccountLayout";
+import AccountLayout from "../../../components/Layouts/AccountLayout";
 import { Loading } from "../../../components/Loading";
 import {
   Trip,

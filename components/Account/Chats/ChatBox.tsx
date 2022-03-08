@@ -1,7 +1,7 @@
 import React from "react";
 import { Chat, User } from "../../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../../redux/hooks";
-import { useUserId } from "../../hooks/useUserId";
+import { useUserId } from "../../Hooks/useUserId";
 
 interface ChatBoxProps {
   data: Chat;

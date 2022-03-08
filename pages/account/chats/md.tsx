@@ -3,7 +3,7 @@ import React from "react";
 import { Messages } from "../../../components/Account/Chats/Messages";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import { CustomHead } from "../../../components/CustomHead";
-import AccountLayout from "../../../components/layouts/AccountLayout";
+import AccountLayout from "../../../components/Layouts/AccountLayout";
 
 interface ChatsProps {}
 

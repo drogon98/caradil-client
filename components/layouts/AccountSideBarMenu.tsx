@@ -25,7 +25,7 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
   }, [router]);
 
   return (
-    <div className="account-side-menu pt-lg-4 pb-3">
+    <div className="account-side-menu pt-lg-4">
       <ul className="list-style-none m-0">
         <li>
           <Link href="/account" shallow={true}>

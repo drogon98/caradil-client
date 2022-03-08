@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import HamburgerMenu from "react-hamburger-menu";
 import { FiSearch } from "react-icons/fi";
 import { useAppSelector } from "../../redux/hooks";
-import { useRole } from "../hooks/useRole";
-import { AccountSideBarMenu } from "../layouts/AccountSideBarMenu";
+import { useRole } from "../Hooks/useRole";
+import { AccountSideBarMenu } from "../Layouts/AccountSideBarMenu";
 
 interface ChatNavbarProps {}
 

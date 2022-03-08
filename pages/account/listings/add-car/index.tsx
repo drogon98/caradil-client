@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { AuthWrapper } from "../../../../components/AuthWrapper";
 import CarDataStepForm from "../../../../components/CarDataStepForm";
 import { CustomHead } from "../../../../components/CustomHead";
-import AccountLayout from "../../../../components/layouts/AccountLayout";
+import AccountLayout from "../../../../components/Layouts/AccountLayout";
 
 interface AddCarProps {}
 

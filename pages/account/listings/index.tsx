@@ -4,7 +4,7 @@ import { ListBox } from "../../../components/Account/Listings/ListBox";
 import { SmListBox } from "../../../components/Account/Listings/SmListBox";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import { CustomHead } from "../../../components/CustomHead";
-import AccountLayout from "../../../components/layouts/AccountLayout";
+import AccountLayout from "../../../components/Layouts/AccountLayout";
 import { Loading } from "../../../components/Loading";
 import {
   Car,
