@@ -13,6 +13,7 @@ import { CustomHead } from "../../../components/CustomHead";
 import { useWindowDimensions } from "../../../components/hooks/useWindowDimensions";
 import AccountLayout from "../../../components/layouts/AccountLayout";
 import { Loading } from "../../../components/Loading";
+import { ToastWrapper } from "../../../components/Toast/ToastWrapper";
 import {
   OnTripStatusDocument,
   Trip,
@@ -27,9 +28,11 @@ export default function Booking(props: Props): ReactElement {
   const [skip, setSkip] = useState(true);
   const [bookingId, setBookingId] = useState<number>();
   const [booking, setBooking] = useState<Trip>();
-
   const [showCancelTripModal, setShowCancelTripModal] = useState(false);
   const [showConfirmTripModal, setShowConfirmTripModal] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setShowToastMessage] = useState("");
+  const [toastDelay, setToastDelay] = useState(3000);
 
   useEffect(() => {
     if (router.query) {
@@ -134,7 +137,7 @@ export default function Booking(props: Props): ReactElement {
     }
   };
 
-  console.log("booking :>> ", booking);
+  // console.log("booking :>> ", booking);
 
   return (
     <>
@@ -145,6 +148,16 @@ export default function Booking(props: Props): ReactElement {
             <Loading />
           ) : (
             <div className="p-2 col-md-8 col-lg-6 mx-auto">
+              {showToast && (
+                <ToastWrapper
+                  setShow={setShowToast}
+                  show={showToast}
+                  message={toastMessage}
+                  position="bottom-end"
+                  delay={toastDelay}
+                  bg="success"
+                />
+              )}
               {showCancelTripModal && (
                 <CancelTripMoal
                   showModal={showCancelTripModal}
@@ -152,6 +165,9 @@ export default function Booking(props: Props): ReactElement {
                   trip={booking!}
                   // setTrip={setBooking}
                   tripId={bookingId}
+                  setShowToast={setShowToast}
+                  setShowToastMessage={setShowToastMessage}
+                  setToastDelay={setToastDelay}
                 />
               )}
 
