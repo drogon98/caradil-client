@@ -11,3 +11,12 @@ export interface TripDatesObj {
   end_date: number | null;
   end_time: string;
 }
+
+export interface HostPlansData {
+  title: string;
+  monthlyPrice: number;
+  annuallyPrice: number;
+  carCount: number | string;
+  isPopular?: boolean;
+  price?: number;
+}

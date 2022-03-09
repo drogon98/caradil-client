@@ -16,7 +16,7 @@ export default function Wrapper(props: WrapperProps) {
     if (router.pathname.includes("/login")) {
       setIsLogin(true);
     } else if (router.pathname.includes("/register")) {
-      setIsRegister(false);
+      setIsRegister(true);
     }
   }, [router]);
 
@@ -73,7 +73,7 @@ export default function Wrapper(props: WrapperProps) {
           </div>
         </div>
         {/* <div className="row"></div> */}
-        <div className="col-md-8 col-lg-3 mx-auto p-2">{props.children}</div>
+        <div className="authContent mx-auto p-2">{props.children}</div>
       </div>
       <div
         className="py-3 px-2 d-flex justify-content-between"
@@ -90,7 +90,11 @@ export default function Wrapper(props: WrapperProps) {
             </Link>
           </span>
           &nbsp;&nbsp; &nbsp;&nbsp;
-          <span>Get in touch</span>
+          <span>
+            <Link href="/contact-us">
+              <a>Contact Us</a>
+            </Link>
+          </span>
         </div>
       </div>
     </div>

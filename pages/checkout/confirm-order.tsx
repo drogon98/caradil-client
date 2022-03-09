@@ -193,7 +193,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     }
   }, [router.query, data]);
 
-  console.log("tripDuration", tripDuration);
+  // console.log("tripDuration", tripDuration);
 
   // useEffect(() => {
   //   if (data && tripDuration && durationType) {
@@ -289,7 +289,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
         variables: { carId: data?.getCar.car?.id! },
       });
       if (reservedIdResponse.data?.checkReservedGuestId) {
-        let response = await fetch(`${baseHttpDomain}ipay-pay`, {
+        let response = await fetch(`${baseHttpDomain}ipay-reserve-car`, {
           method: "POST",
           // withCredentials: true,
           credentials: "include",

@@ -9,6 +9,7 @@ import { ManageTravel } from "../components/Home/ManageTravel";
 import { PopularCars } from "../components/Home/PopularCars";
 import { Promise } from "../components/Home/Promise";
 import Layout from "../components/Layouts/Layout";
+import { WhyUs } from "../components/Home/WhyUs";
 
 const Home: NextPage = () => {
   return (
@@ -21,6 +22,7 @@ const Home: NextPage = () => {
         <PopularCars />
         <Promise />
         <BrowseByMake />
+        <WhyUs />
         <ManageTravel />
         <Faqs />
       </Layout>

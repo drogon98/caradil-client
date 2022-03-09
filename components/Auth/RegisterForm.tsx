@@ -39,6 +39,7 @@ const RegisterForm: FC<IProps> = (props) => {
   const router = useRouter();
   const [role, setRole] = useState<number>(1);
   const [error, setError] = useState<string>("");
+  const [passwordMisMatch, setPasswordMisMatch] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -74,10 +75,19 @@ const RegisterForm: FC<IProps> = (props) => {
     if (error) {
       setError("");
     }
+
+    if (passwordMisMatch) {
+      setPasswordMisMatch(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (values.password !== values.confirmPassword) {
+      setPasswordMisMatch(true);
+      return;
+    }
     let payload = { ...values, role };
     if (props.isAdmin) {
       payload.role = 3;
@@ -89,6 +99,7 @@ const RegisterForm: FC<IProps> = (props) => {
       let response = await register({ variables: { payload } });
       if (response?.data?.register.error) {
         setError(response?.data?.register.error);
+        setRegistering(false);
         return;
       }
       if (response?.data?.register.access_token) {
@@ -123,7 +134,15 @@ const RegisterForm: FC<IProps> = (props) => {
   return (
     <>
       <h3>Sign Up</h3>
+      <h6 className="my-3">
+        Try the 30-days free trial,no credit card required
+      </h6>
       <div>{error && <small className="text-danger">{error}</small>}</div>
+      <div>
+        {passwordMisMatch && (
+          <small className="text-danger">Password mismatch!</small>
+        )}
+      </div>
       <form
         className="form-group mb-3"
         onSubmit={(e) => {
@@ -254,7 +273,7 @@ const RegisterForm: FC<IProps> = (props) => {
                   dimensions={{ height: "24px", width: "24px" }}
                 />
               ) : (
-                "Register"
+                "Start My Free Trial"
               )}
             </button>
           </div>

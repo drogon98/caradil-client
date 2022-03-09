@@ -986,16 +986,21 @@ label {
   justify-content: center;
 } */
 
-/* .authContent {
-  min-height: 50vh;
+.authContent {
   width: 380px;
-} */
+}
 
 .auth-btn {
   height: 50px;
   font-weight: bolder;
   font-size: larger;
   color: #fff !important;
+}
+
+@media screen and (max-width: 380px) {
+  .authContent {
+    width: 100%;
+  }
 }
 /* ===============================END AUTH PAGES======================================= */
 
@@ -2422,6 +2427,30 @@ car-input-container select:focus {
   }
 }
 
+/* ===================================END DASHBOARD OVERVIEW ========================= */
+
+/* ===================================HOST PLANS ========================= */
+.host-plans {
+  background-color: #fbf7f6;
+}
+
+.host-plan-box {
+  background-color: #fff;
+}
+
+/* .host-plan-lead {
+  font-size: 15px;
+  font-weight: 500;
+} */
+
+.host-plan-sub-sup {
+  font-size: 12px;
+}
+
+.host-plan-amount {
+  font-size: 40px;
+  font-weight: bolder;
+}
 /* ===================================END DASHBOARD OVERVIEW ========================= */
 
 #float-whatsapp-wrapper {

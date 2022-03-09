@@ -1,3 +1,5 @@
+import { HostPlansData } from "../utils/interfaces";
+
 export const carCategories: string[] = [
   // "Minivan",
   "Truck",
@@ -310,4 +312,16 @@ export const countries = [
   "Yemen",
   "Zambia",
   "Zimbabwe",
+];
+
+export const hostPlansData: HostPlansData[] = [
+  { title: "individual", monthlyPrice: 200, annuallyPrice: 1680, carCount: 1 },
+  { title: "basic", monthlyPrice: 600, annuallyPrice: 5040, carCount: 2 },
+  { title: "agency", monthlyPrice: 2000, annuallyPrice: 16800, carCount: 10 },
+  {
+    title: "enterprise",
+    monthlyPrice: 10000,
+    annuallyPrice: 84000,
+    carCount: "Unlimited",
+  },
 ];

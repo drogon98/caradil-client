@@ -1,8 +1,7 @@
 import React, { FC } from "react";
-import { Icon } from "@iconify/react";
-import { AiOutlineProfile } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
-import { MdOutlineManageSearch, MdPlaylistAddCheck } from "react-icons/md";
+import { MdPlaylistAddCheck } from "react-icons/md";
+import { RiScales2Line } from "react-icons/ri";
 
 interface IProps {}
 
@@ -55,7 +54,7 @@ export const HowItWorks: FC<IProps> = (props) => {
         <div className="col-md-4 how-it-works-box">
           <div className="d-flex justify-content-center">
             <div className="how-it-works-circle d-flex justify-content-center align-items-center color-white">
-              <MdOutlineManageSearch className="how-it-works-icon" />
+              <RiScales2Line className="how-it-works-icon" />
             </div>
           </div>
           <h4 className="mt-4 text-center how-it-works-box-inner-heading">
