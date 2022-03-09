@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { Modal } from "react-bootstrap";
 import { clearInterval } from "timers";
-import { useRole } from "../../Hooks/useRole";
+import { useRole } from "../../hooks/useRole";
 import { ButtonLoading } from "../../../components/Loading/ButtonLoading";
 import {
   CancelTripInput,

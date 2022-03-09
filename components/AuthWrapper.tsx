@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { ReactChild, useEffect, useState } from "react";
 import { useAppSelector } from "../redux/hooks";
-import { useRole } from "./Hooks/useRole";
+import { useRole } from "./hooks/useRole";
 import { LogoutOverlay } from "./LogoutOverlay";
 
 interface AuthWrapperProps {

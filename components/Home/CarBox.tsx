@@ -9,7 +9,7 @@ import {
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 import LoginWithModal from "../Auth/LoginWithModal";
-import { useUserId } from "../Hooks/useUserId";
+import { useUserId } from "../hooks/useUserId";
 
 interface CarBoxProps {
   data: Car;

@@ -3,7 +3,7 @@ import slugify from "slugify";
 import { CgMoreR } from "react-icons/cg";
 import Link from "next/link";
 import { Car, Trip } from "../../graphql_types/generated/graphql";
-import { useOutsideClickHandler } from "../Hooks/useOutsideClickHandler";
+import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
 
 export interface MoreButtonProps {
   data: Car | Trip;

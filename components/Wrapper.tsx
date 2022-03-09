@@ -5,8 +5,8 @@ import {
 } from "../graphql_types/generated/graphql";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { updateNotifications } from "../redux/notificationSlice";
-import { useRole } from "./Hooks/useRole";
-import { useUserId } from "./Hooks/useUserId";
+import { useRole } from "./hooks/useRole";
+import { useUserId } from "./hooks/useUserId";
 
 interface WrapperProps {}
 

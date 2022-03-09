@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useWindowDimensions } from "../Hooks/useWindowDimensions";
+import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import { FaInstagram } from "react-icons/fa";
 import {
   FiFacebook,

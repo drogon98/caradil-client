@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { ReactChild, ReactNode, useEffect, useState } from "react";
 import { useResendEmailVerifyLinkLazyQuery } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
-import { useRole } from "../Hooks/useRole";
+import { useRole } from "../hooks/useRole";
 import { Loading } from "../Loading";
 import { ToastWrapper } from "../Toast/ToastWrapper";
 

@@ -10,7 +10,7 @@ import CancelTripMoal from "../../../components/Account/Trips/CancelTripModal";
 import ConfirmTripModal from "../../../components/Account/Trips/ConfirmTripModal";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import { CustomHead } from "../../../components/CustomHead";
-import { useWindowDimensions } from "../../../components/Hooks/useWindowDimensions";
+import { useWindowDimensions } from "../../../components/hooks/useWindowDimensions";
 import AccountLayout from "../../../components/Layouts/AccountLayout";
 import { Loading } from "../../../components/Loading";
 import { ToastWrapper } from "../../../components/Toast/ToastWrapper";

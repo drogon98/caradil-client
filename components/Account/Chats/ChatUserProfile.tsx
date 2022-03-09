@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { Dispatch, SetStateAction } from "react";
 import { ChatMeta } from "../../../graphql_types/generated/graphql";
-import { useWindowDimensions } from "../../Hooks/useWindowDimensions";
+import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { ChatUserProfileBox } from "./ChatUserProfileBox";
 
 interface ChatUserProfileProps {

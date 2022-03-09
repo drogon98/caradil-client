@@ -7,8 +7,8 @@ import {
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setUser } from "../../redux/userSlice";
 import { BannerWrapper } from "../Account/BannerWrapper";
-import { useRole } from "../Hooks/useRole";
-import { useWindowDimensions } from "../Hooks/useWindowDimensions";
+import { useRole } from "../hooks/useRole";
+import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import { Loading } from "../Loading";
 import AccountNavbar from "../Navbars/AccountNavbar";
 import ChatNavbarMd from "../Navbars/ChatMdNavbar";

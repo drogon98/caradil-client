@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { useAppSelector } from "../../redux/hooks";
-import { useRole } from "../Hooks/useRole";
+import { useRole } from "../hooks/useRole";
 
 export default function GetStartedBtn() {
   const token = useAppSelector((state) => state.auth._id);

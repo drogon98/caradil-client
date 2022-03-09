@@ -8,7 +8,7 @@ import React, {
 import AccountActionModal from "../../components/Account/Settings/AccountActionModal";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
-import { useRole } from "../../components/Hooks/useRole";
+import { useRole } from "../../components/hooks/useRole";
 import AccountLayout from "../../components/Layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";

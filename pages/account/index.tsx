@@ -4,7 +4,7 @@ import React, { FC, useEffect, useState } from "react";
 import { BoxWrapper } from "../../components/Account/Overview/BoxWrapper";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
-import { useRole } from "../../components/Hooks/useRole";
+import { useRole } from "../../components/hooks/useRole";
 import AccountLayout from "../../components/Layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
 import { useAppSelector } from "../../redux/hooks";
