@@ -14,7 +14,7 @@ import ReserveSessionExpiredModal from "../../components/Checkout/ReserveSession
 import Summary from "../../components/Checkout/Summary";
 import { CustomHead } from "../../components/CustomHead";
 // import { useUserId } from "../../components/hooks/useUserId";
-import Layout from "../../components/Layouts/Layout";
+import Layout from "../../components/layouts/Layout";
 // import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import { AutoComplete } from "../../components/Location/AutoComplete";

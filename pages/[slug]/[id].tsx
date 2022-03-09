@@ -6,7 +6,7 @@ import LoginWithModal from "../../components/Auth/LoginWithModal";
 import { CustomHead } from "../../components/CustomHead";
 import { useRole } from "../../components/hooks/useRole";
 import { useUserId } from "../../components/hooks/useUserId";
-import Layout from "../../components/Layouts/Layout";
+import Layout from "../../components/layouts/Layout";
 import { Loading } from "../../components/Loading";
 import { CarDetailsDescription } from "../../components/PublicCar/CarDetailsDescription";
 // import { CarDetailsGuidelines } from "../../components/PublicCar/CarDetailsGuidelines";

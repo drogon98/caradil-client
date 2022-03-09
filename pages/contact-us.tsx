@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { CustomHead } from "../components/CustomHead";
-import Layout from "../components/Layouts/Layout";
+import Layout from "../components/layouts/Layout";
 import { ButtonLoading } from "../components/Loading/ButtonLoading";
 import { ToastWrapper } from "../components/Toast/ToastWrapper";
 import {

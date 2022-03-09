@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { CustomHead } from "../components/CustomHead";
-import Layout from "../components/Layouts/Layout";
+import Layout from "../components/layouts/Layout";
 import "react-quill/dist/quill.snow.css";
 import FileSaver from "file-saver";
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { FC, useState } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
-import Layout from "../../components/Layouts/Layout";
+import Layout from "../../components/layouts/Layout";
 
 interface ApproveDriverProps {}
 

@@ -12,7 +12,7 @@ import ReviewTripModal from "../../../components/Account/Trips/ReviewTripModal";
 import { AuthWrapper } from "../../../components/AuthWrapper";
 import { CustomHead } from "../../../components/CustomHead";
 import { useWindowDimensions } from "../../../components/hooks/useWindowDimensions";
-import AccountLayout from "../../../components/Layouts/AccountLayout";
+import AccountLayout from "../../../components/layouts/AccountLayout";
 import { Loading } from "../../../components/Loading";
 import { ButtonLoading } from "../../../components/Loading/ButtonLoading";
 import { ToastWrapper } from "../../../components/Toast/ToastWrapper";

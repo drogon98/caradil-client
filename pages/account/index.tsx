@@ -5,7 +5,7 @@ import { BoxWrapper } from "../../components/Account/Overview/BoxWrapper";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
 import { useRole } from "../../components/hooks/useRole";
-import AccountLayout from "../../components/Layouts/AccountLayout";
+import AccountLayout from "../../components/layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
 import { useAppSelector } from "../../redux/hooks";
 // import { Link, Route } from "react-router-dom";

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { SearchContent } from "../../components/BrowseCars/SearchContent";
 import { CustomHead } from "../../components/CustomHead";
-import Layout from "../../components/Layouts/Layout";
+import Layout from "../../components/layouts/Layout";
 import {
   Car,
   SearchInput,

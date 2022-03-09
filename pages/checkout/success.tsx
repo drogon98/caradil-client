@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
-import Layout from "../../components/Layouts/Layout";
+import Layout from "../../components/layouts/Layout";
 import { Loading } from "../../components/Loading";
 import { Trip, useGetTripQuery } from "../../graphql_types/generated/graphql";
 

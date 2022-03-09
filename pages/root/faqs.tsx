@@ -2,7 +2,7 @@ import React, { FC, SyntheticEvent, useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { AdminAuthWrapper } from "../../components/AdminAuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
-import AdminLayout from "../../components/Layouts/AdminLayout";
+import AdminLayout from "../../components/layouts/AdminLayout";
 import AddEditModalFaq from "../../components/Root/faqs/AddEditModalFaq";
 import { Faq, useGetFaqsQuery } from "../../graphql_types/generated/graphql";
 

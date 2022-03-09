@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { CustomHead } from "../../components/CustomHead";
-import Layout from "../../components/Layouts/Layout";
+import Layout from "../../components/layouts/Layout";
 
 const GettingPaid: NextPage = () => {
   return (

@@ -1,7 +1,7 @@
 import React, { FC, SyntheticEvent, useEffect, useState } from "react";
 import { AdminAuthWrapper } from "../../components/AdminAuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
-import AdminLayout from "../../components/Layouts/AdminLayout";
+import AdminLayout from "../../components/layouts/AdminLayout";
 import { Loading } from "../../components/Loading";
 import AddMakeModal from "../../components/Root/Make/AddMakeModal";
 import { Make, useGetMakesQuery } from "../../graphql_types/generated/graphql";

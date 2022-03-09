@@ -4,7 +4,7 @@ import HamburgerMenu from "react-hamburger-menu";
 import { FiSearch } from "react-icons/fi";
 import { useAppSelector } from "../../redux/hooks";
 import { useRole } from "../hooks/useRole";
-import { AccountSideBarMenu } from "../Layouts/AccountSideBarMenu";
+import { AccountSideBarMenu } from "../layouts/AccountSideBarMenu";
 
 interface ChatNavbarProps {}
 

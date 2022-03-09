@@ -3,7 +3,7 @@ import { Tabs } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
 import { AdminAuthWrapper } from "../../components/AdminAuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
-import AdminLayout from "../../components/Layouts/AdminLayout";
+import AdminLayout from "../../components/layouts/AdminLayout";
 import FlexibleLoader from "../../components/Loading/FlexibleLoader";
 import { AllBox } from "../../components/Root/Transactions/AllBox";
 import {

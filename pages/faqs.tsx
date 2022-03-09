@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CustomHead } from "../components/CustomHead";
-import Layout from "../components/Layouts/Layout";
+import Layout from "../components/layouts/Layout";
 import { Loading } from "../components/Loading";
 import { Faq, useGetFaqsQuery } from "../graphql_types/generated/graphql";
 
