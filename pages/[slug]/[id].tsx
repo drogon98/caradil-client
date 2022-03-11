@@ -20,7 +20,7 @@ import SharedSections from "../../components/PublicCar/SharedSections";
 import TripDatesModal from "../../components/PublicCar/TripDatesModal";
 import {
   Car,
-  OnReserveForBookingDocument,
+  OnCarUpdateDocument,
   useEditCarReservedForBookingMutation,
   // useCheckIfDriverIsApprovedToDriveLazyQuery,
   useGetCarQuery,
@@ -87,6 +87,7 @@ const Car: FC<CarProps> = (props) => {
     useEditCarReservedForBookingMutation();
 
   const [totalCharge, setTotalCharge] = useState<number>();
+  const [isNotAvailable, setIsNotAvailable] = useState(false);
 
   const carId = parseInt(router.query.id as string, 10);
 
@@ -129,12 +130,13 @@ const Car: FC<CarProps> = (props) => {
     let carSub: { (): void; (): void };
     if (subscribeToMore && !skip) {
       carSub = subscribeToMore({
-        document: OnReserveForBookingDocument,
+        document: OnCarUpdateDocument,
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
-          const reserveData: any = { ...subscriptionData.data };
+          const updatedCar: any = { ...subscriptionData.data };
+          console.log("updatedCar", updatedCar);
           return {
-            getCar: { car: { ...prev.getCar.car, ...reserveData } },
+            getCar: { car: { ...prev.getCar.car, ...updatedCar } },
           };
         },
       });
@@ -199,6 +201,18 @@ const Car: FC<CarProps> = (props) => {
       }
     }
   }, [router]);
+
+  useEffect(() => {
+    if (car) {
+      setIsNotAvailable(
+        car?.booked! ||
+          car.being_edited! ||
+          !car?.published! ||
+          (car.reserved_for_booking! &&
+            car.reserved_for_booking_guest_id! !== userId)
+      );
+    }
+  }, [car]);
 
   const getTimeBeforeTrip = (): number => {
     let daysBeforeTrip = car?.advance_book_period;
@@ -618,40 +632,36 @@ const Car: FC<CarProps> = (props) => {
                 <div>
                   <div className="carDetailsChargeCard px-2 py-3 shadow">
                     <div>
-                      {(car?.booked ||
-                        !car?.published ||
-                        (car.reserved_for_booking &&
-                          car.reserved_for_booking_guest_id !== userId)) &&
-                        !isCarPreview && (
-                          <>
-                            <small className="fw-bolder text-danger">
-                              This car is unavailable!
-                            </small>
-                            <small
-                              style={{
-                                textDecoration: "underline",
-                                marginLeft: "10px",
-                                fontSize: "14px",
+                      {isNotAvailable && !isCarPreview && (
+                        <>
+                          <small className="fw-bolder text-danger">
+                            This car is unavailable!
+                          </small>
+                          <small
+                            style={{
+                              textDecoration: "underline",
+                              marginLeft: "10px",
+                              fontSize: "14px",
+                            }}
+                          >
+                            <Link
+                              href={{
+                                pathname: "/browse-cars/[make]",
+                                query: {
+                                  make: car?.make!,
+                                  categories: JSON.stringify(car?.categories),
+                                  color: car?.color,
+                                  gas: car?.gas,
+                                  location: car?.location,
+                                  subject: car?.id,
+                                },
                               }}
                             >
-                              <Link
-                                href={{
-                                  pathname: "/browse-cars/[make]",
-                                  query: {
-                                    make: car?.make!,
-                                    categories: JSON.stringify(car?.categories),
-                                    color: car?.color,
-                                    gas: car?.gas,
-                                    location: car?.location,
-                                    subject: car?.id,
-                                  },
-                                }}
-                              >
-                                <a>Check similar cars</a>
-                              </Link>
-                            </small>
-                          </>
-                        )}
+                              <a>Check similar cars</a>
+                            </Link>
+                          </small>
+                        </>
+                      )}
                     </div>
 
                     <div>
@@ -724,12 +734,7 @@ const Car: FC<CarProps> = (props) => {
                           className="btn bgOrange"
                           onClick={handleRouteNext}
                           disabled={
-                            !validDates ||
-                            car?.booked ||
-                            !car?.published ||
-                            isCarPreview ||
-                            (car.reserved_for_booking! &&
-                              car.reserved_for_booking_guest_id !== userId)
+                            !validDates || isCarPreview || isNotAvailable
                           }
                         >
                           Continue
@@ -777,55 +782,45 @@ const Car: FC<CarProps> = (props) => {
                 `car-small-screen-bottom-hourly-text-not`
               } d-flex flex-column justify-content-center p-2 `}
             >
-              {(car?.booked ||
-                !car?.published ||
-                (car.reserved_for_booking &&
-                  car.reserved_for_booking_guest_id !== userId)) &&
-                !isCarPreview && (
-                  <div
-                    style={{ height: "10px", fontSize: "12px" }}
-                    className="h-25"
+              {isNotAvailable && !isCarPreview && (
+                <div
+                  style={{ height: "10px", fontSize: "12px" }}
+                  className="h-25"
+                >
+                  <small className="fw-bolder text-danger">
+                    This car is unavailable!
+                  </small>
+                  <small
+                    style={{
+                      textDecoration: "underline",
+                      marginLeft: "10px",
+                      fontSize: "13px",
+                    }}
                   >
-                    <small className="fw-bolder text-danger">
-                      This car is unavailable!
-                    </small>
-                    <small
-                      style={{
-                        textDecoration: "underline",
-                        marginLeft: "10px",
-                        fontSize: "13px",
+                    <Link
+                      href={{
+                        pathname: "/browse-cars/[make]",
+                        query: {
+                          make: car?.make!,
+                          categories: JSON.stringify(car?.categories),
+                          color: car?.color,
+                          gas: car?.gas,
+                          location: car?.location,
+                          subject: car?.id,
+
+                          // name: "",
+                        },
                       }}
                     >
-                      <Link
-                        href={{
-                          pathname: "/browse-cars/[make]",
-                          query: {
-                            make: car?.make!,
-                            categories: JSON.stringify(car?.categories),
-                            color: car?.color,
-                            gas: car?.gas,
-                            location: car?.location,
-                            subject: car?.id,
-
-                            // name: "",
-                          },
-                        }}
-                      >
-                        <a>Check similar cars</a>
-                      </Link>
-                    </small>
-                  </div>
-                )}
+                      <a>Check similar cars</a>
+                    </Link>
+                  </small>
+                </div>
+              )}
 
               <div
                 className={`d-flex flex-column justify-content-around w-100 ${
-                  (car?.booked ||
-                    !car?.published ||
-                    (car.reserved_for_booking &&
-                      car.reserved_for_booking_guest_id !== userId)) &&
-                  !isCarPreview
-                    ? `h-50`
-                    : `h-75`
+                  isNotAvailable && !isCarPreview ? `h-50` : `h-75`
                 }`}
               >
                 <div className="d-flex justify-content-between">

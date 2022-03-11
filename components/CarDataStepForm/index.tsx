@@ -246,21 +246,8 @@ export default function CarDataStepForm(props: Props): ReactElement {
 
   return (
     <div>
-      {activeSlide === -1 && (
-        <div>
-          <button
-            className="btn m-0 p-0 pl-2 mb-3"
-            onClick={() => {
-              router.replace("/account/listings");
-            }}
-          >
-            <BsArrowLeft size={"30px"} />
-          </button>
-        </div>
-      )}
-
       {activeSlide !== -1 && (
-        <div className="col-md-7 mx-auto">
+        <div className="col-md-7 mx-auto mt-5">
           <div className="progress w-100">
             <div
               className="progress-bar bg-success"
@@ -275,7 +262,10 @@ export default function CarDataStepForm(props: Props): ReactElement {
       {/* Or store the id in session storage and look it up there */}
       {activeSlide === -1 && (
         <div className="col-md-7 mx-auto mt-5">
-          <AddCarStart setActiveSlide={setActiveSlide} />
+          <AddCarStart
+            setActiveSlide={setActiveSlide}
+            activeSlide={activeSlide}
+          />
         </div>
       )}
       {activeSlide === 0 && (
@@ -405,6 +395,9 @@ export default function CarDataStepForm(props: Props): ReactElement {
             value={{
               location: compData?.location ?? "",
               delivery: compData?.delivery ?? false,
+              pick_up_location: compData?.pick_up_location ?? "",
+              pick_up_location_cords: compData?.pick_up_location_cords ?? {},
+              location_cords: compData?.location_cords ?? {},
             }}
           />
         </div>

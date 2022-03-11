@@ -1,14 +1,7 @@
 import { useRouter } from "next/router";
-import React, {
-  ReactElement,
-  SyntheticEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { IoIosMenu } from "react-icons/io";
-import { Trips } from "../../../../components/AddEditCar/Trips";
 import { Categories } from "../../../../components/AddEditCar/Categories";
 import { Description } from "../../../../components/AddEditCar/Description";
 import { Distance } from "../../../../components/AddEditCar/Distance";
@@ -17,9 +10,11 @@ import { Features } from "../../../../components/AddEditCar/Features";
 import { Fueling } from "../../../../components/AddEditCar/Fueling";
 import { GeneralInfo } from "../../../../components/AddEditCar/GeneralInfo";
 import { Location } from "../../../../components/AddEditCar/LocationAndDelivery";
+import EditBtn from "../../../../components/AddEditCar/ManageCar/EditBtn";
 import Menu from "../../../../components/AddEditCar/ManageCar/Menu";
 import { Photos } from "../../../../components/AddEditCar/Photos";
 import { Rates } from "../../../../components/AddEditCar/Rates";
+import { Trips } from "../../../../components/AddEditCar/Trips";
 import { AuthWrapper } from "../../../../components/AuthWrapper";
 import { CustomHead } from "../../../../components/CustomHead";
 import { useOutsideClickHandler } from "../../../../components/hooks/useOutsideClickHandler";
@@ -196,10 +191,10 @@ export default function ManageCar(props: Props): ReactElement {
     setShowBurgerDropdown(!showBurgerDropdown);
   };
 
-  const handleRequestVerify = (e: SyntheticEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setShowRequestVerificationModal(true);
-  };
+  // const handleRequestVerify = (e: SyntheticEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  //   setShowRequestVerificationModal(true);
+  // };
 
   // console.log("carData :>> ", carData);
 
@@ -237,28 +232,20 @@ export default function ManageCar(props: Props): ReactElement {
                   </button>
                 </div>
                 <h3>Manage Car</h3>
-                {/* <div className="d-flex justify-content-end">
-                  {carData?.being_edited && (
+                <div className="d-flex justify-content-end align-items-center">
+                  {carData?.active && <EditBtn car={carData} />}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {!carData?.being_edited && (
                     <button
-                      className="btn bgOrange py-0"
-                      onClick={handleRequestVerify}
-                    >
-                      Request Verification
-                    </button>
-                  )}
-                  {carData?.verification_in_progress && (
-                    <button
-                      className="btn bg-success color-white m-0 py-0"
-                      style={{ height: "40px" }}
-                      // disabled={true}
+                      className="btn bg-success color-white m-0"
                       onClick={(e) => {
                         e.preventDefault();
                       }}
                     >
-                      Verification In Progress
+                      {carData?.active ? "Deactivate" : "Activate"}
                     </button>
                   )}
-                </div> */}
+                </div>
               </div>
               <div className="manage-car-wrapper-top-sm p-2 py-0">
                 <div className="d-flex align-items-center">
@@ -294,27 +281,20 @@ export default function ManageCar(props: Props): ReactElement {
                     )}
                   </div>
                 </div>
-                {/* <div>
-                  {carData?.being_edited && (
+                <div>
+                  {carData?.active && <EditBtn car={carData} />}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {!carData?.being_edited && (
                     <button
-                      className="btn bgOrange"
-                      onClick={handleRequestVerify}
-                    >
-                      Request Verification
-                    </button>
-                  )}
-                  {carData?.verification_in_progress && (
-                    <button
-                      className="btn bg-success color-white py-0"
-                      // disabled={true}
+                      className="btn bg-success color-white m-0"
                       onClick={(e) => {
                         e.preventDefault();
                       }}
                     >
-                      Verification In Progress
+                      {carData?.active ? "Deactivate" : "Activate"}
                     </button>
                   )}
-                </div> */}
+                </div>
               </div>
               <div className="manage-car-wrapper">
                 <div className="manage-car-left d-flex flex-column justify-content-evenly p-2">
@@ -460,6 +440,10 @@ export default function ManageCar(props: Props): ReactElement {
                       value={{
                         location: carData?.location ?? "",
                         delivery: carData?.delivery ?? false,
+                        pick_up_location: carData?.pick_up_location ?? "",
+                        pick_up_location_cords:
+                          carData?.pick_up_location_cords ?? {},
+                        location_cords: carData?.location_cords ?? {},
                       }}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false

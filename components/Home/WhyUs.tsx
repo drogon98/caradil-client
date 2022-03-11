@@ -38,9 +38,9 @@ export const WhyUs: FC<WhyUsProps> = (props) => {
           <h4>Your booking fee is safe</h4>
           <p>
             Have you been conned before? No more sending money to strangers to
-            make bookings. We hold your money for you and disburse it to host
-            based on your trip's progress. This makes it easy for you to cancel
-            trips,reschedule trips or even ask for a refund. Also our checkout
+            make bookings. We hold your money and disburse it to host based on
+            your trip's progress. This makes it easy for you to cancel a
+            trip,reschedule a trip or even ask for a refund. Also our checkout
             system is fully secured for transactions.
           </p>
         </div>

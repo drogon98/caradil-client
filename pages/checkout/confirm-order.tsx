@@ -17,9 +17,9 @@ import { CustomHead } from "../../components/CustomHead";
 import Layout from "../../components/layouts/Layout";
 // import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
-import { AutoComplete } from "../../components/Location/AutoComplete";
+import { PlacesAutocomplete } from "../../components/Location/AutoComplete";
 import {
-  OnReserveForBookingDocument,
+  OnCarUpdateDocument,
   useCheckReservedGuestIdMutation,
   useEditCarReservedForBookingMutation,
   // useCheckIfDriverIsApprovedToDriveQuery,
@@ -136,12 +136,12 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     let carSub: { (): void; (): void };
     if (subscribeToMore && !skip) {
       carSub = subscribeToMore({
-        document: OnReserveForBookingDocument,
+        document: OnCarUpdateDocument,
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
-          const reserveData: any = { ...subscriptionData.data };
+          const updatedCar: any = { ...subscriptionData.data };
           return {
-            getCar: { car: { ...prev.getCar?.car, ...reserveData } },
+            getCar: { car: { ...prev.getCar?.car, ...updatedCar } },
           };
         },
       });
@@ -388,9 +388,9 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     }
   };
 
-  const handleLocationChange = (data: any) => {
-    setLocation(data.formatted_address);
-  };
+  // const handleLocationChange = (data: any) => {
+  //   setLocation(data.formatted_address);
+  // };
 
   const handleFindDistance = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -571,14 +571,12 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                     <>
                       <div className="mb-4">
                         <label>Select delivery point</label>
-                        <AutoComplete
-                          placeholder="Delivery location"
-                          handler={handleLocationChange}
-                          inputRef={inputRef}
-                          name="location"
-                          value={location}
-                          required={true}
-                          geocodeEstablishments
+
+                        <PlacesAutocomplete
+                          setLocation={setLocation}
+                          location={location!}
+                          // setLocationCords={setPickUpLocationCords}
+                          geocodeEstablishments={true}
                         />
                         <button
                           className="btn bgOrange mt-2"

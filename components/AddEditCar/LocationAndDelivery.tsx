@@ -5,15 +5,15 @@ import React, {
   FormEvent,
   SetStateAction,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import {
   Car,
   CarLocationAndDeliveryInput,
+  LocationCords,
   useEditCarLocationAndDeliveryMutation,
 } from "../../graphql_types/generated/graphql";
-import { AutoComplete } from "../Location/AutoComplete";
+import { getLongLat, PlacesAutocomplete } from "../Location/AutoComplete";
 import { ToastWrapper } from "../Toast/ToastWrapper";
 import { FormNextPrevButton } from "./FormNextPrevButton";
 import UpdateBtn from "./ManageCar/UpdateBtn";
@@ -35,21 +35,34 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
     useEditCarLocationAndDeliveryMutation();
   const [values, setValues] = useState<CarLocationAndDeliveryInput>();
   const [showSaveToast, setShowSaveToast] = useState(false);
-
-  // console.log("props.value :>> ", props.value);
+  const [location, setLocation] = useState<string>();
+  const [pickUpLocation, setPickUpLocation] = useState<string>();
+  const [locationCords, setLocationCords] = useState<LocationCords>();
+  const [pickUpLocationCords, setPickUpLocationCords] =
+    useState<LocationCords>();
 
   useEffect(() => {
     if (props.value) {
       setValues({
         location: props.value.location!,
+        pick_up_location: props.value.pick_up_location,
+        pick_up_location_cords: props.value.pick_up_location_cords,
+        location_cords: props.value.location_cords,
         delivery: props.value.delivery!,
+      });
+      setLocation(props.value.location!);
+      setPickUpLocation(props.value.pick_up_location!);
+
+      setLocationCords({
+        longitude: props.value.location_cords.longitude,
+        latitude: props.value.location_cords.latitude,
+      });
+      setPickUpLocationCords({
+        longitude: props.value.pick_up_location_cords.longitude,
+        latitude: props.value.pick_up_location_cords.latitude,
       });
     }
   }, [props.value]);
-
-  const handleLocationChange = (data: any) => {
-    setValues({ ...values!, location: data.formatted_address });
-  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "delivery") {
@@ -58,14 +71,40 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
     }
   };
 
-  // const [saved, setSaved] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const payload = {
+      let tempMainLocCords;
+      let tempPickUpLocCords;
+
+      if (!locationCords) {
+        let cords = await getLongLat(location!);
+        tempMainLocCords = cords;
+      } else {
+        tempMainLocCords = locationCords;
+      }
+
+      if (!pickUpLocationCords) {
+        let cords = await getLongLat(pickUpLocation!);
+        tempPickUpLocCords = cords;
+      } else {
+        tempPickUpLocCords = pickUpLocationCords;
+      }
+
+      if (
+        !(
+          Object.keys(tempMainLocCords!).length > 0 &&
+          Object.keys(tempPickUpLocCords!).length > 0
+        )
+      ) {
+        throw new Error("Something wrong");
+      }
+      const payload: CarLocationAndDeliveryInput = {
         ...values!,
+        location: location!,
+        pick_up_location: pickUpLocation!,
+        location_cords: tempMainLocCords!,
+        pick_up_location_cords: tempPickUpLocCords!,
         delivery: values!.delivery === undefined ? false : values!.delivery,
       };
       let response = await editLocationAndDelivery({
@@ -107,20 +146,37 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
       <h3>Location</h3>
       <p className="mb-2">
         This is the location of your car. If guests search for cars that match
-        this location,it will appear in their search .
+        this location,it will appear in their search. To give you a wider search
+        we suggest this location to be your nearest town or city.
       </p>
       <form onSubmit={handleSubmit} className="mb-3">
         <div>
           <label htmlFor="mileage">Where is your car located?</label>
-          <AutoComplete
-            placeholder="Car location"
-            handler={handleLocationChange}
-            inputRef={inputRef}
-            name="location"
-            value={values?.location!}
-            required={true}
+
+          <PlacesAutocomplete
+            setLocation={setLocation}
+            location={location!}
+            setLocationCords={setLocationCords}
           />
         </div>
+
+        <div className="my-3">
+          <p className="mb-1">
+            Some guests may not require you to deliver the car to them. They
+            prefer picking it up from its pick up point. The pickup location
+            unlike car location should not be general. It should be a place like
+            a hotel,petrol station,airport etc
+          </p>
+          <label htmlFor="mileage">Where should your car be picked?</label>
+
+          <PlacesAutocomplete
+            setLocation={setPickUpLocation}
+            location={pickUpLocation!}
+            setLocationCords={setPickUpLocationCords}
+            geocodeEstablishments={true}
+          />
+        </div>
+
         <div className="form-check mt-3">
           <input
             className="form-check-input"

@@ -11,6 +11,7 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
+import { LocationCords } from "../../graphql_types/generated/graphql";
 import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
 
 export interface AutoCompleteProps {
@@ -21,69 +22,26 @@ export interface AutoCompleteProps {
   inputRef: any;
   required?: any;
   geocodeEstablishments?: boolean;
+  locationType?: string;
 }
-
-export function AutoComplete(props: AutoCompleteProps) {
-  const { ref } = usePlacesWidget({
-    apiKey: "AIzaSyArIv424bNBpfMVIWSnie8aX1WGDI4wTDk",
-    onPlaceSelected: (place) => props.handler(place),
-    options: {
-      types: props.geocodeEstablishments
-        ? ["establishment", "geocode"]
-        : ["(cities)"],
-      // types: ["(regions)"],
-      // types: ["geocode"],
-      componentRestrictions: { country: "ke" },
-    },
-  });
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-    }
-  };
-
-  // console.log("autocompleteRef", autocompleteRef);
-
-  return (
-    <>
-      <input
-        type="text"
-        ref={ref as unknown as LegacyRef<HTMLInputElement>}
-        className="form-control m-0 h-100"
-        placeholder={props.placeholder}
-        name={props.name}
-        // value={props.value}
-        // onChange={handleChange}
-        defaultValue={props.value}
-        onKeyPress={handleKeyDown}
-        required={props.required ?? false}
-      />
-    </>
-  );
-}
-
-export const Debounce = () => {
-  const [value, setValue] = useState("");
-
-  return (
-    <div style={{ height: "100%", width: "100%" }}>
-      <GooglePlacesAutocomplete
-        apiKey="AIzaSyArIv424bNBpfMVIWSnie8aX1WGDI4wTDk"
-        selectProps={{
-          value,
-          onChange: setValue,
-        }}
-      />
-    </div>
-  );
-};
 
 //https://hackernoon.com/create-your-reactjs-address-autocomplete-component-in-10-minutes-ws2j33ej
+
+export const getLongLat = async (location: string): Promise<LocationCords> => {
+  try {
+    let cordsResponse = await getGeocode({ address: location });
+    let cords = await getLatLng(cordsResponse[0]);
+    return { longitude: cords.lng, latitude: cords.lat };
+  } catch (error) {
+    return {};
+  }
+};
 
 export const PlacesAutocomplete = (props: {
   setLocation: any;
   location: string;
+  setLocationCords?: any;
+  geocodeEstablishments?: boolean;
 }) => {
   const [initial, setInitial] = useState(false);
   const {
@@ -94,22 +52,13 @@ export const PlacesAutocomplete = (props: {
     clearSuggestions,
   } = usePlacesAutocomplete({
     requestOptions: {
-      types: ["establishment", "geocode"],
+      types: props.geocodeEstablishments
+        ? ["establishment", "geocode"]
+        : ["(cities)"],
       componentRestrictions: { country: "ke" },
     },
     debounce: 300,
   });
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setInitial(true);
-  //   }, 2000);
-  // }, []);
-
-  // useEffect(() => {
-  //   setValue(props.location);
-  //   clearSuggestions();
-  // }, [props.location]);
 
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -132,22 +81,21 @@ export const PlacesAutocomplete = (props: {
 
   const handleSelect =
     ({ description }: { description: any }) =>
-    () => {
+    async () => {
       // When user selects a place, we can replace the keyword without request data from API
       // by setting the second parameter to "false"
+      // console.log("description", description);
       setValue(description, false);
       props.setLocation(description);
       clearSuggestions();
 
       // Get latitude and longitude via utility functions
-      getGeocode({ address: description })
-        .then((results) => getLatLng(results[0]))
-        .then(({ lat, lng }) => {
-          console.log("📍 Coordinates: ", { lat, lng });
-        })
-        .catch((error) => {
-          console.log("😱 Error: ", error);
-        });
+      let cords = await getLongLat(description);
+
+      if (cords) {
+        console.log("cords :>> ", cords);
+        props.setLocationCords(cords);
+      }
     };
 
   const renderSuggestions = () =>

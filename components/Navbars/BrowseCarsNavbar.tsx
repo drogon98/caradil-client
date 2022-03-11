@@ -15,12 +15,13 @@ import { closeMoreFilters, showMoreFilters } from "../../redux/searchSlice";
 import { numericInput } from "../../utils/regex_";
 import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
 import { useRole } from "../hooks/useRole";
-import { PlacesAutocomplete } from "../Location/AutoComplete";
+import { getLongLat, PlacesAutocomplete } from "../Location/AutoComplete";
 import { LogoutOverlay } from "../LogoutOverlay";
 import BrowseCarsWhenComp from "../BrowseCars/BrowseCarsWhenComp";
 import { UserNavIcon } from "./UserNavIcon";
 import { TripDatesObj } from "../../utils/interfaces";
 import { getTripDuration } from "../../utils/trip_duration_ttl_calc";
+import { LocationCords } from "../../graphql_types/generated/graphql";
 
 const BrowseCarsNavbar = (): JSX.Element => {
   const router = useRouter();
@@ -54,6 +55,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
   const [dateTimeInput, setDateTimeInput] = useState("");
   const [showClearFilter, setShowClearFilter] = useState(false);
   const [location, setLocation] = useState("");
+  const [locationCords, setLocationCords] = useState<LocationCords>();
   const [rateError, setRateError] = useState(false);
   const [startDate, setStartDate] = useState(() => {
     let date = new Date();
@@ -80,7 +82,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
     // Populate values,datetime and location
     try {
       if (router && router.query) {
-        console.log("router.query", router.query);
+        // console.log("router.query", router.query);
         if (router.query.start_time) {
           let tempDateTime = {
             start_time: router.query.start_time as string,
@@ -104,6 +106,19 @@ const BrowseCarsNavbar = (): JSX.Element => {
 
         if (router.query.location) {
           setLocation(router.query.location as string);
+          if (router.query.longitude) {
+            setLocationCords({
+              ...(locationCords ?? {}),
+              longitude: parseFloat(router.query.longitude as string),
+            });
+          }
+
+          if (router.query.latitude) {
+            setLocationCords({
+              ...(locationCords ?? {}),
+              latitude: parseFloat(router.query.latitude as string),
+            });
+          }
         } else {
           setLocation("");
         }
@@ -240,21 +255,32 @@ const BrowseCarsNavbar = (): JSX.Element => {
     e.preventDefault();
     setValues(undefined);
     setTripDuration("");
+    setDateTime(undefined);
+    setStartDate(() => {
+      let date = new Date();
+      return date.getTime();
+    });
+    setEndDate(() => {
+      let date = new Date();
+      return date.getTime();
+    });
+    setLocation("");
+    setLocationCords(undefined);
     try {
-      let payload = {};
+      // let payload = {};
 
-      if (location) {
-        payload = { location };
-      }
+      // if (location) {
+      //   payload = { location };
+      // }
 
-      if (dateTime) {
-        payload = { ...payload, ...dateTime };
-      }
+      // if (dateTime) {
+      //   payload = { ...payload, ...dateTime };
+      // }
 
       router.push(
         {
           pathname: "/browse-cars",
-          query: { ...payload },
+          // query: { ...payload },
         },
         ``,
         { shallow: true }
@@ -289,7 +315,9 @@ const BrowseCarsNavbar = (): JSX.Element => {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  // console.log("locationCords", locationCords);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -303,6 +331,19 @@ const BrowseCarsNavbar = (): JSX.Element => {
 
       if (location) {
         payload = { ...payload, location };
+        let tempLocCords;
+        if (!locationCords) {
+          let cords = await getLongLat(location);
+          tempLocCords = cords;
+        } else {
+          tempLocCords = locationCords;
+        }
+
+        payload = {
+          ...payload,
+          longitude: tempLocCords.longitude ?? null,
+          latitude: tempLocCords.latitude ?? null,
+        };
       }
 
       if (dateTimeInput) {
@@ -357,6 +398,8 @@ const BrowseCarsNavbar = (): JSX.Element => {
                   <PlacesAutocomplete
                     setLocation={setLocation}
                     location={location}
+                    setLocationCords={setLocationCords}
+                    geocodeEstablishments={true}
                   />
                 </div>
                 <div className="h-100 browse-nav-when-input">
@@ -454,7 +497,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                         />
                       </svg>
                     </button>
-                    {showClearFilter && !dateTimeInput && (
+                    {showClearFilter && (
                       <div className="browse-cars-filters-counter" />
                     )}
                   </div>

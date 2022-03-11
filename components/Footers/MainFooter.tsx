@@ -13,6 +13,47 @@ import { AiOutlineMail } from "react-icons/ai";
 
 interface IProps {}
 
+const FooterSocialIcons = () => (
+  <div className="w-100">
+    <div className="d-flex justify-content-between">
+      <p className="mb-2">
+        <a
+          target="_blank"
+          href="https://www.facebook.com/Caradil-104656882145709"
+        >
+          <span className="d-flex align-items-center">
+            <FiFacebook size={"25px"} />
+          </span>
+        </a>
+      </p>
+
+      <p className="mb-2">
+        <a target="_blank" href="https://instagram.com">
+          <span className="d-flex align-items-center">
+            <FaInstagram size={"25px"} />
+          </span>
+        </a>
+      </p>
+
+      <p className="mb-2">
+        <a target="_blank" href="https://twitter.com">
+          <span className="d-flex align-items-center">
+            <FiTwitter size={"25px"} />
+          </span>
+        </a>
+      </p>
+
+      <p className="mb-2">
+        <a target="_blank" href="https://linkedin.com">
+          <span className="d-flex align-items-center">
+            <FiLinkedin size={"25px"} />
+          </span>
+        </a>
+      </p>
+    </div>
+  </div>
+);
+
 export const MainFooter: FC<IProps> = (props) => {
   const router = useRouter();
   const [isCarPage, setIsCarPage] = useState(false);
@@ -49,9 +90,19 @@ export const MainFooter: FC<IProps> = (props) => {
           isBrowseCars ? `customBrowseCarContainer` : `customContainer`
         } py-5 px-0`}
       >
+        <div className="sm-footer-icons">
+          <FooterSocialIcons />
+        </div>
         <div className="main-footer-wrapper mb-4 m-0 p-0">
+          <div className="footer-title-social-wrapper">
+            <h1 className="footer-title">Caradil</h1>
+
+            <div className="w-50">
+              <FooterSocialIcons />
+            </div>
+          </div>
           <div className="">
-            <h5>Caradil</h5>
+            <h5 className="footer-headings">Company</h5>
             <div>
               <p>
                 <Link href="/about-us">About</Link>
@@ -75,7 +126,7 @@ export const MainFooter: FC<IProps> = (props) => {
           </div>
 
           <div className="">
-            <h5>Explore</h5>
+            <h5 className="footer-headings">Explore</h5>
             <div>
               <p>
                 <Link href="/browse-cars">Browse cars</Link>
@@ -95,7 +146,7 @@ export const MainFooter: FC<IProps> = (props) => {
             </div>
           </div>
           <div className="">
-            <h5>Hosting</h5>
+            <h5 className="footer-headings">Hosting</h5>
             <div>
               <p>
                 <Link href="/list-your-car">List your car</Link>
@@ -112,7 +163,7 @@ export const MainFooter: FC<IProps> = (props) => {
             </div>
           </div>
           <div className="">
-            <h5>Contact Info</h5>
+            <h5 className="footer-headings">Contact Info</h5>
             <p>
               <FiSmartphone />
               &nbsp;&nbsp;
@@ -123,44 +174,6 @@ export const MainFooter: FC<IProps> = (props) => {
               &nbsp;&nbsp;
               <a href="mailto:contact@caradil.com">contact@caradil.com</a>
             </p>
-          </div>
-          <div className="">
-            <h5>Get Social</h5>
-            <div>
-              <p className="mb-2">
-                <a
-                  target="_blank"
-                  href="https://www.facebook.com/Caradil-104656882145709"
-                >
-                  <span className="d-flex align-items-center">
-                    <FiFacebook size={"25px"} />
-                  </span>
-                </a>
-              </p>
-              <p className="mb-2">
-                <a target="_blank" href="https://instagram.com">
-                  <span className="d-flex align-items-center">
-                    <FaInstagram size={"25px"} />
-                  </span>
-                </a>
-              </p>
-
-              <p className="mb-2">
-                <a target="_blank" href="https://twitter.com">
-                  <span className="d-flex align-items-center">
-                    <FiTwitter size={"25px"} />
-                  </span>
-                </a>
-              </p>
-              {/* FiLinkedin */}
-              <p className="mb-2">
-                <a target="_blank" href="https://linkedin.com">
-                  <span className="d-flex align-items-center">
-                    <FiLinkedin size={"25px"} />
-                  </span>
-                </a>
-              </p>
-            </div>
           </div>
         </div>
         <div>

@@ -23,7 +23,7 @@ export const Faqs: FC<FaqsProps> = (props) => {
         <div className="col-md-6">
           <div className="accordion" id="accordionPanelsStayOpenExampleL">
             {faqs?.map((faq, idx) => (
-              <div className="accordion-item">
+              <div className="accordion-item" key={idx}>
                 <h2
                   className="accordion-header"
                   id={`panelsStayOpen-heading${idx}`}
@@ -57,7 +57,7 @@ export const Faqs: FC<FaqsProps> = (props) => {
             {faqsR?.map((faq, idx) => {
               idx += 5;
               return (
-                <div className="accordion-item">
+                <div className="accordion-item" key={idx}>
                   <h2
                     className="accordion-header"
                     id={`panelsStayOpen-heading${idx}`}

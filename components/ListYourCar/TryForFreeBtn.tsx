@@ -1,15 +1,9 @@
 import Link from "next/link";
 import React from "react";
 import { useAppSelector } from "../../redux/hooks";
-import { HostPlansData } from "../../utils/interfaces";
 import { useRole } from "../hooks/useRole";
 
-interface GetStartedBtnProps {
-  plansData: HostPlansData;
-  period: string;
-}
-
-export default function GetStartedBtn(props: GetStartedBtnProps) {
+export default function TryForFreeBtn() {
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
   return (
@@ -25,7 +19,7 @@ export default function GetStartedBtn(props: GetStartedBtnProps) {
             query: { upgrade: true },
           }}
         >
-          <a className="btn bgOrange">Get Started</a>
+          <a className="btn bgOrange fw-bolder text-light">Try For Free Now</a>
         </Link>
       )}
       {role === 2 && (
@@ -34,7 +28,7 @@ export default function GetStartedBtn(props: GetStartedBtnProps) {
             pathname: "/account/listings/add-car",
           }}
         >
-          <a className="btn bgOrange">Get Started</a>
+          <a className="btn bgOrange fw-bolder text-light">Try For Free Now</a>
         </Link>
       )}
       {role === 3 && (
@@ -43,21 +37,17 @@ export default function GetStartedBtn(props: GetStartedBtnProps) {
             pathname: "/",
           }}
         >
-          <a className="btn bgOrange">Get Started</a>
+          <a className="btn bgOrange fw-bolder text-light">Try For Free Now</a>
         </Link>
       )}
       {!role && (
         <Link
           href={{
             pathname: "/register",
-            query: {
-              role: 2,
-              plan: props.plansData.title,
-              period: props.period,
-            },
+            query: { role: 2 },
           }}
         >
-          <a className="btn bgOrange">Get Started</a>
+          <a className="btn bgOrange fw-bolder text-light">Try For Free Now</a>
         </Link>
       )}
     </div>

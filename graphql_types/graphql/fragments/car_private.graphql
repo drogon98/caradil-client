@@ -84,4 +84,14 @@ fragment carPrivateInfo on Car {
   trip_type
   end_user_type
   id_or_passport_no
+  active
+  location_cords {
+    longitude
+    latitude
+  }
+  pick_up_location
+  pick_up_location_cords {
+    longitude
+    latitude
+  }
 }

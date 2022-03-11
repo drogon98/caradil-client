@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import GetStartedBtn from "./GetStartedBtn";
+import TryForFreeBtn from "./TryForFreeBtn";
 
 interface IProps {}
 
@@ -38,7 +39,7 @@ export const KickOff: FC<IProps> = (props) => {
         </div>
       </div>
       <div className="mt-5">
-        <GetStartedBtn />
+        <TryForFreeBtn />
       </div>
     </div>
   );

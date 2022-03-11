@@ -1,0 +1,3 @@
+mutation RepublishCar($carId: Float!) {
+  republishCar(carId: $carId)
+}

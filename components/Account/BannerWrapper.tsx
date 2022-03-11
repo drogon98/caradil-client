@@ -119,7 +119,9 @@ export function BannerWrapper(props: BannerWrapperProps) {
           <span>
             It seems you have not completed your profile yet. Please complete
             your profile &nbsp;
-            <Link href="/account/profile">
+            <Link
+              href={{ pathname: "/account/profile", query: { initial: true } }}
+            >
               <a
                 className="text-light cursor-pointer"
                 style={{

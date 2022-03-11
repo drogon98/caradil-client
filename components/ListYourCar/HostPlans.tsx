@@ -3,6 +3,7 @@ import { hostPlansData } from "../../data";
 import { HostPlansData } from "../../utils/interfaces";
 import GetStartedBtn from "./GetStartedBtn";
 import HostPlanBox from "./HostPlanBox";
+import TryForFreeBtn from "./TryForFreeBtn";
 
 export default function HostPlans() {
   const [plan, setPlan] = useState("basic");
@@ -62,7 +63,7 @@ export default function HostPlans() {
           <h4>Try Caradil free for 30 days.</h4>
           <p>No credit card required. No obligation. No risk.</p>
           <div className="my-3">
-            <GetStartedBtn />
+            <TryForFreeBtn />
           </div>
           <span>
             or <b className="text-orange">Pick a plan now</b>

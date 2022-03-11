@@ -40,6 +40,8 @@ const RegisterForm: FC<IProps> = (props) => {
   const [role, setRole] = useState<number>(1);
   const [error, setError] = useState<string>("");
   const [passwordMisMatch, setPasswordMisMatch] = useState(false);
+  const [hasPlanData, setHasPlanData] = useState(false);
+  const [planData, setPlanData] = useState<{ plan: string; period: string }>();
 
   const dispatch = useAppDispatch();
 
@@ -54,7 +56,32 @@ const RegisterForm: FC<IProps> = (props) => {
       }
     };
 
+    const checkPlanData = () => {
+      try {
+        let queryData = router.query;
+        if (parseInt(queryData.role as string, 10) === 2) {
+          delete queryData.role;
+          if (Object.keys({ ...queryData }).length > 0) {
+            setHasPlanData(true);
+            setPlanData({
+              plan: router.query.plan as string,
+              period: router.query.period as string,
+            });
+          } else {
+            setHasPlanData(false);
+            setPlanData({
+              plan: "free",
+              period: "monthly",
+            });
+          }
+        }
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
+    };
+
     checkRole();
+    checkPlanData();
   }, [router.query]);
 
   // console.log("role :>> ", role);
@@ -88,15 +115,28 @@ const RegisterForm: FC<IProps> = (props) => {
       setPasswordMisMatch(true);
       return;
     }
-    let payload = { ...values, role };
+
+    delete values.confirmPassword;
+
+    let payload: RegisterInput = { ...values, role };
+
     if (props.isAdmin) {
       payload.role = 3;
     }
-    delete payload.confirmPassword;
+
+    if (payload.role === 2) {
+      payload = { ...payload!, ...planData! };
+    }
 
     try {
       setRegistering(true);
-      let response = await register({ variables: { payload } });
+      let response;
+
+      // console.log("payload", payload);
+      // console.log("planData", planData);
+
+      response = await register({ variables: { payload } });
+
       if (response?.data?.register.error) {
         setError(response?.data?.register.error);
         setRegistering(false);
@@ -134,9 +174,12 @@ const RegisterForm: FC<IProps> = (props) => {
   return (
     <>
       <h3>Sign Up</h3>
-      <h6 className="my-3">
-        Try the 30-days free trial,no credit card required
-      </h6>
+      {!hasPlanData && (
+        <h6 className="my-3">
+          Try the 30-days free trial,no credit card required
+        </h6>
+      )}
+
       <div>{error && <small className="text-danger">{error}</small>}</div>
       <div>
         {passwordMisMatch && (
@@ -161,7 +204,7 @@ const RegisterForm: FC<IProps> = (props) => {
               name="first_name"
               onChange={handleChange}
               onFocus={handleFocus}
-              value={values.first_name}
+              value={values.first_name ?? ""}
             />
           </div>
           <div className="col-6">
@@ -175,7 +218,7 @@ const RegisterForm: FC<IProps> = (props) => {
               name="last_name"
               onChange={handleChange}
               onFocus={handleFocus}
-              value={values.last_name}
+              value={values.last_name ?? ""}
             />
           </div>
         </div>
@@ -185,7 +228,7 @@ const RegisterForm: FC<IProps> = (props) => {
           <select
             className="form-select form-control"
             onChange={handleChange}
-            value={values?.country}
+            value={values?.country ?? ""}
             name="country"
             // disabled={props.isManage && !props.isEdit}
             required
@@ -210,7 +253,7 @@ const RegisterForm: FC<IProps> = (props) => {
             name="email"
             onChange={handleChange}
             onFocus={handleFocus}
-            value={values.email}
+            value={values.email ?? ""}
           />
         </div>
         <div className="mb-3">
@@ -219,7 +262,7 @@ const RegisterForm: FC<IProps> = (props) => {
             className="form-control"
             id="password"
             type="password"
-            value={values.password}
+            value={values.password ?? ""}
             name="password"
             onChange={handleChange}
             onFocus={handleFocus}
@@ -231,7 +274,7 @@ const RegisterForm: FC<IProps> = (props) => {
             className="form-control"
             id="confirmPassword"
             type="password"
-            value={values.confirmPassword}
+            value={values.confirmPassword ?? ""}
             name="confirmPassword"
             onChange={handleChange}
             onFocus={handleFocus}
@@ -272,6 +315,8 @@ const RegisterForm: FC<IProps> = (props) => {
                   spinnerColor="white"
                   dimensions={{ height: "24px", width: "24px" }}
                 />
+              ) : hasPlanData ? (
+                "Sign Up"
               ) : (
                 "Start My Free Trial"
               )}

@@ -63,16 +63,24 @@ const splitLink = process.browser
 
 const errorLink = onError((obj) => {
   console.log("obj", obj);
-  if (obj.graphQLErrors) {
-    let hasUnAuthError = obj.graphQLErrors.some(
-      (err) => err.extensions.code === "UNAUTHENTICATED"
-    );
 
-    if (hasUnAuthError) {
-      let toRedirectTo = window.location.pathname;
-      // console.log("toRedirectTo", toRedirectTo);
-      window.location.replace(`/login?next=${toRedirectTo}`);
-      store.dispatch(unsetToken());
+  if (obj.graphQLErrors) {
+    try {
+      let hasUnAuthError = obj.graphQLErrors.some((err) => {
+        if (err.extensions && err.extensions.code) {
+          return err.extensions.code === "UNAUTHENTICATED";
+        }
+        return false;
+      });
+
+      if (hasUnAuthError) {
+        let toRedirectTo = window.location.pathname;
+        // console.log("toRedirectTo", toRedirectTo);
+        window.location.replace(`/login?next=${toRedirectTo}`);
+        store.dispatch(unsetToken());
+      }
+    } catch (error) {
+      console.log("error", error);
     }
   }
 });

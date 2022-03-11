@@ -1,0 +1,6 @@
+fragment planInfo on Plan {
+  id
+  title
+  start_date
+  due_date
+}

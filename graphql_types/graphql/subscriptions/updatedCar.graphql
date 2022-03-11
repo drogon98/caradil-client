@@ -1,5 +1,6 @@
-subscription onReserveForBooking {
-  reservedForBooking {
+subscription onCarUpdate {
+  updatedCar {
+    being_edited
     reserved_for_booking
     reserved_for_booking_guest_id
   }

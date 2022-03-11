@@ -94,7 +94,7 @@ export default function PricingBox(props: PricingBoxProps) {
       </div>
 
       <div>
-        <GetStartedBtn />
+        <GetStartedBtn plansData={props.data} period={props.period} />
       </div>
     </div>
   );

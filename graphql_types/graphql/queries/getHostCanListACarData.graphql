@@ -1,0 +1,9 @@
+query GetHostCanListACarData {
+  hostCanListACarData {
+    plan {
+      ...planInfo
+    }
+    carsListed
+    error
+  }
+}

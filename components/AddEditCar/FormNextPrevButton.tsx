@@ -12,7 +12,7 @@ export const FormNextPrevButton: FC<FormNextPrevButtonProps> = (props) => {
   return (
     <div className="d-flex justify-content-between mt-4">
       <div>
-        {props.activeSlide !== 0 && (
+        {props.activeSlide !== -1 && (
           <button
             className="btn bgOrange"
             onClick={() => props.setActiveSlide(props.activeSlide - 1)}

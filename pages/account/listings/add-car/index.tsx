@@ -12,7 +12,7 @@ const AddCar: FC<AddCarProps> = (props) => {
       <CustomHead title="Account - Add Car" />
       <AccountLayout>
         <AuthWrapper>
-          <div className="p-2 mt-4">
+          <div className="px-2">
             <CarDataStepForm />
           </div>
         </AuthWrapper>
