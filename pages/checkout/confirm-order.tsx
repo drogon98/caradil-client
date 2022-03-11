@@ -137,7 +137,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     if (subscribeToMore && !skip) {
       carSub = subscribeToMore({
         document: OnCarUpdateDocument,
-        updateQuery: (prev, { subscriptionData }) => {
+        updateQuery: (prev, { subscriptionData }: any) => {
           if (!subscriptionData.data) return prev;
           const updatedCar: any = { ...subscriptionData.data };
           return {
@@ -542,6 +542,14 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                       </small>
                     </label>
                   </div> */}
+                  {/* {!deliverToMe && ( */}
+                  <p className="my-2">
+                    <small>
+                      This {data?.getCar.car?.name} is to be picked at{" "}
+                      <b>{data?.getCar.car?.pick_up_location}</b>
+                    </small>
+                  </p>
+                  {/* )} */}
 
                   <div className="form-check mb-3">
                     <input
@@ -554,17 +562,26 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                       checked={deliverToMe}
                       disabled={!data?.getCar.car?.delivery}
                     />
-                    <label
-                      className="form-check-label"
-                      htmlFor="checkout-delivery"
-                    >
-                      Deliver car to me{" "}
-                      <small>
-                        {!data?.getCar.car?.delivery && (
-                          <>(This host does not deliver car).</>
-                        )}
-                      </small>
-                    </label>
+                    {data?.getCar.car?.delivery ? (
+                      <label
+                        className="form-check-label"
+                        htmlFor="checkout-delivery"
+                      >
+                        Deliver car to me instead
+                      </label>
+                    ) : (
+                      <label
+                        className="form-check-label"
+                        htmlFor="checkout-delivery"
+                      >
+                        Deliver car to me{" "}
+                        <small>
+                          {!data?.getCar.car?.delivery && (
+                            <>(This host does not deliver car).</>
+                          )}
+                        </small>
+                      </label>
+                    )}
                   </div>
 
                   {deliverToMe && (

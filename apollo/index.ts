@@ -7,13 +7,35 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
-import { WebSocketLink } from "@apollo/client/link/ws";
+// import { WebSocketLink } from "@apollo/client/link/ws";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { createUploadLink } from "apollo-upload-client";
 import { unsetToken } from "../redux/authSlice";
 import { store } from "../redux/store";
 import { baseHttpDomain, baseWsDomain } from "../utils/baseDomain";
 import { tokenRefreshLink } from "./tokenRefreshLink";
+import { print } from "graphql";
+import { createClient, Client } from "graphql-ws";
+import { Operation, FetchResult, Observable } from "@apollo/client/core";
+
+class GraphQLWsLink extends ApolloLink {
+  constructor(private client: Client) {
+    super();
+  }
+
+  public request(operation: Operation): Observable<FetchResult> {
+    return new Observable((sink) => {
+      return this.client.subscribe<FetchResult>(
+        { ...operation, query: print(operation.query) },
+        {
+          next: sink.next.bind(sink),
+          complete: sink.complete.bind(sink),
+          error: sink.error.bind(sink),
+        }
+      );
+    });
+  }
+}
 
 const httpLink = createUploadLink({
   uri: `${baseHttpDomain}graphql`,
@@ -32,19 +54,32 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+// const wsLink: any = process.browser
+//   ? new WebSocketLink({
+//       uri: `${baseWsDomain}subscriptions`,
+//       options: {
+//         reconnect: true,
+//         lazy: true,
+//         connectionParams: () => {
+//           return {
+//             authToken: `Bearer ${store.getState().auth._id}`,
+//           };
+//         },
+//       },
+//     })
+//   : null;
+
 const wsLink: any = process.browser
-  ? new WebSocketLink({
-      uri: `${baseWsDomain}subscriptions`,
-      options: {
-        reconnect: true,
-        lazy: true,
+  ? new GraphQLWsLink(
+      createClient({
+        url: `${baseWsDomain}graphql`,
         connectionParams: () => {
           return {
-            authToken: `Bearer ${store.getState().auth._id}`,
+            Authorization: `Bearer ${store.getState().auth._id}`,
           };
         },
-      },
-    })
+      })
+    )
   : null;
 
 const splitLink = process.browser

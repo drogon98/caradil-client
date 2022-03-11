@@ -73,8 +73,8 @@ export default function HostPlans() {
           {plansData?.map((hpd, idx) => (
             <div className="col-md-6 col-lg-3 mb-5 mb-lg-0" key={idx}>
               {hpd.isPopular && (
-                <div className="p-1 bg-success text-light">
-                  <p>Popular</p>
+                <div className="p-2 bg-success text-light text-center">
+                  <p className="fw-bolder">Popular</p>
                 </div>
               )}
 

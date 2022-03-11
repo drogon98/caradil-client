@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { FC, SyntheticEvent, useEffect, useState } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 import slugify from "slugify";
@@ -58,9 +57,9 @@ export const CarBox: FC<CarBoxProps> = (props) => {
           className="fav-icon cursor-pointer"
         >
           {isFavourite ? (
-            <BsSuitHeartFill size="28px" />
+            <BsSuitHeartFill size="21px" />
           ) : (
-            <BsSuitHeart size="28px" />
+            <BsSuitHeart size="21px" />
           )}
         </button>
       ) : (
@@ -75,7 +74,7 @@ export const CarBox: FC<CarBoxProps> = (props) => {
         // >
         <LoginWithModal>
           <a className="fav-icon cursor-pointer">
-            <BsSuitHeart size="28px" />
+            <BsSuitHeart size="21px" />
           </a>
         </LoginWithModal>
         // </Link>

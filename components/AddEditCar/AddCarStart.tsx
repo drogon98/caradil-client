@@ -57,7 +57,7 @@ export const AddCarStart = (props: AddCarStartProps) => {
     }
   }, [data]);
 
-  console.log("data", data);
+  // console.log("data", data);
   // Check if host is qualified to list a car
   // If this host has a free trial and exceeded 5 cars ,show the upgrade prompt
   // If this host picks a plan redirect to the pay page
@@ -105,6 +105,7 @@ export const AddCarStart = (props: AddCarStartProps) => {
               </div>
             </>
           )}
+          {/* Redirect to pay page */}
           {action === "expired" && (
             <>
               <h4>Your subscription is Expired</h4>
@@ -116,15 +117,14 @@ export const AddCarStart = (props: AddCarStartProps) => {
               </div>
             </>
           )}
+          {/* Redirect to list cars plan section */}
           {action === "add_car" && (
             <>
               <h4>Please Upgrade</h4>
 
               <div className="d-flex justify-content-end mt-4">
-                <Link href={{ pathname: "/account/upgrade" }}>
-                  <a className="btn bgOrange" type="submit">
-                    Upgrade Account
-                  </a>
+                <Link href={{ pathname: "/list-your-car" }}>
+                  <a className="btn bgOrange">Upgrade Account</a>
                 </Link>
               </div>
             </>

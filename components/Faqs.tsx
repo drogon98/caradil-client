@@ -1,9 +1,52 @@
+import parse from "html-react-parser";
 import React, { FC } from "react";
 
 interface FaqsProps {}
 
-const faqs = [1, 2, 3, 4, 5];
-const faqsR = [1, 2, 3, 4, 5];
+const faqs = [
+  {
+    question: "How do i receive payment?",
+    answer: "The quick brown fox jumped over the lazy dog.",
+  },
+  {
+    question: "How do i receive payment?",
+    answer: "The quick brown fox jumped over the lazy dog.",
+  },
+  {
+    question: "How do i receive payment?",
+    answer: "The quick brown fox jumped over the lazy dog.",
+  },
+  {
+    question: "How do i receive payment?",
+    answer: "The quick brown fox jumped over the lazy dog.",
+  },
+  {
+    question: "How do i receive payment?",
+    answer: "The quick brown fox jumped over the lazy dog.",
+  },
+];
+const faqsR = [
+  {
+    question: "How do i receive payment?",
+    answer: "The quick brown fox jumped over the lazy dog.",
+  },
+  {
+    question: "How do i receive payment?",
+    answer: "The quick brown fox jumped over the lazy dog.",
+  },
+  {
+    question: "How do i receive payment?",
+    answer: "The quick brown fox jumped over the lazy dog.",
+  },
+  {
+    question: "How do i receive payment?",
+    answer: "The quick brown fox jumped over the lazy dog.",
+  },
+  {
+    question: "How do i receive payment?",
+    answer: "The quick brown fox jumped over the lazy dog.",
+  },
+];
 
 export const Faqs: FC<FaqsProps> = (props) => {
   return (
@@ -36,7 +79,7 @@ export const Faqs: FC<FaqsProps> = (props) => {
                     aria-expanded={idx === 0 ? true : false}
                     aria-controls={`panelsStayOpen-collapse${idx}`}
                   >
-                    {/* {faq.question} */}
+                    {faq.question}
                   </button>
                 </h2>
                 <div
@@ -45,7 +88,7 @@ export const Faqs: FC<FaqsProps> = (props) => {
                   aria-labelledby={`panelsStayOpen-heading${idx}`}
                 >
                   <div className="accordion-body faq-accordion-answer">
-                    {/* {parse(faq.answer!)} */}
+                    {parse(faq.answer!)}
                   </div>
                 </div>
               </div>
@@ -72,7 +115,7 @@ export const Faqs: FC<FaqsProps> = (props) => {
                       aria-expanded={idx === 0 ? true : false}
                       aria-controls={`panelsStayOpen-collapse${idx}`}
                     >
-                      {/* {faq.question} */}
+                      {faq.question}
                     </button>
                   </h2>
                   <div
@@ -83,7 +126,7 @@ export const Faqs: FC<FaqsProps> = (props) => {
                     aria-labelledby={`panelsStayOpen-heading${idx}`}
                   >
                     <div className="accordion-body faq-accordion-answer">
-                      {/* {parse(faq.answer!)} */}
+                      {parse(faq.answer!)}
                     </div>
                   </div>
                 </div>

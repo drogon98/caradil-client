@@ -78,10 +78,11 @@ export default function SharedSections(props: Props): ReactElement {
       <div className="mt-3">
         <hr />
         <div className="d-flex justify-content-between">
-          <h6>Location</h6>
+          <h6>Pick-Up Location</h6>
         </div>
         <small>
-          This {props.car?.name} is located at <b>{props.car?.location}</b>
+          This {props.car?.name} is to be picked at{" "}
+          <b>{props.car?.pick_up_location}</b>
         </small>
       </div>
 

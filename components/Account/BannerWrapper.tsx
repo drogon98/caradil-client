@@ -106,6 +106,18 @@ export function BannerWrapper(props: BannerWrapperProps) {
             >
               here
             </span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            {resendingVerifyLink && (
+              <div className="d-inline justify-content-center">
+                <div
+                  className={`spinner-border spinner-white}`}
+                  role="status"
+                  style={{ height: "11px", width: "11px" }}
+                >
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            )}
           </span>
         </>
       );

@@ -1,12 +1,4 @@
-import React, {
-  ChangeEvent,
-  LegacyRef,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { usePlacesWidget } from "react-google-autocomplete";
-import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+import React, { ChangeEvent, useRef, useState } from "react";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,

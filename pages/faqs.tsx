@@ -69,7 +69,7 @@ const FAQS: NextPage = () => {
 
           <div className="mt-3">
             <p>
-              Couldn't find what you are looking for?
+              Couldn't find what you are looking for?&nbsp;&nbsp;
               <Link href="/contact-us">
                 <a className="colorOrange">
                   <small>

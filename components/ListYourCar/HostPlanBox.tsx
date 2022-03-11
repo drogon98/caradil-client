@@ -2,21 +2,21 @@ import React from "react";
 import { HostPlansData } from "../../utils/interfaces";
 import GetStartedBtn from "./GetStartedBtn";
 
-interface PricingBoxProps {
+interface HostPlanBoxProps {
   data: HostPlansData;
   period: string;
 }
 
-export default function PricingBox(props: PricingBoxProps) {
+export default function HostPlanBox(props: HostPlanBoxProps) {
   return (
     <div className="w-100 p-2 py-3 host-plan-box">
-      <div className="d-flex align-items-center justify-content-between">
+      <div className="d-flex align-items-center justify-content-center">
         <h6 className="m-0" style={{ textTransform: "capitalize" }}>
           {props.data.title}
         </h6>
       </div>
       <hr />
-      <div>
+      <div className="text-center">
         <p>
           <sup className="host-plan-sub-sup">ksh</sup>
           <span className="host-plan-amount">
@@ -30,7 +30,10 @@ export default function PricingBox(props: PricingBoxProps) {
       </div>
       <hr />
       <div>
-        <ul style={{ listStyle: "none" }} className="px-2">
+        <ul
+          style={{ listStyle: "none" }}
+          className="px-2 w-75 mx-auto text-left"
+        >
           <li>
             <span>
               <svg
@@ -93,7 +96,7 @@ export default function PricingBox(props: PricingBoxProps) {
         </ul>
       </div>
 
-      <div>
+      <div className="mt-5">
         <GetStartedBtn plansData={props.data} period={props.period} />
       </div>
     </div>

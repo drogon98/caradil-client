@@ -1623,6 +1623,15 @@ car-input-container select:focus {
   color: #ffffff;
 }
 
+.fav-icon {
+  background-color: rgba(0, 0, 0, 0.07);
+  right: 3px;
+  top: 3px;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+}
+
 .carousel-heart-icon {
   font-size: 28px;
 }
@@ -1650,13 +1659,6 @@ car-input-container select:focus {
     font-size: 10px;
     /* background-color: red; */
   }
-}
-
-.fav-icon {
-  background-color: transparent;
-  right: 3px;
-  top: 3px;
-  color: #ffffff;
 }
 
 /* =============================END CAROUSELS====================================== */
@@ -1893,6 +1895,15 @@ car-input-container select:focus {
 
 .accordion {
   border: none !important;
+}
+
+.accordion-item {
+  border: none !important;
+}
+
+.accordion-button {
+  border-bottom: 1px solid #d4d4d4 !important;
+  /* padding-top: 14px 0 !important; */
 }
 
 .faq-accordion-button.collapsed {
