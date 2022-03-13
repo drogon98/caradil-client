@@ -44,18 +44,15 @@ const UpgradeAccount: FC<UpgradeAccountProps> = (props) => {
       <CustomHead title="Account - Upgrade" />
       <AuthWrapper>
         <AccountLayout>
-          <div className="p-2 my-4">
+          <></>
+          {/* <div className="p-2 my-4">
             <div className="col-md-8 col-lg-7 mx-auto">
               <h3>Upgrade Account</h3>
               <form>
                 <div className="row">
                   {plansData?.map((hpd, idx) => (
                     <div className="col-md-6 col-lg-3 mb-5 mb-lg-0" key={idx}>
-                      {/* {hpd.isPopular && (
-                        <div className="p-1 bg-success text-light">
-                          <p>Popular</p>
-                        </div>
-                      )} */}
+                    
 
                       <HostPlanBox data={hpd} period={planPeriod} />
                     </div>
@@ -63,7 +60,7 @@ const UpgradeAccount: FC<UpgradeAccountProps> = (props) => {
                 </div>
               </form>
             </div>
-          </div>
+          </div> */}
         </AccountLayout>
       </AuthWrapper>
     </>
