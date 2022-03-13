@@ -24,6 +24,12 @@ export type AccountPaymentInput = {
   payment_channel_data?: InputMaybe<PaymentChannelInput>;
 };
 
+export type AccountPlanResponse = {
+  __typename?: 'AccountPlanResponse';
+  error?: Maybe<Scalars['String']>;
+  plan?: Maybe<Plan>;
+};
+
 export type AccountSettings = {
   __typename?: 'AccountSettings';
   created_at?: Maybe<Scalars['DateTime']>;
@@ -412,6 +418,7 @@ export type MakeResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  activateCar: CreateCarEditRequestResponse;
   addEditCarGeneralInfo: CarAddEditResponse;
   addFaq: FaqResponse;
   addMake: MakeResponse;
@@ -422,6 +429,7 @@ export type Mutation = {
   createChat: Scalars['Boolean'];
   createReview: Scalars['Boolean'];
   createTrip: CreateTripResponse;
+  deActivateCar: CreateCarEditRequestResponse;
   deleteUpload: Scalars['Boolean'];
   editAccountPayment: Scalars['Boolean'];
   editAccountSettings: Scalars['Boolean'];
@@ -446,14 +454,20 @@ export type Mutation = {
   markAllRead: Scalars['Boolean'];
   refundOrCompensate: Scalars['Boolean'];
   register: TokenResponse;
-  republishCar: Scalars['Boolean'];
+  republishCar: CreateCarEditRequestResponse;
   rescheduleTrip: ConfirmCancelTripResponse;
   resetPassword: PasswordResponse;
   revokeUserRefreshToken: Scalars['Boolean'];
   singleUpload: UploadedFileResponse;
   updateFavourite: UpdateFavouriteResponse;
   upgradeAccount: Scalars['Boolean'];
+  upgradeRenewPlan: PlanUpgradeRenewResponse;
   verifyEmail: VerifyEmailResponse;
+};
+
+
+export type MutationActivateCarArgs = {
+  carId: Scalars['Float'];
 };
 
 
@@ -509,6 +523,11 @@ export type MutationCreateReviewArgs = {
 
 export type MutationCreateTripArgs = {
   input: TripInput;
+};
+
+
+export type MutationDeActivateCarArgs = {
+  carId: Scalars['Float'];
 };
 
 
@@ -673,6 +692,16 @@ export type MutationUpdateFavouriteArgs = {
 };
 
 
+export type MutationUpgradeAccountArgs = {
+  input: UpgradeAccountInput;
+};
+
+
+export type MutationUpgradeRenewPlanArgs = {
+  input: PlanUpgradeRenewInput;
+};
+
+
 export type MutationVerifyEmailArgs = {
   token: Scalars['String'];
 };
@@ -708,10 +737,12 @@ export type PaymentChannelInput = {
 
 export type Plan = {
   __typename?: 'Plan';
+  active?: Maybe<Scalars['Boolean']>;
   created_at?: Maybe<Scalars['DateTime']>;
   due_date?: Maybe<Scalars['Float']>;
   history?: Maybe<PlanHistory>;
   id?: Maybe<Scalars['Float']>;
+  period?: Maybe<Scalars['String']>;
   start_date?: Maybe<Scalars['Float']>;
   title?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['DateTime']>;
@@ -722,7 +753,26 @@ export type PlanHistory = {
   created_at?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Float']>;
   plan?: Maybe<Plan>;
+  plan_action_type?: Maybe<Scalars['String']>;
+  transaction_id?: Maybe<Scalars['Float']>;
   updated_at?: Maybe<Scalars['DateTime']>;
+};
+
+export type PlanUpgradeRenewInput = {
+  period?: InputMaybe<Scalars['String']>;
+  plan_action_type?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
+  transaction_amount: Scalars['String'];
+  transaction_channel: Scalars['String'];
+  transaction_code: Scalars['String'];
+  transaction_invoice_no: Scalars['String'];
+  transaction_order_id: Scalars['String'];
+  transaction_status: Scalars['String'];
+};
+
+export type PlanUpgradeRenewResponse = {
+  __typename?: 'PlanUpgradeRenewResponse';
+  success: Scalars['Boolean'];
 };
 
 export type Query = {
@@ -742,6 +792,7 @@ export type Query = {
   getMyBookings: Array<Trip>;
   getMyTrips: Array<Trip>;
   getNotifications: Array<Notification>;
+  getPlan: AccountPlanResponse;
   getPopularCars: Array<Car>;
   getTransactions: Array<Transaction>;
   getTrip: TripResponse;
@@ -802,6 +853,7 @@ export type QueryGetTripArgs = {
 
 export type RealTimeUpdateCarDataObj = {
   __typename?: 'RealTimeUpdateCarDataObj';
+  active?: Maybe<Scalars['Boolean']>;
   being_edited?: Maybe<Scalars['Boolean']>;
   reserved_for_booking?: Maybe<Scalars['Boolean']>;
   reserved_for_booking_guest_id?: Maybe<Scalars['Float']>;
@@ -999,6 +1051,11 @@ export type UpdateFavouriteResponse = {
   status?: Maybe<Scalars['Boolean']>;
 };
 
+export type UpgradeAccountInput = {
+  period?: InputMaybe<Scalars['String']>;
+  plan?: InputMaybe<Scalars['String']>;
+};
+
 export type UploadedFile = {
   __typename?: 'UploadedFile';
   public_id: Scalars['String'];
@@ -1068,6 +1125,13 @@ export type PlanInfoFragment = { __typename?: 'Plan', id?: number | null | undef
 export type TripInfoFragment = { __typename?: 'Trip', id?: number | null | undefined, start_date?: number | null | undefined, end_date?: number | null | undefined, start_time?: string | null | undefined, end_time?: string | null | undefined, status?: string | null | undefined, chat_meta_id?: number | null | undefined, owner_id?: number | null | undefined, car_owner_id?: number | null | undefined, trip_canceller?: string | null | undefined, why_cancel_trip?: string | null | undefined, delivery_location?: string | null | undefined, delivery_distance?: string | null | undefined, created_at?: any | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined } | null | undefined, transaction: { __typename?: 'Transaction', channel?: string | null | undefined, amount?: string | null | undefined }, car?: { __typename?: 'Car', name?: string | null | undefined, reg_no?: string | null | undefined, transmission?: string | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, gas?: string | null | undefined, make?: string | null | undefined, daily_rate?: number | null | undefined, hourly_rate?: number | null | undefined, categories?: Array<string> | null | undefined, location?: string | null | undefined, photos?: Array<{ __typename?: 'FileObj', secure_url?: string | null | undefined }> | null | undefined } | null | undefined, car_trips_data?: { __typename?: 'TripsData', id?: number | null | undefined, car: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, bags?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, distance_per_hour?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: number | null | undefined, manual_transmission_test?: boolean | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, car_market_class?: string | null | undefined, book_and_trip_days?: Array<number> | null | undefined, fuel_efficiency?: string | null | undefined, fuel_policy?: string | null | undefined, reserved_for_booking?: boolean | null | undefined, suspended?: boolean | null | undefined, reserved_for_booking_guest_id?: number | null | undefined, trip_type?: string | null | undefined, end_user_type?: string | null | undefined, id_or_passport_no?: string | null | undefined, active?: boolean | null | undefined, pick_up_location?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined, location_cords?: { __typename?: 'LocationCords', longitude?: number | null | undefined, latitude?: number | null | undefined } | null | undefined, pick_up_location_cords?: { __typename?: 'LocationCords', longitude?: number | null | undefined, latitude?: number | null | undefined } | null | undefined }, data?: Array<{ __typename?: 'TripIdAndDatesObj', id: number, start_date: number, start_time: string, end_date: number, end_time: string }> | null | undefined } | null | undefined };
 
 export type UserInfoFragment = { __typename?: 'User', id?: number | null | undefined, user_name?: string | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined, email_verified?: boolean | null | undefined, phone?: string | null | undefined, debit_amount?: string | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined, top_up_transaction?: { __typename?: 'Transaction', amount?: string | null | undefined } | null | undefined };
+
+export type ActivateCarMutationVariables = Exact<{
+  carId: Scalars['Float'];
+}>;
+
+
+export type ActivateCarMutation = { __typename?: 'Mutation', activateCar: { __typename?: 'CreateCarEditRequestResponse', error?: string | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, bags?: number | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, distance_per_hour?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: number | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, car_market_class?: string | null | undefined, book_and_trip_days?: Array<number> | null | undefined, fuel_efficiency?: string | null | undefined, fuel_policy?: string | null | undefined, reserved_for_booking?: boolean | null | undefined, suspended?: boolean | null | undefined, reserved_for_booking_guest_id?: number | null | undefined, trip_type?: string | null | undefined, end_user_type?: string | null | undefined, id_or_passport_no?: string | null | undefined, active?: boolean | null | undefined, pick_up_location?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined, location_cords?: { __typename?: 'LocationCords', longitude?: number | null | undefined, latitude?: number | null | undefined } | null | undefined, pick_up_location_cords?: { __typename?: 'LocationCords', longitude?: number | null | undefined, latitude?: number | null | undefined } | null | undefined } | null | undefined } };
 
 export type AddEditCarGeneralInfoMutationVariables = Exact<{
   options: CarGeneralInfoInput;
@@ -1143,6 +1207,13 @@ export type CreateTripMutationVariables = Exact<{
 
 
 export type CreateTripMutation = { __typename?: 'Mutation', createTrip: { __typename?: 'CreateTripResponse', success: boolean, tripId?: number | null | undefined } };
+
+export type DeActivateCarMutationVariables = Exact<{
+  carId: Scalars['Float'];
+}>;
+
+
+export type DeActivateCarMutation = { __typename?: 'Mutation', deActivateCar: { __typename?: 'CreateCarEditRequestResponse', error?: string | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, bags?: number | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, distance_per_hour?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: number | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, car_market_class?: string | null | undefined, book_and_trip_days?: Array<number> | null | undefined, fuel_efficiency?: string | null | undefined, fuel_policy?: string | null | undefined, reserved_for_booking?: boolean | null | undefined, suspended?: boolean | null | undefined, reserved_for_booking_guest_id?: number | null | undefined, trip_type?: string | null | undefined, end_user_type?: string | null | undefined, id_or_passport_no?: string | null | undefined, active?: boolean | null | undefined, pick_up_location?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined, location_cords?: { __typename?: 'LocationCords', longitude?: number | null | undefined, latitude?: number | null | undefined } | null | undefined, pick_up_location_cords?: { __typename?: 'LocationCords', longitude?: number | null | undefined, latitude?: number | null | undefined } | null | undefined } | null | undefined } };
 
 export type DeleteFileMutationVariables = Exact<{
   id: Scalars['String'];
@@ -1313,7 +1384,7 @@ export type RepublishCarMutationVariables = Exact<{
 }>;
 
 
-export type RepublishCarMutation = { __typename?: 'Mutation', republishCar: boolean };
+export type RepublishCarMutation = { __typename?: 'Mutation', republishCar: { __typename?: 'CreateCarEditRequestResponse', error?: string | null | undefined, car?: { __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, reg_no?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, bags?: number | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, distance_per_hour?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: number | null | undefined, manual_transmission_test?: boolean | null | undefined, odometer_reading?: number | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, car_market_class?: string | null | undefined, book_and_trip_days?: Array<number> | null | undefined, fuel_efficiency?: string | null | undefined, fuel_policy?: string | null | undefined, reserved_for_booking?: boolean | null | undefined, suspended?: boolean | null | undefined, reserved_for_booking_guest_id?: number | null | undefined, trip_type?: string | null | undefined, end_user_type?: string | null | undefined, id_or_passport_no?: string | null | undefined, active?: boolean | null | undefined, pick_up_location?: string | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, documents?: Array<{ __typename?: 'DocumentObj', title?: string | null | undefined, file?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined }> | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined, location_cords?: { __typename?: 'LocationCords', longitude?: number | null | undefined, latitude?: number | null | undefined } | null | undefined, pick_up_location_cords?: { __typename?: 'LocationCords', longitude?: number | null | undefined, latitude?: number | null | undefined } | null | undefined } | null | undefined } };
 
 export type RescheduleTripMutationVariables = Exact<{
   tripId: Scalars['Float'];
@@ -1338,10 +1409,19 @@ export type UpdateCarFavouriteMutationVariables = Exact<{
 
 export type UpdateCarFavouriteMutation = { __typename?: 'Mutation', updateFavourite: { __typename?: 'UpdateFavouriteResponse', status?: boolean | null | undefined, error?: string | null | undefined } };
 
-export type UpgradeAccountMutationVariables = Exact<{ [key: string]: never; }>;
+export type UpgradeAccountMutationVariables = Exact<{
+  input: UpgradeAccountInput;
+}>;
 
 
 export type UpgradeAccountMutation = { __typename?: 'Mutation', upgradeAccount: boolean };
+
+export type UpgradeRenewPlanMutationVariables = Exact<{
+  input: PlanUpgradeRenewInput;
+}>;
+
+
+export type UpgradeRenewPlanMutation = { __typename?: 'Mutation', upgradeRenewPlan: { __typename?: 'PlanUpgradeRenewResponse', success: boolean } };
 
 export type UploadFileMutationVariables = Exact<{
   file: Scalars['Upload'];
@@ -1356,6 +1436,11 @@ export type EmailVerifyMutationVariables = Exact<{
 
 
 export type EmailVerifyMutation = { __typename?: 'Mutation', verifyEmail: { __typename?: 'VerifyEmailResponse', userId?: number | null | undefined, role?: number | null | undefined, error?: string | null | undefined } };
+
+export type GetAccountPlanQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAccountPlanQuery = { __typename?: 'Query', getPlan: { __typename?: 'AccountPlanResponse', error?: string | null | undefined, plan?: { __typename?: 'Plan', due_date?: number | null | undefined, title?: string | null | undefined, active?: boolean | null | undefined, period?: string | null | undefined } | null | undefined } };
 
 export type GetAccountSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1787,6 +1872,42 @@ export const UserInfoFragmentDoc = gql`
   business_name
 }
     ${FileInfoFragmentDoc}`;
+export const ActivateCarDocument = gql`
+    mutation ActivateCar($carId: Float!) {
+  activateCar(carId: $carId) {
+    car {
+      ...carPrivateInfo
+    }
+    error
+  }
+}
+    ${CarPrivateInfoFragmentDoc}`;
+export type ActivateCarMutationFn = Apollo.MutationFunction<ActivateCarMutation, ActivateCarMutationVariables>;
+
+/**
+ * __useActivateCarMutation__
+ *
+ * To run a mutation, you first call `useActivateCarMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useActivateCarMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [activateCarMutation, { data, loading, error }] = useActivateCarMutation({
+ *   variables: {
+ *      carId: // value for 'carId'
+ *   },
+ * });
+ */
+export function useActivateCarMutation(baseOptions?: Apollo.MutationHookOptions<ActivateCarMutation, ActivateCarMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ActivateCarMutation, ActivateCarMutationVariables>(ActivateCarDocument, options);
+      }
+export type ActivateCarMutationHookResult = ReturnType<typeof useActivateCarMutation>;
+export type ActivateCarMutationResult = Apollo.MutationResult<ActivateCarMutation>;
+export type ActivateCarMutationOptions = Apollo.BaseMutationOptions<ActivateCarMutation, ActivateCarMutationVariables>;
 export const AddEditCarGeneralInfoDocument = gql`
     mutation AddEditCarGeneralInfo($options: CarGeneralInfoInput!, $isEdit: Boolean, $carId: Float) {
   addEditCarGeneralInfo(input: $options, carId: $carId, isEdit: $isEdit) {
@@ -2124,6 +2245,42 @@ export function useCreateTripMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateTripMutationHookResult = ReturnType<typeof useCreateTripMutation>;
 export type CreateTripMutationResult = Apollo.MutationResult<CreateTripMutation>;
 export type CreateTripMutationOptions = Apollo.BaseMutationOptions<CreateTripMutation, CreateTripMutationVariables>;
+export const DeActivateCarDocument = gql`
+    mutation DeActivateCar($carId: Float!) {
+  deActivateCar(carId: $carId) {
+    car {
+      ...carPrivateInfo
+    }
+    error
+  }
+}
+    ${CarPrivateInfoFragmentDoc}`;
+export type DeActivateCarMutationFn = Apollo.MutationFunction<DeActivateCarMutation, DeActivateCarMutationVariables>;
+
+/**
+ * __useDeActivateCarMutation__
+ *
+ * To run a mutation, you first call `useDeActivateCarMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeActivateCarMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deActivateCarMutation, { data, loading, error }] = useDeActivateCarMutation({
+ *   variables: {
+ *      carId: // value for 'carId'
+ *   },
+ * });
+ */
+export function useDeActivateCarMutation(baseOptions?: Apollo.MutationHookOptions<DeActivateCarMutation, DeActivateCarMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeActivateCarMutation, DeActivateCarMutationVariables>(DeActivateCarDocument, options);
+      }
+export type DeActivateCarMutationHookResult = ReturnType<typeof useDeActivateCarMutation>;
+export type DeActivateCarMutationResult = Apollo.MutationResult<DeActivateCarMutation>;
+export type DeActivateCarMutationOptions = Apollo.BaseMutationOptions<DeActivateCarMutation, DeActivateCarMutationVariables>;
 export const DeleteFileDocument = gql`
     mutation DeleteFile($id: String!) {
   deleteUpload(publicId: $id)
@@ -2897,9 +3054,14 @@ export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const RepublishCarDocument = gql`
     mutation RepublishCar($carId: Float!) {
-  republishCar(carId: $carId)
+  republishCar(carId: $carId) {
+    car {
+      ...carPrivateInfo
+    }
+    error
+  }
 }
-    `;
+    ${CarPrivateInfoFragmentDoc}`;
 export type RepublishCarMutationFn = Apollo.MutationFunction<RepublishCarMutation, RepublishCarMutationVariables>;
 
 /**
@@ -3031,8 +3193,8 @@ export type UpdateCarFavouriteMutationHookResult = ReturnType<typeof useUpdateCa
 export type UpdateCarFavouriteMutationResult = Apollo.MutationResult<UpdateCarFavouriteMutation>;
 export type UpdateCarFavouriteMutationOptions = Apollo.BaseMutationOptions<UpdateCarFavouriteMutation, UpdateCarFavouriteMutationVariables>;
 export const UpgradeAccountDocument = gql`
-    mutation UpgradeAccount {
-  upgradeAccount
+    mutation UpgradeAccount($input: UpgradeAccountInput!) {
+  upgradeAccount(input: $input)
 }
     `;
 export type UpgradeAccountMutationFn = Apollo.MutationFunction<UpgradeAccountMutation, UpgradeAccountMutationVariables>;
@@ -3050,6 +3212,7 @@ export type UpgradeAccountMutationFn = Apollo.MutationFunction<UpgradeAccountMut
  * @example
  * const [upgradeAccountMutation, { data, loading, error }] = useUpgradeAccountMutation({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -3060,6 +3223,39 @@ export function useUpgradeAccountMutation(baseOptions?: Apollo.MutationHookOptio
 export type UpgradeAccountMutationHookResult = ReturnType<typeof useUpgradeAccountMutation>;
 export type UpgradeAccountMutationResult = Apollo.MutationResult<UpgradeAccountMutation>;
 export type UpgradeAccountMutationOptions = Apollo.BaseMutationOptions<UpgradeAccountMutation, UpgradeAccountMutationVariables>;
+export const UpgradeRenewPlanDocument = gql`
+    mutation UpgradeRenewPlan($input: PlanUpgradeRenewInput!) {
+  upgradeRenewPlan(input: $input) {
+    success
+  }
+}
+    `;
+export type UpgradeRenewPlanMutationFn = Apollo.MutationFunction<UpgradeRenewPlanMutation, UpgradeRenewPlanMutationVariables>;
+
+/**
+ * __useUpgradeRenewPlanMutation__
+ *
+ * To run a mutation, you first call `useUpgradeRenewPlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpgradeRenewPlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [upgradeRenewPlanMutation, { data, loading, error }] = useUpgradeRenewPlanMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpgradeRenewPlanMutation(baseOptions?: Apollo.MutationHookOptions<UpgradeRenewPlanMutation, UpgradeRenewPlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpgradeRenewPlanMutation, UpgradeRenewPlanMutationVariables>(UpgradeRenewPlanDocument, options);
+      }
+export type UpgradeRenewPlanMutationHookResult = ReturnType<typeof useUpgradeRenewPlanMutation>;
+export type UpgradeRenewPlanMutationResult = Apollo.MutationResult<UpgradeRenewPlanMutation>;
+export type UpgradeRenewPlanMutationOptions = Apollo.BaseMutationOptions<UpgradeRenewPlanMutation, UpgradeRenewPlanMutationVariables>;
 export const UploadFileDocument = gql`
     mutation UploadFile($file: Upload!) {
   singleUpload(file: $file) {
@@ -3133,6 +3329,46 @@ export function useEmailVerifyMutation(baseOptions?: Apollo.MutationHookOptions<
 export type EmailVerifyMutationHookResult = ReturnType<typeof useEmailVerifyMutation>;
 export type EmailVerifyMutationResult = Apollo.MutationResult<EmailVerifyMutation>;
 export type EmailVerifyMutationOptions = Apollo.BaseMutationOptions<EmailVerifyMutation, EmailVerifyMutationVariables>;
+export const GetAccountPlanDocument = gql`
+    query GetAccountPlan {
+  getPlan {
+    plan {
+      due_date
+      title
+      active
+      period
+    }
+    error
+  }
+}
+    `;
+
+/**
+ * __useGetAccountPlanQuery__
+ *
+ * To run a query within a React component, call `useGetAccountPlanQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAccountPlanQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAccountPlanQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAccountPlanQuery(baseOptions?: Apollo.QueryHookOptions<GetAccountPlanQuery, GetAccountPlanQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAccountPlanQuery, GetAccountPlanQueryVariables>(GetAccountPlanDocument, options);
+      }
+export function useGetAccountPlanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAccountPlanQuery, GetAccountPlanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAccountPlanQuery, GetAccountPlanQueryVariables>(GetAccountPlanDocument, options);
+        }
+export type GetAccountPlanQueryHookResult = ReturnType<typeof useGetAccountPlanQuery>;
+export type GetAccountPlanLazyQueryHookResult = ReturnType<typeof useGetAccountPlanLazyQuery>;
+export type GetAccountPlanQueryResult = Apollo.QueryResult<GetAccountPlanQuery, GetAccountPlanQueryVariables>;
 export const GetAccountSettingsDocument = gql`
     query GetAccountSettings {
   getAccountSettings {

@@ -207,6 +207,7 @@ const Car: FC<CarProps> = (props) => {
       setIsNotAvailable(
         car?.booked! ||
           car.being_edited! ||
+          !car.active ||
           !car?.published! ||
           (car.reserved_for_booking! &&
             car.reserved_for_booking_guest_id! !== userId)

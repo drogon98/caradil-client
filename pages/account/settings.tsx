@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, {
   ChangeEvent,
   FormEvent,
@@ -38,13 +39,15 @@ const Settings = (props: SettingsProps) => {
   const [showAccountActionModal, setShowAccountActionModal] = useState(false);
   const [accountAction, setAccountAction] = useState("");
   const [toastMessage, setToastMessage] = useState("");
-  // const upgradeAccRef = useRef<HTMLDivElement>(null);
-  // const router = useRouter();
-  // const [showUpgradeShade, setShowUpgradeShade] = useState(false);
+  const router = useRouter();
 
   // console.log("router :>> ", router);
 
-  // console.log("upgradeAccRef :>> ", upgradeAccRef);
+  useEffect(() => {
+    if (router.query && router.query.upgrade_account) {
+      window.location.hash = "upgrade_account";
+    }
+  }, [router]);
 
   useEffect(() => {
     if (data?.getAccountSettings.accountSettings && !fetchingSettings) {
@@ -344,29 +347,28 @@ const Settings = (props: SettingsProps) => {
 
                 <h3>Account</h3>
                 <hr />
-
-                {/* <UpgradeAccount upgradeAccRef={upgradeAccRef} /> */}
-                {role === 1 && (
-                  <div className="mb-5 settings-row d-flex align-items-start justify-content-between">
-                    <div className="d-flex flex-column">
-                      <h6>Upgrade Account</h6>
-                      <div className="pr-3">
-                        <small>
-                          To list a car you need to have a host account. There
-                          is no need to create two different accounts. You can
-                          upgrade from a guest account to a host account.
-                        </small>
+                <div id="upgrade_account">
+                  {role === 1 && (
+                    <div className="mb-5 settings-row d-flex align-items-start justify-content-between">
+                      <div className="d-flex flex-column">
+                        <h6>Upgrade Account</h6>
+                        <div className="pr-3">
+                          <small>
+                            To list a car you need to have a host account. There
+                            is no need to create two different accounts. You can
+                            upgrade from a guest account to a host account.
+                          </small>
+                        </div>
                       </div>
+                      <button
+                        className="btn account-action-btn btn-outline-primary"
+                        onClick={(e) => handleAccountActions(e, "upgrade")}
+                      >
+                        Upgrade Account
+                      </button>
                     </div>
-                    <button
-                      className="btn account-action-btn btn-outline-primary"
-                      onClick={(e) => handleAccountActions(e, "upgrade")}
-                    >
-                      Upgrade Account
-                    </button>
-                  </div>
-                )}
-                {/* <div ref={upgradeAccRef} /> */}
+                  )}
+                </div>
 
                 <div className="mt-5 settings-row d-flex align-items-start justify-content-between">
                   <div className="d-flex flex-column">

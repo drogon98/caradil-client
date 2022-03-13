@@ -9,14 +9,58 @@ interface WrapperProps {
 export default function Wrapper(props: WrapperProps) {
   const [isLogin, setIsLogin] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
+  const [hasTrial, setHasTrial] = useState(false);
+  const [hasPlanData, setHasPlanData] = useState(false);
+  const [planData, setPlanData] = useState<{ plan: string; period: string }>();
 
   const router = useRouter();
+
+  useEffect(() => {
+    const checkPlanData = () => {
+      try {
+        let queryData = { ...router.query };
+        // console.log("queryData :>> ", queryData);
+        if (parseInt(queryData.role as string, 10) === 2) {
+          delete queryData.role;
+          delete queryData.trial;
+          if (Object.keys({ ...queryData }).length > 0) {
+            setHasPlanData(true);
+            setPlanData({
+              plan: router.query.plan as string,
+              period: router.query.period as string,
+            });
+          } else {
+            setHasPlanData(false);
+            setPlanData({
+              plan: "free",
+              period: "monthly",
+            });
+          }
+        }
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
+    };
+    checkPlanData();
+  }, [router]);
+
+  // console.log("planData", planData);
+  // console.log("hasPlanData :>> ", hasPlanData);
+
+  // console.log("router", router);
+  // console.log("isLogin", isLogin);
+  // console.log("isRegister :>> ", isRegister);
 
   useEffect(() => {
     if (router.pathname.includes("/login")) {
       setIsLogin(true);
     } else if (router.pathname.includes("/register")) {
       setIsRegister(true);
+    }
+    if (router.query && router.query.trial) {
+      setHasTrial(true);
+    } else {
+      setHasTrial(false);
     }
   }, [router]);
 
@@ -43,7 +87,16 @@ export default function Wrapper(props: WrapperProps) {
                 {" "}
                 <span>New to Caradil?</span>
                 &nbsp;&nbsp;
-                <Link href="/register">
+                <Link
+                  href={{
+                    pathname: "/register",
+                    query: hasTrial
+                      ? { role: 2, trial: true }
+                      : hasPlanData
+                      ? { role: 2, ...planData }
+                      : {},
+                  }}
+                >
                   <a className="btn btn-outline-secondary">Sign Up</a>
                 </Link>
               </>
@@ -54,7 +107,16 @@ export default function Wrapper(props: WrapperProps) {
                 {" "}
                 <span>Have an account?</span>
                 &nbsp;&nbsp;
-                <Link href="/login">
+                <Link
+                  href={{
+                    pathname: "/login",
+                    query: hasTrial
+                      ? { role: 2, trial: true }
+                      : hasPlanData
+                      ? { role: 2, ...planData }
+                      : {},
+                  }}
+                >
                   <a className="btn btn-outline-secondary">Sign In</a>
                 </Link>
               </>

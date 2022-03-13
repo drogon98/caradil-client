@@ -81,7 +81,7 @@ export function BannerWrapper(props: BannerWrapperProps) {
   }, [resendVerifyLinkData]);
 
   const handleRequestVerifyLinkClick = () => {
-    console.log("Helloo");
+    // console.log("Helloo");
     // try {
     resendEmailVerifyLink();
     // } catch (error) {
@@ -171,6 +171,7 @@ export function BannerWrapper(props: BannerWrapperProps) {
               className={`bg-${bannerBg} py-2 px-2 d-flex align-items-center justify-content-between account-banner ${
                 isChatPage && `account-banner-fixed`
               }`}
+              role="alert"
             >
               <div className="d-flex align-items-center">
                 <p

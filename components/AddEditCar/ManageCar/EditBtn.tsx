@@ -4,6 +4,7 @@ import EditModal from "./EditModal";
 
 interface EditBtnProps {
   car: Car;
+  setCarData: any;
 }
 
 export default function EditBtn(props: EditBtnProps) {
@@ -39,6 +40,7 @@ export default function EditBtn(props: EditBtnProps) {
           close={() => setShowModal(false)}
           action={action}
           car={props.car}
+          setCarData={props.setCarData}
         />
       )}
 

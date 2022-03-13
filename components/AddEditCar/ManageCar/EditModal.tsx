@@ -12,6 +12,7 @@ interface EditModalProps {
   close: any;
   action: string;
   car: Car;
+  setCarData: any;
 }
 
 export default function EditModal(props: EditModalProps) {
@@ -26,6 +27,7 @@ export default function EditModal(props: EditModalProps) {
       let response = await markAsEdit({ variables: { carId: props.car?.id! } });
 
       if (response.data?.makeCarEditable.car) {
+        props.setCarData(response.data?.makeCarEditable.car);
         props.close();
       }
     } catch (error) {
@@ -40,7 +42,8 @@ export default function EditModal(props: EditModalProps) {
         variables: { carId: props.car?.id! },
       });
 
-      if (response.data?.republishCar) {
+      if (response.data?.republishCar.car) {
+        props.setCarData(response.data?.republishCar.car);
         props.close();
       }
     } catch (error) {

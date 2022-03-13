@@ -58,9 +58,10 @@ const RegisterForm: FC<IProps> = (props) => {
 
     const checkPlanData = () => {
       try {
-        let queryData = router.query;
+        let queryData = { ...router.query };
         if (parseInt(queryData.role as string, 10) === 2) {
           delete queryData.role;
+          delete queryData.trial;
           if (Object.keys({ ...queryData }).length > 0) {
             setHasPlanData(true);
             setPlanData({
@@ -174,7 +175,7 @@ const RegisterForm: FC<IProps> = (props) => {
   return (
     <>
       <h3>Sign Up</h3>
-      {!hasPlanData && (
+      {!hasPlanData && role === 2 && (
         <h6 className="my-3">
           Try the 30-days free trial,no credit card required
         </h6>
@@ -317,8 +318,10 @@ const RegisterForm: FC<IProps> = (props) => {
                 />
               ) : hasPlanData ? (
                 "Sign Up"
-              ) : (
+              ) : role === 2 ? (
                 "Start My Free Trial"
+              ) : (
+                "Sign Up"
               )}
             </button>
           </div>

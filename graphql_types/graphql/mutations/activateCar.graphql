@@ -1,0 +1,8 @@
+mutation ActivateCar($carId: Float!) {
+  activateCar(carId: $carId) {
+    car {
+      ...carPrivateInfo
+    }
+    error
+  }
+}

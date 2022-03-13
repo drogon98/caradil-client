@@ -10,6 +10,7 @@ import { Features } from "../../../../components/AddEditCar/Features";
 import { Fueling } from "../../../../components/AddEditCar/Fueling";
 import { GeneralInfo } from "../../../../components/AddEditCar/GeneralInfo";
 import { Location } from "../../../../components/AddEditCar/LocationAndDelivery";
+import ActivateBtn from "../../../../components/AddEditCar/ManageCar/ActivateBtn";
 import EditBtn from "../../../../components/AddEditCar/ManageCar/EditBtn";
 import Menu from "../../../../components/AddEditCar/ManageCar/Menu";
 import { Photos } from "../../../../components/AddEditCar/Photos";
@@ -44,11 +45,12 @@ export default function ManageCar(props: Props): ReactElement {
   const [tripSettingsData, setTripSettingsData] =
     useState<CarTripSettingsInput>();
   const [showBurgerDropdown, setShowBurgerDropdown] = useState(false);
-  const [showRequestVerificationModal, setShowRequestVerificationModal] =
-    useState(false);
+
   const burgerButtonRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   useOutsideClickHandler(dropdownRef, setShowBurgerDropdown, burgerButtonRef);
+
+  // console.log("router.query", router.query);
 
   useEffect(() => {
     if (router.query && router.query.active) {
@@ -61,6 +63,8 @@ export default function ManageCar(props: Props): ReactElement {
       } catch (error) {
         console.log("error :>> ", error);
       }
+    } else {
+      setActiveSection(1);
     }
   }, [router.query]);
 
@@ -233,17 +237,12 @@ export default function ManageCar(props: Props): ReactElement {
                 </div>
                 <h3>Manage Car</h3>
                 <div className="d-flex justify-content-end align-items-center">
-                  {carData?.active && <EditBtn car={carData} />}
+                  {carData?.active && (
+                    <EditBtn car={carData} setCarData={setCarData} />
+                  )}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   {!carData?.being_edited && (
-                    <button
-                      className="btn bg-success color-white m-0"
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      {carData?.active ? "Deactivate" : "Activate"}
-                    </button>
+                    <ActivateBtn car={carData!} setCarData={setCarData} />
                   )}
                 </div>
               </div>
@@ -282,17 +281,12 @@ export default function ManageCar(props: Props): ReactElement {
                   </div>
                 </div>
                 <div>
-                  {carData?.active && <EditBtn car={carData} />}
+                  {carData?.active && (
+                    <EditBtn car={carData} setCarData={setCarData} />
+                  )}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   {!carData?.being_edited && (
-                    <button
-                      className="btn bg-success color-white m-0"
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      {carData?.active ? "Deactivate" : "Activate"}
-                    </button>
+                    <ActivateBtn car={carData!} setCarData={setCarData} />
                   )}
                 </div>
               </div>

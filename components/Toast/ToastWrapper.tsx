@@ -1,6 +1,6 @@
 import React, { Dispatch, FC, SetStateAction } from "react";
 import { ToastPosition } from "react-bootstrap/esm/ToastContainer";
-import Toast from "./Save";
+import CustomToast from ".";
 
 interface ToastWrapperProps {
   setShow: Dispatch<SetStateAction<boolean>>;
@@ -14,7 +14,7 @@ interface ToastWrapperProps {
 export const ToastWrapper: FC<ToastWrapperProps> = (props) => {
   return (
     <div className="toast-wrapper">
-      <Toast
+      <CustomToast
         setShow={props.setShow}
         show={props.show}
         message={props.message}

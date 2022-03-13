@@ -380,7 +380,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
                 required
               />
               <p className="form-check-label">
-                <small>Chauffer Driven (This is your driver or you)</small>
+                <small>Chauffeur Driven (This is your driver or you)</small>
               </p>
             </div>
           </div>

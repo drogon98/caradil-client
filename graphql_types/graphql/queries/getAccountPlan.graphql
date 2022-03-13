@@ -1,0 +1,11 @@
+query GetAccountPlan {
+  getPlan {
+    plan {
+      due_date
+      title
+      active
+      period
+    }
+    error
+  }
+}

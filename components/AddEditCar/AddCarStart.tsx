@@ -3,7 +3,13 @@ import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { hostPlansData } from "../../data";
-import { useGetHostCanListACarDataQuery } from "../../graphql_types/generated/graphql";
+import {
+  Plan,
+  useGetHostCanListACarDataQuery,
+} from "../../graphql_types/generated/graphql";
+import { useAppSelector } from "../../redux/hooks";
+import RenewSubscribeBtn from "../Account/Overview/RenewSubscribeBtn";
+import UpgradeBtn from "../Account/Overview/UpgradeBtn";
 import { Loading } from "../Loading";
 
 interface AddCarStartProps {
@@ -16,13 +22,19 @@ export const AddCarStart = (props: AddCarStartProps) => {
   const { data, loading } = useGetHostCanListACarDataQuery({
     fetchPolicy: "no-cache",
   });
+  const user = useAppSelector((state) => state.user.user);
+  const [planData, setPlanData] = useState<Plan>();
   const router = useRouter();
   const [action, setAction] = useState<string>();
+
+  // console.log("data", data);
+  // console.log("user", user);
 
   useEffect(() => {
     try {
       if (data?.hostCanListACarData.error) {
       } else if (data?.hostCanListACarData.plan) {
+        setPlanData(data?.hostCanListACarData.plan);
         let _hostPlanData = data?.hostCanListACarData.plan!;
         let _hostListedCars = data?.hostCanListACarData.carsListed!;
 
@@ -111,21 +123,17 @@ export const AddCarStart = (props: AddCarStartProps) => {
               <h4>Your subscription is Expired</h4>
 
               <div className="d-flex justify-content-end mt-4">
-                <button className="btn bgOrange" type="submit">
-                  Renew Subscription
-                </button>
+                <RenewSubscribeBtn data={planData!} user={user!} />
               </div>
             </>
           )}
           {/* Redirect to list cars plan section */}
-          {action === "add_car" && (
+          {action === "upgrade" && (
             <>
               <h4>Please Upgrade</h4>
 
               <div className="d-flex justify-content-end mt-4">
-                <Link href={{ pathname: "/list-your-car" }}>
-                  <a className="btn bgOrange">Upgrade Account</a>
-                </Link>
+                <UpgradeBtn data={planData!} />
               </div>
             </>
           )}

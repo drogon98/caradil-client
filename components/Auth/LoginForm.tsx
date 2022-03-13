@@ -14,6 +14,7 @@ import {
 } from "../../graphql_types/generated/graphql";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import client from "../../apollo";
+import { getRole } from "../../utils/role";
 
 interface Props {
   isModal?: boolean;
@@ -30,16 +31,57 @@ export default function LoginForm(props: Props): ReactElement {
   const [error, setError] = useState<string>("");
   const [mainLoading, setMainLoading] = useState(false);
   const dispatch = useAppDispatch();
-
+  const [hasTrial, setHasTrial] = useState(false);
   const [login, { loading }] = useLoginMutation();
+  const [hasPlanData, setHasPlanData] = useState(false);
+  const [planData, setPlanData] = useState<{ plan: string; period: string }>();
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value.trim() });
   };
 
-  const router = useRouter();
+  useEffect(() => {
+    if (router.query.trial) {
+      setHasTrial(true);
+    } else {
+      setHasTrial(false);
+    }
+  }, [router]);
 
-  // console.log(`router`, router);
+  useEffect(() => {
+    const checkPlanData = () => {
+      try {
+        let queryData = { ...router.query };
+        // console.log("queryData :>> ", queryData);
+        if (parseInt(queryData.role as string, 10) === 2) {
+          delete queryData.role;
+          delete queryData.trial;
+          if (Object.keys({ ...queryData }).length > 0) {
+            setHasPlanData(true);
+            setPlanData({
+              plan: router.query.plan as string,
+              period: router.query.period as string,
+            });
+          }
+
+          // else {
+          //   setHasPlanData(false);
+          //   // setPlanData({
+          //   //   plan: "free",
+          //   //   period: "monthly",
+          //   // });
+          // }
+        }
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
+    };
+    checkPlanData();
+  }, [router]);
+
+  console.log("planData", planData);
+  console.log("hasPlanData :>> ", hasPlanData);
 
   useEffect(() => {
     if (loading) {
@@ -87,7 +129,16 @@ export default function LoginForm(props: Props): ReactElement {
               // }
             } else {
               // Check role
-              await router.push("/account");
+              let role = getRole(response.data?.login.access_token);
+              if ((hasTrial || hasPlanData) && role === 1) {
+                // redirect to setting upgrade section
+                await router.push({
+                  pathname: "/account/settings",
+                  query: { upgrade_account: true, ...(planData ?? {}) },
+                });
+              } else {
+                await router.push("/account");
+              }
             }
           }
         }

@@ -44,7 +44,7 @@ export default function TryForFreeBtn() {
         <Link
           href={{
             pathname: "/register",
-            query: { role: 2 },
+            query: { role: 2, trial: true },
           }}
         >
           <a className="btn bgOrange fw-bolder text-light">Try For Free Now</a>

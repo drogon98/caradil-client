@@ -1,12 +1,20 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
+import { Alert } from "react-bootstrap";
 import { BoxWrapper } from "../../components/Account/Overview/BoxWrapper";
+import RenewSubscribeBtn from "../../components/Account/Overview/RenewSubscribeBtn";
+import UpgradeBtn from "../../components/Account/Overview/UpgradeBtn";
+import CustomAlert from "../../components/Alert";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
 import { useRole } from "../../components/hooks/useRole";
 import AccountLayout from "../../components/layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
+import {
+  Plan,
+  useGetAccountPlanLazyQuery,
+} from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 // import { Link, Route } from "react-router-dom";
 
@@ -18,18 +26,31 @@ const Account: FC<IProps> = (props) => {
   const [hasCompleteProfile, setHasCompleteProfile] = useState(true);
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
-  const [isToCar, setIsToCar] = useState<boolean>();
+  // const [isToCar, setIsToCar] = useState<boolean>();
   const router = useRouter();
-
+  const [showPlanAlert, setShowPlanAlert] = useState(true);
   const user = useAppSelector((state) => state.user.user);
+  const [planData, setPlanData] = useState<Plan>();
+  const [showUpgradeBtn, setShowUpgradeBtn] = useState(false);
+  const [showDowngradeBtn, setShowDowngradeBtn] = useState(false);
+  const [showRenewBtn, setShowRenewBtn] = useState(false);
+  const [alertPlanMsg, setAlertPlanMsg] = useState<ReactNode>();
+  const [getPlanData, { data: _planData, loading: planLoading }] =
+    useGetAccountPlanLazyQuery({ fetchPolicy: "no-cache" });
+
+  // useEffect(() => {
+  //   if (router.query && router.query.to_car) {
+  //     if (role === 2) {
+  //       setIsToCar(true);
+  //     }
+  //   }
+  // }, [router.query, role]);
 
   useEffect(() => {
-    if (router.query && router.query.to_car) {
-      if (role === 2) {
-        setIsToCar(true);
-      }
+    if (token && role === 2) {
+      getPlanData();
     }
-  }, [router.query, role]);
+  }, [role, token]);
 
   useEffect(() => {
     try {
@@ -54,18 +75,134 @@ const Account: FC<IProps> = (props) => {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (_planData?.getPlan.plan) {
+      setPlanData(_planData.getPlan.plan);
+
+      setMainLoading(false);
+    }
+  }, [_planData]);
+
+  const calculatePlanDueDays = (dueDate: number): number => {
+    let now = new Date().getTime();
+    let diff = dueDate - now;
+    if (diff <= 0) {
+      return 0;
+    }
+
+    if (diff <= 5) {
+      setShowRenewBtn(true);
+    }
+
+    return Math.ceil(diff / 86400000);
+  };
+
+  useEffect(() => {
+    if (planData?.title === "free") {
+      setShowUpgradeBtn(true);
+
+      setAlertPlanMsg(
+        <>
+          <small>
+            You are currently subscribed to the free plan. This subscription
+            will expire in{" "}
+            {calculatePlanDueDays(planData.due_date!) === 0
+              ? `today`
+              : `${calculatePlanDueDays(planData.due_date!)} days `}
+            from now. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <UpgradeBtn data={planData} />
+          </small>
+        </>
+      );
+    } else if (planData?.title !== "free") {
+      let tempShowUpgradeBtn;
+      let tempShowDowngradeBtn;
+      if (planData?.title !== "enterprise") {
+        tempShowUpgradeBtn = true;
+        setShowUpgradeBtn(true);
+      } else {
+        tempShowUpgradeBtn = false;
+        setShowUpgradeBtn(false);
+      }
+
+      if (planData?.title !== "individual") {
+        tempShowDowngradeBtn = true;
+        setShowDowngradeBtn(true);
+      } else {
+        tempShowDowngradeBtn = false;
+        setShowDowngradeBtn(false);
+      }
+
+      if (!planData?.active) {
+        // setShowUpgradeBtn(true);
+        // setShowRenewBtn(true);
+
+        setAlertPlanMsg(
+          <>
+            <div>
+              <Alert.Heading>Activate plan!</Alert.Heading>
+              <p>
+                <small>
+                  You picked {planData?.title} plan but you haven't activated it
+                  yet. To activate the plan proceed to payment now.
+                </small>
+              </p>
+              <div className="d-flex justify-content-end">
+                <RenewSubscribeBtn user={user!} data={planData!} proceedToPay />
+              </div>
+            </div>
+          </>
+        );
+      } else {
+        // setShowUpgradeBtn(true);
+        // setShowRenewBtn(true);
+        setAlertPlanMsg(
+          <>
+            <small>
+              You are currently subscribed to the {planData?.title} plan. This
+              subscription will expire in{" "}
+              {calculatePlanDueDays(planData?.due_date!) === 0
+                ? `today`
+                : `${calculatePlanDueDays(planData?.due_date!)} days `}
+              from now. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <div className="d-flex justify-content-end mt-2">
+                {tempShowUpgradeBtn && <UpgradeBtn data={planData!} />}
+
+                {showRenewBtn && (
+                  <>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <RenewSubscribeBtn user={user!} data={planData!} />
+                  </>
+                )}
+              </div>
+            </small>
+          </>
+        );
+      }
+    }
+  }, [planData]);
+
+  // console.log("showUpgradeBtn", showUpgradeBtn);
+
   return (
     <>
       <CustomHead title="Account" />
       <AuthWrapper>
         <AccountLayout>
-          {mainLoading ? (
+          {mainLoading || planLoading ? (
             <Loading />
           ) : (
             <div className="p-2 my-4">
               {hasCompleteProfile ? (
                 <div className="row m-0">
                   <div className="col-lg-9 bs-column overview-left">
+                    <CustomAlert
+                      show={showPlanAlert}
+                      setShow={setShowPlanAlert}
+                      variant="warning"
+                    >
+                      <>{alertPlanMsg!}</>
+                    </CustomAlert>
                     <p>Welcome Back,</p>
                     <div className="d-flex justify-content-between">
                       <h3 className="m-0">{`${user?.first_name} ${user?.last_name}`}</h3>
@@ -132,7 +269,7 @@ const Account: FC<IProps> = (props) => {
                   </div>
                 </>
               )}
-              {isToCar && (
+              {/* {isToCar && (
                 <>
                   <p>List your first car.</p>
                   <div>
@@ -147,7 +284,7 @@ const Account: FC<IProps> = (props) => {
                     </Link>
                   </div>
                 </>
-              )}
+              )} */}
             </div>
           )}
         </AccountLayout>

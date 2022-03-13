@@ -1,10 +1,14 @@
 import React from "react";
+import { User } from "../../graphql_types/generated/graphql";
 import { HostPlansData } from "../../utils/interfaces";
+import RenewSubscribeBtn from "../Account/Overview/RenewSubscribeBtn";
 import GetStartedBtn from "./GetStartedBtn";
 
 interface HostPlanBoxProps {
   data: HostPlansData;
   period: string;
+  isUpgrade: boolean;
+  user?: User;
 }
 
 export default function HostPlanBox(props: HostPlanBoxProps) {
@@ -97,7 +101,16 @@ export default function HostPlanBox(props: HostPlanBoxProps) {
       </div>
 
       <div className="mt-5">
-        <GetStartedBtn plansData={props.data} period={props.period} />
+        {props.isUpgrade ? (
+          <RenewSubscribeBtn
+            data={props.data}
+            isUpgrade={props.isUpgrade}
+            user={props.user!}
+            period={props.period!}
+          />
+        ) : (
+          <GetStartedBtn plansData={props.data} period={props.period} />
+        )}
       </div>
     </div>
   );

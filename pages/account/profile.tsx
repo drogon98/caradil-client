@@ -165,7 +165,7 @@ const Profile: FC<ProfileProps> = (props) => {
           setTimeout(async () => {
             await router.push({
               pathname: "/account",
-              query: { to_car: true },
+              // query: { to_car: true },
             });
           }, 3200);
         }

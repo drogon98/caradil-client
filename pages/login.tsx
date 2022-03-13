@@ -1,14 +1,18 @@
 import React from "react";
 import LoginForm from "../components/Auth/LoginForm";
 import Wrapper from "../components/Auth/Wrapper";
+import { CustomHead } from "../components/CustomHead";
 
 interface LoginProps {}
 
 const Login = (props: LoginProps) => {
   return (
-    <Wrapper>
-      <LoginForm isAdmin={false} />
-    </Wrapper>
+    <>
+      <CustomHead title="Login" />
+      <Wrapper>
+        <LoginForm isAdmin={false} />
+      </Wrapper>
+    </>
   );
 };
 

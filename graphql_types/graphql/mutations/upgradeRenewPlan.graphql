@@ -1,0 +1,5 @@
+mutation UpgradeRenewPlan($input: PlanUpgradeRenewInput!) {
+  upgradeRenewPlan(input: $input) {
+    success
+  }
+}
