@@ -111,6 +111,7 @@ const errorLink = onError((obj) => {
       if (hasUnAuthError) {
         let toRedirectTo = window.location.pathname;
         // console.log("toRedirectTo", toRedirectTo);
+        // Check current path,if it has no root,account or checkout, do not redirect
         window.location.replace(`/login?next=${toRedirectTo}`);
         store.dispatch(unsetToken());
       }
