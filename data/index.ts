@@ -315,7 +315,7 @@ export const countries = [
 ];
 
 export const hostPlansData: HostPlansData[] = [
-  { title: "individual", monthlyPrice: 200, annuallyPrice: 1680, carCount: 1 },
+  { title: "individual", monthlyPrice: 0, annuallyPrice: 0, carCount: 1 },
   { title: "basic", monthlyPrice: 600, annuallyPrice: 5040, carCount: 2 },
   { title: "agency", monthlyPrice: 2000, annuallyPrice: 16800, carCount: 10 },
   {

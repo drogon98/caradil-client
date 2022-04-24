@@ -11,7 +11,7 @@ export default function Wrapper(props: WrapperProps) {
   const [isRegister, setIsRegister] = useState(false);
   const [hasTrial, setHasTrial] = useState(false);
   const [hasPlanData, setHasPlanData] = useState(false);
-  const [planData, setPlanData] = useState<{ plan: string; period: string }>();
+  const [planData, setPlanData] = useState<{ plan: string; period?: string }>();
 
   const router = useRouter();
 
@@ -25,15 +25,21 @@ export default function Wrapper(props: WrapperProps) {
           delete queryData.trial;
           if (Object.keys({ ...queryData }).length > 0) {
             setHasPlanData(true);
-            setPlanData({
-              plan: router.query.plan as string,
-              period: router.query.period as string,
-            });
+            const plan = router.query.plan as string;
+            if (plan === "individual") {
+              setPlanData({
+                plan,
+              });
+            } else {
+              setPlanData({
+                plan,
+                period: router.query.period as string,
+              });
+            }
           } else {
             setHasPlanData(false);
             setPlanData({
-              plan: "free",
-              period: "monthly",
+              plan: "individual",
             });
           }
         }

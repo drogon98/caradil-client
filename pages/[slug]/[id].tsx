@@ -287,19 +287,38 @@ const Car: FC<CarProps> = (props) => {
         });
 
         if (response.data?.editCarReservedForBooking) {
-          await router.push({
-            pathname: "/checkout/confirm-order",
-            query: { carId, ...values, approved: true },
-          });
+          // await router.push({
+          //   pathname: "/checkout/confirm-order",
+          //   query: { carId, ...values, approved: true },
+          // });
+
+          if (car?.end_user_type === "self_driven") {
+            await router.push({
+              pathname: "/checkout/get-driver-info",
+              query: { carId, ...values, approved: true },
+            });
+          } else {
+            await router.push({
+              pathname: "/checkout/confirm-order",
+              query: { carId, ...values, approved: true },
+            });
+          }
         } else {
           // Car already reserved for booking by other user
         }
       } else {
         // Current user reserved car for booking
-        await router.push({
-          pathname: "/checkout/confirm-order",
-          query: { carId, ...values, approved: true },
-        });
+        if (car?.end_user_type === "self_driven") {
+          await router.push({
+            pathname: "/checkout/get-driver-info",
+            query: { carId, ...values, approved: true },
+          });
+        } else {
+          await router.push({
+            pathname: "/checkout/confirm-order",
+            query: { carId, ...values, approved: true },
+          });
+        }
       }
     } catch (error) {
       console.log("error :>> ", error);

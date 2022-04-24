@@ -1,0 +1,3 @@
+mutation UpdateDriverDetails($input: DriverDetailsInput!) {
+  updateDriverDetails(input: $input)
+}

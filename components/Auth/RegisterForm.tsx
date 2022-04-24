@@ -41,7 +41,7 @@ const RegisterForm: FC<IProps> = (props) => {
   const [error, setError] = useState<string>("");
   const [passwordMisMatch, setPasswordMisMatch] = useState(false);
   const [hasPlanData, setHasPlanData] = useState(false);
-  const [planData, setPlanData] = useState<{ plan: string; period: string }>();
+  const [planData, setPlanData] = useState<{ plan: string; period?: string }>();
 
   const dispatch = useAppDispatch();
 
@@ -64,15 +64,21 @@ const RegisterForm: FC<IProps> = (props) => {
           delete queryData.trial;
           if (Object.keys({ ...queryData }).length > 0) {
             setHasPlanData(true);
-            setPlanData({
-              plan: router.query.plan as string,
-              period: router.query.period as string,
-            });
+            const plan = router.query.plan as string;
+            if (plan === "individual") {
+              setPlanData({
+                plan,
+              });
+            } else {
+              setPlanData({
+                plan,
+                period: router.query.period as string,
+              });
+            }
           } else {
             setHasPlanData(false);
             setPlanData({
-              plan: "free",
-              period: "monthly",
+              plan: "individual",
             });
           }
         }
@@ -175,11 +181,11 @@ const RegisterForm: FC<IProps> = (props) => {
   return (
     <>
       <h3>Sign Up</h3>
-      {!hasPlanData && role === 2 && (
+      {/* {!hasPlanData && role === 2 && (
         <h6 className="my-3">
           Try the 30-days free trial,no credit card required
         </h6>
-      )}
+      )} */}
 
       <div>{error && <small className="text-danger">{error}</small>}</div>
       <div>

@@ -109,7 +109,10 @@ export default function HostPlanBox(props: HostPlanBoxProps) {
             period={props.period!}
           />
         ) : (
-          <GetStartedBtn plansData={props.data} period={props.period} />
+          <GetStartedBtn
+            plansData={props.data}
+            period={props.data.title === "individual" ? "" : props.period}
+          />
         )}
       </div>
     </div>

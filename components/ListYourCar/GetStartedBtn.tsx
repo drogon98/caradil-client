@@ -6,7 +6,7 @@ import { useRole } from "../hooks/useRole";
 
 interface GetStartedBtnProps {
   plansData: HostPlansData;
-  period: string;
+  period: string | boolean;
 }
 
 export default function GetStartedBtn(props: GetStartedBtnProps) {
@@ -50,11 +50,17 @@ export default function GetStartedBtn(props: GetStartedBtnProps) {
         <Link
           href={{
             pathname: "/register",
-            query: {
-              role: 2,
-              plan: props.plansData.title,
-              period: props.period,
-            },
+            query:
+              props.period === ""
+                ? {
+                    role: 2,
+                    plan: "individual",
+                  }
+                : {
+                    role: 2,
+                    plan: props.plansData.title,
+                    period: props.period,
+                  },
           }}
         >
           <a className="btn bgOrange">Get Started</a>

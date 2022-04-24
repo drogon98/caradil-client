@@ -1,10 +1,6 @@
 import React, { FC } from "react";
-import { Icon } from "@iconify/react";
-import { AiOutlineProfile } from "react-icons/ai";
-import { CgProfile } from "react-icons/cg";
-import { MdOutlineManageSearch, MdPlaylistAddCheck } from "react-icons/md";
+import { hostPlansData } from "../../data";
 import GetStartedBtn from "./GetStartedBtn";
-import TryForFreeBtn from "./TryForFreeBtn";
 
 interface WhyUsProps {}
 
@@ -63,7 +59,7 @@ export const WhyUs: FC<WhyUsProps> = (props) => {
         </div>
       </div>
       <div className="mt-5">
-        <TryForFreeBtn />
+        <GetStartedBtn plansData={hostPlansData[0]} period="" />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
+import { hostPlansData } from "../../data";
 import GetStartedBtn from "./GetStartedBtn";
-import TryForFreeBtn from "./TryForFreeBtn";
 
 interface IProps {}
 
@@ -39,7 +39,7 @@ export const KickOff: FC<IProps> = (props) => {
         </div>
       </div>
       <div className="mt-5">
-        <TryForFreeBtn />
+        <GetStartedBtn plansData={hostPlansData[0]} period="" />
       </div>
     </div>
   );

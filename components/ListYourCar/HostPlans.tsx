@@ -9,7 +9,6 @@ import { useAppSelector } from "../../redux/hooks";
 import { HostPlansData } from "../../utils/interfaces";
 import { useRole } from "../hooks/useRole";
 import HostPlanBox from "./HostPlanBox";
-import TryForFreeBtn from "./TryForFreeBtn";
 
 interface HostPlansProps {}
 
@@ -101,7 +100,7 @@ export default function HostPlans(props: HostPlansProps) {
       </div>
 
       <div className="customContainer">
-        {!isUpgrade && (
+        {/* {!isUpgrade && (
           <div className="text-center mb-4">
             <h4>Try Caradil free for 30 days.</h4>
             <p>No credit card required. No obligation. No risk.</p>
@@ -112,7 +111,7 @@ export default function HostPlans(props: HostPlansProps) {
               or <b className="text-orange">Pick a plan now</b>
             </span>
           </div>
-        )}
+        )} */}
 
         <div className="row align-items-end">
           {plansData?.map((hpd, idx) => (
