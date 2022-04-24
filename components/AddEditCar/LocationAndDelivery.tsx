@@ -174,6 +174,7 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
             location={pickUpLocation!}
             setLocationCords={setPickUpLocationCords}
             geocodeEstablishments={true}
+            placeholder="Enter pick-up location"
           />
         </div>
 
@@ -189,7 +190,7 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
             // required
           />
           <label className="form-check-label" htmlFor="provide-delivery">
-            I will deliver car to requested location
+            I will deliver this car to the requested location
           </label>
         </div>
 
