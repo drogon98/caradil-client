@@ -163,8 +163,8 @@ export const Categories: FC<CategoryProps> = (props) => {
         {hasVipAndLuxury && (
           <>
             <p className="mt-5">
-              You selected vip and luxury. Which other luxury services do you
-              offer?
+              You selected luxury and vip above. Which luxury and vip services
+              do you offer?
             </p>
             {carVipAndLuxuryServices.map((service, idx) => {
               const isSelected = values?.categories?.find(
