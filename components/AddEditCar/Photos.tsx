@@ -208,7 +208,7 @@ export const Photos: FC<PhotosProps> = (props) => {
       <div className="mb-2">
         <small>
           <b>
-            Note:These photos should only belong to one car. If you have other
+            Note:These photos should only belong to one car. If you have another
             car,list it as a separate car.
           </b>
         </small>
