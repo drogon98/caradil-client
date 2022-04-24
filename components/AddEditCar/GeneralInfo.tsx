@@ -352,7 +352,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
 
         <div className="row m-0 mt-3">
           <div className="container p-0">
-            <label>Which driving mode is this car elligible for?</label>
+            <label>Which driving mode is this car eligible for?</label>
             <div className="form-check">
               <input
                 className="form-check-input"
