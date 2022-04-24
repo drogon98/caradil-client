@@ -54,21 +54,6 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-// const wsLink: any = process.browser
-//   ? new WebSocketLink({
-//       uri: `${baseWsDomain}subscriptions`,
-//       options: {
-//         reconnect: true,
-//         lazy: true,
-//         connectionParams: () => {
-//           return {
-//             authToken: `Bearer ${store.getState().auth._id}`,
-//           };
-//         },
-//       },
-//     })
-//   : null;
-
 const wsLink: any = process.browser
   ? new GraphQLWsLink(
       createClient({
