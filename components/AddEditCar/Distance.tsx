@@ -32,8 +32,7 @@ export const Distance: FC<DistanceProps> = (props) => {
   const [values, setValues] = useState<CarDistanceInput>();
   const [showExtraDistanceText, setShowExtraDistanceText] = useState(false);
   const [invalidDistanceError, setInvalidDistanceError] = useState(false);
-  const [invalidHourlyDistanceError, setInvalidHourlyDistanceError] =
-    useState(false);
+
   const [showSaveToast, setShowSaveToast] = useState(false);
 
   useEffect(() => {
@@ -81,19 +80,13 @@ export const Distance: FC<DistanceProps> = (props) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!values?.has_unlimited_distance && values?.distance_per_day === 0) {
+    const hasHourlyOrDailyDistance =
+      values?.distance_per_day || values?.distance_per_hour;
+    if (!values?.has_unlimited_distance && !hasHourlyOrDailyDistance) {
       setInvalidDistanceError(true);
       return;
     }
 
-    if (
-      props.canRentHourly &&
-      !values?.has_unlimited_distance &&
-      values?.distance_per_hour === 0
-    ) {
-      setInvalidHourlyDistanceError(true);
-      return;
-    }
     try {
       let response = await editDistance({
         variables: {
@@ -127,9 +120,6 @@ export const Distance: FC<DistanceProps> = (props) => {
     if (invalidDistanceError) {
       setInvalidDistanceError(false);
     }
-    if (invalidHourlyDistanceError) {
-      setInvalidHourlyDistanceError(false);
-    }
   };
 
   return (
@@ -146,18 +136,13 @@ export const Distance: FC<DistanceProps> = (props) => {
       <h3>Distance</h3>
       {invalidDistanceError && (
         <small className="text-danger">
-          With unlimited distance false,distance per day should be a value
-          greater than 0.
+          With unlimited distance false,either distance per day or distance per
+          hour should be a value greater than 0.
         </small>
       )}
-      {invalidHourlyDistanceError && (
-        <small className="text-danger">
-          With unlimited distance false,distance per hour should be a value
-          greater than 0.
-        </small>
-      )}
+
       <p className="mb-2">
-        This is the distance your car should cover in a trip.
+        This is the distance your car should cover per day in a trip.
       </p>
       <form onSubmit={handleSubmit} className="mb-3">
         <div>
@@ -185,7 +170,7 @@ export const Distance: FC<DistanceProps> = (props) => {
                 By default many of the cars are listed to be rented out on per
                 day basis.If you intend to rent out your car on trips lasting
                 less than 24 hours then add the maximum distance your car should
-                cover in one. hour
+                cover in one hour.
               </div>
               <label htmlFor="distance_per_hour">Hourly Distance (KM)</label>
               <div className="input-group car-input-width mb-3">
@@ -260,7 +245,7 @@ export const Distance: FC<DistanceProps> = (props) => {
             className="form-check-label"
             htmlFor="has_unlimited_distance_input"
           >
-            Unlimited Distance (Guest can travel any distance.)
+            This car has Unlimited Distance (Guest can travel any distance.)
           </label>
         </div>
 
