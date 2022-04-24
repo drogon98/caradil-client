@@ -85,9 +85,6 @@ const Profile: FC<ProfileProps> = (props) => {
       delete tempData.__typename;
       delete tempData.id;
       delete tempData.email_verified;
-      delete tempData.debit_amount;
-      delete tempData.top_up_transaction;
-      delete tempData.top_up_transaction_id;
 
       if (tempData.avatar?.public_id) {
         const tempAvatar: FileInput = {
