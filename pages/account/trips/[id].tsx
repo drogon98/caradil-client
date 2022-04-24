@@ -36,7 +36,7 @@ export default function Trip(props: Props): ReactElement {
   const { data, loading, subscribeToMore } = useGetTripQuery({
     variables: { tripId: tripId! },
     skip,
-    fetchPolicy: "no-cache",
+    fetchPolicy: "network-only",
   });
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setShowToastMessage] = useState("");
@@ -54,9 +54,7 @@ export default function Trip(props: Props): ReactElement {
         }
 
         setTripId(tripID);
-      } catch (error) {
-        console.log("error", error);
-      }
+      } catch (error) {}
     }
   }, [router.query]);
 
@@ -89,6 +87,9 @@ export default function Trip(props: Props): ReactElement {
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
           const trip: any = { ...subscriptionData.data };
+          console.log("prev.getTrip", prev.getTrip);
+          console.log("trip :>> ", trip);
+          console.log("prev :>> ", prev);
           let tempPayload = {
             ...prev.getTrip.trip,
             status: trip.tripStatus.status,
