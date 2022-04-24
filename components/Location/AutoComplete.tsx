@@ -6,17 +6,6 @@ import usePlacesAutocomplete, {
 import { LocationCords } from "../../graphql_types/generated/graphql";
 import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
 
-export interface AutoCompleteProps {
-  placeholder: string;
-  handler: any;
-  name: string;
-  value: string;
-  inputRef: any;
-  required?: any;
-  geocodeEstablishments?: boolean;
-  locationType?: string;
-}
-
 //https://hackernoon.com/create-your-reactjs-address-autocomplete-component-in-10-minutes-ws2j33ej
 
 export const getLongLat = async (location: string): Promise<LocationCords> => {
@@ -34,6 +23,7 @@ export const PlacesAutocomplete = (props: {
   location: string;
   setLocationCords?: any;
   geocodeEstablishments?: boolean;
+  placeholder?: string;
 }) => {
   const [initial, setInitial] = useState(false);
   const {
@@ -131,7 +121,7 @@ export const PlacesAutocomplete = (props: {
         value={props.location}
         onChange={handleInput}
         // disabled={!ready}
-        placeholder="Where?"
+        placeholder={props.placeholder ?? "Where?"}
         className="form-control h-100"
         ref={inputRef}
       />
