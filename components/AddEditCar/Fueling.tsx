@@ -99,8 +99,8 @@ export const Fueling: FC<FuelingProps> = (props) => {
       )}
       <h3>Fueling</h3>
       <p className="mb-2">
-        For a car to be useful,it needs fuel. Give us your car fuel efficiency
-        and consumption efficiency.
+        For a car to be useful,it needs fuel. Give us your car fuel and
+        consumption efficiency.
       </p>
       <form onSubmit={handleSubmit} className="mb-3">
         <div className="mb-3">
