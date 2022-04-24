@@ -21,15 +21,22 @@ export default function HostPlanBox(props: HostPlanBoxProps) {
       </div>
       <hr />
       <div className="text-center">
-        <p>
-          <sup className="host-plan-sub-sup">ksh</sup>
-          <span className="host-plan-amount">
-            {props.data.price?.toLocaleString()}
-          </span>
-          <sub className="host-plan-sub-sup">
-            /{props.period === "monthly" ? "month" : "annum"}
-          </sub>
-        </p>
+        {props.data.price === 0 ? (
+          <p>
+            <span className="host-plan-amount">Free</span>
+          </p>
+        ) : (
+          <p>
+            <sup className="host-plan-sub-sup">ksh</sup>
+            <span className="host-plan-amount">
+              {props.data.price?.toLocaleString()}
+            </span>
+            <sub className="host-plan-sub-sup">
+              /{props.period === "monthly" ? "month" : "annum"}
+            </sub>
+          </p>
+        )}
+
         {/* <p className="lead host-plan-lead">Billed 600 per year</p> */}
       </div>
       <hr />
