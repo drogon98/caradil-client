@@ -139,9 +139,6 @@ const RegisterForm: FC<IProps> = (props) => {
       setRegistering(true);
       let response;
 
-      // console.log("payload", payload);
-      // console.log("planData", planData);
-
       response = await register({ variables: { payload } });
 
       if (response?.data?.register.error) {
@@ -181,12 +178,6 @@ const RegisterForm: FC<IProps> = (props) => {
   return (
     <>
       <h3>Sign Up</h3>
-      {/* {!hasPlanData && role === 2 && (
-        <h6 className="my-3">
-          Try the 30-days free trial,no credit card required
-        </h6>
-      )} */}
-
       <div>{error && <small className="text-danger">{error}</small>}</div>
       <div>
         {passwordMisMatch && (
@@ -322,28 +313,11 @@ const RegisterForm: FC<IProps> = (props) => {
                   spinnerColor="white"
                   dimensions={{ height: "24px", width: "24px" }}
                 />
-              ) : hasPlanData ? (
-                "Sign Up"
-              ) : role === 2 ? (
-                "Start My Free Trial"
               ) : (
                 "Sign Up"
               )}
             </button>
           </div>
-
-          {/* {!props.isAdmin && (
-            <div className="d-flex mt-3 justify-content-between">
-              <span></span>
-              <span>
-                <Link href="/login">
-                  <a>
-                    <small>Already have an account?</small>
-                  </a>
-                </Link>
-              </span>
-            </div>
-          )} */}
         </div>
       </form>
     </>
