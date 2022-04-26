@@ -27,8 +27,8 @@ export const WhyUs: FC<WhyUsProps> = (props) => {
           <p>
             We have many cars to meet different client needs. From budget cars
             to classic cars,self driven and chauffeur driven,business and
-            leisure cars,name it. Our search and filters algorithms make it easy
-            for your to get your perfect car in the shortest time possible.
+            leisure cars,name it. Our search and filter algorithms make it easy
+            for you to get your perfect car in the shortest time possible.
           </p>
         </div>
       </div>
