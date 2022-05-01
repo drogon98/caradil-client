@@ -99,7 +99,7 @@ const RegisterForm: FC<IProps> = (props) => {
     }
   };
 
-  const handleFocus = (e: MouseEvent) => {
+  const handleFocus = (e: ChangeEvent<HTMLInputElement>) => {
     if (error) {
       setError("");
     }

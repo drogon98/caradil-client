@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactElement, MouseEvent, useEffect, useState } from "react";
-import { setToken } from "../../redux/authSlice";
-import { useAppDispatch } from "../../redux/hooks";
+import React, { ChangeEvent, ReactElement, useEffect, useState } from "react";
+import client from "../../apollo";
+import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import {
   LoginInput,
   useLoginMutation,
 } from "../../graphql_types/generated/graphql";
-import { ButtonLoading } from "../../components/Loading/ButtonLoading";
-import client from "../../apollo";
+import { setToken } from "../../redux/authSlice";
+import { useAppDispatch } from "../../redux/hooks";
 import { getRole } from "../../utils/role";
 
 interface Props {
@@ -75,9 +75,6 @@ export default function LoginForm(props: Props): ReactElement {
     checkPlanData();
   }, [router]);
 
-  console.log("planData", planData);
-  console.log("hasPlanData :>> ", hasPlanData);
-
   useEffect(() => {
     if (loading) {
       setMainLoading(true);
@@ -85,7 +82,7 @@ export default function LoginForm(props: Props): ReactElement {
   }, [loading]);
 
   // Check focusevent issues
-  const handleFocus = (e: MouseEvent) => {
+  const handleFocus = (e: ChangeEvent<HTMLInputElement>) => {
     if (error) {
       setError("");
     }
