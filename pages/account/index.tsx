@@ -37,6 +37,7 @@ const Account: FC<IProps> = (props) => {
   const [alertPlanMsg, setAlertPlanMsg] = useState<ReactNode>();
   const [getPlanData, { data: _planData, loading: planLoading }] =
     useGetAccountPlanLazyQuery({ fetchPolicy: "no-cache" });
+  const [planDueDays, setPlanDueDays] = useState<number>();
 
   // useEffect(() => {
   //   if (router.query && router.query.to_car) {
@@ -86,9 +87,9 @@ const Account: FC<IProps> = (props) => {
   const calculatePlanDueDays = (dueDate: number): number => {
     let now = new Date().getTime();
     let diff = dueDate - now;
-    if (diff <= 0) {
-      return 0;
-    }
+    // if (diff <= 0) {
+    //   return 0;
+    // }
 
     if (diff <= 5) {
       setShowRenewBtn(true);
@@ -98,91 +99,111 @@ const Account: FC<IProps> = (props) => {
   };
 
   useEffect(() => {
-    if (planData?.title === "free") {
-      setShowUpgradeBtn(true);
+    if (planData) {
+      let now = new Date().getTime();
+      let diff = planData.due_date! - now;
 
-      setAlertPlanMsg(
-        <>
-          <small>
-            You are currently subscribed to the free plan. This subscription
-            will expire in{" "}
-            {calculatePlanDueDays(planData.due_date!) === 0
-              ? `today`
-              : `${calculatePlanDueDays(planData.due_date!)} days `}
-            from now. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <UpgradeBtn data={planData} />
-          </small>
-        </>
-      );
-    } else if (planData?.title !== "free") {
-      let tempShowUpgradeBtn;
-      let tempShowDowngradeBtn;
-      if (planData?.title !== "enterprise") {
-        tempShowUpgradeBtn = true;
-        setShowUpgradeBtn(true);
-      } else {
-        tempShowUpgradeBtn = false;
-        setShowUpgradeBtn(false);
+      if (diff <= 5) {
+        setShowRenewBtn(true);
       }
 
-      if (planData?.title !== "individual") {
-        tempShowDowngradeBtn = true;
-        setShowDowngradeBtn(true);
-      } else {
-        tempShowDowngradeBtn = false;
-        setShowDowngradeBtn(false);
-      }
-
-      if (!planData?.active) {
-        // setShowUpgradeBtn(true);
-        // setShowRenewBtn(true);
-
-        setAlertPlanMsg(
-          <>
-            <div>
-              <Alert.Heading>Activate plan!</Alert.Heading>
-              <p>
-                <small>
-                  You picked {planData?.title} plan but you haven't activated it
-                  yet. To activate the plan proceed to payment now.
-                </small>
-              </p>
-              <div className="d-flex justify-content-end">
-                <RenewSubscribeBtn user={user!} data={planData!} proceedToPay />
-              </div>
-            </div>
-          </>
-        );
-      } else {
-        // setShowUpgradeBtn(true);
-        // setShowRenewBtn(true);
-        setAlertPlanMsg(
-          <>
-            <small>
-              You are currently subscribed to the {planData?.title} plan. This
-              subscription will expire in{" "}
-              {calculatePlanDueDays(planData?.due_date!) === 0
-                ? `today`
-                : `${calculatePlanDueDays(planData?.due_date!)} days `}
-              from now. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <div className="d-flex justify-content-end mt-2">
-                {tempShowUpgradeBtn && <UpgradeBtn data={planData!} />}
-
-                {showRenewBtn && (
-                  <>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <RenewSubscribeBtn user={user!} data={planData!} />
-                  </>
-                )}
-              </div>
-            </small>
-          </>
-        );
-      }
+      setPlanDueDays(Math.ceil(diff / 86400000));
     }
   }, [planData]);
 
-  // console.log("showUpgradeBtn", showUpgradeBtn);
+  useEffect(() => {
+    // if (planData?.title === "free") {
+    //   setShowUpgradeBtn(true);
+
+    //   setAlertPlanMsg(
+    //     <>
+    //       <small>
+    //         You are currently subscribed to the free plan. This subscription
+    //         will expire in{" "}
+    //         {calculatePlanDueDays(planData.due_date!) === 0
+    //           ? `today`
+    //           : `${calculatePlanDueDays(planData.due_date!)} days `}
+    //         from now. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    //         <UpgradeBtn data={planData} />
+    //       </small>
+    //     </>
+    //   );
+    // } else
+
+    if (planData) {
+      if (planData?.title !== "free") {
+        let tempShowUpgradeBtn;
+        let tempShowDowngradeBtn;
+        if (planData?.title !== "enterprise") {
+          tempShowUpgradeBtn = true;
+          setShowUpgradeBtn(true);
+        } else {
+          tempShowUpgradeBtn = false;
+          setShowUpgradeBtn(false);
+        }
+
+        if (planData?.title !== "individual") {
+          tempShowDowngradeBtn = true;
+          setShowDowngradeBtn(true);
+        } else {
+          tempShowDowngradeBtn = false;
+          setShowDowngradeBtn(false);
+        }
+
+        if (!planData?.active) {
+          // setShowUpgradeBtn(true);
+          // setShowRenewBtn(true);
+
+          setAlertPlanMsg(
+            <>
+              <div>
+                <Alert.Heading>Activate plan!</Alert.Heading>
+                <p>
+                  <small>
+                    You picked {planData?.title} plan but you haven't activated
+                    it yet. To activate the plan proceed to payment now.
+                  </small>
+                </p>
+                <div className="d-flex justify-content-end">
+                  <RenewSubscribeBtn
+                    user={user!}
+                    data={planData!}
+                    proceedToPay
+                  />
+                </div>
+              </div>
+            </>
+          );
+        } else if (planData.title !== "individual") {
+          // setShowUpgradeBtn(true);
+          // setShowRenewBtn(true);
+          setAlertPlanMsg(
+            <>
+              <small>
+                You are currently subscribed to the {planData?.title} plan.
+                {planDueDays ?? 0 <= 0
+                  ? `This subscription is already expired!`
+                  : `This
+                subscription will expire in{" "}
+                ${planDueDays} days  from now.`}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div className="d-flex justify-content-end mt-2">
+                  {tempShowUpgradeBtn && <UpgradeBtn data={planData!} />}
+
+                  {showRenewBtn && (
+                    <>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <RenewSubscribeBtn user={user!} data={planData!} />
+                    </>
+                  )}
+                </div>
+              </small>
+            </>
+          );
+        }
+      }
+    }
+  }, [planData, showRenewBtn]);
 
   return (
     <>
