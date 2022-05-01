@@ -1,22 +1,19 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  // createHttpLink,
-  InMemoryCache,
-  split,
-} from "@apollo/client";
+import { ApolloClient, ApolloLink, InMemoryCache, split } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
-// import { WebSocketLink } from "@apollo/client/link/ws";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { createUploadLink } from "apollo-upload-client";
-import { unsetToken } from "../redux/authSlice";
+import { setToken, unsetToken } from "../redux/authSlice";
 import { store } from "../redux/store";
 import { baseHttpDomain, baseWsDomain } from "../utils/baseDomain";
-import { tokenRefreshLink } from "./tokenRefreshLink";
 import { print } from "graphql";
 import { createClient, Client } from "graphql-ws";
-import { Operation, FetchResult, Observable } from "@apollo/client/core";
+import {
+  Operation,
+  FetchResult,
+  Observable,
+  fromPromise,
+} from "@apollo/client/core";
 
 class GraphQLWsLink extends ApolloLink {
   constructor(private client: Client) {
@@ -81,41 +78,67 @@ const splitLink = process.browser
     )
   : httpLink;
 
-const errorLink = onError((obj) => {
-  console.log("obj", obj);
+const errorLink = onError(
+  ({ graphQLErrors, networkError, operation, forward }) => {
+    // console.log("obj", graphQLErrors);
 
-  if (obj.graphQLErrors) {
-    try {
-      let hasUnAuthError = obj.graphQLErrors.some((err) => {
-        if (err.extensions && err.extensions.code) {
-          return err.extensions.code === "UNAUTHENTICATED";
+    if (graphQLErrors) {
+      for (let err of graphQLErrors) {
+        switch (err.extensions.code) {
+          case "UNAUTHENTICATED":
+            // error code is set to UNAUTHENTICATED
+            // when AuthenticationError thrown in resolver
+            return fromPromise(
+              fetch(`${baseHttpDomain}refresh-token`, {
+                method: "POST",
+                credentials: "include",
+              })
+                .then(async (res) => {
+                  const data = await res.json();
+                  let token = data.access_token;
+                  if (token) {
+                    return token;
+                  } else {
+                    throw new Error("Invalid token from graphql operation!");
+                  }
+                })
+                .catch((err) => {
+                  // Should i clear or reset the store?
+                  console.log(`err`, err);
+                  store.dispatch(unsetToken());
+                  let toRedirectTo = window.location.pathname;
+                  // console.log("toRedirectTo", toRedirectTo);
+                  window.location.replace(`/login?next=${toRedirectTo}`);
+                })
+            )
+              .filter((value) => {
+                return Boolean(value);
+              })
+              .flatMap((accessToken) => {
+                store.dispatch(setToken(accessToken));
+                const oldHeaders = operation.getContext().headers;
+                operation.setContext({
+                  headers: {
+                    ...oldHeaders,
+                    authorization: `Bearer ${accessToken}`,
+                  },
+                });
+                // retry the request, returning the new observable
+                return forward(operation);
+              });
         }
-        return false;
-      });
-
-      if (hasUnAuthError) {
-        let toRedirectTo = window.location.pathname;
-        // console.log("toRedirectTo", toRedirectTo);
-        // Check current path,if it has no root,account or checkout, do not redirect
-        window.location.replace(`/login?next=${toRedirectTo}`);
-        store.dispatch(unsetToken());
       }
-    } catch (error) {
-      console.log("error", error);
     }
   }
-});
+);
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   //  Pass the credentials option e.g. credentials: 'same-origin'
   // if your backend server is the same domain, as shown below, or else credentials: 'include'
   // if your backend is a different domain.
-  link: errorLink.concat(
-    ApolloLink.from([tokenRefreshLink, authLink, splitLink])
-  ),
+  link: errorLink.concat(ApolloLink.from([authLink, splitLink])),
   ssrMode: true,
-  // link: authLink.concat(httpLink),
 });
 
 export default client;
