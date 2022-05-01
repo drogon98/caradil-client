@@ -325,3 +325,24 @@ export const hostPlansData: HostPlansData[] = [
     carCount: "Unlimited",
   },
 ];
+
+export const fuelPoliciesData = [
+  {
+    title: "Full to full (or same to same)",
+    host: "One of the most common and best-value policies, here you'll pick-up your car with a full tank and return it full. Alternatively, you may see it listed as same to same or quarter to quarter. In each case, you simply have to replace the fuel you've used before dropping the car off.",
+    guest:
+      "One of the most common and best-value policies, here you'll pick-up your car with a full tank and return it full. Alternatively, you may see it listed as same to same or quarter to quarter. In each case, you simply have to replace the fuel you've used before dropping the car off.",
+  },
+  {
+    title: "Pre-Purchase full to empty",
+    host: "You will receive your rental with a full tank a petrol but you don't need to replace the fuel you use before returning the car. This means that you will be charged to the full tank of fuel on collection, so you'll want to use as much fuel as possible. Return it as close to empty as you can to get your money's worth as you won't be refunded for what is left in the tank.",
+    guest:
+      "You will receive your rental with a full tank a petrol but you don't need to replace the fuel you use before returning the car. This means that you will be charged to the full tank of fuel on collection, so you'll want to use as much fuel as possible. Return it as close to empty as you can to get your money's worth as you won't be refunded for what is left in the tank.",
+  },
+  {
+    title: "Pre-purchase refund",
+    host: "Like the Full to Empty policy, you will collect the car with a full tank of fuel but will receive a refund for any unused fuel upon return.",
+    guest:
+      "Like the Full to Empty policy, you will collect the car with a full tank of fuel but will receive a refund for any unused fuel upon return.",
+  },
+];
