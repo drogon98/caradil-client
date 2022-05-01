@@ -30,6 +30,8 @@ export const AddCarStart = (props: AddCarStartProps) => {
   // console.log("data", data);
   // console.log("user", user);
 
+  // console.log("planData", planData);
+
   useEffect(() => {
     try {
       if (data?.hostCanListACarData.error) {
@@ -38,18 +40,26 @@ export const AddCarStart = (props: AddCarStartProps) => {
         let _hostPlanData = data?.hostCanListACarData.plan!;
         let _hostListedCars = data?.hostCanListACarData.carsListed!;
 
-        // Check if the subscription is expired
-        if (_hostPlanData?.due_date! < new Date().getTime()) {
-          setAction("expired");
-        } else {
-          // Check if this is free trial
-          if (_hostPlanData.title === "free") {
-            if (_hostListedCars === 5) {
-              setAction("upgrade");
-            } else {
-              setAction("add_car");
-            }
+        if (_hostPlanData.title === "individual") {
+          if (_hostListedCars === 2) {
+            setAction("upgrade");
           } else {
+            setAction("add_car");
+          }
+        } else {
+          // Check if the subscription is expired
+
+          if (_hostPlanData?.due_date! < new Date().getTime()) {
+            setAction("expired");
+          } else {
+            // Check if this is free trial
+            // if (_hostPlanData.title === "free") {
+            //   if (_hostListedCars === 5) {
+            //     setAction("upgrade");
+            //   } else {
+            //     setAction("add_car");
+            //   }
+            // } else {
             let planCars = hostPlansData.filter(
               (hpd) => hpd.title === _hostPlanData?.title
             )[0].carCount;
@@ -60,6 +70,7 @@ export const AddCarStart = (props: AddCarStartProps) => {
             } else if (_hostListedCars === planCars) {
               setAction("upgrade");
             }
+            // }
           }
         }
       }
@@ -103,7 +114,7 @@ export const AddCarStart = (props: AddCarStartProps) => {
                   At least 5 clean photos of your car. These should be
                   rear,fore,both sides and inner photos of the car. These photos{" "}
                   <b>should not</b> contain any contact information like phone
-                  no. or email
+                  no., email or website urls.
                 </li>
               </ul>
               <div className="d-flex justify-content-end mt-4">
