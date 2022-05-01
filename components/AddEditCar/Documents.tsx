@@ -293,7 +293,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
               <div className="d-flex align-items-center">
                 <input
                   type="file"
-                  accept="image/*,.pdf"
+                  accept=".jpg, .jpeg, .png,.pdf"
                   onChange={(e) => handleUpload(e, "national_id")}
                   // disabled={props.isManage && !props.isEdit}
                   // disabled={saving}
@@ -339,7 +339,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
               <div className="d-flex align-items-center">
                 <input
                   type="file"
-                  accept="image/*,.pdf"
+                  accept=".jpg, .jpeg, .png,.pdf"
                   onChange={(e) => handleUpload(e, "logbook")}
                   // disabled={props.isManage && !props.isEdit}
                   // disabled={saving}
@@ -396,7 +396,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
               <div className="d-flex align-items-center">
                 <input
                   type="file"
-                  accept="image/*,.pdf"
+                  accept=".jpg, .jpeg, .png,.pdf"
                   onChange={(e) => handleUpload(e, "purchase_receipt")}
                   // disabled={saving}
                 />
@@ -432,7 +432,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
                       <div className="d-flex align-items-center">
                         <input
                           type="file"
-                          accept="image/*,.pdf"
+                          accept=".jpg, .jpeg, .png,.pdf"
                           onChange={(e) => handleUpload(e, "purchase_receipt")}
                           // disabled={saving}
                         />
