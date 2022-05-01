@@ -230,7 +230,7 @@ export const Photos: FC<PhotosProps> = (props) => {
         <div className="d-flex align-items-center">
           <input
             type="file"
-            accept="image/*"
+            accept=".jpg, .jpeg, .png"
             onChange={handleUpload}
             // disabled={props.isManage && !props.isEdit}
           />

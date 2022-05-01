@@ -32,7 +32,7 @@ const uploadButton = (
   <>
     <input
       type="file"
-      accept="image/*"
+      accept=".jpg, .jpeg, .png"
       // required
       onChange={uploadHandler}
       className="mt-3"

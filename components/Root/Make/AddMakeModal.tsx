@@ -61,7 +61,7 @@ export default function AddMakeModal(props: Props): ReactElement {
           <div className="d-flex align-items-center">
             <input
               type="file"
-              accept="image/*"
+              accept=".jpg, .jpeg, .png"
               required
               onChange={handleUpload}
               disabled={uploading}
