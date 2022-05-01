@@ -19,7 +19,6 @@ interface Props {
 
 export default function AccountActionModal(props: Props): ReactElement {
   const router = useRouter();
-  console.log("router", router);
   const [upgradeAccount, { loading: upgradeLoading }] =
     useUpgradeAccountMutation();
 
@@ -27,16 +26,18 @@ export default function AccountActionModal(props: Props): ReactElement {
     e.preventDefault();
     try {
       if (props.action === "upgrade") {
-        let planData;
+        // let planData;
 
-        if (router.query && router.query.plan && router.query.period) {
-          planData = {
-            plan: router.query.plan as string,
-            period: router.query.period as string,
-          };
-        } else {
-          planData = { plan: "free", period: "monthly" };
-        }
+        // if (router.query && router.query.plan && router.query.period) {
+        //   planData = {
+        //     plan: router.query.plan as string,
+        //     period: router.query.period as string,
+        //   };
+        // } else {
+        //   planData = { plan: "free", period: "monthly" };
+        // }
+
+        const planData = { plan: "individual" };
 
         let response = await upgradeAccount({ variables: { input: planData } });
 
