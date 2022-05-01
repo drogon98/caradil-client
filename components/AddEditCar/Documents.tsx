@@ -4,7 +4,7 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
-  SyntheticEvent,
+  MouseEvent,
   useEffect,
   useState,
 } from "react";
@@ -199,7 +199,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
   };
 
   const handleDeleteDoc = async (
-    e: SyntheticEvent<HTMLButtonElement>,
+    e: MouseEvent<HTMLButtonElement>,
     title: string
   ) => {
     e.preventDefault();
@@ -234,7 +234,7 @@ export const Documents: FC<DocumentsProps> = (props) => {
     } catch (error) {}
   };
 
-  const handleRequestEditClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleRequestEditClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (props.hasEditRequest) {
       return;

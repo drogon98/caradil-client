@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useState } from "react";
+import React, { FC, MouseEvent, useState } from "react";
 import { Car, Transaction } from "../../../graphql_types/generated/graphql";
 
 interface AllBoxProps {

@@ -2,7 +2,7 @@ import React, {
   Dispatch,
   ReactElement,
   SetStateAction,
-  SyntheticEvent,
+  MouseEvent,
 } from "react";
 import { Modal } from "react-bootstrap";
 import {
@@ -22,7 +22,7 @@ interface Props {
 export default function RequestEditModal(props: Props): ReactElement {
   // const [createEditRequest, { loading }] = useCreateEditCarRequestMutation();
 
-  const handleRequestEdit = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleRequestEdit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     try {

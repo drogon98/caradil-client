@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from "react";
+import React, { MouseEvent } from "react";
 import { Modal } from "react-bootstrap";
 import {
   Car,
@@ -20,7 +20,7 @@ export default function ActivateModal(props: ActivateModalProps) {
   const [deactivateCar, { loading: deactivatingCar }] =
     useDeActivateCarMutation();
 
-  const handleActivate = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleActivate = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       let response = await activateCar({
@@ -36,7 +36,7 @@ export default function ActivateModal(props: ActivateModalProps) {
     }
   };
 
-  const handleDeactivate = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleDeactivate = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       let response = await deactivateCar({

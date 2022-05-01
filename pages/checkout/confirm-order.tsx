@@ -4,7 +4,7 @@ import React, {
   ChangeEvent,
   FC,
   FormEvent,
-  SyntheticEvent,
+  MouseEvent,
   useEffect,
   useRef,
   useState,
@@ -392,7 +392,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
   //   setLocation(data.formatted_address);
   // };
 
-  const handleFindDistance = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleFindDistance = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!location) {

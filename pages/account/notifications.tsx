@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useEffect, useState } from "react";
+import React, { FC, MouseEvent, useEffect, useState } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
 import AccountLayout from "../../components/layouts/AccountLayout";
@@ -39,9 +39,7 @@ const Notifications: FC<NotificationsProps> = (props) => {
     }
   }, [notifications]);
 
-  const handleMarkAllReadClick = async (
-    e: SyntheticEvent<HTMLButtonElement>
-  ) => {
+  const handleMarkAllReadClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       let response = await markAllRead();

@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent } from "react";
+import React, { FC, MouseEvent } from "react";
 import {
   Car,
   // useEditCarVerifiedMutation,
@@ -11,7 +11,7 @@ interface UnverifiedBoxProps {
 export const UnverifiedBox: FC<UnverifiedBoxProps> = (props) => {
   // const [editVerified, { loading }] = useEditCarVerifiedMutation();
 
-  const handleClick = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
     console.log("e :>> ", e);
     // const response = await editVerified({
     //   variables: { carId: props.data.id! },

@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useEffect, useState } from "react";
+import React, { FC, MouseEvent, useEffect, useState } from "react";
 import { AdminAuthWrapper } from "../../components/AdminAuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
 import AdminLayout from "../../components/layouts/AdminLayout";
@@ -22,7 +22,7 @@ const CarMakes: FC<CarMakesProps> = (props) => {
     }
   }, [data, loading]);
 
-  const handleAddMakeClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleAddMakeClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     setShowAddMakeModal(true);

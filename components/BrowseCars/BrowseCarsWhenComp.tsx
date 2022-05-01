@@ -1,5 +1,5 @@
 import "@lls/react-light-calendar/dist/index.css";
-import React, { RefObject, SyntheticEvent, useEffect, useState } from "react";
+import React, { RefObject, MouseEvent, useEffect, useState } from "react";
 import { TripDatesObj } from "../../utils/interfaces";
 import { TripDates } from "../PublicCar/TripDates";
 
@@ -75,7 +75,7 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
 
   const disableDates = (date: number) => date < new Date().getTime() - 86400000;
 
-  const handleApplyTime = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleApplyTime = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     try {
@@ -124,7 +124,7 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
     props.setShowWhenComp(false);
   };
 
-  const handleClearTime = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleClearTime = (e: MouseEvent<HTMLButtonElement>) => {
     // e.preventDefault();
     try {
       delete props.values.start_time;

@@ -3,7 +3,7 @@ import React, {
   Dispatch,
   FC,
   SetStateAction,
-  SyntheticEvent,
+  MouseEvent,
   useEffect,
   useState,
 } from "react";
@@ -80,9 +80,7 @@ export const Description: FC<DescriptionProps> = (props) => {
     setValue(props.value.description);
   }, [props.value]);
 
-  const handleSaveDescription = async (
-    e: SyntheticEvent<HTMLButtonElement>
-  ) => {
+  const handleSaveDescription = async (e: MouseEvent<HTMLButtonElement>) => {
     props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
 
     try {

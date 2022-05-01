@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, {
   ChangeEvent,
   FormEvent,
-  SyntheticEvent,
+  MouseEvent,
   useEffect,
   useRef,
   useState,
@@ -251,7 +251,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
     }
   };
 
-  const handleClearFilters = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleClearFilters = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setValues(undefined);
     setTripDuration("");
@@ -474,7 +474,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                   >
                     <button
                       className="btn browse-cars-nav-filter-btn py-0 pr-0"
-                      onClick={(e: SyntheticEvent<HTMLButtonElement>) => {
+                      onClick={(e: MouseEvent<HTMLButtonElement>) => {
                         e.preventDefault();
                         handleShow();
                       }}
@@ -1185,7 +1185,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                         <div className="d-flex justify-content-end mt-4 mb-2">
                           <button
                             className="btn btn-md bg-secondary text-light"
-                            onClick={(e: SyntheticEvent<HTMLButtonElement>) => {
+                            onClick={(e: MouseEvent<HTMLButtonElement>) => {
                               e.preventDefault();
                               if (searchBtnRef && searchBtnRef.current) {
                                 searchBtnRef.current.click();

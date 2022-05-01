@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import { hostPlansData } from "../../../data";
 import { Plan, User } from "../../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../../redux/hooks";
@@ -45,7 +45,7 @@ export default function RenewSubscribeBtn(props: RenewSubscribeBtnProps) {
   // If proceed to pay, calculate the payable fee and show it
   // console.log("props.user", props.user);
 
-  const handleClick = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       setLoading(true);

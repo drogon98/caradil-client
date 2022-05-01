@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent } from "react";
+import React, { FC, MouseEvent } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FileInput } from "../../graphql_types/generated/graphql";
 
@@ -11,7 +11,7 @@ interface PhotoBoxProps {
 }
 
 export const PhotoBox: FC<PhotoBoxProps> = (props) => {
-  const handleClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     props.deletePhoto(props.photo.public_id);
   };

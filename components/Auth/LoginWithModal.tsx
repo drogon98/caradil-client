@@ -1,9 +1,4 @@
-import React, {
-  ReactChild,
-  ReactElement,
-  SyntheticEvent,
-  useState,
-} from "react";
+import React, { ReactChild, ReactElement, MouseEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
 import LoginForm from "./LoginForm";
 
@@ -13,7 +8,7 @@ interface Props {
 
 export default function LoginWithModal(props: Props): ReactElement {
   const [showModal, setShowModal] = useState<boolean>();
-  const handleClick = (e: SyntheticEvent<HTMLElement>) => {
+  const handleClick = (e: MouseEvent<HTMLElement>) => {
     setShowModal(!showModal);
   };
 

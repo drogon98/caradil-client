@@ -1,10 +1,5 @@
 import { useRouter } from "next/router";
-import React, {
-  ReactElement,
-  SyntheticEvent,
-  useEffect,
-  useState,
-} from "react";
+import React, { ReactElement, MouseEvent, useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import CancelTripMoal from "../../../components/Account/Trips/CancelTripModal";
 import ConfirmTripModal from "../../../components/Account/Trips/ConfirmTripModal";
@@ -106,18 +101,18 @@ export default function Booking(props: Props): ReactElement {
     };
   }, [subscribeToMore, skip]);
 
-  const handleCancelTrip = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleCancelTrip = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     setShowCancelTripModal(true);
   };
 
-  const handleConfirmTrip = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleConfirmTrip = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     setShowConfirmTripModal(true);
   };
-  const handleChat = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleChat = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     try {

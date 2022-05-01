@@ -1,11 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, {
-  ReactElement,
-  SyntheticEvent,
-  useEffect,
-  useState,
-} from "react";
+import React, { ReactElement, MouseEvent, useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import CancelTripMoal from "../../../components/Account/Trips/CancelTripModal";
 import ReviewTripModal from "../../../components/Account/Trips/ReviewTripModal";
@@ -113,13 +108,13 @@ export default function Trip(props: Props): ReactElement {
     };
   }, [subscribeToMore, skip]);
 
-  const handleCancelTrip = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleCancelTrip = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     setShowCancelTripModal(true);
   };
 
-  const handleAddToFavourite = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleAddToFavourite = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     try {
@@ -128,7 +123,7 @@ export default function Trip(props: Props): ReactElement {
     }
   };
 
-  const handleChat = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleChat = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       if (width <= 800) {
@@ -147,7 +142,7 @@ export default function Trip(props: Props): ReactElement {
     }
   };
 
-  const handleAddReview = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleAddReview = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     setShowReviewModal(true);

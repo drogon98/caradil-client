@@ -1,4 +1,4 @@
-import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import dynamic from "next/dynamic";
 import {
@@ -75,7 +75,7 @@ export default function AddEditModalFaq(props: Props) {
     setAnswer(value);
   };
 
-  const handleSave = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleSave = async (e: MouseEvent<HTMLButtonElement>) => {
     if (!question || !answer) {
       return;
     }

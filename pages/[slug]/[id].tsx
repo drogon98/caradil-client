@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC, SyntheticEvent, useEffect, useState } from "react";
+import React, { FC, MouseEvent, useEffect, useState } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 import LoginWithModal from "../../components/Auth/LoginWithModal";
 import { CustomHead } from "../../components/CustomHead";
@@ -263,7 +263,7 @@ const Car: FC<CarProps> = (props) => {
     }
   }, [car?.id]);
 
-  const handleRouteNext = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleRouteNext = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       // if (getTripDuration(userDates!, car?.can_rent_hourly!).type_ === "hour") {
@@ -329,9 +329,7 @@ const Car: FC<CarProps> = (props) => {
     // console.log("response :>> ", response);
   };
 
-  const handleUpdateFavourite = async (
-    e: SyntheticEvent<HTMLButtonElement>
-  ) => {
+  const handleUpdateFavourite = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const response = await updateFavourite({
@@ -344,7 +342,7 @@ const Car: FC<CarProps> = (props) => {
     }
   };
 
-  // const handleSelectDates = (e: SyntheticEvent<HTMLButtonElement>) => {
+  // const handleSelectDates = (e: MouseEvent<HTMLButtonElement>) => {
   //   e.preventDefault();
   //   if (selectingDates === undefined) {
   //     setSelectingDates(true);
@@ -436,7 +434,7 @@ const Car: FC<CarProps> = (props) => {
     // props.setSho(false);
   };
 
-  const handleClearDates = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleClearDates = (e: MouseEvent<HTMLButtonElement>) => {
     // e.preventDefault();
     try {
       if (car) {

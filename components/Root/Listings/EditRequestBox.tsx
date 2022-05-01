@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, SyntheticEvent } from "react";
+import React, { Dispatch, FC, SetStateAction, MouseEvent } from "react";
 import {
   Car,
   // useEditCarBeingEditedMutation
@@ -14,7 +14,7 @@ interface EditRequestBoxProps {
 export const EditRequestBox: FC<EditRequestBoxProps> = (props) => {
   // const [editBeingEdited, { loading }] = useEditCarBeingEditedMutation();
 
-  const handleClick = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       // const response = await editBeingEdited({

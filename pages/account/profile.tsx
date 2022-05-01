@@ -3,7 +3,7 @@ import React, {
   ChangeEvent,
   FC,
   FormEvent,
-  SyntheticEvent,
+  MouseEvent,
   useEffect,
   useState,
 } from "react";
@@ -185,7 +185,7 @@ const Profile: FC<ProfileProps> = (props) => {
     // if (response.data?.)
   };
 
-  const handleDeletePhoto = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleDeletePhoto = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     let response;
     try {

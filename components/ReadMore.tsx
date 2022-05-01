@@ -1,11 +1,11 @@
-import React, { FC, SyntheticEvent, useState } from "react";
+import React, { FC, MouseEvent, useState } from "react";
 
 interface ReadMoreProps {}
 
 export const ReadMore: FC<ReadMoreProps> = (props) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
-  const handleClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     setIsExpanded(!isExpanded);
   };
 

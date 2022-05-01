@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  FC,
-  SyntheticEvent,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, FC, MouseEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppDispatch } from "../../redux/hooks";
@@ -105,7 +99,7 @@ const RegisterForm: FC<IProps> = (props) => {
     }
   };
 
-  const handleFocus = (e: SyntheticEvent) => {
+  const handleFocus = (e: MouseEvent) => {
     if (error) {
       setError("");
     }

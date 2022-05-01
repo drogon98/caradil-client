@@ -1,11 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, {
-  ReactElement,
-  SyntheticEvent,
-  useEffect,
-  useState,
-} from "react";
+import React, { ReactElement, MouseEvent, useEffect, useState } from "react";
 import { setToken } from "../../redux/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import {
@@ -90,7 +85,7 @@ export default function LoginForm(props: Props): ReactElement {
   }, [loading]);
 
   // Check focusevent issues
-  const handleFocus = (e: SyntheticEvent) => {
+  const handleFocus = (e: MouseEvent) => {
     if (error) {
       setError("");
     }

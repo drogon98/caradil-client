@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import { Car } from "../../graphql_types/generated/graphql";
 import { useAppDispatch } from "../../redux/hooks";
 import { showMoreFilters } from "../../redux/searchSlice";
@@ -65,7 +65,7 @@ export function SearchContent(props: SearchContentProps) {
     };
   }, []);
 
-  const handleClearFilters = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleClearFilters = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     dispatch(showMoreFilters());

@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useState } from "react";
+import React, { FC, MouseEvent, useState } from "react";
 import { Car } from "../../../graphql_types/generated/graphql";
 import VerifyModal from "./VerifyModal";
 
@@ -9,7 +9,7 @@ interface UnderVerificationBoxProps {
 export const UnderVerificationBox: FC<UnderVerificationBoxProps> = (props) => {
   const [showVerifyModal, setShowVerifyModal] = useState(false);
 
-  const handleVerifyClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleVerifyClick = (e: MouseEvent<HTMLButtonElement>) => {
     setShowVerifyModal(true);
   };
 

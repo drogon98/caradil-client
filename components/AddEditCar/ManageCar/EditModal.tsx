@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from "react";
+import React, { MouseEvent } from "react";
 import { Modal } from "react-bootstrap";
 import {
   Car,
@@ -21,7 +21,7 @@ export default function EditModal(props: EditModalProps) {
   const [republishCar, { loading: republishingCar }] =
     useRepublishCarMutation();
 
-  const handleMarkEditable = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleMarkEditable = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       let response = await markAsEdit({ variables: { carId: props.car?.id! } });
@@ -35,7 +35,7 @@ export default function EditModal(props: EditModalProps) {
     }
   };
 
-  const handleRepublish = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleRepublish = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       let response = await republishCar({

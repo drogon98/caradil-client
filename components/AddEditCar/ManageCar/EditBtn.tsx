@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import { Car } from "../../../graphql_types/generated/graphql";
 import EditModal from "./EditModal";
 
@@ -11,7 +11,7 @@ export default function EditBtn(props: EditBtnProps) {
   const [showModal, setShowModal] = useState(false);
   const [action, setAction] = useState("proceed_to_edit");
 
-  const handleEditClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleEditClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setShowModal(true);
   };

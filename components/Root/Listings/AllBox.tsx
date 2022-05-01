@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useState } from "react";
+import React, { FC, MouseEvent, useState } from "react";
 import { Car } from "../../../graphql_types/generated/graphql";
 import { SuspendCarModal } from "./SuspendCarModal";
 
@@ -9,7 +9,7 @@ interface AllBoxProps {
 export const AllBox: FC<AllBoxProps> = (props) => {
   const [showSuspendModal, setShowSuspendModal] = useState(false);
 
-  const handleSuspendEdit = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleSuspendEdit = (e: MouseEvent<HTMLButtonElement>) => {
     setShowSuspendModal(true);
   };
 

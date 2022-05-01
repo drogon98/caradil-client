@@ -2,7 +2,7 @@ import React, {
   Dispatch,
   ReactElement,
   SetStateAction,
-  SyntheticEvent,
+  MouseEvent,
 } from "react";
 import { Modal } from "react-bootstrap";
 import {
@@ -23,7 +23,7 @@ export default function RequestVerificationModal(props: Props): ReactElement {
   //   useEditCarVerificationInProgressMutation();
 
   const handleRequestVerification = async (
-    e: SyntheticEvent<HTMLButtonElement>
+    e: MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
     try {

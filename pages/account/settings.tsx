@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, {
   ChangeEvent,
   FormEvent,
-  SyntheticEvent,
+  MouseEvent,
   useEffect,
   useState,
 } from "react";
@@ -131,7 +131,7 @@ const Settings = (props: SettingsProps) => {
   };
 
   const handleAccountActions = (
-    e: SyntheticEvent<HTMLButtonElement>,
+    e: MouseEvent<HTMLButtonElement>,
     action: string
   ) => {
     e.preventDefault();

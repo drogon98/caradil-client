@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useEffect, useState } from "react";
+import React, { FC, MouseEvent, useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { AdminAuthWrapper } from "../../components/AdminAuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
@@ -28,7 +28,7 @@ const Faqs: FC<IProps> = (props) => {
   }, [data]);
 
   const handleShowModal = (
-    e: SyntheticEvent<HTMLButtonElement>,
+    e: MouseEvent<HTMLButtonElement>,
     faq: Faq | null
   ) => {
     if (faq) {

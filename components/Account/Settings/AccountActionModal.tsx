@@ -3,7 +3,7 @@ import React, {
   Dispatch,
   ReactElement,
   SetStateAction,
-  SyntheticEvent,
+  MouseEvent,
 } from "react";
 import { Modal } from "react-bootstrap";
 import { useUpgradeAccountMutation } from "../../../graphql_types/generated/graphql";
@@ -22,7 +22,7 @@ export default function AccountActionModal(props: Props): ReactElement {
   const [upgradeAccount, { loading: upgradeLoading }] =
     useUpgradeAccountMutation();
 
-  const handleAccountAction = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleAccountAction = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       if (props.action === "upgrade") {

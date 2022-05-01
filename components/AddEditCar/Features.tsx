@@ -4,7 +4,7 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
-  SyntheticEvent,
+  MouseEvent,
   useEffect,
   useState,
 } from "react";
@@ -134,7 +134,7 @@ export const Features: FC<FeaturesProps> = (props) => {
     }
   };
 
-  const handleRequestEditClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleRequestEditClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (props.hasEditRequest) {
       return;

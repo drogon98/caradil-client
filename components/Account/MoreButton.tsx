@@ -1,4 +1,4 @@
-import React, { ReactChild, SyntheticEvent, useRef, useState } from "react";
+import React, { ReactChild, MouseEvent, useRef, useState } from "react";
 import slugify from "slugify";
 import { CgMoreR } from "react-icons/cg";
 import Link from "next/link";
@@ -18,7 +18,7 @@ export function MoreButton(props: MoreButtonProps) {
 
   useOutsideClickHandler(moreDropdownRef, setShowDropDown, moreButtonRef);
 
-  const handleClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setShowDropDown(!showDropDown);
   };

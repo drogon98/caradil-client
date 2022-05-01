@@ -1,9 +1,4 @@
-import React, {
-  ReactChild,
-  ReactElement,
-  SyntheticEvent,
-  useState,
-} from "react";
+import React, { ReactChild, ReactElement, MouseEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Car } from "../../graphql_types/generated/graphql";
 import { TripDatesObj } from "../../utils/interfaces";
@@ -59,7 +54,7 @@ export default function TripDateModal(props: Props): ReactElement {
             <div className="d-flex justify-content-end mt-2 align-items-center">
               <button
                 className="btn"
-                onClick={(e: SyntheticEvent<HTMLButtonElement>) => {
+                onClick={(e: MouseEvent<HTMLButtonElement>) => {
                   e.preventDefault();
                   props.clearDates();
                   props.hide();
@@ -70,7 +65,7 @@ export default function TripDateModal(props: Props): ReactElement {
               &nbsp;&nbsp;
               <button
                 className="btn bg-secondary text-light"
-                onClick={(e: SyntheticEvent<HTMLButtonElement>) => {
+                onClick={(e: MouseEvent<HTMLButtonElement>) => {
                   e.preventDefault();
                   props.applyTime();
                 }}

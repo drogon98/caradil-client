@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import { Car } from "../../../graphql_types/generated/graphql";
 import ActivateModal from "./ActivateModal";
 
@@ -11,7 +11,7 @@ export default function ActivateBtn(props: ActivateBtnProps) {
   const [showModal, setShowModal] = useState(false);
   const [action, setAction] = useState("deactivate");
 
-  const handleActivateClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleActivateClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setShowModal(true);
   };

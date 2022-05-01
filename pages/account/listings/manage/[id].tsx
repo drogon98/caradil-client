@@ -195,7 +195,7 @@ export default function ManageCar(props: Props): ReactElement {
     setShowBurgerDropdown(!showBurgerDropdown);
   };
 
-  // const handleRequestVerify = (e: SyntheticEvent<HTMLButtonElement>) => {
+  // const handleRequestVerify = (e: MouseEvent<HTMLButtonElement>) => {
   //   e.preventDefault();
   //   setShowRequestVerificationModal(true);
   // };

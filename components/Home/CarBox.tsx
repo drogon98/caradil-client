@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { FC, SyntheticEvent, useEffect, useState } from "react";
+import React, { FC, MouseEvent, useEffect, useState } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 import slugify from "slugify";
 import {
@@ -33,7 +33,7 @@ export const CarBox: FC<CarBoxProps> = (props) => {
     }
   }, [props.data, userId]);
 
-  const handleFavClick = async (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleFavClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const response = await updateFavourite({
       variables: {

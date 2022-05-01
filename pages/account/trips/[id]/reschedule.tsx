@@ -4,7 +4,7 @@ import React, {
   ChangeEvent,
   FC,
   FormEvent,
-  SyntheticEvent,
+  MouseEvent,
   useEffect,
   useState,
 } from "react";
