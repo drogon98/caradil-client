@@ -53,7 +53,11 @@ export default function SharedSections(props: Props): ReactElement {
               {props.car.fuel_policy === "pre_purchase_refund" &&
                 `Pre-purchase Refund`}
             </b>{" "}
-            fuel policy. Learn more about fuel policy here.
+            fuel policy. Learn more about fuel policy{" "}
+            <Link href={"/fuel-policies?user=guest"}>
+              <a target={"_blank"}>here</a>
+            </Link>
+            .
           </small>
         )}
       </div>

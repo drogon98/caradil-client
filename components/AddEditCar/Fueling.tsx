@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, {
   ChangeEvent,
   Dispatch,
@@ -122,7 +123,13 @@ export const Fueling: FC<FuelingProps> = (props) => {
             </select>
           </div>
           <div className="mt-2">
-            <small>To learn more about these fuel policies go here.</small>
+            <small>
+              To learn more about these fuel policies go{" "}
+              <Link href={"/fuel-policies?user=host"}>
+                <a target={"_blank"}>here</a>
+              </Link>
+              .
+            </small>
           </div>
         </div>
 
