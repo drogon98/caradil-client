@@ -217,13 +217,16 @@ const Account: FC<IProps> = (props) => {
               {hasCompleteProfile ? (
                 <div className="row m-0">
                   <div className="col-lg-9 bs-column overview-left">
-                    <CustomAlert
-                      show={showPlanAlert}
-                      setShow={setShowPlanAlert}
-                      variant="warning"
-                    >
-                      <>{alertPlanMsg!}</>
-                    </CustomAlert>
+                    {role === 2 && (
+                      <CustomAlert
+                        show={showPlanAlert}
+                        setShow={setShowPlanAlert}
+                        variant="warning"
+                      >
+                        <>{alertPlanMsg!}</>
+                      </CustomAlert>
+                    )}
+
                     <p>Welcome Back,</p>
                     <div className="d-flex justify-content-between">
                       <h3 className="m-0">{`${user?.first_name} ${user?.last_name}`}</h3>
