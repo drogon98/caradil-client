@@ -38,6 +38,7 @@ const Account: FC<IProps> = (props) => {
   const [getPlanData, { data: _planData, loading: planLoading }] =
     useGetAccountPlanLazyQuery({ fetchPolicy: "no-cache" });
   const [planDueDays, setPlanDueDays] = useState<number>();
+  const [hasPlanAlert, setHasPlanAlert] = useState(false);
 
   // useEffect(() => {
   //   if (router.query && router.query.to_car) {
@@ -84,20 +85,6 @@ const Account: FC<IProps> = (props) => {
     }
   }, [_planData]);
 
-  const calculatePlanDueDays = (dueDate: number): number => {
-    let now = new Date().getTime();
-    let diff = dueDate - now;
-    // if (diff <= 0) {
-    //   return 0;
-    // }
-
-    if (diff <= 5) {
-      setShowRenewBtn(true);
-    }
-
-    return Math.ceil(diff / 86400000);
-  };
-
   useEffect(() => {
     if (planData) {
       let now = new Date().getTime();
@@ -108,6 +95,12 @@ const Account: FC<IProps> = (props) => {
       }
 
       setPlanDueDays(Math.ceil(diff / 86400000));
+
+      if (planData.title !== "individual") {
+        setHasPlanAlert(true);
+      } else {
+        setHasPlanAlert(false);
+      }
     }
   }, [planData]);
 
@@ -217,7 +210,7 @@ const Account: FC<IProps> = (props) => {
               {hasCompleteProfile ? (
                 <div className="row m-0">
                   <div className="col-lg-9 bs-column overview-left">
-                    {role === 2 && (
+                    {hasPlanAlert && (
                       <CustomAlert
                         show={showPlanAlert}
                         setShow={setShowPlanAlert}
