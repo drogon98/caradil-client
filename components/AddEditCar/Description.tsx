@@ -30,6 +30,7 @@ interface DescriptionProps {
 
   carId: number | undefined;
   isManage?: boolean;
+  isActive?: boolean;
   // verificationInProgress?: boolean;
 }
 
@@ -192,7 +193,7 @@ export const Description: FC<DescriptionProps> = (props) => {
           <button
             type="submit"
             className="btn bgOrange"
-            disabled={loading || !value}
+            disabled={loading || !value || props.isActive}
             onClick={handleSaveDescription}
           >
             {loading ? (

@@ -34,6 +34,7 @@ interface PhotosProps {
   isEdit?: boolean; // Under Manage
   booked?: boolean;
   hasEditRequest?: boolean;
+  isActive?: boolean;
   // verificationInProgress?: boolean;
 }
 
@@ -232,7 +233,7 @@ export const Photos: FC<PhotosProps> = (props) => {
             type="file"
             accept=".jpg, .jpeg, .png"
             onChange={handleUpload}
-            // disabled={props.isManage && !props.isEdit}
+            disabled={props.isActive}
           />
           <span>
             {(uploading || deleteLoading) && (
@@ -286,7 +287,9 @@ export const Photos: FC<PhotosProps> = (props) => {
         {props.isManage ? (
           <UpdateBtn
             loading={loading && !secondaryLoading}
-            disabled={values?.photos && values?.photos?.length < 5}
+            disabled={
+              (values?.photos && values?.photos?.length < 5) || props.isActive
+            }
           />
         ) : (
           <FormNextPrevButton

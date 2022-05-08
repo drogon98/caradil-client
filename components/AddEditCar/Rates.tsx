@@ -30,6 +30,7 @@ interface RatesProps {
   isManage?: boolean;
   isChauffeurDriven: boolean;
   canRentHourly: boolean;
+  isActive?: boolean;
   // verificationInProgress?: boolean;
 }
 
@@ -328,10 +329,7 @@ export const Rates: FC<RatesProps> = (props) => {
         )}
 
         {props.isManage ? (
-          <UpdateBtn
-            loading={loading}
-            // disabled={props.verificationInProgress}
-          />
+          <UpdateBtn loading={loading} disabled={props.isActive} />
         ) : (
           <FormNextPrevButton
             loading={loading}

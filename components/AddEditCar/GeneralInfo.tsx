@@ -31,6 +31,7 @@ interface GeneralInfoProps {
   isEdit?: boolean; // Under Manage
   booked?: boolean;
   hasEditRequest?: boolean;
+  isActive?: boolean;
   // verificationInProgress?: boolean;
 }
 
@@ -434,7 +435,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         )} */}
 
         {props.isManage ? (
-          <UpdateBtn loading={loading} disabled={loading} />
+          <UpdateBtn loading={loading} disabled={loading || props.isActive} />
         ) : (
           <FormNextPrevButton
             loading={loading}

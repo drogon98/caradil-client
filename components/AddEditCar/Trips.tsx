@@ -26,6 +26,7 @@ interface TripsProps {
   manual: boolean;
   isSelfDriven: boolean;
   isManage?: boolean;
+  isActive?: boolean;
 
   // booked?: boolean;
   // verificationInProgress?: boolean;
@@ -417,10 +418,7 @@ export const Trips: FC<TripsProps> = (props) => {
         </div>
 
         {props.isManage ? (
-          <UpdateBtn
-            loading={loading}
-            // disabled={props.verificationInProgress}
-          />
+          <UpdateBtn loading={loading} disabled={props.isActive} />
         ) : (
           <FormNextPrevButton
             loading={loading}

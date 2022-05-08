@@ -24,6 +24,7 @@ interface DistanceProps {
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   isManage?: boolean;
   canRentHourly: boolean;
+  isActive?: boolean;
   // verificationInProgress?: boolean;
 }
 
@@ -252,10 +253,7 @@ export const Distance: FC<DistanceProps> = (props) => {
         </div>
 
         {props.isManage ? (
-          <UpdateBtn
-            loading={loading}
-            // disabled={props.verificationInProgress}
-          />
+          <UpdateBtn loading={loading} disabled={props.isActive} />
         ) : (
           <FormNextPrevButton
             loading={loading}

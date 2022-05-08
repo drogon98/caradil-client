@@ -27,6 +27,7 @@ interface LocationAndDeliveryProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   isManage?: boolean;
+  isActive?: boolean;
   // verificationInProgress?: boolean;
 }
 
@@ -195,10 +196,7 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
         </div>
 
         {props.isManage ? (
-          <UpdateBtn
-            loading={loading}
-            // disabled={props.verificationInProgress}
-          />
+          <UpdateBtn loading={loading} disabled={props.isActive} />
         ) : (
           <FormNextPrevButton
             loading={loading}

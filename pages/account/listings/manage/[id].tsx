@@ -200,7 +200,7 @@ export default function ManageCar(props: Props): ReactElement {
   //   setShowRequestVerificationModal(true);
   // };
 
-  // console.log("carData :>> ", carData);
+  console.log("carData :>> ", carData);
 
   // if (mainLoading) {
   //   return <Loading />;
@@ -237,9 +237,9 @@ export default function ManageCar(props: Props): ReactElement {
                 </div>
                 <h3>Manage Car</h3>
                 <div className="d-flex justify-content-end align-items-center">
-                  {carData?.active && (
-                    <EditBtn car={carData} setCarData={setCarData} />
-                  )}
+                  {/* {carData?.active && ( */}
+                  <EditBtn car={carData!} setCarData={setCarData} />
+                  {/* )} */}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   {!carData?.being_edited && (
                     <ActivateBtn car={carData!} setCarData={setCarData} />
@@ -315,6 +315,7 @@ export default function ManageCar(props: Props): ReactElement {
                       setCompData={setCarData}
                       isManage
                       isEdit={carData?.being_edited ?? false}
+                      isActive={carData?.active ?? false}
                       // booked={carData?.booked ?? false}
                       // hasEditRequest={carData?.has_edit_request ?? false}
                       // verificationInProgress={
@@ -340,6 +341,7 @@ export default function ManageCar(props: Props): ReactElement {
                         seats: carData?.seats ?? 0,
                         features: featuresData ?? [],
                       }}
+                      isActive={carData?.active ?? false}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
                       // }
@@ -354,6 +356,7 @@ export default function ManageCar(props: Props): ReactElement {
                       value={{
                         description: carData?.description ?? "",
                       }}
+                      isActive={carData?.active ?? false}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
                       // }
@@ -372,6 +375,7 @@ export default function ManageCar(props: Props): ReactElement {
                       value={{
                         photos: photosData!,
                       }}
+                      isActive={carData?.active ?? false}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
                       // }
@@ -390,6 +394,7 @@ export default function ManageCar(props: Props): ReactElement {
                       value={{
                         documents: documentsData!,
                       }}
+                      isActive={carData?.active ?? false}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
                       // }
@@ -406,6 +411,7 @@ export default function ManageCar(props: Props): ReactElement {
                       }}
                       manual={carData?.transmission === "manual"}
                       isSelfDriven={carData?.end_user_type === "self_driven"}
+                      isActive={carData?.active ?? false}
                       // booked={carData?.booked!}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
@@ -422,6 +428,7 @@ export default function ManageCar(props: Props): ReactElement {
                         fuel_efficiency: carData?.fuel_efficiency ?? "",
                         fuel_policy: carData?.fuel_policy ?? "",
                       }}
+                      isActive={carData?.active ?? false}
                       // manual={compData?.transmission === "manual"}
                     />
                   )}
@@ -439,6 +446,7 @@ export default function ManageCar(props: Props): ReactElement {
                           carData?.pick_up_location_cords ?? {},
                         location_cords: carData?.location_cords ?? {},
                       }}
+                      isActive={carData?.active ?? false}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
                       // }
@@ -455,6 +463,7 @@ export default function ManageCar(props: Props): ReactElement {
                         luxury_and_vip_services:
                           carData?.luxury_vip_services ?? [],
                       }}
+                      isActive={carData?.active ?? false}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
                       // }
@@ -475,6 +484,7 @@ export default function ManageCar(props: Props): ReactElement {
                         distance_per_hour: carData?.distance_per_hour ?? 0,
                       }}
                       canRentHourly={carData?.can_rent_hourly!}
+                      isActive={carData?.active ?? false}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
                       // }
@@ -499,6 +509,7 @@ export default function ManageCar(props: Props): ReactElement {
                         hourly_rate: carData?.hourly_rate ?? 0,
                       }}
                       compData={carData!}
+                      isActive={carData?.active ?? false}
                       // verificationInProgress={
                       //   carData?.verification_in_progress ?? false
                       // }

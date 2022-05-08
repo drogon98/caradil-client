@@ -27,6 +27,7 @@ interface FuelingProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   isManage?: boolean;
+  isActive?: boolean;
   // verificationInProgress?: boolean;
 }
 
@@ -153,10 +154,7 @@ export const Fueling: FC<FuelingProps> = (props) => {
           <span className="input-group-text">Ltrs/100 Km</span>
         </div>
         {props.isManage ? (
-          <UpdateBtn
-            loading={loading}
-            // disabled={props.verificationInProgress}
-          />
+          <UpdateBtn loading={loading} disabled={props.isActive} />
         ) : (
           <FormNextPrevButton
             loading={loading}

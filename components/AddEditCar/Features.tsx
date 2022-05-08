@@ -29,6 +29,7 @@ interface FeaturesProps {
   isEdit?: boolean;
   booked?: boolean;
   hasEditRequest?: boolean;
+  isActive?: boolean;
   // verificationInProgress?: boolean;
 }
 
@@ -320,10 +321,7 @@ export const Features: FC<FeaturesProps> = (props) => {
         </div>
 
         {props.isManage ? (
-          <UpdateBtn
-            loading={loading}
-            // disabled={props.verificationInProgress}
-          />
+          <UpdateBtn loading={loading} disabled={props.isActive} />
         ) : (
           <FormNextPrevButton
             loading={loading}

@@ -30,8 +30,6 @@ export default function EditBtn(props: EditBtnProps) {
     }
   }, [props.car]);
 
-  console.log("action", action);
-
   return (
     <>
       {showModal && (
