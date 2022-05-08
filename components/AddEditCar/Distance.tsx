@@ -152,7 +152,7 @@ export const Distance: FC<DistanceProps> = (props) => {
               type="number"
               name="distance_per_day"
               className="form-control "
-              value={values?.distance_per_day}
+              value={values?.distance_per_day ? values?.distance_per_day : ""}
               // required
               onChange={handleChange}
               placeholder="eg 800"
@@ -178,7 +178,9 @@ export const Distance: FC<DistanceProps> = (props) => {
                   type="number"
                   name="distance_per_hour"
                   className="form-control "
-                  value={values?.distance_per_hour}
+                  value={
+                    values?.distance_per_hour ? values?.distance_per_hour : ""
+                  }
                   // required
                   onChange={handleChange}
                   placeholder="eg 80"

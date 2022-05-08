@@ -235,7 +235,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               type="number"
               name="seats"
               className="form-control car-input-width"
-              value={values?.seats}
+              value={values?.seats ? values?.seats : ""}
               required
               onChange={handleChange}
               min={0}
@@ -251,7 +251,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               type="number"
               name="doors"
               className="form-control car-input-width"
-              value={values?.doors}
+              value={values?.doors ? values?.doors : ""}
               required
               onChange={handleChange}
               min={0}
@@ -265,7 +265,7 @@ export const Features: FC<FeaturesProps> = (props) => {
               type="number"
               name="bags"
               className="form-control car-input-width"
-              value={values?.bags}
+              value={values?.bags ? values?.bags : ""}
               required
               onChange={handleChange}
               min={0}

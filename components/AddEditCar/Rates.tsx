@@ -134,12 +134,11 @@ export const Rates: FC<RatesProps> = (props) => {
                 type="number"
                 name="hourly_rate"
                 className="form-control"
-                value={values?.hourly_rate}
+                value={values?.hourly_rate ? values?.hourly_rate : ""}
                 required
                 onChange={handleChange}
-                placeholder="eg John Doe"
+                placeholder="eg 1000"
                 min={0}
-                // placeholder="eg John Doe"
                 onFocus={handleFocus}
               />
               <span className="input-group-text">Ksh</span>
@@ -161,11 +160,11 @@ export const Rates: FC<RatesProps> = (props) => {
               type="number"
               name="daily_rate"
               className="form-control"
-              value={values?.daily_rate}
+              value={values?.daily_rate ? values?.daily_rate : ""}
               required
               onChange={handleChange}
               min={0}
-              // placeholder="eg John Doe"
+              placeholder="eg 5500"
               onFocus={handleFocus}
             />
             <span className="input-group-text">Ksh</span>
@@ -199,7 +198,7 @@ export const Rates: FC<RatesProps> = (props) => {
               value={values?.discount!}
               // required
               onChange={handleChange}
-              placeholder="eg 2"
+              placeholder="eg 1.5"
               id="discount"
             />
             <span className="input-group-text">%</span>
@@ -229,10 +228,10 @@ export const Rates: FC<RatesProps> = (props) => {
               type="number"
               name="discount_days"
               className="form-control"
-              value={values?.discount_days!}
+              value={values?.discount_days ? values?.discount_days : ""}
               // required
               onChange={handleChange}
-              // placeholder="eg 200"
+              placeholder="eg 7"
             />
             <span className="input-group-text">days</span>
           </div>
@@ -309,9 +308,10 @@ export const Rates: FC<RatesProps> = (props) => {
                 type="number"
                 name="delivery_rate"
                 className="form-control"
-                value={values?.delivery_rate!}
+                value={values?.delivery_rate ? values?.delivery_rate : ""}
                 required
                 onChange={handleChange}
+                placeholder="eg 500"
               />
               <span className="input-group-text">Ksh/Km</span>
             </div>

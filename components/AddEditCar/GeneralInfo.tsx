@@ -143,8 +143,6 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           props.setCarId!(response.data.addEditCarGeneralInfo.car?.id!);
           props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
         }
-
-        console.log("Test.....1");
       }
     } catch (error) {
       let errorMessage = "";
@@ -340,7 +338,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               type="number"
               name="odometer_reading"
               className="form-control car-general-info-input-width"
-              value={values?.odometer_reading}
+              value={values?.odometer_reading ? values?.odometer_reading : ""}
               required
               onChange={handleChange}
               placeholder="eg 12000"
