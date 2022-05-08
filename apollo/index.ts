@@ -80,9 +80,14 @@ const splitLink = process.browser
 
 const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
-    // console.log("obj", graphQLErrors);
+    if (networkError) {
+      // This error is thrown outside resolvers
+      // In this case no data is returned
+    }
 
     if (graphQLErrors) {
+      // These errors are thrown inside resolvers
+      // As there are many resolvers that might throw errors,this errors are stored in an array
       for (let err of graphQLErrors) {
         switch (err.extensions.code) {
           case "UNAUTHENTICATED":
