@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
@@ -6,6 +7,7 @@ import Layout from "../../components/layouts/Layout";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
 import {
   DriverDetailsInput,
+  FileInput,
   useDeleteFileMutation,
   useGetDriverDetailsQuery,
   useUpdateDriverDetailsMutation,
@@ -13,6 +15,16 @@ import {
 } from "../../graphql_types/generated/graphql";
 
 interface GetDriverInfoProps {}
+
+const agesArray = (): number[] => {
+  let output = [];
+
+  for (let i = 20; i < 81; i++) {
+    output.push(i);
+  }
+
+  return output;
+};
 
 const uploadButton = (
   uploadHandler: any,
@@ -48,8 +60,18 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
   const [secondaryLoading, setSecondaryLoading] = useState(false);
   const [hasLicenseError, setHasLicenseError] = useState(false);
   const { data, loading: fetchingDrivingData } = useGetDriverDetailsQuery();
+  const [license, setLicense] = useState<FileInput>({
+    public_id: "",
+    secure_url: "",
+    url: "",
+  });
+  const router = useRouter();
 
   console.log("data :>> ", data);
+
+  console.log("router :>> ", router);
+
+  console.log("agesArray() :>> ", agesArray());
 
   useEffect(() => {
     if (data) {
@@ -64,7 +86,9 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
     }
   }, [hasLicenseError]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setValues({ ...(values! ?? {}), [e.target.name]: e.target.value });
   };
 
@@ -76,6 +100,13 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
       if (response.data?.singleUpload.error) {
         console.log("error :>> ", response.data?.singleUpload.error);
       } else {
+        console.log("response", response);
+
+        const newLicense = response.data?.singleUpload.file;
+
+        delete newLicense?.__typename;
+        setLicense(newLicense!);
+
         // if (avatar.public_id) {
         //   await deleteFile({ variables: { id: avatar.public_id } });
         // }
@@ -100,10 +131,24 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      // Check if license is uploaded
+
+      if (!license.secure_url) {
+        setHasLicenseError(true);
+        return;
+      }
+      console.log("values", values);
       let response = await updateDriverDetails({
-        variables: { input: values! },
+        variables: { input: { ...values!, license: "" } },
       });
       console.log("response :>> ", response);
+
+      if (response) {
+        await router.push({
+          pathname: "/checkout/confirm-order",
+          query: { ...router.query },
+        });
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -126,27 +171,27 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
             <form className="form-group my-4" onSubmit={handleSubmit}>
               <div className="row mb-3">
                 <div className="col">
-                  <label htmlFor="email">License First Name</label>
+                  <label htmlFor="first_name">License First Name</label>
 
                   <input
                     className="form-control"
                     required
                     id="first_name"
-                    //   value={values.email}
-                    placeholder="John"
+                    value={values?.first_name ?? ""}
+                    placeholder="eg John"
                     onChange={handleChange}
                     name="first_name"
                   />
                 </div>
                 <div className="col">
-                  <label htmlFor="email">License Last Name</label>
+                  <label htmlFor="last_name">License Last Name</label>
 
                   <input
                     className="form-control"
                     required
                     id="last_name"
-                    //   value={values.email}
-                    placeholder="John"
+                    value={values?.last_name ?? ""}
+                    placeholder="eg Doe"
                     onChange={handleChange}
                     name="last_name"
                   />
@@ -155,36 +200,61 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
 
               <div className="row mb-3">
                 <div className="col">
-                  <label htmlFor="email">License No.</label>
+                  <label htmlFor="license_number">License No.</label>
 
                   <input
                     className="form-control"
                     required
                     id="license_number"
-                    //   value={values.email}
+                    value={values?.license_number ?? ""}
                     placeholder="863736892"
                     onChange={handleChange}
                     name="license_number"
                   />
                 </div>
                 <div className="col">
-                  <label htmlFor="email">Driver Age</label>
+                  <label htmlFor="driver_age">Driver Age</label>
+                  <div>
+                    <select
+                      id="driver_age"
+                      name="age"
+                      className="form-control"
+                      value={values?.age ?? ""}
+                      onChange={handleChange}
+                    >
+                      <option value="">Select age</option>
+                      {agesArray().map((num) => (
+                        <option key={num} value={num}>
+                          {num}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row mb-3">
+                <div className="col-6">
+                  <label htmlFor="license_expiry_date">
+                    License Expiry Date
+                  </label>
 
                   <input
+                    type="date"
                     className="form-control"
                     required
-                    id="age"
-                    //   value={values.email}
-                    placeholder="28"
+                    id="license_expiry_date"
+                    value={values?.license_expiry_date ?? ""}
                     onChange={handleChange}
-                    name="age"
+                    name="license_expiry_date"
                   />
                 </div>
               </div>
-              {true ? (
+
+              {license ? (
                 <div className="d-flex p-0">
-                  <div>{uploadButton(handleUpload, uploading, true)}</div>
-                  &nbsp; &nbsp; &nbsp; &nbsp;
+                  {/* <div>{uploadButton(handleUpload, uploading, true)}</div>
+                  &nbsp; &nbsp; &nbsp; &nbsp; */}
                   <div>
                     <button
                       className="btn bgOrange"

@@ -317,6 +317,7 @@ export type DriverDetailsInput = {
   first_name: Scalars['String'];
   last_name: Scalars['String'];
   license: Scalars['String'];
+  license_expiry_date: Scalars['String'];
   license_number: Scalars['String'];
 };
 
