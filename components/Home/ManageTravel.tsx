@@ -31,7 +31,7 @@ export const ManageTravel: FC<ManageTravelProps> = (props) => {
 
           <p className="lead">
             Caradil makes finding and booking trip car simple with a product
-            designed just for you. Find best trip cars you will love, supported
+            designed just for you. Find best trip cars you will love, maintained
             by humans who care.
           </p>
           <div className="mt-4">
