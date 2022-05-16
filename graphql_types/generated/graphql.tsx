@@ -313,20 +313,26 @@ export type DocumentObj = {
 };
 
 export type DriverDetailsInput = {
-  age: Scalars['String'];
+  age: Scalars['Float'];
   first_name: Scalars['String'];
   last_name: Scalars['String'];
-  license: Scalars['String'];
+  license: FileInput;
   license_expiry_date: Scalars['String'];
   license_number: Scalars['String'];
 };
 
-export type DriverDetailsResponse = {
-  __typename?: 'DriverDetailsResponse';
-  age?: Maybe<Scalars['String']>;
+export type DriverLicenseDetails = {
+  __typename?: 'DriverLicenseDetails';
+  age?: Maybe<Scalars['Float']>;
+  approved_to_drive?: Maybe<Scalars['Boolean']>;
+  created_at?: Maybe<Scalars['DateTime']>;
   first_name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
   last_name?: Maybe<Scalars['String']>;
+  license?: Maybe<FileObj>;
+  license_expiry_date?: Maybe<Scalars['Float']>;
   license_number?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['DateTime']>;
 };
 
 export type Earning = {
@@ -810,7 +816,7 @@ export type Query = {
   getCarReviews: Array<Review>;
   getCars: Array<Car>;
   getChats: Array<Chat>;
-  getDriverDetails: DriverDetailsResponse;
+  getDriverDetails: DriverLicenseDetails;
   getEarnings: Array<Earning>;
   getHostCars: Array<Car>;
   getMyBookings: Array<Trip>;
@@ -1524,7 +1530,7 @@ export type GetChatsQuery = { __typename?: 'Query', getChats: Array<{ __typename
 export type GetDriverDetailsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDriverDetailsQuery = { __typename?: 'Query', getDriverDetails: { __typename?: 'DriverDetailsResponse', first_name?: string | null | undefined, last_name?: string | null | undefined, license_number?: string | null | undefined, age?: string | null | undefined } };
+export type GetDriverDetailsQuery = { __typename?: 'Query', getDriverDetails: { __typename?: 'DriverLicenseDetails', first_name?: string | null | undefined, last_name?: string | null | undefined, license_number?: string | null | undefined, age?: number | null | undefined, license_expiry_date?: number | null | undefined, license?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } };
 
 export type GetEarningsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3761,11 +3767,15 @@ export const GetDriverDetailsDocument = gql`
   getDriverDetails {
     first_name
     last_name
+    license {
+      ...fileInfo
+    }
     license_number
     age
+    license_expiry_date
   }
 }
-    `;
+    ${FileInfoFragmentDoc}`;
 
 /**
  * __useGetDriverDetailsQuery__

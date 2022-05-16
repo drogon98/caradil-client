@@ -2,10 +2,11 @@ query GetDriverDetails {
   getDriverDetails {
     first_name
     last_name
-    # license {
-    #   ...fileInfo
-    # }
+    license {
+      ...fileInfo
+    }
     license_number
     age
+    license_expiry_date
   }
 }
