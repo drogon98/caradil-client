@@ -30,12 +30,19 @@ export function BannerWrapper(props: BannerWrapperProps) {
   const [toastBg, setToastBg] = useState("success");
   const [toastMessage, setToastMessage] = useState("");
   const [isChatPage, setIsChatPage] = useState(false);
+  const [isProfilePage, setIsProfilePage] = useState(false);
 
   useEffect(() => {
     if (router.pathname.includes("/chats")) {
       setIsChatPage(true);
     } else {
       setIsChatPage(false);
+    }
+
+    if (router.pathname.includes("/account/profile")) {
+      setIsProfilePage(true);
+    } else {
+      setIsProfilePage(false);
     }
   }, [router]);
 
@@ -125,7 +132,7 @@ export function BannerWrapper(props: BannerWrapperProps) {
       return;
     }
 
-    if (profileNotComplete) {
+    if (profileNotComplete && !isProfilePage) {
       setBannerMessage(
         <>
           <span>
@@ -151,7 +158,12 @@ export function BannerWrapper(props: BannerWrapperProps) {
       return;
     }
     setLoading(false);
-  }, [emailNotVerified, profileNotComplete, resendVerifyLinkData]);
+  }, [
+    emailNotVerified,
+    profileNotComplete,
+    resendVerifyLinkData,
+    isProfilePage,
+  ]);
 
   return (
     <div>
@@ -166,7 +178,7 @@ export function BannerWrapper(props: BannerWrapperProps) {
       )}
       {!loading && user && (
         <>
-          {(emailNotVerified || profileNotComplete) && (
+          {(emailNotVerified || profileNotComplete) && bannerMessage && (
             <div
               className={`bg-${bannerBg} py-2 px-2 d-flex align-items-center justify-content-between account-banner ${
                 isChatPage && `account-banner-fixed`
