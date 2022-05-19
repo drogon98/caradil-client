@@ -21,7 +21,7 @@ export default function LoginWithModal(props: Props): ReactElement {
 
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>
+          {/* <Modal.Title>Login</Modal.Title> */}
         </Modal.Header>
         <Modal.Body>
           <LoginForm isModal close={handleClose} isAdmin={false} />
