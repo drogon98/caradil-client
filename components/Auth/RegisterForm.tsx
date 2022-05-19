@@ -178,13 +178,8 @@ const RegisterForm: FC<IProps> = (props) => {
           <small className="text-danger">Password mismatch!</small>
         )}
       </div>
-      <form
-        className="form-group mb-3"
-        onSubmit={(e) => {
-          handleSubmit(e);
-        }}
-      >
-        <div className="row mb-3">
+      <form className="form-group mb-3" onSubmit={handleSubmit}>
+        {/* <div className="row mb-3">
           <div className="col-6">
             <label htmlFor="firstName">First Name</label>
             <input
@@ -233,7 +228,7 @@ const RegisterForm: FC<IProps> = (props) => {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
 
         <div className="mb-3">
           <label htmlFor="email">Email</label>
