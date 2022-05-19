@@ -237,14 +237,13 @@ const Account: FC<IProps> = (props) => {
                           <p>0 Trips</p>
                         </div>
                       </BoxWrapper>
-                      {role === 2 && (
-                        <BoxWrapper>
-                          <div className="py-3 p-2">
-                            <h6>Bookings</h6>
-                            <p>0 Bookings</p>
-                          </div>
-                        </BoxWrapper>
-                      )}
+
+                      <BoxWrapper>
+                        <div className="py-3 p-2">
+                          <h6>Bookings</h6>
+                          <p>0 Bookings</p>
+                        </div>
+                      </BoxWrapper>
 
                       {role === 2 && (
                         <BoxWrapper>
@@ -255,12 +254,12 @@ const Account: FC<IProps> = (props) => {
                         </BoxWrapper>
                       )}
 
-                      <BoxWrapper>
+                      {/* <BoxWrapper>
                         <div className="py-3 p-2">
                           <h6>Balance</h6>
                           <p>Ksh. 0</p>
                         </div>
-                      </BoxWrapper>
+                      </BoxWrapper> */}
                     </div>
                   </div>
                   <div className="col-lg-3 bs-column mt-4 mt-lg-0">
@@ -269,10 +268,10 @@ const Account: FC<IProps> = (props) => {
                   </div>
                 </div>
               ) : (
-                <>
+                <div className="row m-0">
                   <h1>Hi {user?.first_name ? user.first_name : "there"},</h1>
-                  <p>Let's get you started.</p>
-                  <div>
+                  <p>
+                    Let's get you started. &nbsp;
                     <Link
                       href={{
                         pathname: "/account/profile",
@@ -280,11 +279,16 @@ const Account: FC<IProps> = (props) => {
                       }}
                     >
                       <a>
-                        <p className="colorOrange">Complete Your Profile</p>
+                        <span className="colorOrange">
+                          Complete your profile first
+                        </span>
                       </a>
                     </Link>
-                  </div>
-                </>
+                  </p>
+                  {/* <div> */}
+
+                  {/* </div> */}
+                </div>
               )}
               {/* {isToCar && (
                 <>
