@@ -4,7 +4,6 @@ import React, {
   FC,
   FormEvent,
   SetStateAction,
-  MouseEvent,
   useEffect,
   useState,
 } from "react";
@@ -16,6 +15,7 @@ import {
   useEditCarPhotosMutation,
   useUploadFileMutation,
 } from "../../graphql_types/generated/graphql";
+import { fileSizeChecker } from "../../utils/file_size_checker";
 import { ButtonLoading } from "../Loading/ButtonLoading";
 import { ToastWrapper } from "../Toast/ToastWrapper";
 import { FormNextPrevButton } from "./FormNextPrevButton";
@@ -35,7 +35,6 @@ interface PhotosProps {
   booked?: boolean;
   hasEditRequest?: boolean;
   isActive?: boolean;
-  // verificationInProgress?: boolean;
 }
 
 export const Photos: FC<PhotosProps> = (props) => {
@@ -45,9 +44,9 @@ export const Photos: FC<PhotosProps> = (props) => {
   const [secondaryLoading, setSecondaryLoading] = useState(false);
   const [values, setValues] = useState<CarPhotosInput>();
   const [showRequestEditModal, setShowRequestEditModal] = useState(false);
-  const [showSaveToast, setShowSaveToast] = useState(false);
-
-  // console.log("props.value.photos :>> ", props.value.photos);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastBg, setToastBg] = useState("");
 
   useEffect(() => {
     if (props.value.photos) {
@@ -56,43 +55,52 @@ export const Photos: FC<PhotosProps> = (props) => {
   }, [props.value]);
 
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-
     try {
+      const file = e.target.files?.[0];
+      if (!file) {
+        throw new Error("Please select a file!");
+      }
+      const isFileSizeValid = fileSizeChecker(10, file);
+      if (!isFileSizeValid.fileOk) {
+        const errorMsg = `Maximum file size is ${isFileSizeValid.maxFileSize} mbs!`;
+        throw new Error(errorMsg);
+      }
       let response = await uploadFile({ variables: { file } });
-      const newPhoto = response?.data?.singleUpload;
-      delete newPhoto?.__typename;
-      const newPhotoPayload: FileInput = {
-        public_id: newPhoto?.file?.public_id ?? "",
-        secure_url: newPhoto?.file?.secure_url ?? "",
-        url: newPhoto?.file?.secure_url ?? "",
-      };
-      const photos = [...(values?.photos ?? []), newPhotoPayload!];
-      setValues({ photos: [...photos] });
-      setSecondaryLoading(true);
-      await editPhotos({
-        variables: { carId: props.carId!, input: { photos } },
-        fetchPolicy: "no-cache",
-      });
-      setSecondaryLoading(false);
-
+      if (response.data?.singleUpload.error) {
+        throw new Error(response.data?.singleUpload.error);
+      } else {
+        const newPhoto = response?.data?.singleUpload;
+        delete newPhoto?.__typename;
+        const newPhotoPayload: FileInput = {
+          public_id: newPhoto?.file?.public_id ?? "",
+          secure_url: newPhoto?.file?.secure_url ?? "",
+          url: newPhoto?.file?.secure_url ?? "",
+        };
+        const photos = [...(values?.photos ?? []), newPhotoPayload!];
+        setValues({ photos: [...photos] });
+        setSecondaryLoading(true);
+        await editPhotos({
+          variables: { carId: props.carId!, input: { photos } },
+          fetchPolicy: "no-cache",
+        });
+        setSecondaryLoading(false);
+      }
       e.target.value = "";
     } catch (error) {
       e.target.value = "";
-      let errorMessage = "";
       if (error instanceof Error) {
-        errorMessage = error.message;
+        if (error.message.includes("Maximum file size is")) {
+          setToastBg("warning");
+        } else {
+          setToastBg("danger");
+        }
+        setShowToast(true);
+        setToastMessage(error.message);
       }
-      console.log("errorMessage :>> ", errorMessage);
-      return;
-      // setError("Network Error!");
     }
   };
 
-  // console.log("photos :>> ", values);
-
   const deletePhoto = async (id: string) => {
-    // console.log("Great :>> ");
     try {
       setSecondaryLoading(true);
       let response = await deleteFile({
@@ -115,16 +123,12 @@ export const Photos: FC<PhotosProps> = (props) => {
         setSecondaryLoading(false);
       }
     } catch (error) {
-      let errorMessage = "";
       if (error instanceof Error) {
-        errorMessage = error.message;
+        setShowToast(true);
+        setToastMessage(error.message);
+        setToastBg("danger");
       }
-      console.log("errorMessage :>> ", errorMessage);
-      return;
-      // setError("Network Error!");
     }
-
-    // Make request to delete file
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -138,35 +142,26 @@ export const Photos: FC<PhotosProps> = (props) => {
         },
       });
       if (response?.data?.editCarPhotos.error) {
+        throw new Error(response?.data?.editCarPhotos.error);
       } else if (response?.data?.editCarPhotos.carId) {
         props.setCompData(response.data.editCarPhotos.car!);
 
         if (props.isManage) {
-          setShowSaveToast(true);
+          setShowToast(true);
+          setToastMessage("Updated successfully!");
+          setToastBg("success");
         } else {
           props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
         }
       }
     } catch (error) {
-      let errorMessage = "";
       if (error instanceof Error) {
-        errorMessage = error.message;
+        setShowToast(true);
+        setToastMessage(error.message);
+        setToastBg("danger");
       }
-      console.log("errorMessage :>> ", errorMessage);
-      return;
-      // setError("Network Error!");
     }
   };
-
-  // const handleRequestEditClick = (e: MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
-  //   if (props.hasEditRequest) {
-  //     return;
-  //   }
-  //   setShowRequestEditModal(true);
-  // };
-
-  // console.log("props.value.photos :>> ", props.value.photos);
 
   return (
     <>
@@ -179,13 +174,14 @@ export const Photos: FC<PhotosProps> = (props) => {
           setCarData={props.setCompData}
         />
       )}
-      {showSaveToast && (
+
+      {showToast && (
         <ToastWrapper
-          setShow={setShowSaveToast}
-          show={showSaveToast}
-          message={"Updated successfully!"}
+          setShow={setShowToast}
+          message={toastMessage}
+          show={showToast}
           position="bottom-end"
-          bg="success"
+          bg={toastBg}
         />
       )}
       <h3>Photos</h3>
@@ -257,32 +253,11 @@ export const Photos: FC<PhotosProps> = (props) => {
                 photo={photo}
                 deletePhoto={deletePhoto}
                 key={photo.public_id}
-                // verificationInProgress={props.verificationInProgress}
                 isEdit={props.isEdit}
                 isManage={props.isManage}
               />
             ))}
         </div>
-        {/* 
-        {!props.isEdit && props.isManage && (
-          <div className="mt-3">
-            <small>
-              This information is only editable with permisson from the admin.{" "}
-              <button
-                className="btn colorOrange p-0"
-                onClick={handleRequestEditClick}
-              >
-                {props.hasEditRequest ? (
-                  <small className="text-success fw-bold">
-                    Edit Request Sent!
-                  </small>
-                ) : (
-                  <small>Request Edit</small>
-                )}
-              </button>
-            </small>
-          </div>
-        )} */}
 
         {props.isManage ? (
           <UpdateBtn

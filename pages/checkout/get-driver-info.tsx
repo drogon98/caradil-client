@@ -13,6 +13,7 @@ import { CustomHead } from "../../components/CustomHead";
 import Layout from "../../components/layouts/Layout";
 import { Loading } from "../../components/Loading";
 import { ButtonLoading } from "../../components/Loading/ButtonLoading";
+import { ToastWrapper } from "../../components/Toast/ToastWrapper";
 import {
   DriverDetailsInput,
   FileInput,
@@ -21,6 +22,7 @@ import {
   useUpdateDriverDetailsMutation,
   useUploadFileMutation,
 } from "../../graphql_types/generated/graphql";
+import { fileSizeChecker } from "../../utils/file_size_checker";
 
 interface GetDriverInfoProps {}
 
@@ -89,6 +91,9 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
     url: "",
   });
   const [updating, setUpdating] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastBg, setToastBg] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -134,10 +139,18 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
       const file = e.target.files?.[0];
+      if (!file) {
+        throw new Error("Please select a file!");
+      }
+      const isFileSizeValid = fileSizeChecker(10, file);
+      if (!isFileSizeValid.fileOk) {
+        const errorMsg = `Maximum file size is ${isFileSizeValid.maxFileSize} mbs!`;
+        throw new Error(errorMsg);
+      }
       setSecondaryLoading(true);
       const response = await uploadFile({ variables: { file } });
       if (response.data?.singleUpload.error) {
-        console.log("error :>> ", response.data?.singleUpload.error);
+        throw new Error(response.data?.singleUpload.error);
       } else {
         const newLicense = response.data?.singleUpload.file;
 
@@ -147,21 +160,19 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
 
         setLicense(newLicense!);
 
-        // if (avatar.public_id) {
-        //   await deleteFile({ variables: { id: avatar.public_id } });
-        // }
-        // const newPhoto = response.data?.singleUpload.file;
-
-        // delete newPhoto?.__typename;
-        // setAvatar(newPhoto!);
-        // await editProfile({
-        //   variables: { input: { ...values, avatar: newPhoto } },
-        // });
         setSecondaryLoading(false);
       }
       e.target.value = "";
     } catch (error) {
-      console.log("error :>> ", error);
+      if (error instanceof Error) {
+        if (error.message.includes("Maximum file size is")) {
+          setToastBg("warning");
+        } else {
+          setToastBg("danger");
+        }
+        setShowToast(true);
+        setToastMessage(error.message);
+      }
       e.target.value = "";
     }
   };
@@ -206,11 +217,15 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
           query: { ...router.query },
         });
       } else {
-        throw new Error("");
+        throw new Error("Error saving data!");
       }
     } catch (error) {
-      console.log("error", error);
       setUpdating(false);
+      if (error instanceof Error) {
+        setToastBg("danger");
+        setShowToast(true);
+        setToastMessage(error.message);
+      }
     }
   };
 
@@ -223,6 +238,15 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
             <Loading />
           ) : (
             <div className="customContainer my-4">
+              {showToast && (
+                <ToastWrapper
+                  setShow={setShowToast}
+                  show={showToast}
+                  message={toastMessage}
+                  position="bottom-end"
+                  bg={toastBg}
+                />
+              )}
               <h1>Driving Details</h1>
               <p>
                 This is a self-drive car. We need to know you are qualified to

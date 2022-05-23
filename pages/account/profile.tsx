@@ -21,6 +21,7 @@ import {
   useUploadFileMutation,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
+import { fileSizeChecker } from "../../utils/file_size_checker";
 
 interface ProfileProps {}
 
@@ -53,7 +54,6 @@ const Profile: FC<ProfileProps> = (props) => {
     phone: "",
     business_name: "",
   });
-  // const [mainLoading, setMainLoading] = useState(true);
   const [secondaryLoading, setSecondaryLoading] = useState(false);
   const [avatar, setAvatar] = useState<FileInput>({
     public_id: "",
@@ -64,11 +64,10 @@ const Profile: FC<ProfileProps> = (props) => {
   const role = useRole(token);
   const [uploadFile, { loading: uploading }] = useUploadFileMutation();
   const [editProfile, { loading: editLoading }] = useEditProfileMutation();
-  // const { data, loading } = useGetAuthUserQuery({
-  //   fetchPolicy: "network-only",
-  // });
   const [deleteFile, { loading: deletingPhoto }] = useDeleteFileMutation();
-  const [showSaveToast, setShowSaveToast] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastBg, setToastBg] = useState("");
   const [isInitial, setIsInitial] = useState<boolean>();
   const router = useRouter();
   const user = useAppSelector((state) => state.user.user);
@@ -100,12 +99,6 @@ const Profile: FC<ProfileProps> = (props) => {
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   if (!loading && data?.getUser.user) {
-  //     setMainLoading(false);
-  //   }
-  // }, [data, loading]);
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "phone") {
       setValues({
@@ -120,10 +113,18 @@ const Profile: FC<ProfileProps> = (props) => {
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
       const file = e.target.files?.[0];
+      if (!file) {
+        throw new Error("Please select a file!");
+      }
+      const isFileSizeValid = fileSizeChecker(5, file);
+      if (!isFileSizeValid.fileOk) {
+        const errorMsg = `Maximum file size is ${isFileSizeValid.maxFileSize} mbs!`;
+        throw new Error(errorMsg);
+      }
       setSecondaryLoading(true);
       const response = await uploadFile({ variables: { file } });
       if (response.data?.singleUpload.error) {
-        console.log("error :>> ", response.data?.singleUpload.error);
+        throw new Error(response.data?.singleUpload.error);
       } else {
         if (avatar.public_id) {
           await deleteFile({ variables: { id: avatar.public_id } });
@@ -139,7 +140,15 @@ const Profile: FC<ProfileProps> = (props) => {
       }
       e.target.value = "";
     } catch (error) {
-      console.log("error :>> ", error);
+      if (error instanceof Error) {
+        if (error.message.includes("Maximum file size is")) {
+          setToastBg("warning");
+        } else {
+          setToastBg("danger");
+        }
+        setShowToast(true);
+        setToastMessage(error.message);
+      }
       e.target.value = "";
     }
   };
@@ -156,7 +165,7 @@ const Profile: FC<ProfileProps> = (props) => {
     try {
       let response = await editProfile({ variables: { input: payload } });
       if (response.data?.editProfile) {
-        setShowSaveToast(true);
+        setShowToast(true);
 
         if (isInitial && role === 2) {
           setTimeout(async () => {
@@ -173,16 +182,12 @@ const Profile: FC<ProfileProps> = (props) => {
         }
       }
     } catch (error) {
-      let errorMessage = "";
       if (error instanceof Error) {
-        errorMessage = error.message;
+        setShowToast(true);
+        setToastMessage(error.message);
+        setToastBg("danger");
       }
-      console.log("errorMessage :>> ", errorMessage);
-      return;
-      // setError("Network Error!");
     }
-
-    // if (response.data?.)
   };
 
   const handleDeletePhoto = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -203,18 +208,13 @@ const Profile: FC<ProfileProps> = (props) => {
         setAvatar({ public_id: "", secure_url: "", url: "" });
       }
     } catch (error) {
-      let errorMessage = "";
       if (error instanceof Error) {
-        errorMessage = error.message;
+        setShowToast(true);
+        setToastMessage(error.message);
+        setToastBg("danger");
       }
-      console.log("errorMessage :>> ", errorMessage);
-      return;
-      // setError("Network Error!");
     }
   };
-
-  // console.log("data :>> ", data);
-  // console.log("avatar :>> ", avatar);
 
   return (
     <>
@@ -226,13 +226,13 @@ const Profile: FC<ProfileProps> = (props) => {
           ) : ( */}
           <div className="p-2 my-4">
             {" "}
-            {showSaveToast && (
+            {showToast && (
               <ToastWrapper
-                setShow={setShowSaveToast}
-                message={"Profile updated successfully!"}
-                show={showSaveToast}
+                setShow={setShowToast}
+                message={toastMessage}
+                show={showToast}
                 position="bottom-end"
-                bg={"success"}
+                bg={toastBg}
               />
             )}
             <h3 className="text-center my-3">Profile</h3>

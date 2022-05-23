@@ -17,6 +17,7 @@ import {
   useEditCarDocumentsMutation,
   useUploadFileMutation,
 } from "../../graphql_types/generated/graphql";
+import { fileSizeChecker } from "../../utils/file_size_checker";
 import { ButtonLoading } from "../Loading/ButtonLoading";
 import { ToastWrapper } from "../Toast/ToastWrapper";
 import DocumentContent from "./DocumentContent";
@@ -36,19 +37,17 @@ interface DocumentsProps {
   booked?: boolean;
   hasEditRequest?: boolean;
   isActive?: boolean;
-  // verificationInProgress?: boolean;
 }
 
 export const Documents: FC<DocumentsProps> = (props) => {
   const [uploadFile, { loading: uploading }] = useUploadFileMutation();
   const [editDocuments, { loading }] = useEditCarDocumentsMutation();
   const [deleteFile, { loading: deleteLoading }] = useDeleteFileMutation();
-  // const [toDelete, setToDelete] = useState<DocumentInput>();
   const [secondaryLoading, setSecondaryLoading] = useState(false);
   const [showRequestEditModal, setShowRequestEditModal] = useState(false);
-  const [showSaveToast, setShowSaveToast] = useState(false);
-
-  // const [saved, setSaved] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastBg, setToastBg] = useState("");
   const [id, setId] = useState<string>();
   const [documents, setDocuments] = useState<CarDocumentsInput>({
     documents: [],
@@ -60,21 +59,27 @@ export const Documents: FC<DocumentsProps> = (props) => {
     }
   }, [props.value]);
 
-  // console.log("props.carVerified :>> ", props.carVerified);
-
   const handleUpload = async (
     e: ChangeEvent<HTMLInputElement>,
     title: string
   ) => {
     try {
       const file = e.target.files?.[0];
+      if (!file) {
+        throw new Error("Please select a file!");
+      }
+      const isFileSizeValid = fileSizeChecker(10, file);
+      if (!isFileSizeValid.fileOk) {
+        const errorMsg = `Maximum file size is ${isFileSizeValid.maxFileSize} mbs!`;
+        throw new Error(errorMsg);
+      }
       setId(title);
       const response = await uploadFile({
         variables: { file },
         fetchPolicy: "no-cache",
       });
       if (response.data?.singleUpload.error) {
-        console.log("error :>> ", response.data?.singleUpload.error);
+        throw new Error(response.data?.singleUpload.error);
       } else {
         const newDocumentFile = response.data?.singleUpload.file;
         delete newDocumentFile?.__typename;
@@ -93,33 +98,18 @@ export const Documents: FC<DocumentsProps> = (props) => {
           if (!tempDocuments[0]) {
             tempDocuments[0] = newDocument;
           } else {
-            // setToDelete(tempDocuments[0]);
             tempToDelete = tempDocuments[0];
             tempDocuments[0] = newDocument;
-            // Delete here
           }
         } else if (title === "logbook") {
           if (!tempDocuments[1]) {
             tempDocuments[1] = newDocument;
           } else {
-            // setToDelete(tempDocuments[1]);
             tempToDelete = tempDocuments[1];
             tempDocuments[1] = newDocument;
-            // Delete here
-            // deleteFile({ variables: { id: toDelete.file.public_id } });
           }
         }
-        // else if (title === "purchase_receipt") {
-        //   if (!tempDocuments[2]) {
-        //     tempDocuments[2] = newDocument;
-        //   } else {
-        //     // setToDelete(tempDocuments[2]);
-        //     tempToDelete = tempDocuments[2];
-        //     tempDocuments[2] = newDocument;
-        //     // Delete here
-        //     // deleteFile({ variables: { id: toDelete.file.public_id } });
-        //   }
-        // }
+
         setDocuments({ documents: tempDocuments });
         setSecondaryLoading(true);
         const response2 = await editDocuments({
@@ -145,13 +135,15 @@ export const Documents: FC<DocumentsProps> = (props) => {
       e.target.value = "";
     } catch (error) {
       e.target.value = "";
-      let errorMessage = "";
       if (error instanceof Error) {
-        errorMessage = error.message;
+        if (error.message.includes("Maximum file size is")) {
+          setToastBg("warning");
+        } else {
+          setToastBg("danger");
+        }
+        setShowToast(true);
+        setToastMessage(error.message);
       }
-      console.log("errorMessage :>> ", errorMessage);
-      return;
-      // setError("Network Error!");
     }
   };
 
@@ -165,27 +157,24 @@ export const Documents: FC<DocumentsProps> = (props) => {
         },
       });
       if (response?.data?.editCarDocuments.error) {
-        console.log("error :>> ", response?.data?.editCarDocuments.error);
-        // deleteFile({ variables: { id: toDelete?.file.public_id! } });
+        throw new Error(response?.data?.editCarDocuments.error);
       } else if (response.data?.editCarDocuments.carId) {
         props.setCompData(response.data.editCarDocuments.car!);
         if (props.isManage) {
-          setShowSaveToast(true);
+          setToastBg("success");
+          setShowToast(true);
+          setToastMessage("Updated successfully");
         } else {
           props.setActiveSlide && props.setActiveSlide(props.activeSlide! + 1);
         }
       }
     } catch (error) {
-      let errorMessage = "";
       if (error instanceof Error) {
-        errorMessage = error.message;
+        setToastBg("danger");
+        setShowToast(true);
+        setToastMessage(error.message);
       }
-      console.log("errorMessage :>> ", errorMessage);
-      return;
-      // setError("Network Error!");
     }
-
-    // if (!response?.data?.editCarDocuments.error && toDelete) {
   };
 
   const getFile = (title: string) => {
@@ -194,9 +183,6 @@ export const Documents: FC<DocumentsProps> = (props) => {
     } else if (title === "logbook") {
       return documents.documents[1];
     }
-    // else if (title === "purchase_receipt") {
-    //   return documents.documents[2];
-    // }
   };
 
   const handleDeleteDoc = async (
@@ -232,18 +218,14 @@ export const Documents: FC<DocumentsProps> = (props) => {
         });
         setSecondaryLoading(false);
       }
-    } catch (error) {}
-  };
-
-  const handleRequestEditClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (props.hasEditRequest) {
-      return;
+    } catch (error) {
+      if (error instanceof Error) {
+        setShowToast(true);
+        setToastMessage(error.message);
+        setToastBg("danger");
+      }
     }
-    setShowRequestEditModal(true);
   };
-
-  // console.log("props.value :>> ", props.value);
 
   return (
     <>
@@ -256,13 +238,13 @@ export const Documents: FC<DocumentsProps> = (props) => {
           setCarData={props.setCompData}
         />
       )}
-      {showSaveToast && (
+      {showToast && (
         <ToastWrapper
-          setShow={setShowSaveToast}
-          show={showSaveToast}
-          message={"Updated successfully!"}
+          setShow={setShowToast}
+          show={showToast}
+          message={toastMessage}
           position="bottom-end"
-          bg="success"
+          bg={toastBg}
         />
       )}
       <h3>Documents</h3>
@@ -280,11 +262,9 @@ export const Documents: FC<DocumentsProps> = (props) => {
         <div>
           {props.carVerified ? (
             <DocumentContent
-              // isVerified={props.carVerified}
               deleteHandler={handleDeleteDoc}
               docUrl={documents.documents[0]?.file?.secure_url}
               title="national_id"
-              // verificationInProgress={props.verificationInProgress}
               isEdit={props.isEdit}
               isManage={props.isManage}
               deleteLoading={deleteLoading}
@@ -308,8 +288,6 @@ export const Documents: FC<DocumentsProps> = (props) => {
                 </span>
               </div>
               <DocumentContent
-                // isVerified={props.carVerified!}
-                // verificationInProgress={props.verificationInProgress}
                 isEdit={props.isEdit}
                 isManage={props.isManage}
                 deleteHandler={handleDeleteDoc}
@@ -325,8 +303,6 @@ export const Documents: FC<DocumentsProps> = (props) => {
         <div>
           {props.carVerified ? (
             <DocumentContent
-              // isVerified={props.carVerified}
-              // verificationInProgress={props.verificationInProgress}
               isEdit={props.isEdit}
               isManage={props.isManage}
               deleteHandler={handleDeleteDoc}
@@ -353,8 +329,6 @@ export const Documents: FC<DocumentsProps> = (props) => {
                 </span>
               </div>
               <DocumentContent
-                // isVerified={props.carVerified!}
-                // verificationInProgress={props.verificationInProgress}
                 isEdit={props.isEdit}
                 isManage={props.isManage}
                 deleteHandler={handleDeleteDoc}
@@ -365,100 +339,6 @@ export const Documents: FC<DocumentsProps> = (props) => {
             </div>
           )}
         </div>
-
-        {/* {!props.isEdit && props.isManage && (
-          <div className="mt-3">
-            <small>
-              This information is only editable with permisson from the admin.{" "}
-              <button
-                className="btn colorOrange p-0"
-                onClick={handleRequestEditClick}
-              >
-                {props.hasEditRequest ? (
-                  <small className="text-success fw-bold">
-                    Edit Request Sent!
-                  </small>
-                ) : (
-                  <small>Request Edit</small>
-                )}
-              </button>
-            </small>
-          </div>
-        )} */}
-
-        {/* <br />
-        <label>Car Purchase Receipt (Optional)</label>
-        <div>
-          {!props.isEdit ? (
-            <div className="d-flex align-items-start flex-column">
-              {" "}
-              <div className="d-flex align-items-center">
-                <input
-                  type="file"
-                  accept=".jpg, .jpeg, .png,.pdf"
-                  onChange={(e) => handleUpload(e, "purchase_receipt")}
-                  // disabled={saving}
-                />
-                <span>
-                  {uploading && id === "purchase_receipt" && (
-                    <ButtonLoading
-                      spinnerColor="orange"
-                      dimensions={{ height: "18px", width: "18px" }}
-                    />
-                  )}
-                </span>
-              </div>
-              <DocumentContent
-                isVerified={props.carVerified}
-                deleteHandler={handleDeleteDoc}
-                docUrl={documents.documents[2]?.file?.secure_url}
-                title="purchase_receipt"
-              />
-            </div>
-          ) : (
-            <>
-              {documents.documents[2] ? (
-                <>
-                  {props.carVerified ? (
-                    <DocumentContent
-                      isVerified={props.carVerified}
-                      deleteHandler={handleDeleteDoc}
-                      docUrl={documents.documents[2]?.file?.secure_url}
-                      title="purchase_receipt"
-                    />
-                  ) : (
-                    <div className="d-flex align-items-start flex-column">
-                      <div className="d-flex align-items-center">
-                        <input
-                          type="file"
-                          accept=".jpg, .jpeg, .png,.pdf"
-                          onChange={(e) => handleUpload(e, "purchase_receipt")}
-                          // disabled={saving}
-                        />
-                        <span>
-                          {uploading && id === "purchase_receipt" && (
-                            <ButtonLoading
-                              spinnerColor="orange"
-                              dimensions={{ height: "18px", width: "18px" }}
-                            />
-                          )}
-                        </span>
-                      </div>
-                      <DocumentContent
-                        isVerified={props.carVerified}
-                        deleteHandler={handleDeleteDoc}
-                        docUrl={documents.documents[2]?.file?.secure_url}
-                        title="purchase_receipt"
-                      />
-                    </div>
-                  )}
-                </>
-              ) : (
-                <p>Not provided</p>
-              )}
-            </>
-          )}
-        </div> */}
 
         {props.isManage ? (
           <UpdateBtn
