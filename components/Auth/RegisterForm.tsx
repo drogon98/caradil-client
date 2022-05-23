@@ -85,8 +85,6 @@ const RegisterForm: FC<IProps> = (props) => {
     checkPlanData();
   }, [router.query]);
 
-  // console.log("role :>> ", role);
-
   const [register, { loading, error: registerError }] = useRegisterMutation();
 
   const handleChange = (

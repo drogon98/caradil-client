@@ -8,7 +8,6 @@ export const Promise: FC<PromiseProps> = (props) => {
       <h6 className="text-center">OUR PROMISE TO YOU</h6>
       <div className="d-flex justify-content-center">
         <div
-          // className="section-heading-hr"
           style={{
             borderTop: "5px solid #fff",
             width: "40px",
