@@ -1,15 +1,18 @@
 import React from "react";
 import RegisterForm from "../../components/Auth/RegisterForm";
+import Wrapper from "../../components/Auth/Wrapper";
+import { CustomHead } from "../../components/CustomHead";
 
 interface AdminRegisterProps {}
 
 const AdminRegister = (props: AdminRegisterProps) => {
   return (
-    <div className="authWrapper">
-      <div className="authContent p-2 py-5">
+    <>
+      <CustomHead title="Register" />
+      <Wrapper>
         <RegisterForm isAdmin />
-      </div>
-    </div>
+      </Wrapper>
+    </>
   );
 };
 
