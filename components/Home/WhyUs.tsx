@@ -59,7 +59,7 @@ export const WhyUs: FC<WhyUsProps> = (props) => {
             Our dedicated team is ready to answer your queries and offer help
             when it is needed. Don't be frustrated by anything during your trip,
             we are here to make things easier for you. Also with our integrated
-            chatting module, you can communicate with host for queries specific
+            chatting system, you can communicate with host for queries specific
             to the car.
           </p>
         </div>
