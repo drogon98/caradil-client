@@ -360,12 +360,14 @@ export type Faq = {
   answer?: Maybe<Scalars['String']>;
   created_at?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['Float']>;
+  intended_user?: Maybe<Scalars['String']>;
   question?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['DateTime']>;
 };
 
 export type FaqInput = {
   answer: Scalars['String'];
+  intended_user: Scalars['String'];
   question: Scalars['String'];
 };
 

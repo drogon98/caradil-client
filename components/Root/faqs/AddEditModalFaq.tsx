@@ -59,6 +59,7 @@ export default function AddEditModalFaq(props: Props) {
   const [answer, setAnswer] = useState("");
   const [question, setQuestion] = useState("");
   const [addFaq, { loading }] = useAddFaqMutation();
+  const [faqIntendedUser, setFaqIntendedUser] = useState("both");
 
   useEffect(() => {
     if (props.isEdit && props.faq) {
@@ -69,6 +70,10 @@ export default function AddEditModalFaq(props: Props) {
 
   const handleQuizChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuestion(e.target.value);
+  };
+
+  const handleIntendedUserChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setFaqIntendedUser(e.target.value);
   };
 
   const handleAnswerChange = (value: any) => {
@@ -82,7 +87,9 @@ export default function AddEditModalFaq(props: Props) {
 
     try {
       let response = await addFaq({
-        variables: { input: { question, answer } },
+        variables: {
+          input: { question, answer, intended_user: faqIntendedUser },
+        },
       });
       if (response.data?.addFaq.success) {
         props.handleClose();
@@ -107,6 +114,22 @@ export default function AddEditModalFaq(props: Props) {
       </Modal.Header>
       <Modal.Body>
         <div>
+          <div className="mb-3">
+            <label>Intended User</label>
+            <select
+              className="form-select form-control car-general-info-input-width"
+              aria-label="Default select example"
+              onChange={handleIntendedUserChange}
+              value={faqIntendedUser}
+              name="make"
+              required
+            >
+              <option value={""}>Select User</option>
+              <option value={"quest"}>Guest</option>
+              <option value={"host"}>Host</option>
+              <option value={"both"}>Both</option>
+            </select>
+          </div>
           <div className="mb-3">
             <label>Question</label>
             <input
