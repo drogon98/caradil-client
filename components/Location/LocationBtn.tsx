@@ -1,22 +1,30 @@
+import { useRouter } from "next/router";
 import React, { MouseEvent, useState } from "react";
+import { ToastWrapper } from "../Toast/ToastWrapper";
 
 interface ILocationBtnProps {
   text: string;
   path: string;
+  query?: any;
 }
 
 export default function LocationBtn(props: ILocationBtnProps) {
-  const [coords, setCoords] = useState<{
-    latitude: string;
-    longitude: string;
-  }>();
-  function success(pos: { coords: any }) {
+  const router = useRouter();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+
+  async function success(pos: { coords: any }) {
     const crd = pos.coords;
-    setCoords(crd);
+    console.log("crd :>> ", crd);
+    const query = props.query ?? {};
+    // Add the coords to query
+    await router.push("/browse-cars", { query });
   }
 
   function error(err: { code: any; message: any }) {
-    console.warn(`ERROR(${err.code}): ${err.message}`);
+    const tempToastMsg = `ERROR(${err.code}): ${err.message}`;
+    setToastMessage(tempToastMsg);
+    setShowToast(true);
   }
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -42,10 +50,18 @@ export default function LocationBtn(props: ILocationBtnProps) {
 
   return (
     <>
+      {showToast && (
+        <ToastWrapper
+          setShow={setShowToast}
+          message={toastMessage}
+          show={showToast}
+          position="bottom-end"
+          bg={"warning"}
+        />
+      )}
       <button className="btn bgOrange mt-4" onClick={handleClick}>
         {props.text}
       </button>
-      {coords && <p>{`lat-${coords?.latitude} long-${coords?.longitude}`}</p>}
     </>
   );
 }

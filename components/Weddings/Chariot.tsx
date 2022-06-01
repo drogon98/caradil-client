@@ -12,15 +12,11 @@ export default function Chariot(props: IChariotProps) {
       <h2 className="mb-3 section-heading">Your Chariot Awaits</h2>
       <p>Book the perfect car rental alternative for your ceremony getaway</p>
 
-      {/* <Link
-        href={{
-          pathname: "/browse-cars",
-          query: { categories: ["wedding"] },
-        }}
-      >
-        <a className="btn bgOrange mt-4">Browse Nearby Cars</a>
-      </Link> */}
-      <LocationBtn path="/browse-cars" text="Browse Nearby Cars" />
+      <LocationBtn
+        path="/browse-cars"
+        text="Browse Nearby Cars"
+        query={{ categories: ["wedding"] }}
+      />
     </div>
   );
 }
