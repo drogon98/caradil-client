@@ -1190,13 +1190,13 @@ label {
   margin-bottom: 18px;
 }
 
-.main-footer-wrapper p {
-  margin-bottom: 7px !important;
+.main-footer-link {
+  margin-bottom: 14px !important;
 }
 
-.main-footer-wrapper p,
+.main-footer-link,
 #footer-copyright {
-  font-size: 13px;
+  font-size: 12.5px;
 }
 
 .sm-footer-icons {
@@ -1209,7 +1209,7 @@ label {
     gap: 20px;
   }
 
-  .main-footer-wrapper p,
+  .main-footer-link,
   #footer-copyright {
     font-size: 12px;
   }
@@ -1225,7 +1225,7 @@ label {
     font-size: 50px;
   }
 
-  .main-footer-wrapper p,
+  .main-footer-link,
   #footer-copyright {
     font-size: 11px;
   }
@@ -1252,7 +1252,7 @@ label {
     font-size: 50px;
   }
 
-  .main-footer-wrapper p,
+  .main-footer-link,
   #footer-copyright {
     font-size: 11px;
   }
@@ -1784,6 +1784,12 @@ car-input-container select:focus {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
   width: 100%;
+}
+
+@media screen and (max-width: 340px) {
+  .more-filters-text {
+    font-size: 11px;
+  }
 }
 
 /* =============================END SEARCH WRAPPER====================================== */
