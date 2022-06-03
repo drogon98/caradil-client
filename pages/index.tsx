@@ -24,7 +24,7 @@ const Home: NextPage = () => {
         <BrowseByMake />
         <WhyUs />
         <ManageTravel />
-        <Faqs />
+        {/* <Faqs /> */}
       </Layout>
     </>
   );

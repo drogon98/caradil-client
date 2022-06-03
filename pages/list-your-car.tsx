@@ -28,7 +28,7 @@ const ListYourCar: FC<IProps> = (props) => {
           <HowItWorks />
           <WhyUs />
           <HostPlans />
-          <Faqs />
+          {/* <Faqs /> */}
         </div>
       </Layout>
     </>
