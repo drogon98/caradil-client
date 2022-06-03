@@ -30,61 +30,46 @@ export function SearchContent(props: SearchContentProps) {
     }
   }, [router.query]);
 
-  useEffect(() => {
-    let id: number;
-    let observer = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // if (!id) {
-            //   setMainLoading(true);
-            //   id = window.requestIdleCallback(() => {
-            //     // setTimeout(() => {
-            //     getReviews({
-            //       variables: { carId: props.carId },
-            //     });
-            //     // }, 5000);
-            //   });
-            //   // console.log("id :>> ", id);
-            // }
-          }
-        });
-      },
-      {
-        root: null,
-        threshold: 0,
-      }
-    );
+  // useEffect(() => {
+  //   let id: number;
+  //   let observer = new IntersectionObserver(
+  //     (entries, observer) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           // if (!id) {
+  //           //   setMainLoading(true);
+  //           //   id = window.requestIdleCallback(() => {
+  //           //     // setTimeout(() => {
+  //           //     getReviews({
+  //           //       variables: { carId: props.carId },
+  //           //     });
+  //           //     // }, 5000);
+  //           //   });
+  //           //   // console.log("id :>> ", id);
+  //           // }
+  //         }
+  //       });
+  //     },
+  //     {
+  //       root: null,
+  //       threshold: 0,
+  //     }
+  //   );
 
-    if (fetchRef) {
-      observer.observe(fetchRef.current!);
-    }
+  //   if (fetchRef) {
+  //     observer.observe(fetchRef.current!);
+  //   }
 
-    return () => {
-      window.cancelIdleCallback(id);
-    };
-  }, []);
+  //   return () => {
+  //     window.cancelIdleCallback(id);
+  //   };
+  // }, []);
 
   const handleClearFilters = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     dispatch(showMoreFilters());
-
-    // try {
-    //   router.push(
-    //     {
-    //       pathname: "/browse-cars",
-    //       query: {},
-    //     },
-    //     ``,
-    //     { shallow: true }
-    //   );
-    // } catch (error) {
-    //   console.log("error :>> ", error);
-    // }
   };
-
-  console.log("props.cars?.length", props.cars?.length);
 
   return (
     <>
@@ -123,11 +108,11 @@ export function SearchContent(props: SearchContentProps) {
           {!props.loading &&
             props.cars?.map((car) => <CarBox data={car} key={car.id} />)}
         </div>
-        {props.hasMore && (
+        {/* {props.hasMore && props.cars && (
           <div className="pb-2" ref={fetchRef}>
             {props.loading && <Spinner />}
           </div>
-        )}
+        )} */}
       </div>
     </>
   );
