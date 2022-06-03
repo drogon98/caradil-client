@@ -91,7 +91,7 @@ export default function Wrapper(props: WrapperProps) {
             {isLogin && (
               <>
                 {" "}
-                <span>New to Caradil?</span>
+                <small>New to Caradil?</small>
                 &nbsp;&nbsp;
                 <Link
                   href={{
@@ -111,7 +111,7 @@ export default function Wrapper(props: WrapperProps) {
             {isRegister && (
               <>
                 {" "}
-                <span>Have an account?</span>
+                <small>Have an account?</small>
                 &nbsp;&nbsp;
                 <Link
                   href={{
@@ -152,17 +152,17 @@ export default function Wrapper(props: WrapperProps) {
           &copy; {new Date().getFullYear()} <span>Caradil</span>
         </div>
         <div className="d-flex">
-          <span>
+          <small>
             <Link href="/policies/terms">
               <a>Policies</a>
             </Link>
-          </span>
+          </small>
           &nbsp;&nbsp; &nbsp;&nbsp;
-          <span>
+          <small>
             <Link href="/contact-us">
               <a>Contact Us</a>
             </Link>
-          </span>
+          </small>
         </div>
       </div>
     </div>
