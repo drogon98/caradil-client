@@ -68,7 +68,7 @@ const FAQS: NextPage = () => {
           )}
 
           <div className="mt-3">
-            <p>
+            <p className="text-center">
               Couldn't find what you are looking for?&nbsp;&nbsp;
               <Link href="/contact-us">
                 <a className="colorOrange">
