@@ -9,22 +9,18 @@ import {
 import { useAppSelector } from "../../redux/hooks";
 import LoginWithModal from "../Auth/LoginWithModal";
 import { useUserId } from "../hooks/useUserId";
+import Image from "next/image";
 
 interface CarBoxProps {
   data: Car;
 }
 
 export const CarBox: FC<CarBoxProps> = (props) => {
-  // const router = useRouter();
   const [isFavourite, setIsFavourite] = useState<boolean>();
   const token = useAppSelector((state) => state.auth._id);
   const userId = useUserId(token);
   const [updateFavourite, { loading: updatingFavourite }] =
     useUpdateCarFavouriteMutation();
-
-  // console.log("userId :>> ", userId);
-
-  // console.log("props.data :>> ", props.data);
 
   useEffect(() => {
     if (props.data && userId) {
@@ -47,7 +43,7 @@ export const CarBox: FC<CarBoxProps> = (props) => {
       setIsFavourite(!isFavourite);
     }
   };
-  // console.log("props.data :>> ", props.data);
+
   return (
     <div className="carBox shadow" style={{ width: "100%" }}>
       {token ? (
@@ -63,30 +59,24 @@ export const CarBox: FC<CarBoxProps> = (props) => {
           )}
         </button>
       ) : (
-        // <Link
-        //   href={{
-        //     pathname: "/login",
-        //     query: {
-        //       next: router.pathname,
-        //       nextQuery: JSON.stringify(router.query),
-        //     },
-        //   }}
-        // >
         <LoginWithModal>
           <a className="fav-icon cursor-pointer">
             <BsSuitHeart size="21px" />
           </a>
         </LoginWithModal>
-        // </Link>
       )}
 
       <Link href={`/${slugify(props.data.name!)}/${props.data.id}`}>
         <a>
-          <img
-            className="carImage"
+          <Image
+            // loader={myLoader}
             src={props.data?.photos?.[0]?.secure_url ?? "/images/lambo.jpg"}
-            width="100%"
-            style={{ objectFit: "cover" }}
+            alt="Car Photo"
+            height={"200px"}
+            width={"350px"}
+            layout="responsive"
+            objectFit="cover"
+            quality={100}
           />
           <div className="p-2">
             <h5 className="m-0">{props.data.name}</h5>
