@@ -12,7 +12,10 @@ const Hero = (): JSX.Element => {
         <h1 className="section-heading">
           Find Your <span className="colorOrange hero-text-suffix">Drive</span>
         </h1>
-        <p>Explore africa's largest car sharing marketplace</p>
+        <p className="text-center">
+          {" "}
+          Explore africa's largest car sharing marketplace
+        </p>
         <Link href="/browse-cars">
           <a className="btn bgOrange mt-4 text-light">Browse Cars</a>
         </Link>
