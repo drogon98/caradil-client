@@ -1096,7 +1096,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   onFocus={handleRateFocus}
                                 />
                                 <span
-                                  className="input-group-text"
+                                  className="input-group-text more-filters-text"
                                   id="basic-addon2"
                                 >
                                   KSH
@@ -1117,7 +1117,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   onFocus={handleRateFocus}
                                 />
                                 <span
-                                  className="input-group-text"
+                                  className="input-group-text more-filters-text"
                                   id="basic-addon2"
                                 >
                                   KSH
