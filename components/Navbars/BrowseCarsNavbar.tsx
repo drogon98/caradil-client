@@ -508,7 +508,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                       </Offcanvas.Title>
                     </Offcanvas.Header>
                     <Offcanvas.Body className="p-2">
-                      <div>
+                      <div id="more-filter-offcanvas">
                         {showClearFilter && (
                           <div className="d-flex justify-content-end">
                             <button

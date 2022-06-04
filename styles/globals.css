@@ -1769,6 +1769,17 @@ car-input-container select:focus {
 
 /* =============================SEARCH WRAPPER====================================== */
 
+#more-filter-offcanvas input,
+#more-filter-offcanvas select {
+  font-size: 12px;
+}
+
+#more-filter-offcanvas .input-group-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .more-filters-text {
   font-size: 12px;
   display: inline;
@@ -1787,6 +1798,11 @@ car-input-container select:focus {
 }
 
 @media screen and (max-width: 340px) {
+  #more-filter-offcanvas input,
+  #more-filter-offcanvas select {
+    font-size: 11px;
+  }
+
   .more-filters-text {
     font-size: 11px;
   }
