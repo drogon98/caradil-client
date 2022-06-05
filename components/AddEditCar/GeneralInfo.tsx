@@ -279,6 +279,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               onBlur={handleCarNameBlur}
               onKeyUp={handleNameType}
               onFocus={handleNameFocus}
+              maxLength={20}
               // disabled={props.isManage && !props.isEdit}
             />
           </div>
