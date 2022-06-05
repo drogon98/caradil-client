@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { FC } from "react";
 import { Car } from "../../../graphql_types/generated/graphql";
+import CustomImage from "../../Image";
 
 interface ListBoxProps {
   data: Car;
@@ -15,15 +16,16 @@ export const ListBox: FC<ListBoxProps> = (props) => {
           query: { active: 1 },
         }}
       >
-        <div>
+        <div className="cursor-pointer">
           <a className="row m-0 align-items-center p-0">
             <div className="col-1">
               <div className="list-name-circle">
-                <img
-                  src={props.data.photos?.[0]?.secure_url ?? ""}
-                  style={{ objectFit: "cover" }}
-                  height="50px"
-                  width="50px"
+                <CustomImage
+                  src={props.data?.photos?.[0]?.secure_url ?? ""}
+                  alt="Car Photo"
+                  height={"100px"}
+                  width={"100px"}
+                  layout="responsive"
                 />
               </div>
             </div>

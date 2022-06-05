@@ -10,6 +10,7 @@ import { useAppSelector } from "../../redux/hooks";
 import LoginWithModal from "../Auth/LoginWithModal";
 import { useUserId } from "../hooks/useUserId";
 import Image from "next/image";
+import CustomImage from "../Image";
 
 interface CarBoxProps {
   data: Car;
@@ -68,15 +69,12 @@ export const CarBox: FC<CarBoxProps> = (props) => {
 
       <Link href={`/${slugify(props.data.name!)}/${props.data.id}`}>
         <a>
-          <Image
-            // loader={myLoader}
+          <CustomImage
             src={props.data?.photos?.[0]?.secure_url ?? "/images/lambo.jpg"}
             alt="Car Photo"
             height={"200px"}
             width={"350px"}
             layout="responsive"
-            objectFit="cover"
-            quality={100}
           />
           <div className="p-2">
             <h5 className="m-0">{props.data.name}</h5>

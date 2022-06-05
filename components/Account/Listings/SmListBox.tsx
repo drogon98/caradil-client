@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { FC } from "react";
 import { Car } from "../../../graphql_types/generated/graphql";
+import CustomImage from "../../Image";
 
 interface SmListBoxProps {
   data: Car;
@@ -19,17 +20,18 @@ export const SmListBox: FC<SmListBoxProps> = (props) => {
           <a className="row ">
             <div className="col-4">
               <div className="list-name-circle">
-                <img
-                  src={props.data.photos?.[0]?.secure_url ?? ""}
-                  style={{ objectFit: "cover" }}
-                  height="100px"
-                  width="100px"
+                <CustomImage
+                  src={props.data?.photos?.[0]?.secure_url ?? ""}
+                  alt="Car Photo"
+                  height={"100px"}
+                  width={"100px"}
+                  layout="responsive"
                 />
               </div>
             </div>
             <div className="col-7 p-0">
               <div className="d-flex flex-column">
-                <h4 className="m-0">{props.data.name}</h4>
+                <h4 className="m-0 no-wrap-text">{props.data.name}</h4>
                 <p>{props.data.reg_no}</p>
                 <p>{props.data.published ? "Published" : "Not Published"}</p>
                 <p>
