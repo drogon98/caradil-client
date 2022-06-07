@@ -1,14 +1,11 @@
 import React, { FC } from "react";
 import { hostPlansData } from "../../data";
+import CustomImage from "../Image";
 import GetStartedBtn from "./GetStartedBtn";
 
 interface IProps {}
 
 export const KickOff: FC<IProps> = (props) => {
-  // const role = null;
-
-  // console.log("role :>> ", role);
-
   return (
     <div className="page-section customContainer mt-5">
       <div className="row w-100 m-0 align-items-center">
@@ -30,11 +27,12 @@ export const KickOff: FC<IProps> = (props) => {
           </p>
         </div>
         <div className="col-lg-6 d-none d-lg-block">
-          <img
-            src="/images/car_business.jpg"
-            height="300px"
-            width="100%"
-            style={{ objectFit: "cover" }}
+          <CustomImage
+            src="/images/car_business.webp"
+            alt="Start Business"
+            height={"300px"}
+            width={"500px"}
+            layout="responsive"
           />
         </div>
       </div>
