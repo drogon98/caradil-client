@@ -77,7 +77,6 @@ function ForgotPassword(props: ForgotPasswordProps) {
                 required
                 id="email"
                 value={email}
-                placeholder="johndoe@gmail.com"
                 onChange={handleChange}
                 name="email"
                 onFocus={handleFocus}

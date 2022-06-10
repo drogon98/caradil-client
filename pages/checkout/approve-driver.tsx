@@ -31,7 +31,6 @@ const ApproveDriver: FC<ApproveDriverProps> = (props) => {
                     required
                     id="email"
                     //   value={values.email}
-                    placeholder="johndoe@gmail.com"
                     onChange={handleChange}
                     name="email"
                   />
@@ -42,7 +41,7 @@ const ApproveDriver: FC<ApproveDriverProps> = (props) => {
                   required
                   id="email"
                   // value={values.email}
-                  placeholder="johndoe@gmail.com"
+
                   onChange={handleChange}
                   name="email"
                 />
@@ -54,7 +53,7 @@ const ApproveDriver: FC<ApproveDriverProps> = (props) => {
                   required
                   id="email"
                   // value={values.email}
-                  placeholder="johndoe@gmail.com"
+
                   onChange={handleChange}
                   name="email"
                 />

@@ -500,7 +500,6 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
                       required
                       id="email"
                       value={values.eml}
-                      placeholder="johndoe@gmail.com"
                       onChange={handleChange}
                       name="eml"
                       type="text"

@@ -234,7 +234,6 @@ const RegisterForm: FC<IProps> = (props) => {
             className="form-control"
             required
             id="email"
-            placeholder="johndoe@gmail.com"
             name="email"
             onChange={handleChange}
             onFocus={handleFocus}

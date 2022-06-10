@@ -168,7 +168,6 @@ export default function LoginForm(props: Props): ReactElement {
             required
             id="email"
             value={values.email}
-            placeholder="johndoe@gmail.com"
             onChange={handleChange}
             name="email"
             onFocus={handleFocus}
