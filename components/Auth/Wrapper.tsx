@@ -144,14 +144,14 @@ export default function Wrapper(props: WrapperProps) {
         <div className="authContent mx-auto p-2">{props.children}</div>
       </div>
       <div
-        className="py-3 px-2 d-flex justify-content-between"
+        className="py-3 px-2 d-flex justify-content-between align-items-center"
         id="auth-page-footer-wrapper"
         style={{ borderTop: "1px solid #d4d4d4" }}
       >
         <div>
           &copy; {new Date().getFullYear()} <span>Caradil</span>
         </div>
-        <div className="d-flex">
+        <div className="d-flex align-items-center">
           <small>
             <Link href="/policies/terms">
               <a>Policies</a>
