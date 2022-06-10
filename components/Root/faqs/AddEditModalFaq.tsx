@@ -117,7 +117,7 @@ export default function AddEditModalFaq(props: Props) {
           <div className="mb-3">
             <label>Intended User</label>
             <select
-              className="form-select form-control car-general-info-input-width"
+              className="form-select form-control car-row-input-width"
               aria-label="Default select example"
               onChange={handleIntendedUserChange}
               value={faqIntendedUser}

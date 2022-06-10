@@ -176,11 +176,11 @@ export const Features: FC<FeaturesProps> = (props) => {
             Seats must be a value greater than 0!
           </small>
         )}
-        <div className="row">
-          <div className="col-6">
+        <div className="row m-0">
+          <div className="col-6 p-0">
             <label htmlFor="gas">Gas</label>
             <select
-              className="form-select form-control car-input-width"
+              className="form-select form-control car-row-input-width"
               aria-label="Default select example"
               onChange={handleChange}
               value={values?.gas}
@@ -193,10 +193,10 @@ export const Features: FC<FeaturesProps> = (props) => {
               <option value="diesel">Diesel</option>
             </select>
           </div>
-          <div className="col-6">
+          <div className="col-6 p-0">
             <label htmlFor="carName">Transmission</label>
             <select
-              className="form-select form-control car-input-width"
+              className="form-select form-control car-row-input-width"
               aria-label="Default select example"
               onChange={handleChange}
               value={values?.transmission}
@@ -210,11 +210,11 @@ export const Features: FC<FeaturesProps> = (props) => {
             </select>
           </div>
         </div>
-        <div className="row mt-2">
-          <div className="col-6">
+        <div className="row m-0 mt-2">
+          <div className="col-6 p-0">
             <label htmlFor="carName">Color</label>
             <select
-              className="form-select form-control car-input-width"
+              className="form-select form-control car-row-input-width"
               aria-label="Default select example"
               onChange={handleChange}
               value={values?.color}
@@ -230,12 +230,12 @@ export const Features: FC<FeaturesProps> = (props) => {
               ))}
             </select>
           </div>
-          <div className="col-6">
+          <div className="col-6 p-0">
             <label htmlFor="carName">Seats</label>
             <input
               type="number"
               name="seats"
-              className="form-control car-input-width"
+              className="form-control car-row-input-width"
               value={values?.seats ? values?.seats : ""}
               required
               onChange={handleChange}
@@ -245,13 +245,13 @@ export const Features: FC<FeaturesProps> = (props) => {
             />
           </div>
         </div>
-        <div className="row mt-2">
-          <div className="col-6">
+        <div className="row m-0 mt-2">
+          <div className="col-6 p-0">
             <label htmlFor="carName">Doors</label>
             <input
               type="number"
               name="doors"
-              className="form-control car-input-width"
+              className="form-control car-row-input-width"
               value={values?.doors ? values?.doors : ""}
               required
               onChange={handleChange}
@@ -260,12 +260,12 @@ export const Features: FC<FeaturesProps> = (props) => {
               // disabled={props.isManage && !props.isEdit}
             />
           </div>
-          <div className="col-6">
+          <div className="col-6 p-0">
             <label htmlFor="carName">Bags</label>
             <input
               type="number"
               name="bags"
-              className="form-control car-input-width"
+              className="form-control car-row-input-width"
               value={values?.bags ? values?.bags : ""}
               required
               onChange={handleChange}

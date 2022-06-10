@@ -270,7 +270,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               id="name"
               type="text"
               name="name"
-              className="form-control car-general-info-input-width"
+              className="form-control car-row-input-width"
               value={values?.name}
               required
               onChange={handleChange}
@@ -284,7 +284,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           <div className="col-6 p-0">
             <label>Make</label>
             <select
-              className="form-select form-control car-general-info-input-width"
+              className="form-select form-control car-row-input-width"
               aria-label="Default select example"
               onChange={handleChange}
               value={values?.make}
@@ -306,7 +306,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             <input
               type="text"
               name="id_or_passport_no"
-              className="form-control car-general-info-input-width"
+              className="form-control car-row-input-width"
               value={values?.id_or_passport_no}
               required
               onChange={handleChange}
@@ -318,7 +318,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             <input
               type="text"
               name="reg_no"
-              className="form-control car-general-info-input-width"
+              className="form-control car-row-input-width"
               value={values?.reg_no}
               required
               onChange={handleChange}
@@ -333,7 +333,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             <input
               type="number"
               name="odometer_reading"
-              className="form-control car-general-info-input-width"
+              className="form-control car-row-input-width"
               value={values?.odometer_reading ? values?.odometer_reading : ""}
               required
               onChange={handleChange}

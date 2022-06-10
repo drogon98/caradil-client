@@ -1429,7 +1429,7 @@ car-input-container select:focus {
 }
 
 .car-input-width,
-.car-general-info-input-width {
+.car-row-input-width {
   width: 280px !important;
 }
 
@@ -1529,7 +1529,7 @@ car-input-container select:focus {
     flex: 1.4;
   }
 
-  .car-general-info-input-width {
+  .car-row-input-width {
     width: 95% !important;
   }
 }
