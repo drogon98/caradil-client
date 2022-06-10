@@ -166,7 +166,8 @@ const Profile: FC<ProfileProps> = (props) => {
       let response = await editProfile({ variables: { input: payload } });
       if (response.data?.editProfile) {
         setShowToast(true);
-
+        setToastMessage("Profile updated successfully!");
+        setToastBg("success");
         if (isInitial && role === 2) {
           setTimeout(async () => {
             await router.push({
@@ -235,7 +236,7 @@ const Profile: FC<ProfileProps> = (props) => {
                 bg={toastBg}
               />
             )}
-            <h3 className="text-center my-3">Profile</h3>
+            <h3 className="text-center my-3">My Profile</h3>
             <div className="container my-5">
               <form className="form-group profile-form" onSubmit={handleSubmit}>
                 <div className="row">
