@@ -155,7 +155,6 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
       }
       console.log("errorMessage :>> ", errorMessage);
       return;
-      // setError("Network Error!");
     }
   };
 
@@ -279,8 +278,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               onBlur={handleCarNameBlur}
               onKeyUp={handleNameType}
               onFocus={handleNameFocus}
-              maxLength={20}
-              // disabled={props.isManage && !props.isEdit}
+              maxLength={30}
             />
           </div>
           <div className="col-6 p-0">
@@ -291,7 +289,6 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               onChange={handleChange}
               value={values?.make}
               name="make"
-              // disabled={props.isManage && !props.isEdit}
               required
             >
               <option value={""}>Select Make</option>
@@ -314,8 +311,6 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               required
               onChange={handleChange}
               placeholder="eg 11111111"
-              // onFocus={handleRegNoFocus}
-              // disabled={props.isManage && !props.isEdit}
             />
           </div>
           <div className="col-6 p-0">
@@ -329,7 +324,6 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               onChange={handleChange}
               placeholder="eg KBA111C"
               onFocus={handleRegNoFocus}
-              // disabled={props.isManage && !props.isEdit}
             />
           </div>
         </div>
@@ -344,8 +338,6 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
               required
               onChange={handleChange}
               placeholder="eg 12000"
-              // onFocus={handleRegNoFocus}
-              // disabled={props.isManage && !props.isEdit}
             />
           </div>
         </div>
@@ -398,7 +390,6 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
                 checked={values?.is_gps_enabled}
                 name="is_gps_enabled"
                 onChange={handleChange}
-                // disabled={props.isManage && !props.isEdit}
               />
               <p className="form-check-label">
                 <small>Is GPS enabled</small>
@@ -414,26 +405,6 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             )}
           </div>
         </div>
-
-        {/* {!props.isEdit && props.isManage && (
-          <div className="mt-3">
-            <small>
-              This information is only editable with permisson from the admin.{" "}
-              <button
-                className="btn colorOrange p-0"
-                onClick={handleRequestEditClick}
-              >
-                {props.hasEditRequest ? (
-                  <small className="text-success fw-bold">
-                    Edit Request Sent!
-                  </small>
-                ) : (
-                  <small>Request Edit</small>
-                )}
-              </button>
-            </small>
-          </div>
-        )} */}
 
         {props.isManage ? (
           <UpdateBtn loading={loading} disabled={loading || props.isActive} />
