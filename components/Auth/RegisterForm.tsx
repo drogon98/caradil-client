@@ -281,7 +281,7 @@ const RegisterForm: FC<IProps> = (props) => {
               Yes,I agree to caradil{" "}
               <Link href="/policies/terms">
                 <a target={"_blank"} className="text-primary">
-                  terms and conditons
+                  terms and conditions
                 </a>
               </Link>
             </label>
