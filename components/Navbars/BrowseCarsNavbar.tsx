@@ -794,42 +794,46 @@ const BrowseCarsNavbar = (): JSX.Element => {
                           </div>
                           <div>
                             <div className="custom-control custom-radio d-inline-block w-50 mt-1">
-                              <input
-                                type="radio"
-                                id="end_user_type_chauffeur_self"
-                                name="end_user_type"
-                                className="custom-control-input w-25"
-                                value={"self_driven"}
-                                onChange={handleChange}
-                                checked={
-                                  values?.end_user_type === "self_driven"
-                                }
-                              />
-                              <p
-                                className="custom-control-label ml-3 more-filters-text w-75"
-                                // htmlFor="trip_type_leisure"
-                              >
-                                Self Driven
-                              </p>
+                              <div className="d-flex align-items-center">
+                                <input
+                                  type="radio"
+                                  id="end_user_type_chauffeur_self"
+                                  name="end_user_type"
+                                  className="custom-control-input w-25"
+                                  value={"self_driven"}
+                                  onChange={handleChange}
+                                  checked={
+                                    values?.end_user_type === "self_driven"
+                                  }
+                                />
+                                <p
+                                  className="custom-control-label ml-3 more-filters-text w-75"
+                                  // htmlFor="trip_type_leisure"
+                                >
+                                  Self Driven
+                                </p>
+                              </div>
                             </div>
                             <div className="custom-control custom-radio d-inline-block w-50">
-                              <input
-                                type="radio"
-                                id="end_user_type_chauffeur"
-                                name="end_user_type"
-                                className="custom-control-input w-25"
-                                value={"chauffeur_driven"}
-                                onChange={handleChange}
-                                checked={
-                                  values?.end_user_type === "chauffeur_driven"
-                                }
-                              />
-                              <p
-                                className="custom-control-label more-filters-text w-75"
-                                // htmlFor="trip_type_business"
-                              >
-                                Chauffeur Driven
-                              </p>
+                              <div className="d-flex align-items-center">
+                                <input
+                                  type="radio"
+                                  id="end_user_type_chauffeur"
+                                  name="end_user_type"
+                                  className="custom-control-input w-25"
+                                  value={"chauffeur_driven"}
+                                  onChange={handleChange}
+                                  checked={
+                                    values?.end_user_type === "chauffeur_driven"
+                                  }
+                                />
+                                <p
+                                  className="custom-control-label more-filters-text w-75"
+                                  // htmlFor="trip_type_business"
+                                >
+                                  Chauffeur Driven
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -863,38 +867,42 @@ const BrowseCarsNavbar = (): JSX.Element => {
                           </div>
                           <div>
                             <div className="custom-control custom-radio d-inline-block w-50 mt-1">
-                              <input
-                                type="radio"
-                                id="trip_type_leisure"
-                                name="trip_type"
-                                className="custom-control-input w-25"
-                                value={"leisure"}
-                                onChange={handleChange}
-                                checked={values?.trip_type === "leisure"}
-                              />
-                              <p
-                                className="custom-control-label ml-3 more-filters-text w-75"
-                                // htmlFor="trip_type_leisure"
-                              >
-                                Leisure / Tourism
-                              </p>
+                              <div className="d-flex align-items-center">
+                                <input
+                                  type="radio"
+                                  id="trip_type_leisure"
+                                  name="trip_type"
+                                  className="custom-control-input w-25"
+                                  value={"leisure"}
+                                  onChange={handleChange}
+                                  checked={values?.trip_type === "leisure"}
+                                />
+                                <p
+                                  className="custom-control-label ml-3 more-filters-text w-75"
+                                  // htmlFor="trip_type_leisure"
+                                >
+                                  Leisure / Tourism
+                                </p>
+                              </div>
                             </div>
                             <div className="custom-control custom-radio d-inline-block w-50">
-                              <input
-                                type="radio"
-                                id="trip_type_business"
-                                name="trip_type"
-                                className="custom-control-input w-25"
-                                value={"business"}
-                                onChange={handleChange}
-                                checked={values?.trip_type === "business"}
-                              />
-                              <p
-                                className="custom-control-label more-filters-text w-75"
-                                // htmlFor="trip_type_business"
-                              >
-                                Business
-                              </p>
+                              <div className="d-flex align-items-center">
+                                <input
+                                  type="radio"
+                                  id="trip_type_business"
+                                  name="trip_type"
+                                  className="custom-control-input w-25"
+                                  value={"business"}
+                                  onChange={handleChange}
+                                  checked={values?.trip_type === "business"}
+                                />
+                                <p
+                                  className="custom-control-label more-filters-text w-75"
+                                  // htmlFor="trip_type_business"
+                                >
+                                  Business
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -930,42 +938,46 @@ const BrowseCarsNavbar = (): JSX.Element => {
                           </div>
                           <div>
                             <div className="custom-control custom-radio d-inline-block w-50 mt-1">
-                              <input
-                                type="radio"
-                                id="car_class_budget_car"
-                                name="car_market_class"
-                                className="custom-control-input w-25"
-                                value={"budget_car"}
-                                onChange={handleChange}
-                                checked={
-                                  values?.car_market_class === "budget_car"
-                                }
-                              />
-                              <p
-                                className="custom-control-label m-0 more-filters-text w-75"
-                                // htmlFor="car_class_budget_car"
-                              >
-                                Budget/Economy Car
-                              </p>
+                              <div className="d-flex align-items-center">
+                                <input
+                                  type="radio"
+                                  id="car_class_budget_car"
+                                  name="car_market_class"
+                                  className="custom-control-input w-25"
+                                  value={"budget_car"}
+                                  onChange={handleChange}
+                                  checked={
+                                    values?.car_market_class === "budget_car"
+                                  }
+                                />
+                                <p
+                                  className="custom-control-label m-0 more-filters-text w-75"
+                                  // htmlFor="car_class_budget_car"
+                                >
+                                  Budget/Economy Car
+                                </p>
+                              </div>
                             </div>
                             <div className="custom-control custom-radio d-inline-block w-50">
-                              <input
-                                type="radio"
-                                id="car_class_luxury_car"
-                                name="car_market_class"
-                                className="custom-control-input w-25"
-                                value={"luxury_car"}
-                                onChange={handleChange}
-                                checked={
-                                  values?.car_market_class === "luxury_car"
-                                }
-                              />
-                              <p
-                                className="custom-control-label more-filters-text w-75"
-                                // htmlFor="car_class_luxury_car"
-                              >
-                                Luxury/Premium Car
-                              </p>
+                              <div className="d-flex align-items-center">
+                                <input
+                                  type="radio"
+                                  id="car_class_luxury_car"
+                                  name="car_market_class"
+                                  className="custom-control-input w-25"
+                                  value={"luxury_car"}
+                                  onChange={handleChange}
+                                  checked={
+                                    values?.car_market_class === "luxury_car"
+                                  }
+                                />
+                                <p
+                                  className="custom-control-label more-filters-text w-75"
+                                  // htmlFor="car_class_luxury_car"
+                                >
+                                  Luxury/Premium Car
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1002,38 +1014,46 @@ const BrowseCarsNavbar = (): JSX.Element => {
                             </div>
                             <div>
                               <div className="custom-control custom-radio d-inline-block w-50 mt-1">
-                                <input
-                                  type="radio"
-                                  id="trip_duration_less_24"
-                                  name="trip_duration"
-                                  className="custom-control-input w-25"
-                                  value={"less_24"}
-                                  onChange={handleChange}
-                                  checked={values?.trip_duration === "less_24"}
-                                />
-                                <p
-                                  className="custom-control-label ml-3 more-filters-text w-75"
-                                  // htmlFor="trip_type_leisure"
-                                >
-                                  less than 24 hrs
-                                </p>
+                                <div className="d-flex align-items-center">
+                                  <input
+                                    type="radio"
+                                    id="trip_duration_less_24"
+                                    name="trip_duration"
+                                    className="custom-control-input w-25"
+                                    value={"less_24"}
+                                    onChange={handleChange}
+                                    checked={
+                                      values?.trip_duration === "less_24"
+                                    }
+                                  />
+                                  <p
+                                    className="custom-control-label ml-3 more-filters-text w-75"
+                                    // htmlFor="trip_type_leisure"
+                                  >
+                                    less than 24 hrs
+                                  </p>
+                                </div>
                               </div>
                               <div className="custom-control custom-radio d-inline-block w-50">
-                                <input
-                                  type="radio"
-                                  id="trip_duration_more_24"
-                                  name="trip_duration"
-                                  className="custom-control-input w-25"
-                                  value={"more_24"}
-                                  onChange={handleChange}
-                                  checked={values?.trip_duration === "more_24"}
-                                />
-                                <p
-                                  className="custom-control-label more-filters-text w-75"
-                                  // htmlFor="trip_type_business"
-                                >
-                                  more than 24 hrs
-                                </p>
+                                <div className="d-flex align-items-center">
+                                  <input
+                                    type="radio"
+                                    id="trip_duration_more_24"
+                                    name="trip_duration"
+                                    className="custom-control-input w-25"
+                                    value={"more_24"}
+                                    onChange={handleChange}
+                                    checked={
+                                      values?.trip_duration === "more_24"
+                                    }
+                                  />
+                                  <p
+                                    className="custom-control-label more-filters-text w-75"
+                                    // htmlFor="trip_type_business"
+                                  >
+                                    more than 24 hrs
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -1161,21 +1181,24 @@ const BrowseCarsNavbar = (): JSX.Element => {
                               );
                               return (
                                 <div className="form-check" key={idx}>
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    value={category.toLowerCase()}
-                                    checked={isSelected ? true : false}
-                                    // id="flexCheckDefault"
-                                    onChange={handleChange}
-                                    name="category"
-                                  />
-                                  <p
-                                    className="form-check-label more-filters-text"
-                                    // htmlFor="flexCheckDefault"
-                                  >
-                                    {category}
-                                  </p>
+                                  <div className="d-flex align-items-center">
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      value={category.toLowerCase()}
+                                      checked={isSelected ? true : false}
+                                      // id="flexCheckDefault"
+                                      onChange={handleChange}
+                                      name="category"
+                                    />
+                                    &nbsp; &nbsp;
+                                    <p
+                                      className="form-check-label more-filters-text m-0"
+                                      // htmlFor="flexCheckDefault"
+                                    >
+                                      {category}
+                                    </p>
+                                  </div>
                                 </div>
                               );
                             })}
