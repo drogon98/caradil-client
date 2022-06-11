@@ -12,7 +12,7 @@ export default function Menu(props: Props): ReactElement {
     <>
       <div>
         <button
-          className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
+          className={`btn p-0 d-flex justify-content-between w-100 align-items-center manage-menu-link ${
             props.activeSection === 1 && `fw-bold`
           }`}
           onClick={(e) => props.handleClick(e, 1, props.setShowBurgerDropdown)}
@@ -27,7 +27,7 @@ export default function Menu(props: Props): ReactElement {
       </div>
       <div>
         <button
-          className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
+          className={`btn p-0 d-flex justify-content-between w-100 align-items-center manage-menu-link ${
             props.activeSection === 2 && `fw-bold`
           }`}
           onClick={(e) => props.handleClick(e, 2, props.setShowBurgerDropdown)}
@@ -42,7 +42,7 @@ export default function Menu(props: Props): ReactElement {
       </div>
       <div>
         <button
-          className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
+          className={`btn p-0 d-flex justify-content-between w-100 align-items-center manage-menu-link ${
             props.activeSection === 3 && `fw-bold`
           }`}
           onClick={(e) => props.handleClick(e, 3, props.setShowBurgerDropdown)}
@@ -57,7 +57,7 @@ export default function Menu(props: Props): ReactElement {
       </div>
       <div>
         <button
-          className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
+          className={`btn p-0 d-flex justify-content-between w-100 align-items-center manage-menu-link ${
             props.activeSection === 4 && `fw-bold`
           }`}
           onClick={(e) => props.handleClick(e, 4, props.setShowBurgerDropdown)}
@@ -72,7 +72,7 @@ export default function Menu(props: Props): ReactElement {
       </div>
       <div>
         <button
-          className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
+          className={`btn p-0 d-flex justify-content-between w-100 align-items-center manage-menu-link ${
             props.activeSection === 5 && `fw-bold`
           }`}
           onClick={(e) => props.handleClick(e, 5, props.setShowBurgerDropdown)}
@@ -87,7 +87,7 @@ export default function Menu(props: Props): ReactElement {
       </div>
       <div>
         <button
-          className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
+          className={`btn p-0 d-flex justify-content-between w-100 align-items-center manage-menu-link ${
             props.activeSection === 6 && `fw-bold`
           }`}
           onClick={(e) => props.handleClick(e, 6, props.setShowBurgerDropdown)}
@@ -102,7 +102,7 @@ export default function Menu(props: Props): ReactElement {
       </div>
       <div>
         <button
-          className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
+          className={`btn p-0 d-flex justify-content-between w-100 align-items-center manage-menu-link ${
             props.activeSection === 7 && `fw-bold`
           }`}
           onClick={(e) => props.handleClick(e, 7, props.setShowBurgerDropdown)}
@@ -117,7 +117,7 @@ export default function Menu(props: Props): ReactElement {
       </div>
       <div>
         <button
-          className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
+          className={`btn p-0 d-flex justify-content-between w-100 align-items-center manage-menu-link ${
             props.activeSection === 8 && `fw-bold`
           }`}
           onClick={(e) => props.handleClick(e, 8, props.setShowBurgerDropdown)}
@@ -132,7 +132,7 @@ export default function Menu(props: Props): ReactElement {
       </div>
       <div>
         <button
-          className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
+          className={`btn p-0 d-flex justify-content-between w-100 align-items-center manage-menu-link ${
             props.activeSection === 9 && `fw-bold`
           }`}
           onClick={(e) => props.handleClick(e, 9, props.setShowBurgerDropdown)}
@@ -147,7 +147,7 @@ export default function Menu(props: Props): ReactElement {
       </div>{" "}
       <div>
         <button
-          className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
+          className={`btn p-0 d-flex justify-content-between w-100 align-items-center manage-menu-link ${
             props.activeSection === 10 && `fw-bold`
           }`}
           onClick={(e) => props.handleClick(e, 10, props.setShowBurgerDropdown)}
@@ -162,7 +162,7 @@ export default function Menu(props: Props): ReactElement {
       </div>{" "}
       <div>
         <button
-          className={`btn m-0 p-0 d-flex justify-content-between w-100 align-items-center ${
+          className={`btn p-0 d-flex justify-content-between w-100 align-items-center manage-menu-link ${
             props.activeSection === 11 && `fw-bold`
           }`}
           onClick={(e) => props.handleClick(e, 11, props.setShowBurgerDropdown)}

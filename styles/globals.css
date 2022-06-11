@@ -2031,6 +2031,10 @@ car-input-container select:focus {
     height: 55vh;
     top: 100%;
   }
+
+  .manage-menu-link {
+    margin-bottom: 10px;
+  }
 }
 
 /* =================================END MANAGE CAR STYLES================================= */
