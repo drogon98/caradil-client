@@ -1180,25 +1180,22 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                 (cat: string) => cat === category.toLowerCase()
                               );
                               return (
-                                <div className="form-check" key={idx}>
-                                  <div className="d-flex align-items-center">
-                                    <input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      value={category.toLowerCase()}
-                                      checked={isSelected ? true : false}
-                                      // id="flexCheckDefault"
-                                      onChange={handleChange}
-                                      name="category"
-                                    />
-                                    &nbsp; &nbsp;
-                                    <p
-                                      className="form-check-label more-filters-text m-0"
-                                      // htmlFor="flexCheckDefault"
-                                    >
-                                      {category}
-                                    </p>
-                                  </div>
+                                <div
+                                  className="d-flex align-items-center"
+                                  key={idx}
+                                >
+                                  <input
+                                    // className="form-check-input"
+                                    type="checkbox"
+                                    value={category.toLowerCase()}
+                                    checked={isSelected ? true : false}
+                                    onChange={handleChange}
+                                    name="category"
+                                  />
+                                  &nbsp;
+                                  <p className="more-filters-text">
+                                    {category}
+                                  </p>
                                 </div>
                               );
                             })}
