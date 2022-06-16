@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
-import React, {
+import {
   ChangeEvent,
   FC,
   FormEvent,
@@ -41,7 +40,6 @@ export const parseInputDate = (dateString: string): string => {
     if (dateString) {
       const splitDate = new Date(dateString).toISOString().split("T")[0];
       const spacedDate = splitDate.slice(0, 10);
-      console.log("spacedDate :>> ", spacedDate);
       return spacedDate;
     } else {
       return "";
@@ -59,7 +57,7 @@ const uploadButton = (
   <>
     <input
       type="file"
-      accept="image/*"
+      accept=".jpg,.png,.jpeg"
       // required
       onChange={uploadHandler}
       className="mt-3"
@@ -98,27 +96,33 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
 
   useEffect(() => {
     if (data?.getDriverDetails) {
-      let tempData = data.getDriverDetails;
+      try {
+        let tempData = data.getDriverDetails;
 
-      let licenseData: FileInput = {
-        public_id: tempData.license?.public_id ?? "",
-        secure_url: tempData.license?.secure_url ?? "",
-        url: tempData.license?.url ?? "",
-      };
+        let licenseData: FileInput = {
+          public_id: tempData.license?.public_id ?? "",
+          secure_url: tempData.license?.secure_url ?? "",
+          url: tempData.license?.url ?? "",
+        };
 
-      setLicense(licenseData);
+        setLicense(licenseData);
 
-      let tempDate = new Date(tempData.license_expiry_date ?? "").toISOString();
-
-      setValues({
-        first_name: tempData.first_name ?? "",
-        last_name: tempData.last_name ?? "",
-        age: tempData.age ?? 0,
-        license: licenseData,
-        license_expiry_date: parseInputDate(tempDate) ?? "",
-        license_number: tempData.license_number ?? "",
-      });
-      setMainLoading(false);
+        setValues({
+          first_name: tempData.first_name ?? "",
+          last_name: tempData.last_name ?? "",
+          age: tempData.age ?? 0,
+          license: licenseData,
+          license_expiry_date: tempData.license_expiry_date
+            ? parseInputDate(
+                new Date(tempData.license_expiry_date).toISOString()
+              )
+            : "",
+          license_number: tempData.license_number ?? "",
+        });
+        setMainLoading(false);
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
     }
   }, [data]);
 
@@ -203,6 +207,7 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
         variables: {
           input: {
             ...values!,
+            age: parseInt(values?.age?.toString() ?? "", 10),
             license_expiry_date: new Date(values?.license_expiry_date ?? "")
               .getTime()
               .toString(),
@@ -265,7 +270,6 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
                       required
                       id="first_name"
                       value={values?.first_name ?? ""}
-                      placeholder="eg John"
                       onChange={handleChange}
                       name="first_name"
                     />
@@ -278,7 +282,6 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
                       required
                       id="last_name"
                       value={values?.last_name ?? ""}
-                      placeholder="eg Doe"
                       onChange={handleChange}
                       name="last_name"
                     />
@@ -294,7 +297,6 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
                       required
                       id="license_number"
                       value={values?.license_number ?? ""}
-                      placeholder="863736892"
                       onChange={handleChange}
                       name="license_number"
                     />
@@ -331,7 +333,7 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
                       className="form-control"
                       required
                       id="license_expiry_date"
-                      value={values?.license_expiry_date ?? ""}
+                      value={values?.license_expiry_date}
                       onChange={handleChange}
                       name="license_expiry_date"
                     />
