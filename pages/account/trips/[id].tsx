@@ -82,9 +82,6 @@ export default function Trip(props: Props): ReactElement {
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
           const trip: any = { ...subscriptionData.data };
-          console.log("prev.getTrip", prev.getTrip);
-          console.log("trip :>> ", trip);
-          console.log("prev :>> ", prev);
           let tempPayload = {
             ...prev.getTrip.trip,
             status: trip.tripStatus.status,
@@ -148,7 +145,7 @@ export default function Trip(props: Props): ReactElement {
     setShowReviewModal(true);
   };
 
-  // console.log("trip :>> ", trip);
+  console.log("trip :>> ", trip);
 
   return (
     <>
@@ -330,32 +327,41 @@ export default function Trip(props: Props): ReactElement {
                 <div>
                   <h6>Important things to note</h6>
                   <ul className="my-2">
-                    <li>
-                      <small>
-                        This car has limited distance coverage. Exceeding the
-                        set distance will attract a fee.
-                      </small>
-                    </li>
-                    <li>
-                      <small>
-                        This host demands to put the driver in a 30 minutes gear
-                        shift test. Get ready for the test.
-                      </small>
-                    </li>
-                    <li>
-                      <small>
-                        Carry with you a valid driving license and national
-                        id/passport. This documents should belong to the one who
-                        booked the car.
-                      </small>
-                    </li>
-                    <li>
-                      <small>
-                        If you have a driver other than you, he should also show
-                        up with his valid driving license and national
-                        id/passport.
-                      </small>
-                    </li>
+                    {!trip?.car?.has_unlimited_distance ? (
+                      <li>
+                        <small>
+                          This car has limited distance coverage. Exceeding the
+                          set distance will attract a fee.
+                        </small>
+                      </li>
+                    ) : null}
+                    {trip?.car?.manual_transmission_test ? (
+                      <li>
+                        <small>
+                          This host demands to put the driver in a 30 minutes
+                          gear shift test. Get ready for the test.
+                        </small>
+                      </li>
+                    ) : null}
+                    {trip?.car?.end_user_type === "self_driven" ? (
+                      <>
+                        <li>
+                          <small>
+                            Carry with you a valid driving license and national
+                            id/passport. This documents should belong to the one
+                            who booked the car.
+                          </small>
+                        </li>
+                        <li>
+                          <small>
+                            If you have a driver other than you, he should also
+                            show up with his valid driving license and national
+                            id/passport.
+                          </small>
+                        </li>
+                      </>
+                    ) : null}
+
                     <li>
                       <small>
                         Take many photos as possible of the car outer and inner
@@ -407,13 +413,13 @@ export default function Trip(props: Props): ReactElement {
                 )}
 
                 {/* Only show when trip is successful */}
-                {/* {trip?.status === "successful" && ( */}
-                <div className="d-grid gap-2 mb-2">
-                  <button className="btn bgOrange" onClick={handleAddReview}>
-                    Review Car
-                  </button>
-                </div>
-                {/* )} */}
+                {trip?.status === "successful" ? (
+                  <div className="d-grid gap-2 mb-2">
+                    <button className="btn bgOrange" onClick={handleAddReview}>
+                      Review Car
+                    </button>
+                  </div>
+                ) : null}
               </div>
             </div>
           )}

@@ -10,20 +10,7 @@ fragment tripInfo on Trip {
     amount
   }
   car {
-    name
-    reg_no
-    transmission
-    seats
-    doors
-    gas
-    make
-    daily_rate
-    hourly_rate
-    photos {
-      secure_url
-    }
-    categories
-    location
+    ...carInfo
   }
   start_date
   end_date
