@@ -44,7 +44,7 @@ export default function index(props: Props): ReactElement {
             <div className="p-2 my-4">
               <h3>Bookings</h3>
               <div className="lg-tripboxes-wrapper">
-                <div className="row m-0">
+                <div className="row m-0 mb-2">
                   <div className="col-1">
                     <p className="fw-bold">Car</p>
                   </div>
