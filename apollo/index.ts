@@ -100,7 +100,9 @@ const errorLink = onError(
               })
                 .then(async (res) => {
                   const data = await res.json();
+                  console.log("data", data);
                   let token = data.access_token;
+
                   if (token) {
                     return token;
                   } else {
