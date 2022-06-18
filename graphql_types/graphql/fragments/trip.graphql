@@ -10,7 +10,7 @@ fragment tripInfo on Trip {
     amount
   }
   car {
-    ...carInfo
+    ...carPrivateInfo
   }
   start_date
   end_date

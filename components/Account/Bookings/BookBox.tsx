@@ -22,6 +22,7 @@ export default function BookBox(props: Props): ReactElement {
 
     return `${obj.duration} ${obj.type_}(s)`;
   };
+
   return (
     <div className="shadow bgWhite d-flex align-items-center justify-content-between mb-4">
       <Link href={`/account/bookings/${props.data.id}`}>
