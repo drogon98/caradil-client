@@ -142,7 +142,8 @@ const errorLink = onError(
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   //  Pass the credentials option e.g. credentials: 'same-origin'
-  // if your backend server is the same domain, as shown below, or else credentials: 'include'
+  // if your backend server is the same domain, as shown below, or else
+  credentials: "include",
   // if your backend is a different domain.
   link: errorLink.concat(ApolloLink.from([authLink, splitLink])),
   ssrMode: true,
