@@ -100,7 +100,6 @@ const errorLink = onError(
               })
                 .then(async (res) => {
                   const data = await res.json();
-                  console.log("data", data);
                   let token = data.access_token;
 
                   if (token) {
@@ -111,11 +110,11 @@ const errorLink = onError(
                 })
                 .catch((err) => {
                   // Should i clear or reset the store?
-                  console.log(`err`, err);
-                  // store.dispatch(unsetToken());
-                  // let toRedirectTo = window.location.pathname;
+                  // console.log(`err`, err);
+                  store.dispatch(unsetToken());
+                  let toRedirectTo = window.location.pathname;
                   // console.log("toRedirectTo", toRedirectTo);
-                  // window.location.replace(`/login?next=${toRedirectTo}`);
+                  window.location.replace(`/login?next=${toRedirectTo}`);
                 })
             )
               .filter((value) => {
