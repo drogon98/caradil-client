@@ -377,8 +377,6 @@ const BrowseCarsNavbar = (): JSX.Element => {
     }
   };
 
-  console.log("values", values);
-
   return (
     <div className="browseCarsNav bgWhite shadow">
       <div className="customBrowseCarContainer d-flex align-items-center py-2 m-auto">

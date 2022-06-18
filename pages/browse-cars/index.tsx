@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchContent } from "../../components/BrowseCars/SearchContent";
 import { CustomHead } from "../../components/CustomHead";
 import Layout from "../../components/layouts/Layout";
@@ -20,16 +20,29 @@ const BrowseCars: NextPage = () => {
 
   useEffect(() => {
     if (router) {
-      const hasQuery = router.asPath.includes("?");
-      if (!hasQuery) {
-        setValues({});
-      } else {
-        if (Object.keys(router.query).length > 0) {
-          setValues({ ...router.query });
-          setSearching(true);
+      try {
+        const hasQuery = router.asPath.includes("?");
+        if (!hasQuery) {
+          setValues({});
         } else {
-          setSearching(false);
+          if (Object.keys(router.query).length > 0) {
+            const hasCategories = router.query.categories;
+
+            let tempQueryValues = { ...router.query };
+            setValues({ ...tempQueryValues });
+            if (hasCategories) {
+              const arrString = router.query?.categories as string;
+              const arrCats = arrString?.split(",");
+              tempQueryValues = { ...tempQueryValues, categories: arrCats };
+              setValues({ ...tempQueryValues });
+            }
+            setSearching(true);
+          } else {
+            setSearching(false);
+          }
         }
+      } catch (error) {
+        console.log("error :>> ", error);
       }
     }
   }, [router.query]);
