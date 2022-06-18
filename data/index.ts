@@ -6,10 +6,10 @@ export const carCategories: string[] = [
   "Van",
   // "Sports",
   "Wedding",
-  "Luxury & Vip",
+  "Luxury", // and vips
   "Bus",
   "4WD",
-  "Tour & Safaris",
+  "Tours", // And safaris
   "Suv",
   "Convertible",
   "Limousine",
