@@ -99,9 +99,11 @@ const BrowseCarsNavbar = (): JSX.Element => {
         let tempValues = {};
 
         if (router.query.categories) {
-          let rawCategories = router.query.categories as string;
-          let categories = rawCategories?.split(",");
-          tempValues = { ...tempValues, categories };
+          const routerCategories = router.query.categories as string;
+          tempValues = {
+            ...tempValues,
+            categories: routerCategories.split(","),
+          };
         }
 
         if (router.query.location) {
@@ -374,6 +376,8 @@ const BrowseCarsNavbar = (): JSX.Element => {
       console.log("error :>> ", error);
     }
   };
+
+  console.log("values", values);
 
   return (
     <div className="browseCarsNav bgWhite shadow">

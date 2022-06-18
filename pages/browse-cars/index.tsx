@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { SearchContent } from "../../components/BrowseCars/SearchContent";
 import { CustomHead } from "../../components/CustomHead";
 import Layout from "../../components/layouts/Layout";
@@ -14,29 +14,35 @@ const BrowseCars: NextPage = () => {
   const [mainLoading, setMainLoading] = useState(true);
   const [values, setValues] = useState<SearchInput>();
   const router = useRouter();
-  const [cars, setCars] = useState<Car[]>();
+  const [cars, setCars] = useState<Car[]>([]);
   const [searching, setSearching] = useState(false);
   const [showModifyFilters, setShowModifyFilters] = useState(false);
 
   useEffect(() => {
-    if (router && router.query) {
-      setValues({ ...router.query });
-      if (Object.keys(router.query).length > 0) {
-        setSearching(true);
+    if (router) {
+      const hasQuery = router.asPath.includes("?");
+      if (!hasQuery) {
+        setValues({});
       } else {
-        setSearching(false);
+        if (Object.keys(router.query).length > 0) {
+          setValues({ ...router.query });
+          setSearching(true);
+        } else {
+          setSearching(false);
+        }
       }
     }
   }, [router.query]);
 
   const [getCars, { data, loading }] = useGetCarsLazyQuery({
-    variables: { input: values! },
     fetchPolicy: "cache-and-network",
   });
 
   useEffect(() => {
-    if (values) {
-      getCars({ variables: { input: values! } });
+    if (values && Object.keys(values).length > 0) {
+      getCars({ variables: { input: values } });
+    } else if (values && Object.keys(values).length === 0) {
+      getCars({ variables: { input: {} } });
     }
   }, [values]);
 
