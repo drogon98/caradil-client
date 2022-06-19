@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { Alert } from "react-bootstrap";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
 import Layout from "../../components/layouts/Layout";
@@ -93,6 +94,7 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastBg, setToastBg] = useState("");
   const router = useRouter();
+  const [showLicenseUploadAlert, setShowLicenseUploadAlert] = useState(false);
 
   useEffect(() => {
     if (data?.getDriverDetails) {
@@ -165,6 +167,8 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
         setLicense(newLicense!);
 
         setSecondaryLoading(false);
+
+        setShowLicenseUploadAlert(true);
       }
       e.target.value = "";
     } catch (error) {
@@ -181,12 +185,14 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
     }
   };
 
-  const handleDeletePhoto = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteLicense = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       const fileId = license.public_id;
 
-      // Delete file here
+      await deleteFile({ variables: { id: fileId } });
+
+      setLicense({} as FileInput);
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -347,7 +353,7 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
                     <div>
                       <button
                         className="btn bgOrange"
-                        onClick={handleDeletePhoto}
+                        onClick={handleDeleteLicense}
                         style={{ width: "100px", fontSize: "10px" }}
                       >
                         {deletingPhoto && !secondaryLoading ? (
@@ -369,6 +375,24 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
                     {uploadButton(handleUpload, uploading)}
                   </div>
                 )}
+
+                <br />
+                {showLicenseUploadAlert && (
+                  <Alert
+                    variant="info"
+                    onClose={() => setShowLicenseUploadAlert(false)}
+                    dismissible
+                  >
+                    <small>
+                      <b>Note:</b> This license will be shared with the host to
+                      confirm your car reservation. Ensure its valid for the
+                      whole trip duration and keep it safe as you will present
+                      it to the host on the trip day before he hands you the
+                      car.
+                    </small>
+                  </Alert>
+                )}
+
                 <div className="d-grid gap-2 mt-3">
                   <button type="submit" className="btn bgOrange">
                     Save & Continue
