@@ -85,13 +85,12 @@ fragment carPrivateInfo on Car {
   end_user_type
   id_or_passport_no
   active
-  location_cords {
-    longitude
-    latitude
-  }
+
+  longitude
+  latitude
+
   pick_up_location
-  pick_up_location_cords {
-    longitude
-    latitude
-  }
+
+  pick_up_longitude
+  pick_up_latitude
 }

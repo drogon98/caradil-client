@@ -73,8 +73,6 @@ fragment carInfo on Car {
   being_edited
   car_market_class
   book_and_trip_days
-  # has_edit_request
-  # verification_in_progress
   fuel_efficiency
   fuel_policy
   reserved_for_booking
@@ -84,13 +82,12 @@ fragment carInfo on Car {
   end_user_type
   id_or_passport_no
   active
-  location_cords {
-    longitude
-    latitude
-  }
+
+  longitude
+  latitude
+
   pick_up_location
-  pick_up_location_cords {
-    longitude
-    latitude
-  }
+
+  pick_up_longitude
+  pick_up_latitude
 }
