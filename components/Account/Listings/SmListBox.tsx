@@ -31,8 +31,8 @@ export const SmListBox: FC<SmListBoxProps> = (props) => {
             </div>
             <div className="col-7 p-0">
               <div className="d-flex flex-column">
-                <h4 className="m-0 no-wrap-text">{props.data.name}</h4>
-                <p>{props.data.reg_no}</p>
+                <h4 className="m-0">{props.data.name}</h4>
+                {/* <p>{props.data.reg_no}</p> */}
                 <p>{props.data.published ? "Published" : "Not Published"}</p>
                 <p>
                   Ksh.

@@ -100,10 +100,6 @@ h6 {
   font-weight: bold;
 }
 
-.no-wrap-text {
-  white-space: nowrap;
-}
-
 p {
   margin: 0 !important;
 }
