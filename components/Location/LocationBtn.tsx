@@ -14,11 +14,14 @@ export default function LocationBtn(props: ILocationBtnProps) {
   const [toastMessage, setToastMessage] = useState("");
 
   async function success(pos: { coords: any }) {
-    const crd = pos.coords;
-    console.log("crd :>> ", crd);
+    const cords = pos.coords;
+
     const query = props.query ?? {};
-    // Add the coords to query
-    await router.push("/browse-cars", { query });
+
+    await router.push({
+      pathname: "/browse-cars",
+      query: { ...query, longitude: cords.longitude, latitude: cords.latitude },
+    });
   }
 
   function error(err: { code: any; message: any }) {
