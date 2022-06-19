@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { RiArrowDropDownFill } from "react-icons/ri";
 import client from "../../apollo";
@@ -21,6 +21,17 @@ export function UserNavIcon(props: UserNavIconProps) {
   const notifications = useAppSelector(
     (state) => state.notifications.notifications
   );
+  const [inDashboard, setInDashboard] = useState(false);
+
+  useEffect(() => {
+    if (router) {
+      if (router.pathname.includes("/account")) {
+        setInDashboard(true);
+      } else {
+        setInDashboard(false);
+      }
+    }
+  }, [router]);
 
   return (
     <div className="account-tooltip m-0 p-0">
@@ -79,7 +90,9 @@ export function UserNavIcon(props: UserNavIconProps) {
                   if (props.isAdmin) {
                     await router.push("/root/login");
                   } else {
-                    await router.push("/");
+                    if (inDashboard) {
+                      await router.push("/");
+                    }
                   }
                   await client.clearStore();
                   dispatch(endLogout());
