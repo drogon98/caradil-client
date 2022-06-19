@@ -63,11 +63,13 @@ const BrowseCars: NextPage = () => {
     if (values) {
       try {
         let tempValues = { ...values };
-        delete tempValues.location;
+        // delete tempValues.location;
         delete tempValues.start_date;
         delete tempValues.end_date;
         delete tempValues.start_time;
         delete tempValues.end_time;
+        delete tempValues.latitude;
+        delete tempValues.longitude;
 
         let tempValues2 = { ...tempValues };
 
