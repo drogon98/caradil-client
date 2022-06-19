@@ -89,7 +89,7 @@ export function SearchContent(props: SearchContentProps) {
           >
             {searching ? (
               <>
-                <p>No car matching filters.</p>
+                <p>No car matching your filters.</p>
                 {props.showModifyFilters && (
                   <button
                     className="btn bg-secondary mt-2"
@@ -100,7 +100,7 @@ export function SearchContent(props: SearchContentProps) {
                 )}
               </>
             ) : (
-              <p>No cars</p>
+              <p>No cars listed yet!</p>
             )}
           </div>
         )}
