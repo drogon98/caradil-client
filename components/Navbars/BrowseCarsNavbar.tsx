@@ -19,9 +19,8 @@ import { getLongLat, PlacesAutocomplete } from "../Location/AutoComplete";
 import { LogoutOverlay } from "../LogoutOverlay";
 import BrowseCarsWhenComp from "../BrowseCars/BrowseCarsWhenComp";
 import { UserNavIcon } from "./UserNavIcon";
-import { TripDatesObj } from "../../utils/interfaces";
+import { LocationCords, TripDatesObj } from "../../utils/interfaces";
 import { getTripDuration } from "../../utils/trip_duration_ttl_calc";
-import { LocationCords } from "../../graphql_types/generated/graphql";
 
 const BrowseCarsNavbar = (): JSX.Element => {
   const router = useRouter();
@@ -29,7 +28,6 @@ const BrowseCarsNavbar = (): JSX.Element => {
   const role = useRole(token);
   const [isAuth, setIsAuth] = useState<boolean>();
   const loggingOut = useAppSelector((state) => state.logout.loggingOut);
-  // const [show, setShow] = useState(false);
   const dispatch = useAppDispatch();
   const show = useAppSelector((state) => state.search.show_more_filters);
   const handleClose = () => {
@@ -106,24 +104,24 @@ const BrowseCarsNavbar = (): JSX.Element => {
           };
         }
 
-        if (router.query.location) {
-          setLocation(router.query.location as string);
-          if (router.query.longitude) {
-            setLocationCords({
-              ...(locationCords ?? {}),
-              longitude: parseFloat(router.query.longitude as string),
-            });
-          }
-
-          if (router.query.latitude) {
-            setLocationCords({
-              ...(locationCords ?? {}),
-              latitude: parseFloat(router.query.latitude as string),
-            });
-          }
-        } else {
-          setLocation("");
+        // if (router.query.location) {
+        //   setLocation(router.query.location as string);
+        if (router.query.longitude) {
+          setLocationCords({
+            ...(locationCords ?? ({} as LocationCords)),
+            longitude: router.query.longitude as string,
+          });
         }
+
+        if (router.query.latitude) {
+          setLocationCords({
+            ...(locationCords ?? ({} as LocationCords)),
+            latitude: router.query.latitude as string,
+          });
+        }
+        // } else {
+        //   setLocation("");
+        // }
 
         if (router.query.name) {
           tempValues = { ...tempValues, name: router.query.name as string };
@@ -188,6 +186,12 @@ const BrowseCarsNavbar = (): JSX.Element => {
       console.log("error :>> ", error);
     }
   }, [router.query]);
+
+  useEffect(() => {
+    if (locationCords) {
+      setValues((prevValues: any) => ({ ...prevValues, ...locationCords }));
+    }
+  }, [locationCords]);
 
   useEffect(() => {
     if (
