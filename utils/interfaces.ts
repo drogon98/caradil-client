@@ -20,3 +20,8 @@ export interface HostPlansData {
   isPopular?: boolean;
   price?: number;
 }
+
+export interface LocationCords {
+  longitude: string;
+  latitude: string;
+}
