@@ -12,6 +12,7 @@ import {
   CarLocationAndDeliveryInput,
   useEditCarLocationAndDeliveryMutation,
 } from "../../graphql_types/generated/graphql";
+import { LocationCords } from "../../utils/interfaces";
 import { getLongLat, PlacesAutocomplete } from "../Location/AutoComplete";
 import { ToastWrapper } from "../Toast/ToastWrapper";
 import { FormNextPrevButton } from "./FormNextPrevButton";
@@ -28,11 +29,6 @@ interface LocationAndDeliveryProps {
   isManage?: boolean;
   isActive?: boolean;
   // verificationInProgress?: boolean;
-}
-
-interface LocationCords {
-  longitude: string;
-  latitude: string;
 }
 
 export const Location: FC<LocationAndDeliveryProps> = (props) => {

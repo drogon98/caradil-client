@@ -3,7 +3,7 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import { LocationCords } from "../../graphql_types/generated/graphql";
+import { LocationCords } from "../../utils/interfaces";
 import { useOutsideClickHandler } from "../hooks/useOutsideClickHandler";
 
 //https://hackernoon.com/create-your-reactjs-address-autocomplete-component-in-10-minutes-ws2j33ej
@@ -12,9 +12,12 @@ export const getLongLat = async (location: string): Promise<LocationCords> => {
   try {
     let cordsResponse = await getGeocode({ address: location });
     let cords = await getLatLng(cordsResponse[0]);
-    return { longitude: cords.lng, latitude: cords.lat };
+    return {
+      longitude: cords.lng as unknown as string,
+      latitude: cords.lat as unknown as string,
+    };
   } catch (error) {
-    return {};
+    return {} as LocationCords;
   }
 };
 
