@@ -10,7 +10,6 @@ import React, {
 import {
   Car,
   CarLocationAndDeliveryInput,
-  LocationCords,
   useEditCarLocationAndDeliveryMutation,
 } from "../../graphql_types/generated/graphql";
 import { getLongLat, PlacesAutocomplete } from "../Location/AutoComplete";
@@ -31,6 +30,11 @@ interface LocationAndDeliveryProps {
   // verificationInProgress?: boolean;
 }
 
+interface LocationCords {
+  longitude: string;
+  latitude: string;
+}
+
 export const Location: FC<LocationAndDeliveryProps> = (props) => {
   const [editLocationAndDelivery, { loading }] =
     useEditCarLocationAndDeliveryMutation();
@@ -47,20 +51,24 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
       setValues({
         location: props.value.location!,
         pick_up_location: props.value.pick_up_location,
-        pick_up_location_cords: props.value.pick_up_location_cords,
-        location_cords: props.value.location_cords,
+
+        longitude: props.value.longitude,
+        latitude: props.value.latitude,
+        pick_up_latitude: props.value.pick_up_latitude,
+        pick_up_longitude: props.value.pick_up_longitude,
+
         delivery: props.value.delivery!,
       });
       setLocation(props.value.location!);
       setPickUpLocation(props.value.pick_up_location!);
 
       setLocationCords({
-        longitude: props.value.location_cords.longitude,
-        latitude: props.value.location_cords.latitude,
+        longitude: props.value.longitude,
+        latitude: props.value.latitude,
       });
       setPickUpLocationCords({
-        longitude: props.value.pick_up_location_cords.longitude,
-        latitude: props.value.pick_up_location_cords.latitude,
+        longitude: props.value.pick_up_longitude,
+        latitude: props.value.pick_up_latitude,
       });
     }
   }, [props.value]);
@@ -104,8 +112,10 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
         ...values!,
         location: location!,
         pick_up_location: pickUpLocation!,
-        location_cords: tempMainLocCords!,
-        pick_up_location_cords: tempPickUpLocCords!,
+        longitude: tempMainLocCords.longitude,
+        latitude: tempMainLocCords.latitude,
+        pick_up_latitude: tempPickUpLocCords.latitude,
+        pick_up_longitude: tempPickUpLocCords.longitude,
         delivery: values!.delivery === undefined ? false : values!.delivery,
       };
       let response = await editLocationAndDelivery({

@@ -194,10 +194,12 @@ export type CarGeneralInfoInput = {
 
 export type CarLocationAndDeliveryInput = {
   delivery: Scalars['Boolean'];
+  latitude: Scalars['String'];
   location: Scalars['String'];
-  location_cords: LocationCordsInput;
+  longitude: Scalars['String'];
+  pick_up_latitude: Scalars['String'];
   pick_up_location: Scalars['String'];
-  pick_up_location_cords: LocationCordsInput;
+  pick_up_longitude: Scalars['String'];
 };
 
 export type CarPhotosInput = {
@@ -405,11 +407,6 @@ export type HostCanListACarResponse = {
   carsListed?: Maybe<Scalars['Float']>;
   error?: Maybe<Scalars['Boolean']>;
   plan?: Maybe<Plan>;
-};
-
-export type LocationCordsInput = {
-  latitude?: InputMaybe<Scalars['Float']>;
-  longitude?: InputMaybe<Scalars['Float']>;
 };
 
 export type LoginInput = {

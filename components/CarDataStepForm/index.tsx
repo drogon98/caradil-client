@@ -396,8 +396,10 @@ export default function CarDataStepForm(props: Props): ReactElement {
               location: compData?.location ?? "",
               delivery: compData?.delivery ?? false,
               pick_up_location: compData?.pick_up_location ?? "",
-              pick_up_location_cords: compData?.pick_up_location_cords ?? {},
-              location_cords: compData?.location_cords ?? {},
+              longitude: compData?.longitude ?? "",
+              latitude: compData?.latitude ?? "",
+              pick_up_latitude: compData?.pick_up_latitude ?? "",
+              pick_up_longitude: compData?.pick_up_longitude ?? "",
             }}
           />
         </div>
