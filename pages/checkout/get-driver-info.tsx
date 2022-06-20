@@ -82,7 +82,7 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
   const [uploadFile, { loading: uploading }] = useUploadFileMutation();
   const [deleteFile, { loading: deletingPhoto }] = useDeleteFileMutation();
   const [secondaryLoading, setSecondaryLoading] = useState(false);
-  const [hasLicenseError, setHasLicenseError] = useState(false);
+  const [hasLicenseUploadError, setHasLicenseUploadError] = useState(false);
   const { data, loading: fetchingDrivingData } = useGetDriverDetailsQuery();
   const [license, setLicense] = useState<FileInput>({
     public_id: "",
@@ -129,12 +129,12 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
   }, [data]);
 
   useEffect(() => {
-    if (hasLicenseError) {
+    if (hasLicenseUploadError) {
       setTimeout(() => {
-        setHasLicenseError(false);
+        setHasLicenseUploadError(false);
       }, 4000);
     }
-  }, [hasLicenseError]);
+  }, [hasLicenseUploadError]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -204,7 +204,7 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
       // Check if license is uploaded
 
       if (!license.secure_url) {
-        setHasLicenseError(true);
+        setHasLicenseUploadError(true);
         return;
       }
 
@@ -374,6 +374,14 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
                   <div className="d-flex">
                     {uploadButton(handleUpload, uploading)}
                   </div>
+                )}
+
+                {hasLicenseUploadError && (
+                  <p>
+                    <small className="text-danger">
+                      <b>Please upload your license!</b>
+                    </small>
+                  </p>
                 )}
 
                 <br />
