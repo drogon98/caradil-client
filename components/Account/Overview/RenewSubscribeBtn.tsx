@@ -20,9 +20,6 @@ export default function RenewSubscribeBtn(props: RenewSubscribeBtnProps) {
   const token = useAppSelector((state) => state.auth._id);
   const [amt, setAmt] = useState<number>();
 
-  // console.log("props.data", props.data);
-  // console.log("amt", amt);
-
   useEffect(() => {
     if (props.data) {
       let period = props.period ? props.period : props.data.period;

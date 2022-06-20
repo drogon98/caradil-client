@@ -128,8 +128,6 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
           response?.data?.addEditCarGeneralInfo.error
         );
       } else if (response?.data?.addEditCarGeneralInfo.carId) {
-        console.log("Test.....");
-
         props.setCompData(response.data.addEditCarGeneralInfo.car!);
         if (!props.isResume && !props.isManage) {
           sessionStorage.setItem(

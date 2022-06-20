@@ -174,10 +174,10 @@ const Account: FC<IProps> = (props) => {
             <>
               <small>
                 You are currently subscribed to the {planData?.title} plan.
-                {planDueDays ?? 0 <= 0
+                {planDueDays && planDueDays <= 0
                   ? `This subscription is already expired!`
                   : `This
-                subscription will expire in{" "}
+                subscription will expire in
                 ${planDueDays} days  from now.`}
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <div className="d-flex justify-content-end mt-2">
@@ -196,7 +196,7 @@ const Account: FC<IProps> = (props) => {
         }
       }
     }
-  }, [planData, showRenewBtn]);
+  }, [planData, showRenewBtn, planDueDays]);
 
   return (
     <>
