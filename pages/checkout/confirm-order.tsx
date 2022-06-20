@@ -181,7 +181,6 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
           payload,
           data.getCar.car?.can_rent_hourly!
         );
-        console.log("durationData", durationData);
 
         totalChargeCalculator(data.getCar.car, payload, setTtl);
 
