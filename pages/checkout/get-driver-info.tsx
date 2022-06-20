@@ -83,6 +83,7 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
   const [deleteFile, { loading: deletingPhoto }] = useDeleteFileMutation();
   const [secondaryLoading, setSecondaryLoading] = useState(false);
   const [hasLicenseUploadError, setHasLicenseUploadError] = useState(false);
+  const [licenseExpired, setLicenseExpired] = useState(false);
   const { data, loading: fetchingDrivingData } = useGetDriverDetailsQuery();
   const [license, setLicense] = useState<FileInput>({
     public_id: "",
@@ -134,7 +135,13 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
         setHasLicenseUploadError(false);
       }, 4000);
     }
-  }, [hasLicenseUploadError]);
+
+    if (licenseExpired) {
+      setTimeout(() => {
+        setLicenseExpired(false);
+      }, 4000);
+    }
+  }, [hasLicenseUploadError, licenseExpired]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -208,15 +215,27 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
         return;
       }
 
+      // Check if license expired
+      // This check should be done against trip end date
+
+      const tripEndDate = router.query.end_date as unknown as number;
+
+      const licenseExpiryDate = new Date(
+        values?.license_expiry_date ?? ""
+      ).getTime();
+
+      if (licenseExpiryDate < tripEndDate) {
+        setLicenseExpired(true);
+        return;
+      }
+
       setUpdating(true);
       let response = await updateDriverDetails({
         variables: {
           input: {
             ...values!,
             age: parseInt(values?.age?.toString() ?? "", 10),
-            license_expiry_date: new Date(values?.license_expiry_date ?? "")
-              .getTime()
-              .toString(),
+            license_expiry_date: licenseExpiryDate.toString(),
             license,
           },
         },
@@ -384,21 +403,35 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
                   </p>
                 )}
 
-                <br />
-                {showLicenseUploadAlert && (
-                  <Alert
-                    variant="info"
-                    onClose={() => setShowLicenseUploadAlert(false)}
-                    dismissible
-                  >
-                    <small>
-                      <b>Note:</b> This license will be shared with the host to
-                      confirm your car reservation. Ensure its valid for the
-                      whole trip duration and keep it safe as you will present
-                      it to the host on the trip day before he hands you the
-                      car.
+                {licenseExpired && (
+                  <p>
+                    <small className="text-danger">
+                      <b>
+                        It seems your license will expire before trip end.
+                        Please double check and ensure it will be valid throught
+                        the trip!
+                      </b>
                     </small>
-                  </Alert>
+                  </p>
+                )}
+
+                {showLicenseUploadAlert && (
+                  <>
+                    <br />
+                    <Alert
+                      variant="info"
+                      onClose={() => setShowLicenseUploadAlert(false)}
+                      dismissible
+                    >
+                      <small>
+                        <b>Note:</b> This license will be shared with the host
+                        to confirm your car reservation. Ensure its valid for
+                        the whole trip duration and keep it safe as you will
+                        present it to the host on the trip day before he hands
+                        you the car.
+                      </small>
+                    </Alert>
+                  </>
                 )}
 
                 <div className="d-grid gap-2 mt-3">

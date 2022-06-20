@@ -8,10 +8,6 @@ export const getTripDuration = (
   canRentHourly: boolean = false,
   isBookDuration: boolean = false
 ): { duration: number; type_: string } => {
-  // console.log("dateTime", dateTime);
-  // let startDate = new Date(dateTime.start_date!);
-  // let endDate = new Date(dateTime.end_date!);
-
   let exactTimes = getExactStartAndEndTime(dateTime);
 
   // To calculate the time difference of two dates
@@ -72,8 +68,6 @@ export const getTripDuration = (
         }
       }
 
-      // console.log("duration :>> ", duration);
-
       return {
         duration: duration!,
         type_: "hour",
@@ -105,18 +99,6 @@ export const totalChargeCalculator = (
   dates: TripDatesObj,
   setTotalCharge: Dispatch<SetStateAction<number | undefined>>
 ) => {
-  // let startTimeSections = dates.start_time?.split(":");
-  // let endTimeSections = dates.end_time?.split(":");
-
-  // let tempStartDate = new Date(dates.start_date!).setHours(
-  //   parseInt(startTimeSections[0], 10),
-  //   parseInt(startTimeSections[1], 10)
-  // );
-  // let tempEndDate = new Date(dates.end_date!).setHours(
-  //   parseInt(endTimeSections[0], 10),
-  //   parseInt(endTimeSections[1], 10)
-  // );
-
   let exactTimes = getExactStartAndEndTime(dates);
 
   let dateTimePayload: TripDatesObj = {
@@ -127,10 +109,6 @@ export const totalChargeCalculator = (
   };
 
   let durationData = getTripDuration(dateTimePayload, car?.can_rent_hourly!);
-
-  // console.log("durationData", durationData);
-
-  //   console.log("durationData", durationData);
 
   let total: number;
 
