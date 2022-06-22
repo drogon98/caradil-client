@@ -886,9 +886,6 @@ const Car: FC<CarProps> = (props) => {
                     style={{ flex: 1, fontSize: "500", width: "250px" }}
                     // ref={pickDatesButtonRef}
                   >
-                    {/* <small className="mr-2">
-                    {selectingDates ? "Close trip dates" : "Pick trip dates"}
-                  </small> */}
                     <small className="mr-2">Pick trip dates</small>
                   </button>
                 </div>
