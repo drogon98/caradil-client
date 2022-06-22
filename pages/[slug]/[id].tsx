@@ -670,7 +670,7 @@ const Car: FC<CarProps> = (props) => {
                                   categories: car?.categories,
                                   color: car?.color,
                                   // gas: car?.gas,
-                                  location: car?.location,
+                                  // location: car?.location,
                                   subject: car?.id,
                                 },
                               }}
@@ -823,7 +823,7 @@ const Car: FC<CarProps> = (props) => {
                           categories: car?.categories,
                           color: car?.color,
                           // gas: car?.gas,
-                          location: car?.location,
+                          // location: car?.location,
                           subject: car?.id,
 
                           // name: "",
