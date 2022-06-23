@@ -97,10 +97,10 @@ const BrowseCarsNavbar = (): JSX.Element => {
         let tempValues = {};
 
         if (router.query.categories) {
-          const routerCategories = router.query.categories as string;
+          const routerCategories = router.query.categories as string[];
           tempValues = {
             ...tempValues,
-            categories: routerCategories.split(","),
+            categories: routerCategories,
           };
         }
 
@@ -180,6 +180,14 @@ const BrowseCarsNavbar = (): JSX.Element => {
             max_rate: router.query.max_rate as string,
           };
         }
+
+        if (router.query.subject) {
+          tempValues = {
+            ...tempValues,
+            subject: router.query.subject as string,
+          };
+        }
+
         setValues({ ...tempValues });
       }
     } catch (error) {
@@ -357,7 +365,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
       }
 
       if (payload.categories) {
-        payload = { ...payload, categories: payload.categories.join() };
+        payload = { ...payload, categories: payload.categories };
       }
 
       if (tripDuration) {
