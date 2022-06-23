@@ -97,31 +97,28 @@ const BrowseCarsNavbar = (): JSX.Element => {
         let tempValues = {};
 
         if (router.query.categories) {
-          const routerCategories = router.query.categories as string[];
+          let routerCategories = router.query.categories as string[];
+          if (typeof routerCategories === "string") {
+            routerCategories = [routerCategories];
+          }
           tempValues = {
             ...tempValues,
             categories: routerCategories,
           };
         }
 
-        // if (router.query.location) {
-        //   setLocation(router.query.location as string);
-        if (router.query.longitude) {
-          setLocationCords({
-            ...(locationCords ?? ({} as LocationCords)),
-            longitude: router.query.longitude as string,
-          });
-        }
+        if (router.query.longitude && router.query.latitude) {
+          let tempCoords: LocationCords = {} as LocationCords;
 
-        if (router.query.latitude) {
+          tempCoords.longitude = router.query.longitude as string;
+
+          tempCoords.latitude = router.query.latitude as string;
+
           setLocationCords({
             ...(locationCords ?? ({} as LocationCords)),
-            latitude: router.query.latitude as string,
+            ...tempCoords,
           });
         }
-        // } else {
-        //   setLocation("");
-        // }
 
         if (router.query.name) {
           tempValues = { ...tempValues, name: router.query.name as string };
