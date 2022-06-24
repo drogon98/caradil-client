@@ -386,6 +386,24 @@ const BrowseCarsNavbar = (): JSX.Element => {
     }
   };
 
+  const redirectOnClear = async (values: any) => {
+    try {
+      const onlySubjectInValues =
+        values.subject && Object.keys(values).length === 1;
+
+      await router.push(
+        {
+          pathname: "/browse-cars",
+          query: onlySubjectInValues ? {} : { ...values },
+        },
+        ``,
+        { shallow: true }
+      );
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
+
   return (
     <div className="browseCarsNav bgWhite shadow">
       <div className="customBrowseCarContainer d-flex align-items-center py-2 m-auto">
@@ -542,14 +560,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   if (values?.name) {
                                     delete values.name;
                                     setValues({ ...values });
-                                    await router.push(
-                                      {
-                                        pathname: "/browse-cars",
-                                        query: { ...values },
-                                      },
-                                      ``,
-                                      { shallow: true }
-                                    );
+                                    await redirectOnClear(values);
                                   }
                                 } catch (error) {}
                               }}
@@ -588,14 +599,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                     delete values.end_date;
                                     let newValues = { ...values };
                                     setValues({ ...newValues });
-                                    await router.push(
-                                      {
-                                        pathname: "/browse-cars",
-                                        query: { ...values },
-                                      },
-                                      ``,
-                                      { shallow: true }
-                                    );
+                                    await redirectOnClear(values);
                                   }
                                 } catch (error) {}
                               }}
@@ -644,14 +648,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   if (values?.make) {
                                     delete values?.make;
                                     setValues({ ...values });
-                                    await router.push(
-                                      {
-                                        pathname: "/browse-cars",
-                                        query: { ...values },
-                                      },
-                                      ``,
-                                      { shallow: true }
-                                    );
+                                    await redirectOnClear(values);
                                   }
                                 } catch (error) {}
                               }}
@@ -689,14 +686,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   if (values?.color) {
                                     delete values?.color;
                                     setValues({ ...values });
-                                    await router.push(
-                                      {
-                                        pathname: "/browse-cars",
-                                        query: { ...values },
-                                      },
-                                      ``,
-                                      { shallow: true }
-                                    );
+                                    await redirectOnClear(values);
                                   }
                                 } catch (error) {
                                   console.log("error", error);
@@ -738,14 +728,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   if (values?.seats) {
                                     delete values?.seats;
                                     setValues({ ...values });
-                                    await router.push(
-                                      {
-                                        pathname: "/browse-cars",
-                                        query: { ...values },
-                                      },
-                                      ``,
-                                      { shallow: true }
-                                    );
+                                    await redirectOnClear(values);
                                   }
                                 } catch (error) {
                                   console.log("error", error);
@@ -787,14 +770,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   if (values?.end_user_type) {
                                     delete values?.end_user_type;
                                     setValues({ ...values });
-                                    await router.push(
-                                      {
-                                        pathname: "/browse-cars",
-                                        query: { ...values },
-                                      },
-                                      ``,
-                                      { shallow: true }
-                                    );
+                                    await redirectOnClear(values);
                                   }
                                 } catch (error) {}
                               }}
@@ -860,14 +836,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   if (values?.trip_type) {
                                     delete values?.trip_type;
                                     setValues({ ...values });
-                                    await router.push(
-                                      {
-                                        pathname: "/browse-cars",
-                                        query: { ...values },
-                                      },
-                                      ``,
-                                      { shallow: true }
-                                    );
+                                    await redirectOnClear(values);
                                   }
                                 } catch (error) {}
                               }}
@@ -931,14 +900,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   if (values?.car_market_class) {
                                     delete values?.car_market_class;
                                     setValues({ ...values });
-                                    await router.push(
-                                      {
-                                        pathname: "/browse-cars",
-                                        query: { ...values },
-                                      },
-                                      ``,
-                                      { shallow: true }
-                                    );
+                                    await redirectOnClear(values);
                                   }
                                 } catch (error) {}
                               }}
@@ -1089,14 +1051,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                     delete values?.min_rate;
                                     delete values?.max_rate;
                                     setValues({ ...values });
-                                    await router.push(
-                                      {
-                                        pathname: "/browse-cars",
-                                        query: { ...values },
-                                      },
-                                      ``,
-                                      { shallow: true }
-                                    );
+                                    await redirectOnClear(values);
                                   }
                                 } catch (error) {}
                               }}
@@ -1169,14 +1124,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                                   if (values?.categories) {
                                     delete values?.categories;
                                     setValues({ ...values });
-                                    await router.push(
-                                      {
-                                        pathname: "/browse-cars",
-                                        query: { ...values },
-                                      },
-                                      ``,
-                                      { shallow: true }
-                                    );
+                                    await redirectOnClear(values);
                                   }
                                 } catch (error) {}
                               }}
