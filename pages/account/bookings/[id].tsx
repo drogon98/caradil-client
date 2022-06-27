@@ -198,91 +198,81 @@ export default function Booking(props: Props): ReactElement {
               </div>
 
               <div>
-                <div>
-                  {/* <h6 className="fw-bolder">User Details</h6>
-                  <div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>First Name</p>
-                      <span>{booking?.owner?.first_name ?? "N/A"}</span>
-                    </div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Last Name</p>
-                      <span>{booking?.owner?.last_name ?? "N/A"}</span>
-                    </div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Email</p>
-                      <span>{booking?.owner?.email}</span>
-                    </div>
-                  </div> */}
-                </div>
+                {booking?.status === "cancelled" ? (
+                  <>
+                    <p className="mb-2">
+                      This booking is{" "}
+                      <span className="text-danger fw-bold">cancelled</span>.{" "}
+                    </p>
 
-                <div className="my-4">
-                  <p>
-                    This trip is scheduled to start on{" "}
-                    <b>{new Date(booking?.start_date!).toLocaleDateString()}</b>{" "}
-                    at <b>{booking?.start_time}hrs</b> and end on{" "}
-                    <b>{new Date(booking?.end_date!).toLocaleDateString()}</b>{" "}
-                    at <b>{booking?.end_time}hrs</b>.
-                  </p>{" "}
-                  {/* <h6 className="fw-bolder">Trip Dates</h6>
-                  <div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Start Date</p>
-                      <span>
-                        {new Date(booking?.start_date!).toLocaleDateString()}
-                      </span>
+                    <div>
+                      <label>
+                        Why{" "}
+                        {booking?.trip_canceller_id === booking.car_owner_id
+                          ? "host"
+                          : "guest"}{" "}
+                        cancelled booking?
+                      </label>
+                      <textarea
+                        value={booking?.why_cancel_trip!}
+                        style={{ resize: "none" }}
+                        readOnly
+                        className="form-control"
+                      />
                     </div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Start Time</p>
-                      <span>{booking?.start_time}hrs</span>
+                  </>
+                ) : (
+                  <>
+                    <div className="my-4">
+                      <p>
+                        This trip is scheduled to start on{" "}
+                        <b>
+                          {new Date(booking?.start_date!).toLocaleDateString()}
+                        </b>{" "}
+                        at <b>{booking?.start_time}hrs</b> and end on{" "}
+                        <b>
+                          {new Date(booking?.end_date!).toLocaleDateString()}
+                        </b>{" "}
+                        at <b>{booking?.end_time}hrs</b>.
+                      </p>{" "}
                     </div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>End Date</p>
-                      <span>
-                        {new Date(booking?.end_date!).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>End Time</p>
-                      <span>{booking?.end_time}hrs</span>
-                    </div>
-                  </div> */}
-                </div>
 
-                <div className="my-4">
-                  <h6 className="fw-bolder">Payment Details</h6>
-                  <div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Amount Paid</p>
-                      <span>
-                        Ksh.
-                        {parseInt(
-                          booking?.transaction.amount!
-                        ).toLocaleString()}
-                      </span>
+                    <div className="my-4">
+                      <h6 className="fw-bolder">Payment Details</h6>
+                      <div>
+                        <div className="d-flex w-100 justify-content-between mb-2">
+                          <p>Amount Paid</p>
+                          <span>
+                            Ksh.
+                            {parseInt(
+                              booking?.transaction.amount!
+                            ).toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
 
-                {booking?.status === "confirmed" && (
-                  <div className="d-grid gap-2 mt-3">
-                    <button className="btn bg-success" onClick={handleChat}>
-                      Chat With Guest
-                    </button>
-                  </div>
+                    {booking?.status === "confirmed" && (
+                      <div className="d-grid gap-2 mt-3">
+                        <button className="btn bg-success" onClick={handleChat}>
+                          Chat With Guest
+                        </button>
+                      </div>
+                    )}
+
+                    {booking?.status !== "successful" &&
+                      booking?.status !== "cancelled" && (
+                        <div className="d-grid gap-2 mt-3">
+                          <button
+                            className="btn bg-dark"
+                            onClick={handleCancelTrip}
+                          >
+                            Cancel Trip
+                          </button>
+                        </div>
+                      )}
+                  </>
                 )}
-
-                {booking?.status !== "successful" &&
-                  booking?.status !== "cancelled" && (
-                    <div className="d-grid gap-2 mt-3">
-                      <button
-                        className="btn bg-dark"
-                        onClick={handleCancelTrip}
-                      >
-                        Cancel Trip
-                      </button>
-                    </div>
-                  )}
               </div>
             </div>
           )}

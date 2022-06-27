@@ -207,18 +207,20 @@ export default function Trip(props: Props): ReactElement {
                         </button>
                       </div>
                     ) : (
-                      <div>
-                        <button className="btn bg-warning d-flex text-light align-items-center">
-                          <span>Host Confirming</span> &nbsp;&nbsp;
-                          <span>
-                            {" "}
-                            <ButtonLoading
-                              spinnerColor="white"
-                              dimensions={{ height: "18px", width: "18px" }}
-                            />
-                          </span>
-                        </button>
-                      </div>
+                      trip?.status !== "cancelled" && (
+                        <div>
+                          <button className="btn bg-warning d-flex text-light align-items-center">
+                            <span>Host Confirming</span> &nbsp;&nbsp;
+                            <span>
+                              {" "}
+                              <ButtonLoading
+                                spinnerColor="white"
+                                dimensions={{ height: "18px", width: "18px" }}
+                              />
+                            </span>
+                          </button>
+                        </div>
+                      )
                     )}
                   </div>
                 </div>
@@ -262,10 +264,13 @@ export default function Trip(props: Props): ReactElement {
                       )}
                     </div>
                   </div>
-                  {trip?.status === "cancelled" && (
+                  {trip?.status === "cancelled" ? (
                     <div>
                       <label>
-                        Why {trip?.trip_canceller === "HOST" ? "host" : "you"}{" "}
+                        Why{" "}
+                        {trip?.trip_canceller_id === trip.car_owner_id
+                          ? "host"
+                          : "guest"}{" "}
                         cancelled trip?
                       </label>
                       <textarea
@@ -275,151 +280,143 @@ export default function Trip(props: Props): ReactElement {
                         className="form-control"
                       />
                     </div>
-                  )}
-                </div>
-
-                {/* <div>
-                  <h6 className="fw-bolder">Car Details</h6>
-                  <div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Name</p>
-                      <span>{trip?.car?.name}</span>
-                    </div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Registration No.</p>
-                      <span>{trip?.car?.reg_no}</span>
-                    </div>
-                    
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>Daily Rate</p>
-                      <span>ksh.{trip?.car?.daily_rate?.toLocaleString()}</span>
-                    </div>
-                    <div className="d-flex w-100 justify-content-between mb-2">
-                      <p>With driver</p>
-                      <span>Yes</span>
-                    </div>
-                  </div>
-                </div> */}
-
-                <div className="my-4">
-                  {/* <h6 className="fw-bolder">Trip Dates</h6> */}
-                  <p>
-                    This trip is scheduled to start on{" "}
-                    <b>{new Date(trip?.start_date!).toLocaleDateString()}</b> at{" "}
-                    <b>{trip?.start_time}hrs</b> and end on{" "}
-                    <b>{new Date(trip?.end_date!).toLocaleDateString()}</b> at{" "}
-                    <b>{trip?.end_time}hrs</b>.
-                  </p>{" "}
-                  {/* If a book is impossible with current host transfer it to another host without any charges */}
-                  {trip?.status === "confirmed" && (
+                  ) : (
                     <>
-                      <p className="pt-3">You need to reschedule the trip?</p>
-                      <div className="mt-2">
-                        <Link href={`/account/trips/${tripId}/reschedule`}>
-                          <a className="btn bgOrange">Reschedule Trip</a>
-                        </Link>
+                      <div className="my-4">
+                        {/* <h6 className="fw-bolder">Trip Dates</h6> */}
+                        <p>
+                          This trip is scheduled to start on{" "}
+                          <b>
+                            {new Date(trip?.start_date!).toLocaleDateString()}
+                          </b>{" "}
+                          at <b>{trip?.start_time}hrs</b> and end on{" "}
+                          <b>
+                            {new Date(trip?.end_date!).toLocaleDateString()}
+                          </b>{" "}
+                          at <b>{trip?.end_time}hrs</b>.
+                        </p>{" "}
+                        {/* If a book is impossible with current host transfer it to another host without any charges */}
+                        {trip?.status === "confirmed" && (
+                          <>
+                            <p className="pt-3">
+                              You need to reschedule the trip?
+                            </p>
+                            <div className="mt-2">
+                              <Link
+                                href={`/account/trips/${tripId}/reschedule`}
+                              >
+                                <a className="btn bgOrange">Reschedule Trip</a>
+                              </Link>
+                            </div>
+                          </>
+                        )}
                       </div>
+
+                      {/* Show when trip status is not pending or cancelled */}
+                      <div>
+                        <h6>Important things to note</h6>
+                        <ul className="my-2">
+                          {!trip?.car?.has_unlimited_distance ? (
+                            <li>
+                              <small>
+                                This car has limited distance coverage.
+                                Exceeding the set distance will attract a fee.
+                              </small>
+                            </li>
+                          ) : null}
+                          {trip?.car?.manual_transmission_test ? (
+                            <li>
+                              <small>
+                                This host demands to put the driver in a 30
+                                minutes gear shift test. Get ready for the test.
+                              </small>
+                            </li>
+                          ) : null}
+                          {trip?.car?.end_user_type === "self_driven" ? (
+                            <>
+                              <li>
+                                <small>
+                                  Carry with you a valid driving license and
+                                  national id/passport. This documents should
+                                  belong to the one who booked the car.
+                                </small>
+                              </li>
+                              <li>
+                                <small>
+                                  If you have a driver other than you, he should
+                                  also show up with his valid driving license
+                                  and national id/passport.
+                                </small>
+                              </li>
+                            </>
+                          ) : null}
+
+                          <li>
+                            <small>
+                              Take many photos as possible of the car outer and
+                              inner views before the host hands you the key. In
+                              case you spot a defect,let the host know to avoid
+                              extra charges when you return the car.
+                            </small>
+                          </li>
+                          <li>
+                            <small>
+                              Check fuel reading to see if it meets the car
+                              fueling policy
+                            </small>
+                          </li>
+                          <li>
+                            <small>
+                              Record the car odometer reading with host, to help
+                              you calculate if you travelled extra distance when
+                              you return the car.
+                            </small>
+                          </li>
+                          <li>
+                            <small>
+                              Check if the car has enough spare parts.
+                            </small>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div className="d-grid gap-2 mb-2">
+                        <button
+                          className="btn bg-dark text-light"
+                          onClick={handleCancelTrip}
+                          disabled={trip?.status === "cancelled"}
+                        >
+                          {trip?.status === "cancelled"
+                            ? "Trip Cancelled"
+                            : "Cancel Trip"}
+                        </button>
+                      </div>
+
+                      {false && (
+                        <div className="d-grid gap-2 mb-2">
+                          <button
+                            className="btn bg-gray"
+                            onClick={handleAddToFavourite}
+                          >
+                            Add to favourites
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Only show when trip is successful */}
+                      {trip?.status === "successful" ? (
+                        <div className="d-grid gap-2 mb-2">
+                          <button
+                            className="btn bgOrange"
+                            onClick={handleAddReview}
+                          >
+                            Review Car
+                          </button>
+                        </div>
+                      ) : null}
                     </>
                   )}
                 </div>
-
-                {/* Show when trip status is not pending or cancelled */}
-                <div>
-                  <h6>Important things to note</h6>
-                  <ul className="my-2">
-                    {!trip?.car?.has_unlimited_distance ? (
-                      <li>
-                        <small>
-                          This car has limited distance coverage. Exceeding the
-                          set distance will attract a fee.
-                        </small>
-                      </li>
-                    ) : null}
-                    {trip?.car?.manual_transmission_test ? (
-                      <li>
-                        <small>
-                          This host demands to put the driver in a 30 minutes
-                          gear shift test. Get ready for the test.
-                        </small>
-                      </li>
-                    ) : null}
-                    {trip?.car?.end_user_type === "self_driven" ? (
-                      <>
-                        <li>
-                          <small>
-                            Carry with you a valid driving license and national
-                            id/passport. This documents should belong to the one
-                            who booked the car.
-                          </small>
-                        </li>
-                        <li>
-                          <small>
-                            If you have a driver other than you, he should also
-                            show up with his valid driving license and national
-                            id/passport.
-                          </small>
-                        </li>
-                      </>
-                    ) : null}
-
-                    <li>
-                      <small>
-                        Take many photos as possible of the car outer and inner
-                        views before the host hands you the key. In case you
-                        spot a defect,let the host know to avoid extra charges
-                        when you return the car.
-                      </small>
-                    </li>
-                    <li>
-                      <small>
-                        Check fuel reading to see if it meets the car fueling
-                        policy
-                      </small>
-                    </li>
-                    <li>
-                      <small>
-                        Record the car odometer reading with host, to help you
-                        calculate if you travelled extra distance when you
-                        return the car.
-                      </small>
-                    </li>
-                    <li>
-                      <small>Check if the car has enough spare parts.</small>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="d-grid gap-2 mb-2">
-                  <button
-                    className="btn bg-dark"
-                    onClick={handleCancelTrip}
-                    disabled={trip?.status === "cancelled"}
-                  >
-                    {trip?.status === "cancelled"
-                      ? "Trip Cancelled"
-                      : "Cancel Trip"}
-                  </button>
-                </div>
-
-                {false && (
-                  <div className="d-grid gap-2 mb-2">
-                    <button
-                      className="btn bg-gray"
-                      onClick={handleAddToFavourite}
-                    >
-                      Add to favourites
-                    </button>
-                  </div>
-                )}
-
-                {/* Only show when trip is successful */}
-                {trip?.status === "successful" ? (
-                  <div className="d-grid gap-2 mb-2">
-                    <button className="btn bgOrange" onClick={handleAddReview}>
-                      Review Car
-                    </button>
-                  </div>
-                ) : null}
               </div>
             </div>
           )}
