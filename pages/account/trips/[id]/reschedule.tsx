@@ -405,9 +405,8 @@ const RescheduleTrip: FC<RescheduleTripProps> = (props) => {
                       value={okWithDatesAndTime ? "false" : "true"}
                       id="ok-with-dates-and-time"
                       checked={okWithDatesAndTime}
-                      name="is_gps_enabled"
+                      name="is_ok_with_dates_and_time"
                       onChange={handleChange}
-                      // disabled={props.isManage && !props.isEdit}
                     />
                     <label
                       className="form-check-label"
@@ -420,7 +419,7 @@ const RescheduleTrip: FC<RescheduleTripProps> = (props) => {
                     <div>
                       <small className="text-danger">
                         Note: By rescheduling this trip any action that might
-                        lead to its cancellation the cancellation fee will be
+                        lead to its cancellation,any cancellation fee will be
                         calculated based on the initial time and dates.
                       </small>
                     </div>
