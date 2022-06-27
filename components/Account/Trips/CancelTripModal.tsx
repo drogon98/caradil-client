@@ -67,6 +67,8 @@ export default function CancelTripMoal(props: Props): ReactElement {
     }
   }, [props.trip]);
 
+  // console.log("props.trip", props.trip);
+
   // useEffect(() => {
   //   try {
   //     if (props.trip) {
@@ -193,7 +195,15 @@ export default function CancelTripMoal(props: Props): ReactElement {
           );
           props.setShowToast(true);
           if (cancelAction === "cancel_trip_find_other") {
-            await router.push("/browse-cars");
+            await router.push({
+              pathname: "/browse-cars",
+              query: {
+                make: props.trip?.car?.make!,
+                categories: props.trip?.car?.categories,
+                color: props.trip?.car?.color,
+                subject: props.trip?.car?.id,
+              },
+            });
           }
         }
         props.handleClose();
@@ -239,10 +249,11 @@ export default function CancelTripMoal(props: Props): ReactElement {
           )}
 
           {/* {props.trip.status !== "pending" && ( */}
+          <br />
           <>
-            <label className="mt-3">Cancel Reason</label>
             {showNoShow && (
               <div className="form-check">
+                <label className="mt-3">Cancel Reason</label>
                 <input
                   className="form-check-input"
                   type="radio"
@@ -261,22 +272,21 @@ export default function CancelTripMoal(props: Props): ReactElement {
                 </label>
               </div>
             )}
-
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="cancelRadioReason"
-                id="cancelReasonOther"
-                value={"other"}
-                onChange={handleChange}
-                checked={cancelRadioInputReason === "other"}
-                disabled={cancelingTrip}
-              />
-              <label className="form-check-label" htmlFor="cancelReasonOther">
-                Other Reason
-              </label>
-            </div>
+            {/* <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="cancelRadioReason"
+                  id="cancelReasonOther"
+                  value={"other"}
+                  onChange={handleChange}
+                  checked={cancelRadioInputReason === "other"}
+                  disabled={cancelingTrip}
+                />
+                <label className="form-check-label" htmlFor="cancelReasonOther">
+                  Other Reason
+                </label>
+              </div> */}
           </>
           {/* )} */}
 
@@ -285,7 +295,7 @@ export default function CancelTripMoal(props: Props): ReactElement {
                */}
           {!cancelRadioInputReason.includes("no-show") && (
             <>
-              <label className="mt-1">Reason</label>
+              <label className="mt-1">Cancel Reason</label>
               <textarea
                 className="form-control"
                 value={cancelReason}
@@ -297,6 +307,7 @@ export default function CancelTripMoal(props: Props): ReactElement {
               />
             </>
           )}
+          <br />
           {/* </>
               )}
             </>
@@ -370,7 +381,7 @@ export default function CancelTripMoal(props: Props): ReactElement {
                     </div>
                   )}
 
-                {cancelAction && props.trip.status !== "pending" && (
+                {/* {cancelAction && props.trip.status !== "pending" && (
                   <div className="text-danger">
                     <small>
                       You are cancelling this trip beyond the free cancellation
@@ -389,7 +400,7 @@ export default function CancelTripMoal(props: Props): ReactElement {
                       </span>
                     </small>
                   </div>
-                )}
+                )} */}
               </div>
             </>
           ) : (
