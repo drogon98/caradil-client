@@ -20,7 +20,7 @@ fragment tripInfo on Trip {
   chat_meta_id
   owner_id
   car_owner_id
-  trip_canceller
+  trip_canceller_id
   why_cancel_trip
   delivery_location
   delivery_distance

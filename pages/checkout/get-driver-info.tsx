@@ -436,7 +436,14 @@ const GetDriverInfo: FC<GetDriverInfoProps> = (props) => {
 
                 <div className="d-grid gap-2 mt-3">
                   <button type="submit" className="btn bgOrange">
-                    Save & Continue
+                    {updating ? (
+                      <ButtonLoading
+                        spinnerColor="white"
+                        dimensions={{ height: "24px", width: "24px" }}
+                      />
+                    ) : (
+                      "Save & Continue"
+                    )}
                   </button>
                 </div>
               </form>
