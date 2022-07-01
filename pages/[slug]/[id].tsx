@@ -725,7 +725,7 @@ const Car: FC<CarProps> = (props) => {
                       <div className="d-grid gap-2">
                         <button
                           className="btn bg-success"
-                          onClick={() => setShowTripDatesModal(true)}
+                          // onClick={() => setShowTripDatesModal(true)}
                         >
                           Select Trip Dates
                         </button>
@@ -877,9 +877,9 @@ const Car: FC<CarProps> = (props) => {
                   </div>
 
                   <button
-                    onClick={() => {
-                      setShowTripDatesModal(true);
-                    }}
+                    // onClick={() => {
+                    //   setShowTripDatesModal(true);
+                    // }}
                     // onClick={handleSelectDates}
                     disabled={car?.booked || !car?.published}
                     className="btn m-0 p-0"

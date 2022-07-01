@@ -439,8 +439,8 @@ const BrowseCarsNavbar = (): JSX.Element => {
                     aria-describedby="basic-addon2"
                     ref={whenInputRef}
                     // readOnly
-                    onChange={handleWhenChange}
-                    onFocus={handleWhenFocus}
+                    // onChange={handleWhenChange}
+                    // onFocus={handleWhenFocus}
                     value={dateTimeInput}
                     // value={values.}
                   />
@@ -613,7 +613,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                               dateTimeInput && `more-filter-active`
                             }`}
                             ref={whenSmDivRef}
-                            onClick={handleSmWhenFocus}
+                            // onClick={handleSmWhenFocus}
                           >
                             {dateTimeInput ? dateTimeInput : "When?"}
                           </div>

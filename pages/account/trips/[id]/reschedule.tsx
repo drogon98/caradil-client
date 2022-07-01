@@ -333,12 +333,12 @@ const RescheduleTrip: FC<RescheduleTripProps> = (props) => {
                       Start & End Dates
                     </label>
                   </div>
-                  <Calendar
+                  {/* <Calendar
                     startDate={startDate}
                     endDate={endDate}
                     disableDates={disableDates}
                     onChange={handleDateChange}
-                  />
+                  /> */}
                 </div>
                 <div className="col-sm-6">
                   <div className="col d-flex flex-column w-100">
