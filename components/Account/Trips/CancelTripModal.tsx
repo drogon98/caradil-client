@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, {
+import {
   ChangeEvent,
   FormEvent,
   ReactElement,
@@ -9,7 +9,6 @@ import React, {
 } from "react";
 import { Modal } from "react-bootstrap";
 import { clearInterval } from "timers";
-import { useRole } from "../../hooks/useRole";
 import { ButtonLoading } from "../../../components/Loading/ButtonLoading";
 import {
   CancelTripInput,
@@ -21,6 +20,7 @@ import {
   getExactStartAndEndTime,
   getTripDuration,
 } from "../../../utils/trip_duration_ttl_calc";
+import { useUserId } from "../../hooks/useUserId";
 
 interface Props {
   //   children: ReactChild;
@@ -36,7 +36,6 @@ interface Props {
 
 export default function CancelTripMoal(props: Props): ReactElement {
   const token = useAppSelector((state) => state.auth._id);
-  const role = useRole(token);
   const [cancelRadioInputReason, setCancelRadioInputReason] = useState("");
   const [cancelReason, setCancelReason] = useState<string>("");
   const [cancelTrip, { loading: cancelingTrip }] = useCancelTripMutation();
@@ -44,6 +43,7 @@ export default function CancelTripMoal(props: Props): ReactElement {
   const router = useRouter();
   // const [hostGuestNoShow, setHostGuestNoShow] = useState(false);
   const [showNoShow, setShowNoShow] = useState(false);
+  const userId = useUserId(token);
 
   useEffect(() => {
     try {
@@ -162,7 +162,8 @@ export default function CancelTripMoal(props: Props): ReactElement {
       let payload: CancelTripInput;
       if (cancelRadioInputReason === "no-show") {
         payload = {
-          cancelReason: role === 1 ? `Host no-show` : `Guest no-show`,
+          cancelReason:
+            userId === props.trip.owner_id ? `Host no-show` : `Guest no-show`,
           cancelTime: new Date().getTime().toString(),
           cancelAction,
         };
@@ -182,16 +183,20 @@ export default function CancelTripMoal(props: Props): ReactElement {
           props.setToastDelay(10000);
           props.setShowToastMessage(
             `${
-              role === 1 ? `Trip` : `Booking`
+              userId === props.trip.owner_id ? `Trip` : `Booking`
             } successfully cancelled. An email to ${
-              role === 1 ? `request refund` : `request delivery compensation`
+              userId === props.trip.owner_id
+                ? `request refund`
+                : `request delivery compensation`
             } has been sent to your inbox!`
           );
           props.setShowToast(true);
         } else {
           props.setToastDelay(3000);
           props.setShowToastMessage(
-            `${role === 1 ? `Trip` : `Booking`} successfully cancelled!.`
+            `${
+              userId === props.trip.owner_id ? `Trip` : `Booking`
+            } successfully cancelled!.`
           );
           props.setShowToast(true);
           if (cancelAction === "cancel_trip_find_other") {
@@ -226,8 +231,8 @@ export default function CancelTripMoal(props: Props): ReactElement {
             <b>
               <small>
                 To cancel a confirmed trip we suggest you send a chat message to{" "}
-                {role === 1 ? "host" : "guest"} and let him or her know about it
-                to avoid inconveniences .
+                {userId === props.trip.owner_id ? "host" : "guest"} and let him
+                or her know about it to avoid inconveniences .
               </small>
             </b>
           </p>
@@ -242,8 +247,9 @@ export default function CancelTripMoal(props: Props): ReactElement {
                 id="flexCheckDefault"
               />
               <label className="form-check-label" htmlFor="flexCheckDefault">
-                Yes, i have chatted with {role === 1 ? "host" : "guest"} and
-                agreed that i can cancel this trip.
+                Yes, i have chatted with{" "}
+                {userId === props.trip.owner_id ? "host" : "guest"} and agreed
+                that i can cancel this trip.
               </label>
             </div>
           )}
@@ -268,7 +274,9 @@ export default function CancelTripMoal(props: Props): ReactElement {
                   className="form-check-label"
                   htmlFor="cancelReasonNoShow"
                 >
-                  {role === 1 ? "Host no-show" : "Guest no-show"}
+                  {userId === props.trip.owner_id
+                    ? "Host no-show"
+                    : "Guest no-show"}
                 </label>
               </div>
             )}
@@ -328,7 +336,7 @@ export default function CancelTripMoal(props: Props): ReactElement {
             </>
           )} */}
 
-          {role === 1 ? (
+          {userId === props.trip.owner_id ? (
             <>
               <label className="mt-3">After Cancel Action</label>
               <div className="my-2">
