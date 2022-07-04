@@ -1,0 +1,3 @@
+mutation RefundOrCompensate($token: String!) {
+  refundOrCompensate(token: $token)
+}

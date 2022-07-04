@@ -669,7 +669,6 @@ export type MutationMakeCarEditableArgs = {
 
 
 export type MutationRefundOrCompensateArgs = {
-  input?: InputMaybe<RefundCompensateInput>;
   token: Scalars['String'];
 };
 
@@ -887,10 +886,6 @@ export type RealTimeUpdateCarDataObj = {
   being_edited?: Maybe<Scalars['Boolean']>;
   reserved_for_booking?: Maybe<Scalars['Boolean']>;
   reserved_for_booking_guest_id?: Maybe<Scalars['Float']>;
-};
-
-export type RefundCompensateInput = {
-  test: Scalars['String'];
 };
 
 export type RegisterInput = {
@@ -1395,6 +1390,13 @@ export type MarkAllNotificationsReadMutationVariables = Exact<{ [key: string]: n
 
 
 export type MarkAllNotificationsReadMutation = { __typename?: 'Mutation', markAllRead: boolean };
+
+export type RefundOrCompensateMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type RefundOrCompensateMutation = { __typename?: 'Mutation', refundOrCompensate: boolean };
 
 export type RegisterMutationVariables = Exact<{
   payload: RegisterInput;
@@ -3030,6 +3032,37 @@ export function useMarkAllNotificationsReadMutation(baseOptions?: Apollo.Mutatio
 export type MarkAllNotificationsReadMutationHookResult = ReturnType<typeof useMarkAllNotificationsReadMutation>;
 export type MarkAllNotificationsReadMutationResult = Apollo.MutationResult<MarkAllNotificationsReadMutation>;
 export type MarkAllNotificationsReadMutationOptions = Apollo.BaseMutationOptions<MarkAllNotificationsReadMutation, MarkAllNotificationsReadMutationVariables>;
+export const RefundOrCompensateDocument = gql`
+    mutation RefundOrCompensate($token: String!) {
+  refundOrCompensate(token: $token)
+}
+    `;
+export type RefundOrCompensateMutationFn = Apollo.MutationFunction<RefundOrCompensateMutation, RefundOrCompensateMutationVariables>;
+
+/**
+ * __useRefundOrCompensateMutation__
+ *
+ * To run a mutation, you first call `useRefundOrCompensateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRefundOrCompensateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [refundOrCompensateMutation, { data, loading, error }] = useRefundOrCompensateMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useRefundOrCompensateMutation(baseOptions?: Apollo.MutationHookOptions<RefundOrCompensateMutation, RefundOrCompensateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RefundOrCompensateMutation, RefundOrCompensateMutationVariables>(RefundOrCompensateDocument, options);
+      }
+export type RefundOrCompensateMutationHookResult = ReturnType<typeof useRefundOrCompensateMutation>;
+export type RefundOrCompensateMutationResult = Apollo.MutationResult<RefundOrCompensateMutation>;
+export type RefundOrCompensateMutationOptions = Apollo.BaseMutationOptions<RefundOrCompensateMutation, RefundOrCompensateMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($payload: RegisterInput!) {
   register(input: $payload) {
