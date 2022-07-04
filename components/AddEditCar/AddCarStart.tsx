@@ -64,14 +64,15 @@ export const AddCarStart = (props: AddCarStartProps) => {
               (hpd) => hpd.title === _hostPlanData?.title
             )[0].carCount;
 
-            console.log("_hostListedCars", _hostListedCars);
-            console.log("planCars :>> ", planCars);
-
             // Check if host has exceeded the package car count
-            if (_hostListedCars < planCars) {
+            if (planCars === "Unlimited") {
               setAction("add_car");
-            } else if (_hostListedCars === planCars) {
-              setAction("upgrade");
+            } else {
+              if (_hostListedCars < planCars) {
+                setAction("add_car");
+              } else if (_hostListedCars === planCars) {
+                setAction("upgrade");
+              }
             }
             // }
           }
@@ -82,8 +83,6 @@ export const AddCarStart = (props: AddCarStartProps) => {
       console.log("error :>> ", error);
     }
   }, [data]);
-
-  console.log("action", action);
 
   // console.log("data", data);
   // Check if host is qualified to list a car
