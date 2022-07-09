@@ -22,14 +22,11 @@ export default function RenewSubscribeBtn(props: RenewSubscribeBtnProps) {
 
   useEffect(() => {
     if (props.data) {
-      console.log("props.data", props.data);
-      console.log("props.period :>> ", props.period);
       let period = props.period ? props.period : props.data.period;
-      console.log("period :>> ", period);
+
       let plan = hostPlansData.filter(
         (hpd) => hpd.title === props.data.title
       )[0];
-      console.log("plan :>> ", plan);
 
       let amt;
 
@@ -101,8 +98,6 @@ export default function RenewSubscribeBtn(props: RenewSubscribeBtnProps) {
       setLoading(false);
     }
   };
-
-  console.log("amt", amt);
 
   return (
     <>
