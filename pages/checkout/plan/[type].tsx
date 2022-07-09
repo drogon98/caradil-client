@@ -4,7 +4,7 @@ import { AuthWrapper } from "../../../components/AuthWrapper";
 import { CustomHead } from "../../../components/CustomHead";
 import Layout from "../../../components/layouts/Layout";
 import { Loading } from "../../../components/Loading";
-import { useUpgradeRenewPlanMutation } from "../../../graphql_types/generated/graphql";
+import { useSubscribeUpgradeRenewPlanMutation } from "../../../graphql_types/generated/graphql";
 
 interface BookingProps {}
 
@@ -13,7 +13,8 @@ function ProcessingPlanPayment(props: BookingProps) {
   //   const [createTrip, { loading }] = useCreateTripMutation();
   const router = useRouter();
   const [error, setError] = useState("");
-  const [upgradeRenewPlan, { data, loading }] = useUpgradeRenewPlanMutation();
+  const [upgradeRenewPlan, { data, loading }] =
+    useSubscribeUpgradeRenewPlanMutation();
 
   useEffect(() => {
     const _upgradeRenewTrip = async () => {
@@ -36,7 +37,7 @@ function ProcessingPlanPayment(props: BookingProps) {
             },
           });
 
-          if (response.data?.upgradeRenewPlan.success) {
+          if (response.data?.subscribeUpgradeRenewPlan.success) {
             router.replace({
               pathname: "/account",
             });
