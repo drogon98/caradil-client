@@ -28,6 +28,7 @@ export const AddCarStart = (props: AddCarStartProps) => {
 
   console.log("data :>> ", data);
   console.log("planData :>> ", planData);
+  console.log("action :>> ", action);
 
   useEffect(() => {
     try {
@@ -67,6 +68,8 @@ export const AddCarStart = (props: AddCarStartProps) => {
               } else {
                 if (listedCarsMinusTwo === planCarCount) {
                   setAction("upgrade");
+                } else {
+                  setAction("add_car");
                 }
               }
             }
