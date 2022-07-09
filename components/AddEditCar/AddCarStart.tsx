@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { hostPlansData } from "../../data";
 import {
@@ -27,11 +26,6 @@ export const AddCarStart = (props: AddCarStartProps) => {
   const router = useRouter();
   const [action, setAction] = useState<string>();
 
-  // console.log("data", data);
-  // console.log("user", user);
-
-  // console.log("planData", planData);
-
   useEffect(() => {
     try {
       if (data?.hostCanListACarData.error) {
@@ -52,25 +46,27 @@ export const AddCarStart = (props: AddCarStartProps) => {
           if (_hostPlanData?.due_date! < new Date().getTime()) {
             setAction("expired");
           } else {
-            // Check if this is free trial
-            // if (_hostPlanData.title === "free") {
-            //   if (_hostListedCars === 5) {
-            //     setAction("upgrade");
-            //   } else {
-            //     setAction("add_car");
-            //   }
-            // } else {
-            let planCars = hostPlansData.filter(
+            let planCarCount = hostPlansData.filter(
               (hpd) => hpd.title === _hostPlanData?.title
             )[0].carCount;
 
+            let listedCarsMinusTwo = _hostListedCars - 2;
+
             // Check if host has exceeded the package car count
-            if (planCars === "Unlimited") {
+            if (planCarCount === "Unlimited") {
               setAction("add_car");
             } else {
-              if (_hostListedCars < planCars) {
-                setAction("add_car");
-              } else if (_hostListedCars === planCars) {
+              if (listedCarsMinusTwo < planCarCount) {
+                if (
+                  !data.hostCanListACarData.hasPlanHistory &&
+                  !data.hostCanListACarData.plan.active
+                ) {
+                  // Allow host to list car
+                  setAction("add_car");
+                } else {
+                  setAction("add_car");
+                }
+              } else if (listedCarsMinusTwo === planCarCount) {
                 setAction("upgrade");
               }
             }
@@ -84,14 +80,12 @@ export const AddCarStart = (props: AddCarStartProps) => {
     }
   }, [data]);
 
-  // console.log("data", data);
   // Check if host is qualified to list a car
-  // If this host has a free trial and exceeded 5 cars ,show the upgrade prompt
   // If this host picks a plan redirect to the pay page
 
   return (
     <>
-      {mainLoading ? (
+      {mainLoading || loading ? (
         <Loading />
       ) : (
         <>
