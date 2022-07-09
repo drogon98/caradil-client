@@ -41,36 +41,32 @@ export const AddCarStart = (props: AddCarStartProps) => {
             setAction("add_car");
           }
         } else {
-          // Check if the subscription is expired
+          let listedCarsMinusTwo = _hostListedCars - 2;
+          let planCarCount = hostPlansData.filter(
+            (hpd) => hpd.title === _hostPlanData?.title
+          )[0].carCount;
 
-          if (_hostPlanData?.due_date! < new Date().getTime()) {
-            setAction("expired");
-          } else {
-            let planCarCount = hostPlansData.filter(
-              (hpd) => hpd.title === _hostPlanData?.title
-            )[0].carCount;
-
-            let listedCarsMinusTwo = _hostListedCars - 2;
-
-            // Check if host has exceeded the package car count
-            if (planCarCount === "Unlimited") {
-              setAction("add_car");
+          // Check if plan is active
+          if (!_hostPlanData.active) {
+            if (_hostListedCars === 2) {
+              setAction("subscribe");
             } else {
-              if (listedCarsMinusTwo < planCarCount) {
-                if (
-                  !data.hostCanListACarData.hasPlanHistory &&
-                  !data.hostCanListACarData.plan.active
-                ) {
-                  // Allow host to list car
-                  setAction("add_car");
-                } else {
-                  setAction("add_car");
+              setAction("add_car"); // can list two cars only
+            }
+          } else {
+            // Check if the subscription is expired
+            if (_hostPlanData?.due_date! < new Date().getTime()) {
+              setAction("expired");
+            } else {
+              // Check if host has exceeded the package car count
+              if (planCarCount === "Unlimited") {
+                setAction("add_car");
+              } else {
+                if (listedCarsMinusTwo === planCarCount) {
+                  setAction("upgrade");
                 }
-              } else if (listedCarsMinusTwo === planCarCount) {
-                setAction("upgrade");
               }
             }
-            // }
           }
         }
       }
@@ -123,6 +119,15 @@ export const AddCarStart = (props: AddCarStartProps) => {
                 >
                   Start
                 </button>
+              </div>
+            </>
+          )}
+          {action === "expired" && (
+            <>
+              <h4>Activate your subscription!</h4>
+
+              <div className="d-flex justify-content-end mt-4">
+                <RenewSubscribeBtn data={planData!} proceedToPay user={user!} />
               </div>
             </>
           )}
