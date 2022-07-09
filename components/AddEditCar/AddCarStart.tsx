@@ -26,6 +26,9 @@ export const AddCarStart = (props: AddCarStartProps) => {
   const router = useRouter();
   const [action, setAction] = useState<string>();
 
+  console.log("data :>> ", data);
+  console.log("planData :>> ", planData);
+
   useEffect(() => {
     try {
       if (data?.hostCanListACarData.error) {
