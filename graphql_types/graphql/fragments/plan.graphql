@@ -4,4 +4,5 @@ fragment planInfo on Plan {
   start_date
   due_date
   active
+  period
 }
