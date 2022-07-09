@@ -3,4 +3,5 @@ fragment planInfo on Plan {
   title
   start_date
   due_date
+  active
 }
