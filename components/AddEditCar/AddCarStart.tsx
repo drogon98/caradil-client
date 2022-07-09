@@ -128,7 +128,7 @@ export const AddCarStart = (props: AddCarStartProps) => {
               </div>
             </>
           )}
-          {action === "expired" && (
+          {action === "subscribe" && (
             <>
               <h4>Activate your subscription!</h4>
 
