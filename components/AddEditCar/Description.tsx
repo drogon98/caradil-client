@@ -145,7 +145,7 @@ export const Description: FC<DescriptionProps> = (props) => {
         </li>
         <li>
           <small>
-            State whether you are available for help to the quest in case eny
+            State whether you are available for help to the quest in case any
             help is needed.
           </small>
         </li>
@@ -158,14 +158,14 @@ export const Description: FC<DescriptionProps> = (props) => {
 
         {/* <li><small></small></li> */}
       </ul>
-      <div className="my-2">
+      {/* <div className="my-2">
         <small className="text-danger">
           {" "}
           Description should not contain emails or phone numbers. Adding any
           contact info may result to your car or even account being suspended as
           it is violating our terms of service.
         </small>
-      </div>
+      </div> */}
       <div className="mb-2">
         <small>
           <b>
