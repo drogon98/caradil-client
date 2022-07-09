@@ -4,6 +4,7 @@ query GetHostCanListACarData {
       ...planInfo
     }
     carsListed
+    hasPlanHistory
     error
   }
 }
