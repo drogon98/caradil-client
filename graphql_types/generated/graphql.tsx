@@ -19,6 +19,15 @@ export type Scalars = {
   Upload: any;
 };
 
+export type AccountOverviewResponse = {
+  __typename?: 'AccountOverviewResponse';
+  bookings?: Maybe<Scalars['Float']>;
+  earnings?: Maybe<Scalars['Float']>;
+  error?: Maybe<Scalars['String']>;
+  plan?: Maybe<Plan>;
+  trips: Scalars['Float'];
+};
+
 export type AccountPaymentInput = {
   payment_channel?: InputMaybe<Scalars['String']>;
   payment_channel_data?: InputMaybe<PaymentChannelInput>;
@@ -804,6 +813,7 @@ export type Query = {
   cars: Array<Car>;
   enquiries: Array<Contact>;
   faqs: Array<Faq>;
+  getAccountOverview: AccountOverviewResponse;
   getAccountSettings: AccountSettingsResponse;
   getAdminCars: Array<Car>;
   getBooking: BookingResponse;
@@ -1470,6 +1480,11 @@ export type EmailVerifyMutationVariables = Exact<{
 
 
 export type EmailVerifyMutation = { __typename?: 'Mutation', verifyEmail: { __typename?: 'VerifyEmailResponse', userId?: number | null | undefined, role?: number | null | undefined, error?: string | null | undefined } };
+
+export type GetAccountOverviewQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAccountOverviewQuery = { __typename?: 'Query', getAccountOverview: { __typename?: 'AccountOverviewResponse', trips: number, earnings?: number | null | undefined, bookings?: number | null | undefined, error?: string | null | undefined, plan?: { __typename?: 'Plan', due_date?: number | null | undefined, title?: string | null | undefined, active?: boolean | null | undefined, period?: string | null | undefined } | null | undefined } };
 
 export type GetAccountPlanQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3408,6 +3423,49 @@ export function useEmailVerifyMutation(baseOptions?: Apollo.MutationHookOptions<
 export type EmailVerifyMutationHookResult = ReturnType<typeof useEmailVerifyMutation>;
 export type EmailVerifyMutationResult = Apollo.MutationResult<EmailVerifyMutation>;
 export type EmailVerifyMutationOptions = Apollo.BaseMutationOptions<EmailVerifyMutation, EmailVerifyMutationVariables>;
+export const GetAccountOverviewDocument = gql`
+    query GetAccountOverview {
+  getAccountOverview {
+    plan {
+      due_date
+      title
+      active
+      period
+    }
+    trips
+    earnings
+    bookings
+    error
+  }
+}
+    `;
+
+/**
+ * __useGetAccountOverviewQuery__
+ *
+ * To run a query within a React component, call `useGetAccountOverviewQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAccountOverviewQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAccountOverviewQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAccountOverviewQuery(baseOptions?: Apollo.QueryHookOptions<GetAccountOverviewQuery, GetAccountOverviewQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAccountOverviewQuery, GetAccountOverviewQueryVariables>(GetAccountOverviewDocument, options);
+      }
+export function useGetAccountOverviewLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAccountOverviewQuery, GetAccountOverviewQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAccountOverviewQuery, GetAccountOverviewQueryVariables>(GetAccountOverviewDocument, options);
+        }
+export type GetAccountOverviewQueryHookResult = ReturnType<typeof useGetAccountOverviewQuery>;
+export type GetAccountOverviewLazyQueryHookResult = ReturnType<typeof useGetAccountOverviewLazyQuery>;
+export type GetAccountOverviewQueryResult = Apollo.QueryResult<GetAccountOverviewQuery, GetAccountOverviewQueryVariables>;
 export const GetAccountPlanDocument = gql`
     query GetAccountPlan {
   getPlan {
