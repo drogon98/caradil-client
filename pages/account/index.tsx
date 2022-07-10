@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 import { BoxWrapper } from "../../components/Account/Overview/BoxWrapper";
 import RenewSubscribeBtn from "../../components/Account/Overview/RenewSubscribeBtn";
@@ -13,7 +13,7 @@ import AccountLayout from "../../components/layouts/AccountLayout";
 import { Loading } from "../../components/Loading";
 import {
   Plan,
-  useGetAccountPlanLazyQuery,
+  useGetAccountOverviewLazyQuery,
 } from "../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../redux/hooks";
 // import { Link, Route } from "react-router-dom";
@@ -35,10 +35,13 @@ const Account: FC<IProps> = (props) => {
   const [showDowngradeBtn, setShowDowngradeBtn] = useState(false);
   const [showRenewBtn, setShowRenewBtn] = useState(false);
   const [alertPlanMsg, setAlertPlanMsg] = useState<ReactNode>();
-  const [getPlanData, { data: _planData, loading: planLoading }] =
-    useGetAccountPlanLazyQuery({ fetchPolicy: "no-cache" });
+  const [getAccountOverview, { data: overviewData, loading: overviewLoading }] =
+    useGetAccountOverviewLazyQuery();
   const [planDueDays, setPlanDueDays] = useState<number>();
   const [hasPlanAlert, setHasPlanAlert] = useState(false);
+  const [tripsCount, setTripsCount] = useState(0);
+  const [bookingsCount, setBookingsCount] = useState(0);
+  const [earnings, setEarnings] = useState(0);
 
   // useEffect(() => {
   //   if (router.query && router.query.to_car) {
@@ -49,10 +52,15 @@ const Account: FC<IProps> = (props) => {
   // }, [router.query, role]);
 
   useEffect(() => {
-    if (token && role === 2) {
-      getPlanData();
-    }
+    // if (token && role === 2) {
+    //   getPlanData();
+    // }
+    getAccountOverview();
   }, [role, token]);
+
+  // console.log("_planData", _planData);
+
+  // console.log("overviewData :>> ", overviewData);
 
   useEffect(() => {
     try {
@@ -78,12 +86,31 @@ const Account: FC<IProps> = (props) => {
   }, [user]);
 
   useEffect(() => {
-    if (_planData?.getPlan.plan) {
-      setPlanData(_planData.getPlan.plan);
-
+    if (overviewData?.getAccountOverview.error) {
+    } else {
+      if (overviewData?.getAccountOverview.plan) {
+        setPlanData(overviewData?.getAccountOverview.plan);
+      }
+      if (overviewData?.getAccountOverview.trips) {
+        setTripsCount(overviewData?.getAccountOverview.trips);
+      }
+      if (overviewData?.getAccountOverview.bookings) {
+        setBookingsCount(overviewData?.getAccountOverview.bookings);
+      }
+      if (overviewData?.getAccountOverview.earnings) {
+        setEarnings(overviewData?.getAccountOverview.earnings);
+      }
       setMainLoading(false);
     }
-  }, [_planData]);
+  }, [overviewData]);
+
+  // useEffect(() => {
+  //   if (_planData?.getPlan.plan) {
+  //     setPlanData(_planData.getPlan.plan);
+
+  //     setMainLoading(false);
+  //   }
+  // }, [_planData]);
 
   useEffect(() => {
     if (planData) {
@@ -203,7 +230,7 @@ const Account: FC<IProps> = (props) => {
       <CustomHead title="Account" />
       <AuthWrapper>
         <AccountLayout>
-          {mainLoading || planLoading ? (
+          {mainLoading || overviewLoading ? (
             <Loading />
           ) : (
             <div className="p-2 my-4">
@@ -234,14 +261,14 @@ const Account: FC<IProps> = (props) => {
                       <BoxWrapper>
                         <div className="py-3 p-2">
                           <h6>Trips</h6>
-                          <p>0 Trips</p>
+                          <p>{tripsCount} Trip(s)</p>
                         </div>
                       </BoxWrapper>
 
                       <BoxWrapper>
                         <div className="py-3 p-2">
                           <h6>Bookings</h6>
-                          <p>0 Bookings</p>
+                          <p>{bookingsCount} Booking(s)</p>
                         </div>
                       </BoxWrapper>
 
@@ -249,7 +276,7 @@ const Account: FC<IProps> = (props) => {
                         <BoxWrapper>
                           <div className="py-3 p-2">
                             <h6>Earnings</h6>
-                            <p>Ksh. 0</p>
+                            <p>Ksh. {earnings}</p>
                           </div>
                         </BoxWrapper>
                       )}

@@ -1,0 +1,14 @@
+query GetAccountOverview {
+  getAccountOverview {
+    plan {
+      due_date
+      title
+      active
+      period
+    }
+    trips
+    earnings
+    bookings
+    error
+  }
+}
