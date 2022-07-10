@@ -22,6 +22,7 @@ export function UserNavIcon(props: UserNavIconProps) {
     (state) => state.notifications.notifications
   );
   const [inDashboard, setInDashboard] = useState(false);
+  const token = useAppSelector((state) => state.auth._id);
 
   useEffect(() => {
     if (router) {
@@ -83,6 +84,9 @@ export function UserNavIcon(props: UserNavIconProps) {
                 const response = await (
                   await fetch(`${baseHttpDomain}logout`, {
                     credentials: "include",
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
                   })
                 ).json();
 
