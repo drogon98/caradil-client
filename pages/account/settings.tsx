@@ -4,8 +4,10 @@ import React, {
   FormEvent,
   MouseEvent,
   useEffect,
+  useLayoutEffect,
   useState,
 } from "react";
+import { Alert } from "react-bootstrap";
 import AccountActionModal from "../../components/Account/Settings/AccountActionModal";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
@@ -40,12 +42,15 @@ const Settings = (props: SettingsProps) => {
   const [accountAction, setAccountAction] = useState("");
   const [toastMessage, setToastMessage] = useState("");
   const router = useRouter();
+  const [showUpgradeAlert, setShowUpgradeAlert] = useState(false);
 
-  // console.log("router :>> ", router);
-
-  useEffect(() => {
-    if (router.query && router.query.upgrade_account) {
-      window.location.hash = "upgrade_account";
+  useLayoutEffect(() => {
+    const query = router.asPath.split("?")[1];
+    const params = new URLSearchParams(query);
+    if (params.has("upgrade")) {
+      setShowUpgradeAlert(true);
+    } else {
+      setShowUpgradeAlert(false);
     }
   }, [router]);
 
@@ -198,6 +203,25 @@ const Settings = (props: SettingsProps) => {
 
                 <h3>Settings</h3>
                 <hr />
+
+                {showUpgradeAlert ? (
+                  <>
+                    <Alert
+                      variant="info"
+                      onClose={() => setShowUpgradeAlert(false)}
+                      // dismissible
+                    >
+                      <small>
+                        You are about to upgrade from a guest account to a host
+                        account. With a host account you will be able to list
+                        cars. To upgrade click the Upgrade Account button below.
+                      </small>
+                    </Alert>
+
+                    <br />
+                  </>
+                ) : null}
+
                 <h6>General Settings</h6>
                 <div className="mb-5">
                   <div className="settings-row d-flex align-items-start justify-content-between">
@@ -347,7 +371,7 @@ const Settings = (props: SettingsProps) => {
 
                 <h3>Account</h3>
                 <hr />
-                <div id="upgrade_account">
+                <div>
                   {role === 1 && (
                     <div className="mb-5 settings-row d-flex align-items-start justify-content-between">
                       <div className="d-flex flex-column">
