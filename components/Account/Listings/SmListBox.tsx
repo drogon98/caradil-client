@@ -17,7 +17,7 @@ export const SmListBox: FC<SmListBoxProps> = (props) => {
             query: { active: 1 },
           }}
         >
-          <a className="row ">
+          <a className="row">
             <div className="col-4">
               <div className="list-name-circle">
                 <CustomImage
