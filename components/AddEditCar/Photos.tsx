@@ -198,25 +198,34 @@ export const Photos: FC<PhotosProps> = (props) => {
 
       <div className="mb-2">
         <small>
-          <b>Note:These photos should be real and exactly your car.</b>
-        </small>
-      </div>
-
-      <div className="mb-2">
-        <small>
           <b>
-            Note:These photos should only belong to one car. If you have another
-            car,list it as a separate car.
+            Note:These photos should be exact and match your car.These photos
+            should only belong to one car. If you have another car,list it as a
+            separate car.
           </b>
         </small>
       </div>
 
-      <div className="mb-3">
+      {/* <div className="mb-2">
+        
+      </div> */}
+
+      <br />
+      <p>Ensure the photos you upload meet the criteria below</p>
+      <div>
+        <img
+          width={"100%"}
+          style={{ objectFit: "cover" }}
+          src="/images/imagerules.jpg"
+        />
+      </div>
+
+      {/* <div className="mb-3">
         <small className="text-danger">
           Note:Uploading photos containing your contact info might result to
           your car or account being suspended.
         </small>
-      </div>
+      </div> */}
 
       <form
         onSubmit={(e) => {
