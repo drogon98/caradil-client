@@ -54,63 +54,61 @@ export const BrowseByMake: FC<IProps> = (props) => {
     ],
   };
 
-  return null;
-
   // console.log("makes :>> ", makes);
-  // return (
-  //   <div className="page-section customContainer">
-  //     <div className="text-center">
-  //       <p className="text-uppercase section-heading-top-heading">
-  //         Choose your best ride
-  //       </p>
-  //     </div>
-  //     <div className="d-flex justify-content-center">
-  //       <div className="section-heading-hr" />
-  //     </div>
-  //     <div className="text-center">
-  //       <h2 className="mb-5 section-heading">Browse by make</h2>
-  //     </div>
+  return (
+    <div className="page-section customContainer">
+      <div className="text-center">
+        <p className="text-uppercase section-heading-top-heading">
+          Choose your best ride
+        </p>
+      </div>
+      <div className="d-flex justify-content-center">
+        <div className="section-heading-hr" />
+      </div>
+      <div className="text-center">
+        <h2 className="mb-5 section-heading">Browse by make</h2>
+      </div>
 
-  //     <div className="makes-slider">
-  //       {loading ? (
-  //         <FlexibleLoader />
-  //       ) : (
-  //         <Slider {...settings}>
-  //           {makes.map((make) => (
-  //             <div className="makeSlide" key={make.id}>
-  //               <div className="makeSlideInner shadow">
-  //                 <Link
-  //                   href={{
-  //                     pathname: `/browse-cars`,
-  //                     query: { make: make.title.toLowerCase() },
-  //                   }}
-  //                 >
-  //                   <a>
-  //                     <img
-  //                       src={
-  //                         make.photo.secure_url
-  //                           ? make.photo.secure_url
-  //                           : "/images/lambo.jpg"
-  //                       }
-  //                       height="120px"
-  //                       width="100%"
-  //                       style={{ objectFit: "cover" }}
-  //                     />
-  //                     <div
-  //                       style={{ height: "calc(100% - 120px)" }}
-  //                       className="d-flex align-items-center justify-content-center"
-  //                     >
-  //                       <h5 className="m-0">{make.title}</h5>
-  //                     </div>
-  //                   </a>
-  //                 </Link>
-  //               </div>
-  //             </div>
-  //           ))}
-  //         </Slider>
-  //       )}
-  //     </div>
-  //   </div>
-  //   // </div>
-  // );
+      <div className="makes-slider">
+        {loading ? (
+          <FlexibleLoader />
+        ) : (
+          <Slider {...settings}>
+            {makes.map((make) => (
+              <div className="makeSlide" key={make.id}>
+                <div className="makeSlideInner shadow">
+                  <Link
+                    href={{
+                      pathname: `/browse-cars`,
+                      query: { make: make.title.toLowerCase() },
+                    }}
+                  >
+                    <a>
+                      <img
+                        src={
+                          make.photo.secure_url
+                            ? make.photo.secure_url
+                            : "/images/lambo.jpg"
+                        }
+                        height="120px"
+                        width="100%"
+                        style={{ objectFit: "cover" }}
+                      />
+                      <div
+                        style={{ height: "calc(100% - 120px)" }}
+                        className="d-flex align-items-center justify-content-center"
+                      >
+                        <h5 className="m-0">{make.title}</h5>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </Slider>
+        )}
+      </div>
+    </div>
+    // </div>
+  );
 };
