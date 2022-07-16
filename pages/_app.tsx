@@ -1,6 +1,5 @@
 import { ApolloProvider } from "@apollo/client";
 import "bootstrap/dist/css/bootstrap.css";
-import "@lls/react-light-calendar/dist/index.css";
 import type { AppProps } from "next/app";
 import { Router, useRouter } from "next/router";
 import { useEffect } from "react";
