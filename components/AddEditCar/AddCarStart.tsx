@@ -108,9 +108,10 @@ export const AddCarStart = (props: AddCarStartProps) => {
                 <li>Car Logbook Scanned Copy (Can add later)</li>
                 <li>
                   At least 5 clean photos of your car. These should be
-                  rear,fore,both sides and inner photos of the car. These photos{" "}
+                  rear,fore,both sides and inner photos of the car.
+                  {/* These photos{" "}
                   <b>should not</b> contain any contact information like phone
-                  no., email or website urls.
+                  no., email or website urls. */}
                 </li>
               </ul>
               <div className="d-flex justify-content-end mt-4">
