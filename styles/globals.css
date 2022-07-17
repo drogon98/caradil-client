@@ -2031,7 +2031,7 @@ car-input-container select:focus {
     width: 150px;
     background-color: #fff;
     z-index: 999;
-    height: 60vh;
+    height: 75vh;
     top: 100%;
   }
 

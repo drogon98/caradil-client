@@ -3,7 +3,7 @@ import { FeatureObj, Maybe } from "../../graphql_types/generated/graphql";
 import { ReadMore } from "../ReadMore";
 import { FiBluetooth } from "react-icons/fi";
 import { AiOutlineUsb, AiOutlineWifi } from "react-icons/ai";
-import { FaWheelchair } from "react-icons/fa";
+import { FaCaravan, FaWheelchair } from "react-icons/fa";
 import { BiUsb } from "react-icons/bi";
 import { MdOutlineGpsFixed } from "react-icons/md";
 
@@ -36,6 +36,8 @@ FeatureIconMap.set(
   <MdOutlineGpsFixed className="secondary-feature-icon" />
 );
 
+FeatureIconMap.set("Caravan", <FaCaravan className="secondary-feature-icon" />);
+
 export const CarDetailsSecondaryFeatures: FC<
   CarDetailsSecondaryFeaturesProps
 > = (props) => {
@@ -58,16 +60,6 @@ export const CarDetailsSecondaryFeatures: FC<
           ))}
         </ul>
       </ReadMore>
-      {/* <p>
-        Sites usually show images to provide illustration, like photos for
-        online stores or news articles Sites usually show images to provide
-        illustration, like photos for online stores or news articles Sites
-        usually show images to provide illustration, like photos for online
-        stores or news articles
-      </p> */}
-      {/* <div className="mt-2">
-        <button className="moreBox">More</button>
-      </div> */}
     </>
   );
 };

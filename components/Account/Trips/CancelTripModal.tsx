@@ -258,27 +258,29 @@ export default function CancelTripMoal(props: Props): ReactElement {
           <br />
           <>
             {showNoShow && (
-              <div className="form-check">
+              <>
                 <label className="mt-3">Cancel Reason</label>
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="cancelRadioReason"
-                  id="cancelReasonNoShow"
-                  value={"no-show"}
-                  onChange={handleChange}
-                  checked={cancelRadioInputReason === "no-show"}
-                  disabled={cancelingTrip}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="cancelReasonNoShow"
-                >
-                  {userId === props.trip.owner_id
-                    ? "Host no-show"
-                    : "Guest no-show"}
-                </label>
-              </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="cancelRadioReason"
+                    id="cancelReasonNoShow"
+                    value={"no-show"}
+                    onChange={handleChange}
+                    checked={cancelRadioInputReason === "no-show"}
+                    disabled={cancelingTrip}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="cancelReasonNoShow"
+                  >
+                    {userId === props.trip.owner_id
+                      ? "Host no-show"
+                      : "Guest no-show"}
+                  </label>
+                </div>
+              </>
             )}
             {/* <div className="form-check">
                 <input
