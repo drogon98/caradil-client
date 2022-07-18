@@ -1,5 +1,4 @@
-import Link from "next/link";
-import React, { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { hostPlansData } from "../../../data";
 import { Plan, User } from "../../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../../redux/hooks";
