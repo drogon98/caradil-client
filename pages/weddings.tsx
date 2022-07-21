@@ -13,7 +13,7 @@ export default function Weddings() {
       <Layout>
         <Hero />
         <br />
-        <BrowseByMake />
+        <BrowseByMake where="wedding" />
         <Chariot />
       </Layout>
     </div>
