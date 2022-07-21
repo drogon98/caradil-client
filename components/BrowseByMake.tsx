@@ -5,7 +5,9 @@ import { useGetMakesQuery } from "../graphql_types/generated/graphql";
 import { useWindowDimensions } from "./hooks/useWindowDimensions";
 import FlexibleLoader from "./Loading/FlexibleLoader";
 
-interface IProps {}
+interface IProps {
+  where?: string;
+}
 
 export const BrowseByMake: FC<IProps> = (props) => {
   const [makes, setMakes] = useState<any[]>([]);
@@ -74,37 +76,49 @@ export const BrowseByMake: FC<IProps> = (props) => {
           <FlexibleLoader />
         ) : (
           <Slider {...settings}>
-            {makes.map((make) => (
-              <div className="makeSlide" key={make.id}>
-                <div className="makeSlideInner shadow">
-                  <Link
-                    href={{
-                      pathname: `/browse-cars`,
-                      query: { make: make.title.toLowerCase() },
-                    }}
-                  >
-                    <a>
-                      <img
-                        src={
-                          make.photo.secure_url
-                            ? make.photo.secure_url
-                            : "/images/lambo.jpg"
-                        }
-                        height="120px"
-                        width="100%"
-                        style={{ objectFit: "cover" }}
-                      />
-                      <div
-                        style={{ height: "calc(100% - 120px)" }}
-                        className="d-flex align-items-center justify-content-center"
-                      >
-                        <h5 className="m-0">{make.title}</h5>
-                      </div>
-                    </a>
-                  </Link>
+            {makes.map((make) => {
+              let query: { make: string; categories?: string } = {
+                make: make.title.toLowerCase(),
+              };
+              if (props.where) {
+                if (props.where === "wedding") {
+                  query = { ...query, categories: props.where };
+                } else if (props.where === "tours") {
+                  query = { ...query, categories: props.where };
+                }
+              }
+              return (
+                <div className="makeSlide" key={make.id}>
+                  <div className="makeSlideInner shadow">
+                    <Link
+                      href={{
+                        pathname: `/browse-cars`,
+                        query,
+                      }}
+                    >
+                      <a>
+                        <img
+                          src={
+                            make.photo.secure_url
+                              ? make.photo.secure_url
+                              : "/images/lambo.jpg"
+                          }
+                          height="120px"
+                          width="100%"
+                          style={{ objectFit: "cover" }}
+                        />
+                        <div
+                          style={{ height: "calc(100% - 120px)" }}
+                          className="d-flex align-items-center justify-content-center"
+                        >
+                          <h5 className="m-0">{make.title}</h5>
+                        </div>
+                      </a>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </Slider>
         )}
       </div>
