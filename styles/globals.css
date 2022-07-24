@@ -2608,3 +2608,26 @@ car-input-container select:focus {
 .renew-subscribe-btn {
   min-width: 140px;
 }
+
+/* ======================= TOURS PAGE ============================ */
+.tours-bg-hero-wrapper {
+  background-image: url("../public/images/outdoors.jpg");
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.wrapper-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  width: 100%;
+  color: #fff;
+}
+
+.wrapper-overlay h1 {
+  width: 70%;
+  font-size: 3.5rem;
+}
+/* ======================= END TOURS PAGE ============================ */
