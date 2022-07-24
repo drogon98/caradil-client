@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { FC } from "react";
 import { Maybe, User } from "../../graphql_types/generated/graphql";
 
@@ -39,6 +40,11 @@ export const CarDetailsHost: FC<CarDetailsHostProps> = (props) => {
             {new Date(props.data?.created_at).getFullYear()}
           </p>
           {/* <small>Responds in 1 minute</small> */}
+          {/* <small className="mt-3">
+            <Link href="/">
+              <a>More cars by this host</a>
+            </Link>
+          </small> */}
         </div>
       </div>
     </div>
