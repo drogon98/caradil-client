@@ -464,7 +464,7 @@ const Car: FC<CarProps> = (props) => {
 
   return (
     <>
-      <CustomHead title="Car" />
+      <CustomHead title={car?.name ?? "Car"} />
       <Layout>
         {mainLoading ? (
           <Loading />
@@ -553,21 +553,9 @@ const Car: FC<CarProps> = (props) => {
                     </button>
                   ) : (
                     <LoginWithModal>
-                      {/* <Link
-                        href={{
-                          pathname: "/login",
-                          query: {
-                            next: router.pathname,
-                            nextQuery: JSON.stringify(router.query),
-                          },
-                        }}
-                      > */}
-                      {/* <a> */}
                       <button className="carousel-fav-icon cursor-pointer">
                         <BsSuitHeart size="28px" />
                       </button>
-                      {/* </a> */}
-                      {/* </Link> */}
                     </LoginWithModal>
                   )}
                 </div>
@@ -756,18 +744,8 @@ const Car: FC<CarProps> = (props) => {
                           }
                         >
                           Continue
-                          {/* {approvedLoading ? (
-                            <ButtonLoading
-                              spinnerColor="white"
-                              dimensions={{ height: "18px", width: "18px" }}
-                            />
-                          ) : (
-                            "Continue"
-                          )} */}
                         </button>
                       ) : (
-                        // </button>
-
                         <LoginWithModal>
                           <div className="d-grid gap-2">
                             <button type="submit" className="btn bgOrange">
