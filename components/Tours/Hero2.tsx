@@ -15,7 +15,7 @@ export default function Hero2({}: Props) {
             query: { categories: ["tours", "4wd"] },
           }}
         >
-          <a className="btn bgOrange mt-4">Browse 4WDs</a>
+          <a className="btn bgOrange mt-4">Browse 4&times;4s</a>
         </Link>
       </div>
     </div>
