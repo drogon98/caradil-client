@@ -833,6 +833,7 @@ export type Query = {
   getTrip: TripResponse;
   getUser: UserResponse;
   getUserChatMetas: Array<ChatMeta>;
+  getUsers: Array<User>;
   hostCanListACarData: HostCanListACarResponse;
   makes: Array<Make>;
   resendVerifyEmailLink: Scalars['Boolean'];
@@ -1626,6 +1627,11 @@ export type GetUserChatMetasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUserChatMetasQuery = { __typename?: 'Query', getUserChatMetas: Array<{ __typename?: 'ChatMeta', id?: number | null | undefined, no_chat?: string | null | undefined, unread_chats_count?: number | null | undefined, is_closed?: boolean | null | undefined, latest_chat?: { __typename?: 'Chat', id?: number | null | undefined, message?: string | null | undefined, receiver_id?: number | null | undefined, sender_id?: number | null | undefined, read?: boolean | null | undefined, sender_deleted?: boolean | null | undefined, receiver_deleted?: boolean | null | undefined, created_at?: any | null | undefined } | null | undefined, sender?: { __typename?: 'User', id?: number | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, business_name?: string | null | undefined, email?: string | null | undefined, avatar?: { __typename?: 'FileObj', secure_url?: string | null | undefined } | null | undefined } | null | undefined, receiver?: { __typename?: 'User', id?: number | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, business_name?: string | null | undefined, email?: string | null | undefined, avatar?: { __typename?: 'FileObj', secure_url?: string | null | undefined } | null | undefined } | null | undefined }> };
+
+export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllUsersQuery = { __typename?: 'Query', getUsers: Array<{ __typename?: 'User', id?: number | null | undefined, email?: string | null | undefined }> };
 
 export type ResendEmailVerifyLinkQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4429,6 +4435,41 @@ export function useGetUserChatMetasLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetUserChatMetasQueryHookResult = ReturnType<typeof useGetUserChatMetasQuery>;
 export type GetUserChatMetasLazyQueryHookResult = ReturnType<typeof useGetUserChatMetasLazyQuery>;
 export type GetUserChatMetasQueryResult = Apollo.QueryResult<GetUserChatMetasQuery, GetUserChatMetasQueryVariables>;
+export const GetAllUsersDocument = gql`
+    query GetAllUsers {
+  getUsers {
+    id
+    email
+  }
+}
+    `;
+
+/**
+ * __useGetAllUsersQuery__
+ *
+ * To run a query within a React component, call `useGetAllUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+      }
+export function useGetAllUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+        }
+export type GetAllUsersQueryHookResult = ReturnType<typeof useGetAllUsersQuery>;
+export type GetAllUsersLazyQueryHookResult = ReturnType<typeof useGetAllUsersLazyQuery>;
+export type GetAllUsersQueryResult = Apollo.QueryResult<GetAllUsersQuery, GetAllUsersQueryVariables>;
 export const ResendEmailVerifyLinkDocument = gql`
     query ResendEmailVerifyLink {
   resendVerifyEmailLink
