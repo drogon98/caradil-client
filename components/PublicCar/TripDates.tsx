@@ -178,12 +178,12 @@ export let TripDates = (props: TripDatesProps) => {
           <label style={{ fontSize: "11px" }}>Start & End Dates</label>
         </div>
         <div className="w-100 browse-car-trip">
-          <Calendar
+          {/* <Calendar
             startDate={props.startDate}
             endDate={props.endDate}
             disableDates={props.disableDates}
             onChange={handleDateChange}
-          />
+          /> */}
         </div>
       </div>
     </>
