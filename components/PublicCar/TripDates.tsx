@@ -1,4 +1,3 @@
-import Calendar from "@lls/react-light-calendar";
 import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { time24hrs } from "../../data";
 import { Car } from "../../graphql_types/generated/graphql";
