@@ -988,15 +988,6 @@
   dependencies:
     cross-fetch "^3.1.4"
 
-"@lls/react-light-calendar@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.npmjs.org/@lls/react-light-calendar/-/react-light-calendar-2.2.0.tgz"
-  integrity sha512-3rEv4VC3nIq+TARFDSW7W4lHvnW3DGCyg9f90XV2iTphlYavCQflJUWmTndK1sCjzxn7mbvVNmLw+K3dJPGuVw==
-  dependencies:
-    lodash.times "4.3.2"
-    prop-types "15.7.2"
-    timestamp-utils "2.1.0"
-
 "@n1ru4l/graphql-live-query@0.9.0":
   version "0.9.0"
   resolved "https://registry.npmjs.org/@n1ru4l/graphql-live-query/-/graphql-live-query-0.9.0.tgz"
@@ -4241,11 +4232,6 @@ lodash.sortby@^4.7.0:
   resolved "https://registry.npmjs.org/lodash.sortby/-/lodash.sortby-4.7.0.tgz"
   integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
 
-lodash.times@4.3.2:
-  version "4.3.2"
-  resolved "https://registry.npmjs.org/lodash.times/-/lodash.times-4.3.2.tgz"
-  integrity sha1-Ph8lZcQxdU1Uq1fy7RdBk5KFyh0=
-
 lodash.truncate@^4.4.2:
   version "4.4.2"
   resolved "https://registry.npmjs.org/lodash.truncate/-/lodash.truncate-4.4.2.tgz"
@@ -4988,7 +4974,7 @@ prop-types-extra@^1.1.0:
     react-is "^16.3.2"
     warning "^4.0.0"
 
-prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.7.2.tgz"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -5941,11 +5927,6 @@ timers-browserify@2.0.12:
   integrity sha512-9phl76Cqm6FhSX9Xe1ZUAMLtm1BLkKj2Qd5ApyWkXzsMRaA7dgr81kf4wJmQf/hAvg8EEyJxDo3du/0KlhPiKQ==
   dependencies:
     setimmediate "^1.0.4"
-
-timestamp-utils@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/timestamp-utils/-/timestamp-utils-2.1.0.tgz"
-  integrity sha512-IW6C0N2u/QF+tq+Plji9b5HUQu326m7QAgZD3H/BO46XgAEJCfPRsT6SvDJESoajR5kHB5Mji1TDZfgdYgEHuQ==
 
 title-case@^3.0.3:
   version "3.0.3"

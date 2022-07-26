@@ -1,4 +1,3 @@
-import Calendar from "@lls/react-light-calendar";
 import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { time24hrs } from "../../data";
 import { Car } from "../../graphql_types/generated/graphql";
@@ -179,12 +178,12 @@ export let TripDates = (props: TripDatesProps) => {
           <label style={{ fontSize: "11px" }}>Start & End Dates</label>
         </div>
         <div className="w-100 browse-car-trip">
-          <Calendar
+          {/* <Calendar
             startDate={props.startDate}
             endDate={props.endDate}
             disableDates={props.disableDates}
             onChange={handleDateChange}
-          />
+          /> */}
         </div>
       </div>
     </>

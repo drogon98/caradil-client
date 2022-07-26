@@ -48,6 +48,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
               <div className="admin-side-menu pt-4">
                 <ul className="list-style-none pl-0 pl-3">
                   <li>
+                    <Link href="/root/users">
+                      <a className="link white-link">Users</a>
+                    </Link>
+                  </li>
+                  <li>
                     <Link href="/root/listings">
                       <a className="link white-link">Listings</a>
                     </Link>

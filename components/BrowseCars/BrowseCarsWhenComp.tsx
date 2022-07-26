@@ -1,4 +1,3 @@
-import "@lls/react-light-calendar/dist/index.css";
 import React, { RefObject, MouseEvent, useEffect, useState } from "react";
 import { TripDatesObj } from "../../utils/interfaces";
 import { TripDates } from "../PublicCar/TripDates";

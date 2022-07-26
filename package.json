@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.17",
-    "@lls/react-light-calendar": "^2.2.0",
     "@popperjs/core": "^2.11.0",
     "@reduxjs/toolkit": "^1.6.2",
     "apollo-upload-client": "^17.0.0",
