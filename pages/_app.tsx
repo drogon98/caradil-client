@@ -92,13 +92,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // MAINTENANCE_MODE
 
-  console.log("pro :>> ", process.env.MAINTENANCE_MODE);
-
-  return process.env.MAINTENANCE_MODE === undefined ? (
-    <>I am under maitenance</>
-  ) : (
-    <ApolloProvider client={client}>
-      {/* <div id="float-whatsapp-wrapper">
+  return;
+  <ApolloProvider client={client}>
+    {/* <div id="float-whatsapp-wrapper">
         <FloatingWhatsApp
           phoneNumber="+254799204524"
           accountName="Caradil"
@@ -107,17 +103,16 @@ function MyApp({ Component, pageProps }: AppProps) {
           statusMessage="Typically replies within 5 minutes"
         />
       </div> */}
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          {() => (
-            <Wrapper>
-              <Component {...pageProps} />
-            </Wrapper>
-          )}
-        </PersistGate>
-      </Provider>
-    </ApolloProvider>
-  );
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        {() => (
+          <Wrapper>
+            <Component {...pageProps} />
+          </Wrapper>
+        )}
+      </PersistGate>
+    </Provider>
+  </ApolloProvider>;
 }
 
 export default MyApp;
