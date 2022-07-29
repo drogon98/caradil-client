@@ -90,6 +90,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   //   return () => clearInterval(intervalId);
   // }, []);
 
+  // MAINTENANCE_MODE
+
+  console.log("pro :>> ", process.env.MAINTENANCE_MODE);
+
   return (
     <ApolloProvider client={client}>
       {/* <div id="float-whatsapp-wrapper">
