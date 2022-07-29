@@ -292,7 +292,8 @@ const RegisterForm: FC<IProps> = (props) => {
             <button
               type="submit"
               className="btn bgOrange auth-btn"
-              disabled={registering || !hasAgreedToTerms}
+              disabled
+              // disabled={registering || !hasAgreedToTerms}
             >
               {registering ? (
                 <ButtonLoading
