@@ -92,11 +92,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // MAINTENANCE_MODE
 
-  console.log("pro :>> ", process.env.MAINTENANCE_MODE);
-
-  return process.env.MAINTENANCE_MODE === undefined ? (
-    <>I am under maitenance</>
-  ) : (
+  return (
     <ApolloProvider client={client}>
       {/* <div id="float-whatsapp-wrapper">
         <FloatingWhatsApp
