@@ -92,6 +92,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // MAINTENANCE_MODE
 
+  console.log(process.env.NEXT_PUBLIC_MAINTENANCE);
+
   return (
     <ApolloProvider client={client}>
       {/* <div id="float-whatsapp-wrapper">
