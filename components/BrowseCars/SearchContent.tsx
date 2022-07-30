@@ -8,10 +8,12 @@ import { Loading } from "../Loading";
 import Spinner from "../Loading/Spinner";
 
 interface SearchContentProps {
-  loading: boolean;
+  initialLoading: boolean;
+  loadingMore: boolean;
   cars: Car[];
   showModifyFilters: boolean;
   hasMore: boolean;
+  fetchCarsOnScroll: any;
 }
 
 export function SearchContent(props: SearchContentProps) {
@@ -19,6 +21,7 @@ export function SearchContent(props: SearchContentProps) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const fetchRef = useRef<HTMLDivElement>(null);
+  const carContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (router.query) {
@@ -30,40 +33,27 @@ export function SearchContent(props: SearchContentProps) {
     }
   }, [router.query]);
 
-  // useEffect(() => {
-  //   let id: number;
-  //   let observer = new IntersectionObserver(
-  //     (entries, observer) => {
-  //       entries.forEach((entry) => {
-  //         if (entry.isIntersecting) {
-  //           // if (!id) {
-  //           //   setMainLoading(true);
-  //           //   id = window.requestIdleCallback(() => {
-  //           //     // setTimeout(() => {
-  //           //     getReviews({
-  //           //       variables: { carId: props.carId },
-  //           //     });
-  //           //     // }, 5000);
-  //           //   });
-  //           //   // console.log("id :>> ", id);
-  //           // }
-  //         }
-  //       });
-  //     },
-  //     {
-  //       root: null,
-  //       threshold: 0,
-  //     }
-  //   );
-
-  //   if (fetchRef) {
-  //     observer.observe(fetchRef.current!);
-  //   }
-
-  //   return () => {
-  //     window.cancelIdleCallback(id);
-  //   };
-  // }, []);
+  useEffect(() => {
+    if (props.hasMore) {
+      let observer = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !props.loadingMore) {
+              window.requestIdleCallback(props.fetchCarsOnScroll);
+            }
+          });
+        },
+        {
+          root: null,
+          threshold: 0,
+        }
+      );
+      if (fetchRef && fetchRef.current) {
+        console.log("I have my ref...");
+        observer.observe(fetchRef.current);
+      }
+    }
+  }, [fetchRef, props.hasMore, props.loadingMore]);
 
   const handleClearFilters = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -73,8 +63,8 @@ export function SearchContent(props: SearchContentProps) {
 
   return (
     <>
-      <div className="customBrowseCarContainer">
-        {props.loading && <Loading />}
+      <div className="customBrowseCarContainer" ref={carContainerRef}>
+        {props.initialLoading && <Loading />}
         <p className="mt-3">
           {props.cars?.length > 0 && searching && (
             <>
@@ -82,7 +72,7 @@ export function SearchContent(props: SearchContentProps) {
             </>
           )}
         </p>
-        {!props.loading && props.cars?.length == 0 && (
+        {!props.initialLoading && props.cars?.length == 0 && (
           <div
             style={{ marginTop: "100px" }}
             className="d-flex flex-column align-items-center"
@@ -105,14 +95,17 @@ export function SearchContent(props: SearchContentProps) {
           </div>
         )}
         <div className="cars-wrapper pt-4 mb-5">
-          {!props.loading &&
-            props.cars?.map((car) => <CarBox data={car} key={car.id} />)}
+          {!props.initialLoading &&
+            props.cars?.map((car, idx: number) => (
+              <CarBox data={car} key={`${car.id}-${idx}`} />
+            ))}
         </div>
-        {/* {props.hasMore && props.cars && (
-          <div className="pb-2" ref={fetchRef}>
-            {props.loading && <Spinner />}
+
+        {props.hasMore ? (
+          <div className="py-2" ref={fetchRef}>
+            {props.loadingMore && <Spinner />}
           </div>
-        )} */}
+        ) : null}
       </div>
     </>
   );

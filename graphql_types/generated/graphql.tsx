@@ -238,6 +238,12 @@ export type CarTripSettingsInput = {
   trip_type: Scalars['String'];
 };
 
+export type CarsResponse = {
+  __typename?: 'CarsResponse';
+  cursor: MyCursor;
+  data: Array<Car>;
+};
+
 export type Chat = {
   __typename?: 'Chat';
   chat_meta?: Maybe<ChatMeta>;
@@ -739,6 +745,17 @@ export type MutationVerifyEmailArgs = {
   token: Scalars['String'];
 };
 
+export type MyCursor = {
+  __typename?: 'MyCursor';
+  afterCursor?: Maybe<Scalars['String']>;
+  beforeCursor?: Maybe<Scalars['String']>;
+};
+
+export type MyInputCursor = {
+  afterCursor?: InputMaybe<Scalars['String']>;
+  beforeCursor?: InputMaybe<Scalars['String']>;
+};
+
 export type Notification = {
   __typename?: 'Notification';
   created_at?: Maybe<Scalars['DateTime']>;
@@ -819,7 +836,7 @@ export type Query = {
   getBooking: BookingResponse;
   getCar: CarResponse;
   getCarReviews: Array<Review>;
-  getCars: Array<Car>;
+  getCars: CarsResponse;
   getChats: Array<Chat>;
   getDriverDetails: DriverLicenseDetails;
   getEarnings: Array<Earning>;
@@ -938,6 +955,7 @@ export type SearchInput = {
   car_market_class?: InputMaybe<Scalars['String']>;
   categories?: InputMaybe<Array<Scalars['String']>>;
   color?: InputMaybe<Scalars['String']>;
+  cursor?: InputMaybe<MyInputCursor>;
   end_date?: InputMaybe<Scalars['String']>;
   end_time?: InputMaybe<Scalars['String']>;
   end_user_type?: InputMaybe<Scalars['String']>;
@@ -1536,7 +1554,7 @@ export type GetCarsQueryVariables = Exact<{
 }>;
 
 
-export type GetCarsQuery = { __typename?: 'Query', getCars: Array<{ __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, trips?: number | null | undefined, daily_rate?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined }> };
+export type GetCarsQuery = { __typename?: 'Query', getCars: { __typename?: 'CarsResponse', data: Array<{ __typename?: 'Car', id?: number | null | undefined, name?: string | null | undefined, trips?: number | null | undefined, daily_rate?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined } | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, besties?: Array<{ __typename?: 'User', id?: number | null | undefined }> | null | undefined }>, cursor: { __typename?: 'MyCursor', beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined } } };
 
 export type GetChatsQueryVariables = Exact<{
   chatMetaId: Scalars['Float'];
@@ -3761,19 +3779,25 @@ export type GetCarReviewsQueryResult = Apollo.QueryResult<GetCarReviewsQuery, Ge
 export const GetCarsDocument = gql`
     query GetCars($input: SearchInput!) {
   getCars(input: $input) {
-    id
-    name
-    owner {
-      first_name
-      last_name
-    }
-    trips
-    photos {
-      ...fileInfo
-    }
-    daily_rate
-    besties {
+    data {
       id
+      name
+      owner {
+        first_name
+        last_name
+      }
+      trips
+      photos {
+        ...fileInfo
+      }
+      daily_rate
+      besties {
+        id
+      }
+    }
+    cursor {
+      beforeCursor
+      afterCursor
     }
   }
 }

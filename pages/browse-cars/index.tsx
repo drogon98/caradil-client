@@ -1,11 +1,12 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { SearchContent } from "../../components/BrowseCars/SearchContent";
 import { CustomHead } from "../../components/CustomHead";
 import Layout from "../../components/layouts/Layout";
 import {
   Car,
+  MyCursor,
   SearchInput,
   useGetCarsLazyQuery,
 } from "../../graphql_types/generated/graphql";
@@ -17,13 +18,19 @@ const BrowseCars: NextPage = () => {
   const [cars, setCars] = useState<Car[]>([]);
   const [searching, setSearching] = useState(false);
   const [showModifyFilters, setShowModifyFilters] = useState(false);
+  const [cursor, setCursor] = useState<MyCursor>(); //Type cursor
+  const [hasMore, setHasMore] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (router) {
       try {
         const hasQuery = router.asPath.includes("?");
         if (!hasQuery) {
           setValues({});
+          setCars([]);
+          setMainLoading(true);
         } else {
           if (Object.keys(router.query).length > 0) {
             const hasCategories = router.query.categories;
@@ -37,6 +44,7 @@ const BrowseCars: NextPage = () => {
               setValues({ ...tempQueryValues });
             }
             setSearching(true);
+            setCars([]);
           } else {
             setSearching(false);
           }
@@ -51,13 +59,37 @@ const BrowseCars: NextPage = () => {
     fetchPolicy: "cache-and-network",
   });
 
+  useLayoutEffect(() => {
+    if (cars.length === 0 && (loading || searching || mainLoading)) {
+      setInitialLoading(true);
+    } else {
+      setInitialLoading(false);
+    }
+  }, [loading, cars]);
+
+  useLayoutEffect(() => {
+    if (cars.length !== 0 && loading) {
+      setLoadingMore(true);
+    } else {
+      setLoadingMore(false);
+    }
+  }, [loading, cars]);
+
   useEffect(() => {
     if (values && Object.keys(values).length > 0) {
-      getCars({ variables: { input: values } });
+      getCars({ variables: { input: { ...values, cursor } } });
     } else if (values && Object.keys(values).length === 0) {
-      getCars({ variables: { input: {} } });
+      getCars({ variables: { input: { cursor } } });
     }
   }, [values]);
+
+  const fetchCarsOnScroll = () => {
+    if (values && Object.keys(values).length > 0) {
+      getCars({ variables: { input: { ...values, cursor } } });
+    } else if (values && Object.keys(values).length === 0) {
+      getCars({ variables: { input: { cursor } } });
+    }
+  };
 
   useEffect(() => {
     if (values) {
@@ -85,24 +117,47 @@ const BrowseCars: NextPage = () => {
   }, [values]);
 
   useEffect(() => {
-    if (data?.getCars) {
-      setCars([...data.getCars]);
-      if (!loading) {
-        setMainLoading(false);
-        setSearching(false);
-      }
+    if (data?.getCars && !loading) {
+      // console.log("cars", cars);
+      // console.log("data.getCars.data", data.getCars.data);
+      setCars((prevCars) => {
+        //  Take care of search
+        // In search the app fetches the cars based on search filters
+        // Maybe on filter we can clear the car and show the spinner
+        return [...prevCars, ...data.getCars.data];
+      });
+      setHasMore(false);
+      setCursor({
+        beforeCursor: data.getCars.cursor.beforeCursor,
+        afterCursor: data.getCars.cursor.afterCursor,
+      });
+      // if (!loading) {
+      setMainLoading(false);
+      setSearching(false);
+      // }
     }
-  }, [data]);
+  }, [data?.getCars, loading]);
+
+  useEffect(() => {
+    if (cursor?.afterCursor) {
+      setHasMore(true);
+    } else {
+      setHasMore(false);
+    }
+  }, [cursor]);
 
   return (
     <>
       <CustomHead title="Browse Cars" />
       <Layout>
         <SearchContent
-          loading={mainLoading || searching || loading}
-          cars={cars!}
+          // initialLoading={mainLoading || searching || loading}
+          initialLoading={initialLoading}
+          loadingMore={loadingMore}
+          cars={cars}
           showModifyFilters={showModifyFilters}
-          hasMore={true}
+          hasMore={hasMore}
+          fetchCarsOnScroll={fetchCarsOnScroll}
         />
       </Layout>
     </>
