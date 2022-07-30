@@ -1,30 +1,36 @@
 query GetCars($input: SearchInput!) {
   getCars(input: $input) {
-    id
-    name
-    # reg_no
-    # description
-    owner {
-      first_name
-      last_name
-    }
-    trips
-    # features {
-    #   title
-    # }
-    photos {
-      ...fileInfo
-    }
-    # documents {
-    #   title
-    #   file {
-    #     ...fileInfo
-    #   }
-    # }
-    # reviews
-    daily_rate
-    besties {
+    data {
       id
+      name
+      # reg_no
+      # description
+      owner {
+        first_name
+        last_name
+      }
+      trips
+      # features {
+      #   title
+      # }
+      photos {
+        ...fileInfo
+      }
+      # documents {
+      #   title
+      #   file {
+      #     ...fileInfo
+      #   }
+      # }
+      # reviews
+      daily_rate
+      besties {
+        id
+      }
+    }
+    cursor {
+      beforeCursor
+      afterCursor
     }
   }
 }
