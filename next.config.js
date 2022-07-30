@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
-  reactStrictMode: true,
-  images: {
-    domains: ["res.cloudinary.com"],
-  },
-  async redirects() {
+
+const setUpMaintenanceRedirect = () => {
+  if (
+    process.env.NODE_ENV === "production" &&
+    process.env.NEXT_PUBLIC_MAINTENANCE === "true"
+  ) {
     return [
       {
         source: "/",
@@ -57,5 +57,15 @@ module.exports = {
         permanent: false,
       },
     ];
+  }
+  return [];
+};
+module.exports = {
+  reactStrictMode: true,
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
+  async redirects() {
+    return setUpMaintenanceRedirect();
   },
 };
