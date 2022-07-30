@@ -23,7 +23,7 @@ const BrowseCars: NextPage = () => {
   const [initialLoading, setInitialLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (router) {
       try {
         const hasQuery = router.asPath.includes("?");
@@ -59,7 +59,7 @@ const BrowseCars: NextPage = () => {
     fetchPolicy: "cache-and-network",
   });
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (cars.length === 0 && (loading || searching || mainLoading)) {
       setInitialLoading(true);
     } else {
@@ -67,7 +67,7 @@ const BrowseCars: NextPage = () => {
     }
   }, [loading, cars]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (cars.length !== 0 && loading) {
       setLoadingMore(true);
     } else {

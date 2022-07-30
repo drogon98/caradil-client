@@ -1,5 +1,13 @@
-import React, { RefObject, MouseEvent, useEffect, useState } from "react";
+import React, {
+  RefObject,
+  MouseEvent,
+  useEffect,
+  useState,
+  ChangeEvent,
+} from "react";
+import { time24hrs } from "../../data";
 import { TripDatesObj } from "../../utils/interfaces";
+import Calendar from "../Calendar/Calendar";
 import { TripDates } from "../PublicCar/TripDates";
 
 interface BrowseCarsWhenCompProps {
@@ -27,16 +35,16 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
     start_time: "",
     end_time: "",
   });
-  // const [startDate, setStartDate] = useState(() => {
-  //   let date = new Date();
-  //   return date.getTime();
-  // });
-  // const [endDate, setEndDate] = useState(() => {
-  //   let date = new Date();
-  //   return date.getTime() + 14;
-  // });
-  // const [startTime, setStartTime] = useState<string>();
-  // const [endTime, setEndTime] = useState<string>();
+  const [startDate, setStartDate] = useState(() => {
+    let date = new Date();
+    return date.getTime();
+  });
+  const [endDate, setEndDate] = useState(() => {
+    let date = new Date();
+    return date.getTime();
+  });
+  const [startTime, setStartTime] = useState<string>();
+  const [endTime, setEndTime] = useState<string>();
   const [timeError, setTimeError] = useState("");
 
   useEffect(() => {
@@ -224,10 +232,8 @@ const BrowseCarsWhenComp = (props: BrowseCarsWhenCompProps): JSX.Element => {
           <Calendar
             startDate={startDate}
             endDate={endDate}
-            disableDates={(date: number) =>
-              date < new Date().getTime() - 86400000
-            }
-            onChange={handleDateChange}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
           />
         </div>
       </div> */}

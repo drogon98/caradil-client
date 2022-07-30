@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC, MouseEvent, useEffect, useState } from "react";
+import React, { FC, MouseEvent, useEffect, useRef, useState } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 import LoginWithModal from "../../components/Auth/LoginWithModal";
 import { CustomHead } from "../../components/CustomHead";
+import { useOutsideClickHandler } from "../../components/hooks/useOutsideClickHandler";
 import { useRole } from "../../components/hooks/useRole";
 import { useUserId } from "../../components/hooks/useUserId";
 import Layout from "../../components/layouts/Layout";
@@ -57,11 +58,11 @@ const Car: FC<CarProps> = (props) => {
   //   end_date: "",
   //   end_time: "",
   // });
-  // const [selectingDates, setSelectingDates] = useState<boolean | undefined>();
+  const [selectingDates, setSelectingDates] = useState<boolean | undefined>();
   const [validDates, setValidDates] = useState<boolean>(false);
-  // const pickDatesButtonRef = useRef<HTMLButtonElement>(null);
-  // const pickDatesRef = useRef<HTMLDivElement>(null);
-  // useOutsideClickHandler(pickDatesRef, setSelectingDates, pickDatesButtonRef);
+  const pickDatesButtonRef = useRef<HTMLButtonElement>(null);
+  const pickDatesRef = useRef<HTMLDivElement>(null);
+  useOutsideClickHandler(pickDatesRef, setSelectingDates, pickDatesButtonRef);
   const [isCarPreview, setIsCarPreview] = useState(false);
   const [timeError, setTimeError] = useState("");
   const [showTripDatesModal, setShowTripDatesModal] = useState<boolean>(false);
@@ -342,14 +343,14 @@ const Car: FC<CarProps> = (props) => {
     }
   };
 
-  // const handleSelectDates = (e: MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
-  //   if (selectingDates === undefined) {
-  //     setSelectingDates(true);
-  //   } else {
-  //     setSelectingDates(!selectingDates);
-  //   }
-  // };
+  const handleSelectDates = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (selectingDates === undefined) {
+      setSelectingDates(true);
+    } else {
+      setSelectingDates(!selectingDates);
+    }
+  };
 
   const disableDates = (date: number) => {
     const operationDays = car?.book_and_trip_days;
@@ -713,7 +714,7 @@ const Car: FC<CarProps> = (props) => {
                       <div className="d-grid gap-2">
                         <button
                           className="btn bg-success"
-                          // onClick={() => setShowTripDatesModal(true)}
+                          onClick={() => setShowTripDatesModal(true)}
                         >
                           Select Trip Dates
                         </button>
@@ -855,14 +856,14 @@ const Car: FC<CarProps> = (props) => {
                   </div>
 
                   <button
-                    // onClick={() => {
-                    //   setShowTripDatesModal(true);
-                    // }}
+                    onClick={() => {
+                      setShowTripDatesModal(true);
+                    }}
                     // onClick={handleSelectDates}
                     disabled={car?.booked || !car?.published}
                     className="btn m-0 p-0"
                     style={{ flex: 1, fontSize: "500", width: "250px" }}
-                    // ref={pickDatesButtonRef}
+                    ref={pickDatesButtonRef}
                   >
                     <small className="mr-2">Pick trip dates</small>
                   </button>

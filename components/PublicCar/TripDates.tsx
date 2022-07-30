@@ -2,6 +2,7 @@ import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { time24hrs } from "../../data";
 import { Car } from "../../graphql_types/generated/graphql";
 import { TripDatesObj } from "../../utils/interfaces";
+import Calendar from "../Calendar/Calendar";
 
 interface TripDatesProps {
   disableDates: (d: number) => boolean;
@@ -178,12 +179,12 @@ export let TripDates = (props: TripDatesProps) => {
           <label style={{ fontSize: "11px" }}>Start & End Dates</label>
         </div>
         <div className="w-100 browse-car-trip">
-          {/* <Calendar
+          <Calendar
             startDate={props.startDate}
             endDate={props.endDate}
-            disableDates={props.disableDates}
-            onChange={handleDateChange}
-          /> */}
+            setStartDate={props.setStartDate}
+            setEndDate={props.setEndDate}
+          />
         </div>
       </div>
     </>
