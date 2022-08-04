@@ -341,7 +341,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
       let payload = { ...values! };
 
       if (location) {
-        payload = { ...payload, location };
+        // payload = { ...payload, location };
         let tempLocCords;
         if (!locationCords) {
           let cords = await getLongLat(location);
