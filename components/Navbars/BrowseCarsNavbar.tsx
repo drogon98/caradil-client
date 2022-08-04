@@ -759,7 +759,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                           </select>
                         </div>
 
-                        <div className="mb-4">
+                        {/* <div className="mb-4">
                           <div className="d-flex justify-content-between">
                             <label htmlFor="end_user_type">End User Type</label>
                             <button
@@ -823,7 +823,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
 
                         <div className="mb-4">
                           <div className="d-flex justify-content-between">

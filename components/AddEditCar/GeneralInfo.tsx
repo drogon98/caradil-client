@@ -343,6 +343,13 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
         <div className="row m-0 mt-3">
           <div className="container p-0">
             <label>Which driving mode is this car eligible for?</label>
+            <div className="alert alert-primary" role="alert">
+              <small>
+                We are currently accepting <b>chauffeur driven</b> cars{" "}
+                <b>only</b>. If your car is self driven,we will consider it when
+                the feature is enabled.
+              </small>
+            </div>
             <div className="form-check">
               <input
                 className="form-check-input"
@@ -353,6 +360,7 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
                 name="end_user_type"
                 onChange={handleChange}
                 required
+                disabled
               />
               <p className="form-check-label">
                 <small>Self Driven (Guest will have to drive the car)</small>
