@@ -65,7 +65,7 @@ module.exports = {
   images: {
     domains: ["res.cloudinary.com"],
   },
-  async redirects() {
-    return setUpMaintenanceRedirect();
-  },
+  // async redirects() {
+  //   return setUpMaintenanceRedirect();
+  // },
 };
