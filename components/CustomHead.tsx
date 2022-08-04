@@ -35,7 +35,7 @@ export const CustomHead: FC<CustomHeadProps> = (props) => {
         rel="stylesheet"
       />
 
-      <script src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyArIv424bNBpfMVIWSnie8aX1WGDI4wTDk&libraries=places"></script>
+      <script src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyB34rcYbsjnewKDvl1-2_qUV87iFwkpXso&libraries=places"></script>
     </Head>
   );
 };
