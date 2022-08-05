@@ -77,8 +77,7 @@ export const PlacesAutocomplete = (props: {
       // Get latitude and longitude via utility functions
       let cords = await getLongLat(description);
 
-      if (cords) {
-        console.log("cords :>> ", cords);
+      if (cords && props.setLocationCords) {
         props.setLocationCords(cords);
       }
     };
