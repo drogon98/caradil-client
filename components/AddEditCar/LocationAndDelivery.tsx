@@ -108,12 +108,13 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
         ...values!,
         location: location!,
         pick_up_location: pickUpLocation!,
-        longitude: tempMainLocCords.longitude,
-        latitude: tempMainLocCords.latitude,
-        pick_up_latitude: tempPickUpLocCords.latitude,
-        pick_up_longitude: tempPickUpLocCords.longitude,
+        longitude: `${tempMainLocCords.longitude}`,
+        latitude: `${tempMainLocCords.latitude}`,
+        pick_up_latitude: `${tempPickUpLocCords.latitude}`,
+        pick_up_longitude: `${tempPickUpLocCords.longitude}`,
         delivery: values!.delivery === undefined ? false : values!.delivery,
       };
+
       let response = await editLocationAndDelivery({
         variables: { carId: props.carId!, input: { ...payload! } },
       });
@@ -164,6 +165,7 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
             setLocation={setLocation}
             location={location!}
             setLocationCords={setLocationCords}
+            geocodeEstablishments={true}
           />
         </div>
 
