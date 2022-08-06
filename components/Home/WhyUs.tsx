@@ -18,9 +18,9 @@ export const WhyUs: FC<WhyUsProps> = (props) => {
           We Have Solutions To Your Challenges
         </h2>
       </div>
-      <div className="row mx-0 align-items-center mb-4">
-        <div className="col-md-6">
-          <img src="images/many-cars.jpg" width={"100%"} />
+      <div className="row mx-0 align-items-center my-5">
+        <div className="col-md-6 mt-4 mt-md-0 d-flex justify-content-center">
+          <img src="images/many-cars.png" />
         </div>
         <div className="col-md-6 mt-4 mt-md-0">
           <h4>Many Varieties of Cars</h4>
@@ -35,8 +35,8 @@ export const WhyUs: FC<WhyUsProps> = (props) => {
         </div>
       </div>
 
-      <div className="row mx-0 align-items-center flex-wrap-reverse flex-md-nowrap mb-4">
-        <div className="col-md-6">
+      <div className="row mx-0 align-items-center flex-wrap-reverse flex-md-nowrap my-5 py-5">
+        <div className="col-md-6 mt-4">
           <h4>Your booking fee is safe</h4>
           <p>
             Have you been conned before? No more sending money to strangers to
@@ -46,14 +46,14 @@ export const WhyUs: FC<WhyUsProps> = (props) => {
             system is fully secured for transactions.
           </p>
         </div>
-        <div className="col-md-6 mt-4 mt-md-0">
-          <img src="images/safepayment.png" width={"100%"} />
+        <div className="col-md-6 mt-md-0 d-flex justify-content-center">
+          <img src="images/safepayment.png" height="200px" />
         </div>
       </div>
 
-      <div className="row mx-0 align-items-center mb-4">
-        <div className="col-md-6">
-          <img src="images/24hours.png" width={"100%"} />
+      <div className="row mx-0 align-items-center my-5 py-5">
+        <div className="col-md-6 mt-4 mt-md-0 d-flex justify-content-center">
+          <img src="images/24hours.png" height="200px" />
         </div>
         <div className="col-md-6 mt-4 mt-md-0">
           <h4>24 hours support</h4>
