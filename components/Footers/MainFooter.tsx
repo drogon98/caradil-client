@@ -164,11 +164,11 @@ export const MainFooter: FC<IProps> = (props) => {
           </div>
           <div className="">
             <h5 className="footer-headings">Contact Info</h5>
-            <p className="main-footer-link">
+            {/* <p className="main-footer-link">
               <FiSmartphone />
               &nbsp;&nbsp;
               <a href="tel:+254799204524">+254799204524</a>
-            </p>
+            </p> */}
             <p className="main-footer-link">
               <AiOutlineMail />
               &nbsp;&nbsp;
