@@ -838,7 +838,7 @@ label {
   margin-left: -90px;
 }
 
-.homeHeroSafariLandCruiser {
+/* .homeHeroSafariLandCruiser {
   background-image: url("../public/images/safari-cruisers.jpg");
 }
 
@@ -860,7 +860,7 @@ label {
 
 .homeHeroLuxuries {
   background-image: url("../public/images/limo.jpg");
-}
+} */
 
 .heroOverlay {
   position: absolute;
