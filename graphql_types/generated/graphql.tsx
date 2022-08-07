@@ -374,6 +374,12 @@ export type EditProfileInput = {
   user_name?: InputMaybe<Scalars['String']>;
 };
 
+export type EditProfileResponse = {
+  __typename?: 'EditProfileResponse';
+  error?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
 export type Faq = {
   __typename?: 'Faq';
   answer?: Maybe<Scalars['String']>;
@@ -481,7 +487,7 @@ export type Mutation = {
   editCarReservedForBooking: Scalars['Boolean'];
   editCarSuspended: Scalars['Boolean'];
   editCarTripSettings: CarAddEditResponse;
-  editProfile: Scalars['Boolean'];
+  editProfile: EditProfileResponse;
   forgotPassword: PasswordResponse;
   login: TokenResponse;
   makeCarEditable: CreateCarEditRequestResponse;
@@ -1393,7 +1399,7 @@ export type EditProfileMutationVariables = Exact<{
 }>;
 
 
-export type EditProfileMutation = { __typename?: 'Mutation', editProfile: boolean };
+export type EditProfileMutation = { __typename?: 'Mutation', editProfile: { __typename?: 'EditProfileResponse', error?: string | null | undefined, user?: { __typename?: 'User', id?: number | null | undefined, user_name?: string | null | undefined, first_name?: string | null | undefined, last_name?: string | null | undefined, email?: string | null | undefined, email_verified?: boolean | null | undefined, phone?: string | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String'];
@@ -2911,9 +2917,14 @@ export type EditCarTripSettingsMutationResult = Apollo.MutationResult<EditCarTri
 export type EditCarTripSettingsMutationOptions = Apollo.BaseMutationOptions<EditCarTripSettingsMutation, EditCarTripSettingsMutationVariables>;
 export const EditProfileDocument = gql`
     mutation EditProfile($input: EditProfileInput!) {
-  editProfile(input: $input)
+  editProfile(input: $input) {
+    user {
+      ...userInfo
+    }
+    error
+  }
 }
-    `;
+    ${UserInfoFragmentDoc}`;
 export type EditProfileMutationFn = Apollo.MutationFunction<EditProfileMutation, EditProfileMutationVariables>;
 
 /**
