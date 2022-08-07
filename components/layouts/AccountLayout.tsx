@@ -38,33 +38,33 @@ const AccountLayout = (props: AccountProps): JSX.Element => {
     }
   }, [data]);
 
-  useEffect(() => {
-    let unsubUserUpdate: { (): void; (): void };
-    if (subscribeToMore) {
-      unsubUserUpdate = subscribeToMore({
-        document: OnUserUpdateDocument,
-        updateQuery: (prev, { subscriptionData }) => {
-          if (!subscriptionData.data) return prev;
-          const updatedUser: any = { ...subscriptionData.data };
-          // console.log("updatedUser :>> ", updatedUser);
-          return {
-            getUser: {
-              user: {
-                ...prev.getUser.user,
-                ...updatedUser,
-              },
-            },
-          };
-        },
-      });
-    }
+  // useEffect(() => {
+  //   let unsubUserUpdate: { (): void; (): void };
+  //   if (subscribeToMore) {
+  //     unsubUserUpdate = subscribeToMore({
+  //       document: OnUserUpdateDocument,
+  //       updateQuery: (prev, { subscriptionData }) => {
+  //         if (!subscriptionData.data) return prev;
+  //         const updatedUser: any = { ...subscriptionData.data };
+  //         // console.log("updatedUser :>> ", updatedUser);
+  //         return {
+  //           getUser: {
+  //             user: {
+  //               ...prev.getUser.user,
+  //               ...updatedUser,
+  //             },
+  //           },
+  //         };
+  //       },
+  //     });
+  //   }
 
-    return () => {
-      if (unsubUserUpdate) {
-        unsubUserUpdate();
-      }
-    };
-  }, [subscribeToMore]);
+  //   return () => {
+  //     if (unsubUserUpdate) {
+  //       unsubUserUpdate();
+  //     }
+  //   };
+  // }, [subscribeToMore]);
 
   useEffect(() => {
     if (role === 2) {
