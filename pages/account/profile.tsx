@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, {
+import {
   ChangeEvent,
   FC,
   FormEvent,
@@ -20,7 +20,8 @@ import {
   useEditProfileMutation,
   useUploadFileMutation,
 } from "../../graphql_types/generated/graphql";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setUser } from "../../redux/userSlice";
 import { fileSizeChecker } from "../../utils/file_size_checker";
 
 interface ProfileProps {}
@@ -71,6 +72,7 @@ const Profile: FC<ProfileProps> = (props) => {
   const [isInitial, setIsInitial] = useState<boolean>();
   const router = useRouter();
   const user = useAppSelector((state) => state.user.user);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (router.query && router.query.initial) {
@@ -164,19 +166,16 @@ const Profile: FC<ProfileProps> = (props) => {
 
     try {
       let response = await editProfile({ variables: { input: payload } });
-      if (response.data?.editProfile) {
-        setShowToast(true);
-        setToastMessage("Profile updated successfully!");
-        setToastBg("success");
-        if (isInitial && role === 2) {
-          setTimeout(async () => {
-            await router.push({
-              pathname: "/account",
-              // query: { to_car: true },
-            });
-          }, 3200);
-        }
-        if (isInitial && role === 1) {
+
+      if (response.data?.editProfile.error) {
+        throw new Error(response.data?.editProfile.error);
+      } else {
+        if (response.data?.editProfile.user) {
+          dispatch(setUser(response.data?.editProfile.user));
+          setShowToast(true);
+          setToastMessage("Profile updated successfully!");
+          setToastBg("success");
+
           await router.push({
             pathname: "/account",
           });
