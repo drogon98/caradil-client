@@ -54,12 +54,12 @@ export default function GetStartedBtn(props: GetStartedBtnProps) {
               props.period === ""
                 ? {
                     role: 2,
-                    plan: "individual",
+                    // plan: "individual",
                   }
                 : {
                     role: 2,
-                    plan: props.plansData.title,
-                    period: props.period,
+                    // plan: props.plansData.title,
+                    // period: props.period,
                   },
           }}
         >
