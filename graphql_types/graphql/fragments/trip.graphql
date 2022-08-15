@@ -26,9 +26,9 @@ fragment tripInfo on Trip {
   delivery_distance
   car_trips_data {
     id
-    car {
-      ...carInfo
-    }
+    # car {
+    #   ...carInfo
+    # }
     data {
       id
       start_date
