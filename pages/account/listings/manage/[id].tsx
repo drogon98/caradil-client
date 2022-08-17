@@ -442,10 +442,10 @@ export default function ManageCar(props: Props): ReactElement {
                         location: carData?.location ?? "",
                         delivery: carData?.delivery ?? false,
                         pick_up_location: carData?.pick_up_location ?? "",
-                        longitude: carData?.longitude ?? "",
-                        latitude: carData?.latitude ?? "",
-                        pick_up_latitude: carData?.pick_up_latitude ?? "",
-                        pick_up_longitude: carData?.pick_up_longitude ?? "",
+                        longitude: carData?.longitude ?? 0,
+                        latitude: carData?.latitude ?? 0,
+                        pick_up_latitude: carData?.pick_up_latitude ?? 0,
+                        pick_up_longitude: carData?.pick_up_longitude ?? 0,
                       }}
                       isActive={carData?.active ?? false}
                       // verificationInProgress={
