@@ -161,7 +161,7 @@ const RescheduleTrip: FC<RescheduleTripProps> = (props) => {
         index++;
       }
 
-      let operationDays = trip?.car_trips_data?.car.book_and_trip_days!;
+      let operationDays = trip?.car?.book_and_trip_days!;
 
       let isInOperationDays = operationDays.some(
         (d) => d === new Date(date).getDay()
@@ -189,7 +189,7 @@ const RescheduleTrip: FC<RescheduleTripProps> = (props) => {
         let tripDates: number[] = [];
         // let tripDates= props.car?.trips_data
 
-        let operationDays = trip?.car_trips_data?.car?.book_and_trip_days!;
+        let operationDays = trip?.car?.book_and_trip_days!;
 
         // invalidTripDates = [...operationDays, ...tripDates];
         invalidTripDates = [...tripDates];
