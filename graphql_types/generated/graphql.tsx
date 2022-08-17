@@ -1097,7 +1097,6 @@ export type TripStatus_ = {
 
 export type TripsData = {
   __typename?: 'TripsData';
-  car: Car;
   car_id?: Maybe<Scalars['Float']>;
   created_at?: Maybe<Scalars['DateTime']>;
   data?: Maybe<Array<TripIdAndDatesObj>>;
