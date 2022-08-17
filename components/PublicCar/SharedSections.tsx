@@ -47,10 +47,10 @@ export default function SharedSections(props: Props): ReactElement {
           <small>
             This car has a{" "}
             <b>
-              {props.car.fuel_policy === "full_to_full" && `Full to Full`}
-              {props.car.fuel_policy === "pre_purchase_full_to_empty" &&
+              {props.car?.fuel_policy === "full_to_full" && `Full to Full`}
+              {props.car?.fuel_policy === "pre_purchase_full_to_empty" &&
                 `Pre-purchase Full to Empty`}
-              {props.car.fuel_policy === "pre_purchase_refund" &&
+              {props.car?.fuel_policy === "pre_purchase_refund" &&
                 `Pre-purchase Refund`}
             </b>{" "}
             fuel policy. Learn more about fuel policy{" "}

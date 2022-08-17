@@ -7,6 +7,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import { CustomHead } from "../../components/CustomHead";
 import { useRole } from "../../components/hooks/useRole";
@@ -73,6 +75,7 @@ const Profile: FC<ProfileProps> = (props) => {
   const router = useRouter();
   const user = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
+  const [phone, setPhone] = useState("");
 
   useEffect(() => {
     if (router.query && router.query.initial) {
@@ -98,6 +101,7 @@ const Profile: FC<ProfileProps> = (props) => {
       delete tempData.avatar;
       delete tempData.email;
       setValues({ ...(tempData as EditProfileInput) });
+      setPhone(tempData.phone ?? "");
     }
   }, [user]);
 
@@ -158,10 +162,11 @@ const Profile: FC<ProfileProps> = (props) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let payload;
+
     if (avatar) {
-      payload = { ...values, avatar };
+      payload = { ...values, phone, avatar };
     } else {
-      payload = { ...values };
+      payload = { ...values, phone };
     }
 
     try {
@@ -176,9 +181,11 @@ const Profile: FC<ProfileProps> = (props) => {
           setToastMessage("Profile updated successfully!");
           setToastBg("success");
 
-          await router.push({
-            pathname: "/account",
-          });
+          if (isInitial) {
+            await router.push({
+              pathname: "/account",
+            });
+          }
         }
       }
     } catch (error) {
@@ -344,7 +351,7 @@ const Profile: FC<ProfileProps> = (props) => {
                     </div>
                     <div className="mb-3">
                       <label htmlFor="phone">Phone</label>
-                      <input
+                      {/* <input
                         onChange={handleChange}
                         value={values.phone ?? ""}
                         id="phone"
@@ -352,6 +359,21 @@ const Profile: FC<ProfileProps> = (props) => {
                         name="phone"
                         className="form-control"
                         // required
+                      /> */}
+
+                      <PhoneInput
+                        country={"ke"}
+                        value={phone}
+                        onChange={(val) => setPhone(val)}
+                        inputProps={{
+                          name: "phone",
+                          required: true,
+                          autoFocus: true,
+                        }}
+                        placeholder="+2547123456789"
+                        disableDropdown={true}
+                        regions={"africa"}
+                        inputStyle={{ width: "100%" }}
                       />
                     </div>
                   </div>
