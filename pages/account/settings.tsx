@@ -298,6 +298,7 @@ const Settings = (props: SettingsProps) => {
                             }
                             required
                             onChange={handleChange}
+                            disabled
                           />
                           <label className="form-check-label" htmlFor="mpesa">
                             Mpesa
@@ -323,12 +324,14 @@ const Settings = (props: SettingsProps) => {
                                   paymentSettings?.payment_channel_data
                                     ?.subject ?? ""
                                 }
+                                disabled
                               />
                               <button
                                 className="btn bgOrange"
                                 type="submit"
                                 id="button-addon2"
-                                disabled={loadingPayment}
+                                disabled
+                                // disabled={loadingPayment}
                               >
                                 {loadingPayment ? (
                                   <ButtonLoading
@@ -369,32 +372,37 @@ const Settings = (props: SettingsProps) => {
                 )}
                 {/* <div style={{ height: "2000px" }} /> */}
 
-                <h3>Account</h3>
-                <hr />
-                <div>
-                  {role === 1 && (
-                    <div className="mb-5 settings-row d-flex align-items-start justify-content-between">
-                      <div className="d-flex flex-column">
-                        <h6>Upgrade Account</h6>
-                        <div className="pr-3">
-                          <small>
-                            To list a car you need to have a host account. There
-                            is no need to create two different accounts. You can
-                            upgrade from a guest account to a host account.
-                          </small>
+                {role === 1 && (
+                  <>
+                    <h3>Account</h3>
+                    <hr />
+                    <div>
+                      {role === 1 && (
+                        <div className="mb-5 settings-row d-flex align-items-start justify-content-between">
+                          <div className="d-flex flex-column">
+                            <h6>Upgrade Account</h6>
+                            <div className="pr-3">
+                              <small>
+                                To list a car you need to have a host account.
+                                There is no need to create two different
+                                accounts. You can upgrade from a guest account
+                                to a host account.
+                              </small>
+                            </div>
+                          </div>
+                          <button
+                            className="btn account-action-btn btn-outline-primary"
+                            onClick={(e) => handleAccountActions(e, "upgrade")}
+                          >
+                            Upgrade Account
+                          </button>
                         </div>
-                      </div>
-                      <button
-                        className="btn account-action-btn btn-outline-primary"
-                        onClick={(e) => handleAccountActions(e, "upgrade")}
-                      >
-                        Upgrade Account
-                      </button>
+                      )}
                     </div>
-                  )}
-                </div>
+                  </>
+                )}
 
-                <div className="mt-5 settings-row d-flex align-items-start justify-content-between">
+                {/* <div className="mt-5 settings-row d-flex align-items-start justify-content-between">
                   <div className="d-flex flex-column">
                     <h6>Delete Account</h6>
                     <div className="pr-3">
@@ -417,11 +425,11 @@ const Settings = (props: SettingsProps) => {
                   </div>
                   <button
                     className="btn account-action-btn btn-outline-danger"
-                    onClick={(e) => handleAccountActions(e, "delete")}
+                    // onClick={(e) => handleAccountActions(e, "delete")}
                   >
                     Delete Account
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           )}
