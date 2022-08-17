@@ -73,37 +73,37 @@ export default function Trip(props: Props): ReactElement {
     }
   }, [trip, loading]);
 
-  useEffect(() => {
-    let tripStatusSub: { (): void; (): void };
-    if (subscribeToMore && !skip) {
-      tripStatusSub = subscribeToMore({
-        document: OnTripStatusDocument,
-        // variables: { chatMetaId: props.chatMetaId },
-        updateQuery: (prev, { subscriptionData }) => {
-          if (!subscriptionData.data) return prev;
-          const trip: any = { ...subscriptionData.data };
-          let tempPayload = {
-            ...prev.getTrip.trip,
-            status: trip.tripStatus.status,
-            chat_meta_id: trip.tripStatus.chat_meta_id,
-            trip_canceller: trip.tripStatus.trip_canceller,
-            why_cancel_trip: trip.tripStatus.why_cancel_trip,
-          };
-          return {
-            getTrip: {
-              trip: { ...prev.getTrip.trip!, ...tempPayload },
-              error: prev.getTrip.error,
-            },
-          };
-        },
-      });
-    }
-    return () => {
-      if (tripStatusSub) {
-        tripStatusSub();
-      }
-    };
-  }, [subscribeToMore, skip]);
+  // useEffect(() => {
+  //   let tripStatusSub: { (): void; (): void };
+  //   if (subscribeToMore && !skip) {
+  //     tripStatusSub = subscribeToMore({
+  //       document: OnTripStatusDocument,
+  //       // variables: { chatMetaId: props.chatMetaId },
+  //       updateQuery: (prev, { subscriptionData }) => {
+  //         if (!subscriptionData.data) return prev;
+  //         const trip: any = { ...subscriptionData.data };
+  //         let tempPayload = {
+  //           ...prev.getTrip.trip,
+  //           status: trip.tripStatus.status,
+  //           chat_meta_id: trip.tripStatus.chat_meta_id,
+  //           trip_canceller: trip.tripStatus.trip_canceller,
+  //           why_cancel_trip: trip.tripStatus.why_cancel_trip,
+  //         };
+  //         return {
+  //           getTrip: {
+  //             trip: { ...prev.getTrip.trip!, ...tempPayload },
+  //             error: prev.getTrip.error,
+  //           },
+  //         };
+  //       },
+  //     });
+  //   }
+  //   return () => {
+  //     if (tripStatusSub) {
+  //       tripStatusSub();
+  //     }
+  //   };
+  // }, [subscribeToMore, skip]);
 
   const handleCancelTrip = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

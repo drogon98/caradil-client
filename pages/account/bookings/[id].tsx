@@ -68,38 +68,38 @@ export default function Booking(props: Props): ReactElement {
     }
   }, [booking, loading]);
 
-  useEffect(() => {
-    let tripStatusSub: { (): void; (): void };
-    if (subscribeToMore && !skip) {
-      tripStatusSub = subscribeToMore({
-        document: OnTripStatusDocument,
-        // variables: { chatMetaId: props.chatMetaId },
-        updateQuery: (prev, { subscriptionData }) => {
-          if (!subscriptionData.data) return prev;
-          const trip: any = { ...subscriptionData.data };
-          let tempPayload = {
-            ...prev.getBooking.trip,
-            status: trip.tripStatus.status,
-            chat_meta_id: trip.tripStatus.chat_meta_id,
-            trip_canceller: trip.tripStatus.trip_canceller,
-            why_cancel_trip: trip.tripStatus.why_cancel_trip,
-          };
+  // useEffect(() => {
+  //   let tripStatusSub: { (): void; (): void };
+  //   if (subscribeToMore && !skip) {
+  //     tripStatusSub = subscribeToMore({
+  //       document: OnTripStatusDocument,
+  //       // variables: { chatMetaId: props.chatMetaId },
+  //       updateQuery: (prev, { subscriptionData }) => {
+  //         if (!subscriptionData.data) return prev;
+  //         const trip: any = { ...subscriptionData.data };
+  //         let tempPayload = {
+  //           ...prev.getBooking.trip,
+  //           status: trip.tripStatus.status,
+  //           chat_meta_id: trip.tripStatus.chat_meta_id,
+  //           trip_canceller: trip.tripStatus.trip_canceller,
+  //           why_cancel_trip: trip.tripStatus.why_cancel_trip,
+  //         };
 
-          return {
-            getBooking: {
-              trip: { ...prev.getBooking.trip!, ...tempPayload },
-              error: prev.getBooking.error,
-            },
-          };
-        },
-      });
-    }
-    return () => {
-      if (tripStatusSub) {
-        tripStatusSub();
-      }
-    };
-  }, [subscribeToMore, skip]);
+  //         return {
+  //           getBooking: {
+  //             trip: { ...prev.getBooking.trip!, ...tempPayload },
+  //             error: prev.getBooking.error,
+  //           },
+  //         };
+  //       },
+  //     });
+  //   }
+  //   return () => {
+  //     if (tripStatusSub) {
+  //       tripStatusSub();
+  //     }
+  //   };
+  // }, [subscribeToMore, skip]);
 
   const handleCancelTrip = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
