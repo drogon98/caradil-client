@@ -59,12 +59,12 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
       setPickUpLocation(props.value.pick_up_location!);
 
       setLocationCords({
-        longitude: props.value.longitude,
-        latitude: props.value.latitude,
+        longitude: `${props.value.longitude}`,
+        latitude: `${props.value.latitude}`,
       });
       setPickUpLocationCords({
-        longitude: props.value.pick_up_longitude,
-        latitude: props.value.pick_up_latitude,
+        longitude: `${props.value.pick_up_longitude}`,
+        latitude: `${props.value.pick_up_latitude}`,
       });
     }
   }, [props.value]);
@@ -108,10 +108,10 @@ export const Location: FC<LocationAndDeliveryProps> = (props) => {
         ...values!,
         location: location!,
         pick_up_location: pickUpLocation!,
-        longitude: `${tempMainLocCords.longitude}`,
-        latitude: `${tempMainLocCords.latitude}`,
-        pick_up_latitude: `${tempPickUpLocCords.latitude}`,
-        pick_up_longitude: `${tempPickUpLocCords.longitude}`,
+        longitude: parseFloat(tempMainLocCords.longitude),
+        latitude: parseFloat(tempMainLocCords.latitude),
+        pick_up_latitude: parseFloat(tempPickUpLocCords.latitude),
+        pick_up_longitude: parseFloat(tempPickUpLocCords.longitude),
         delivery: values!.delivery === undefined ? false : values!.delivery,
       };
 

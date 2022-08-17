@@ -203,12 +203,12 @@ export type CarGeneralInfoInput = {
 
 export type CarLocationAndDeliveryInput = {
   delivery: Scalars['Boolean'];
-  latitude: Scalars['String'];
+  latitude: Scalars['Float'];
   location: Scalars['String'];
-  longitude: Scalars['String'];
-  pick_up_latitude: Scalars['String'];
+  longitude: Scalars['Float'];
+  pick_up_latitude: Scalars['Float'];
   pick_up_location: Scalars['String'];
-  pick_up_longitude: Scalars['String'];
+  pick_up_longitude: Scalars['Float'];
 };
 
 export type CarPhotosInput = {
