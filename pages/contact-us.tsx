@@ -101,6 +101,7 @@ const ContactUs: NextPage = () => {
                     <option value="General Inquiry">General Inquiry</option>
                     <option value="Technical Inquiry">Technical Inquiry</option>
                     <option value="Feedback">Feedback</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
                 <div className="mb-4">
