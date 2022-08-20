@@ -37,59 +37,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     });
   }, [router]);
 
-  // useEffect(() => {
-
-  //   const intervalId = setInterval(async () => {
-  //     const token = store.getState().auth._id;
-  //     // console.log("token :>> ", token);
-  //     if (token) {
-  //       try {
-  //         const { exp } = jwtDecode<CustomJwtPayload>(token);
-
-  //         if (exp) {
-  //           if (Date.now() >= (exp - 10) * 1000) {
-  //             let fetchRes = await fetch(`${baseHttpDomain}refresh-token`, {
-  //               method: "POST",
-  //               credentials: "include",
-  //             });
-
-  //             let resData = await fetchRes.json();
-
-  //             let token = resData.access_token;
-  //             // console.log("token2 :>> ", token);
-  //             if (token) {
-  //               store.dispatch(setToken(token));
-  //             } else {
-  //               store.dispatch(unsetToken());
-  //               await router.push({
-  //                 pathname: "/login",
-  //                 query: {
-  //                   next: router.pathname,
-  //                   nextQuery: JSON.stringify(router.query),
-  //                 },
-  //               });
-  //             }
-  //           }
-  //         }
-  //       } catch (error) {
-  //         // Logout the user
-  //         store.dispatch(unsetToken());
-  //         await router.push({
-  //           pathname: "/login",
-  //           query: {
-  //             next: router.pathname,
-  //             nextQuery: JSON.stringify(router.query),
-  //           },
-  //         });
-  //         console.log("error :>> ", error);
-  //       }
-  //     }
-  //     // You are guest or not logged in
-  //   }, 1000);
-
-  //   return () => clearInterval(intervalId);
-  // }, []);
-
   return (
     <ApolloProvider client={client}>
       {/* <div id="float-whatsapp-wrapper">
