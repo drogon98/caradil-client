@@ -117,7 +117,8 @@ export const GeneralInfo: FC<GeneralInfoProps> = (props) => {
             // has_driver:
             //   values?.has_driver === undefined ? false : values.has_driver,
           },
-          isEdit: props.isResume || props.isManage ? true : false,
+          isEdit:
+            props.isResume || props.isManage || props.carId ? true : false,
           carId: props.carId,
         },
       });

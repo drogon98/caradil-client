@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { RiArrowDropDownFill } from "react-icons/ri";
 import client from "../../apollo";
+import _axios from "../../axios_config";
 import { unsetToken } from "../../redux/authSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { endLogout, startLogout } from "../../redux/logoutSlice";
@@ -81,16 +82,14 @@ export function UserNavIcon(props: UserNavIconProps) {
             onClick={async () => {
               try {
                 dispatch(startLogout());
-                const response = await (
-                  await fetch(`${baseHttpDomain}logout`, {
-                    credentials: "include",
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                    },
-                  })
-                ).json();
+                const response = await _axios.get("logout", {
+                  withCredentials: true,
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                });
 
-                if (response.success) {
+                if (response.data.success) {
                   if (props.isAdmin) {
                     await router.push("/root/login");
                   } else {

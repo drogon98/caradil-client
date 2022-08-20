@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import client from "../../apollo";
+import _axios from "../../axios_config";
 import { unsetToken } from "../../redux/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { endLogout, startLogout } from "../../redux/logoutSlice";
@@ -338,13 +339,11 @@ export const AccountSideBarMenu: FC<AccountSideBarMenuProps> = (props) => {
               onClick={async () => {
                 try {
                   dispatch(startLogout());
-                  const response = await (
-                    await fetch(`${baseHttpDomain}logout`, {
-                      credentials: "include",
-                    })
-                  ).json();
+                  const response = await _axios.get("logout", {
+                    withCredentials: true,
+                  });
 
-                  if (response.success) {
+                  if (response.data.success) {
                     await router.push("/");
                     await client.clearStore();
                     dispatch(endLogout());

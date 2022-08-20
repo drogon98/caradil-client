@@ -13,6 +13,7 @@
     "@popperjs/core": "^2.11.0",
     "@reduxjs/toolkit": "^1.6.2",
     "apollo-upload-client": "^17.0.0",
+    "axios": "^0.27.2",
     "beauty-stars": "^1.1.0",
     "file-saver": "^2.0.5",
     "graphql": "^16.0.1",

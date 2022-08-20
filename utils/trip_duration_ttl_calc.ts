@@ -13,63 +13,60 @@ export const getTripDuration = (
   // To calculate the time difference of two dates
   let Difference_In_Time = exactTimes.endTime - exactTimes.startTime;
 
-  // console.log("Difference_In_Time", Difference_In_Time);
-
   // To calculate the no. of days between two dates
   let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-  // console.log("Difference_In_Days", Difference_In_Days);
-
   if (Difference_In_Days < 1) {
     if (canRentHourly || isBookDuration) {
-      let startTimeSections = dateTime.start_time?.split(":");
-      let endTimeSections = dateTime.end_time?.split(":");
+      // let startTimeSections = dateTime.start_time?.split(":");
+      // let endTimeSections = dateTime.end_time?.split(":");
 
-      let duration: number;
+      // let duration: number;
 
-      if (startTimeSections && endTimeSections) {
-        let startTimeNum = parseInt(
-          startTimeSections?.[0] + startTimeSections[1],
-          10
-        );
-        let endTimeNum = parseInt(
-          endTimeSections?.[0] + endTimeSections[1],
-          10
-        );
+      // if (startTimeSections && endTimeSections) {
+      //   let startTimeNum = parseInt(
+      //     startTimeSections?.[0] + startTimeSections[1],
+      //     10
+      //   );
+      //   let endTimeNum = parseInt(
+      //     endTimeSections?.[0] + endTimeSections[1],
+      //     10
+      //   );
 
-        let rawDuration = Math.abs(endTimeNum - startTimeNum).toString();
-        // console.log("rawDuration", rawDuration);
-        let rawHrs;
-        let rawMins;
+      //   let rawDuration = Math.abs(endTimeNum - startTimeNum).toString();
+      //   console.log("rawDuration", rawDuration);
+      //   let rawHrs;
+      //   let rawMins;
 
-        if (rawDuration.length < 4) {
-          rawHrs = rawDuration.slice(0, 1);
-          rawMins = rawDuration.slice(1);
-        } else {
-          rawHrs = rawDuration.slice(0, 2);
-          rawMins = rawDuration.slice(2);
-        }
+      //   if (rawDuration.length < 4) {
+      //     rawHrs = rawDuration.slice(0, 1);
+      //     rawMins = rawDuration.slice(1);
+      //   } else {
+      //     rawHrs = rawDuration.slice(0, 2);
+      //     rawMins = rawDuration.slice(2);
+      //   }
 
-        let hrs;
-        let mins;
+      //   let hrs;
+      //   let mins;
 
-        if (parseInt(rawMins) === 70) {
-          hrs = parseInt(rawHrs) + 1;
-          mins = 30;
-        } else {
-          hrs = parseInt(rawHrs);
-          mins = parseInt(rawMins);
-        }
+      //   if (parseInt(rawMins) === 70) {
+      //     hrs = parseInt(rawHrs) + 1;
+      //     mins = 30;
+      //   } else {
+      //     hrs = parseInt(rawHrs);
+      //     mins = parseInt(rawMins);
+      //   }
 
-        if (mins === 30) {
-          duration = hrs + 0.5;
-        } else {
-          duration = hrs;
-        }
-      }
+      //   if (mins === 30) {
+      //     duration = hrs + 0.5;
+      //   } else {
+      //     duration = hrs;
+      //   }
+      //   console.log("duration :>> ", duration);
+      // }
 
       return {
-        duration: duration!,
+        duration: Math.floor(Difference_In_Days * 24),
         type_: "hour",
       };
     } else {
@@ -80,7 +77,6 @@ export const getTripDuration = (
     }
   } else {
     if (Difference_In_Days.toString().includes(".")) {
-      console.log("Difference_In_Days", Difference_In_Days);
       return {
         duration: parseFloat(Number(Difference_In_Days).toFixed(1)),
         type_: "day",
