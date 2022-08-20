@@ -14,6 +14,7 @@ import {
   Observable,
   fromPromise,
 } from "@apollo/client/core";
+import _axios from "../axios_config";
 
 class GraphQLWsLink extends ApolloLink {
   constructor(private client: Client) {
@@ -94,12 +95,10 @@ const errorLink = onError(
             // error code is set to UNAUTHENTICATED
             // when AuthenticationError thrown in resolver
             return fromPromise(
-              fetch(`${baseHttpDomain}refresh-token`, {
-                method: "POST",
-                credentials: "include",
-              })
-                .then(async (res) => {
-                  const data = await res.json();
+              _axios
+                .post(`refresh-token`, {}, { withCredentials: true })
+                .then((res) => {
+                  const data = res.data;
                   let token = data.access_token;
 
                   if (token) {
@@ -108,7 +107,7 @@ const errorLink = onError(
                     throw new Error("Invalid token from graphql operation!");
                   }
                 })
-                .catch((err) => {
+                .catch((error) => {
                   // Should i clear or reset the store?
                   // console.log(`err`, err);
                   store.dispatch(unsetToken());

@@ -9,6 +9,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import _axios from "../../axios_config";
 import { AuthWrapper } from "../../components/AuthWrapper";
 import ReserveSessionExpiredModal from "../../components/Checkout/ReserveSessionExpiredModal";
 import Summary from "../../components/Checkout/Summary";
@@ -288,21 +289,20 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
         variables: { carId: data?.getCar.car?.id! },
       });
       if (reservedIdResponse.data?.checkReservedGuestId) {
-        let response = await fetch(`${baseHttpDomain}ipay-reserve-car`, {
-          method: "POST",
-          // withCredentials: true,
-          credentials: "include",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...values,
-            ttl: getTotal(),
-          }),
-        });
+        let response = await _axios.post(
+          "ipay-reserve-car",
+          { ...values, ttl: getTotal() },
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
         if (response) {
-          const data = await response.json();
+          const data = response.data;
           if (window) {
             if (distance) {
               localStorage.setItem("delivery_location", location);
@@ -319,21 +319,20 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
           });
 
           if (reserveBookingResponse.data?.editCarReservedForBooking) {
-            let response = await fetch(`${baseHttpDomain}ipay-pay`, {
-              method: "POST",
-              // withCredentials: true,
-              credentials: "include",
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                ...values,
-                ttl: getTotal(),
-              }),
-            });
+            let response = await _axios.post(
+              "ipay-pay",
+              { ...values, ttl: getTotal() },
+              {
+                withCredentials: true,
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
             if (response) {
-              const data = await response.json();
+              const data = response.data;
               if (window) {
                 if (distance) {
                   localStorage.setItem("delivery_location", location);
@@ -405,17 +404,15 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
         origin: data?.getCar.car?.location!,
       };
 
-      let response = await fetch(`${baseHttpDomain}distance`, {
-        method: "POST",
-        credentials: "include",
+      let response = await _axios.post(`distance`, payload, {
+        withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...payload }),
       });
 
-      let jsonRes: { distance: string } = await response.json();
+      let jsonRes: { distance: string } = response.data;
 
       let units = jsonRes.distance.split(" ")[1];
 
@@ -437,13 +434,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
     }
   };
 
-  // console.log("distance :>> ", distance);
-
-  // console.log("tripDuration", tripDuration);
-
-  //
-
-  https: return (
+  return (
     <>
       <CustomHead title="Confirm Order" />
       <AuthWrapper>

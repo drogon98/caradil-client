@@ -1,4 +1,5 @@
 import { MouseEvent, useEffect, useState } from "react";
+import _axios from "../../../axios_config";
 import { hostPlansData } from "../../../data";
 import { Plan, User } from "../../../graphql_types/generated/graphql";
 import { useAppSelector } from "../../../redux/hooks";
@@ -61,26 +62,22 @@ export default function RenewSubscribeBtn(props: RenewSubscribeBtnProps) {
         ttl: amt,
       };
 
-      let response = await fetch(
-        `${baseHttpDomain}ipay-plan-renew-or-subscribe`,
+      let response = await _axios.post(
+        `ipay-plan-renew-or-subscribe`,
+        payload,
         {
-          method: "POST",
-          // withCredentials: true,
-          credentials: "include",
+          withCredentials: true,
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            ...payload,
-          }),
         }
       );
 
       // "https://payments.ipayafrica.com/v3/ke?live=0&oid=1647122682913&ttl=200&tel=65372891&eml=stephen%40gmail.com&vid=demo&curr=KES&p1=individual&p2=upgrade&p3=undefined&p4=undefined&cbk=http%3A%2F%2Flocalhost%3A3000%2Fcheckout%2Fbooking&cst=1&crl=2&hsh=3ae937887ccfb1fe85d13084c8ea2aeea5c219fe"
 
       if (response) {
-        const data = await response.json();
+        const data = response.data;
         // console.log("data", data);
         if (window) {
           // if (distance) {
