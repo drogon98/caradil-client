@@ -21,7 +21,9 @@ export const SmListBox: FC<SmListBoxProps> = (props) => {
             <div className="col-4">
               <div className="list-name-circle">
                 <CustomImage
-                  src={props.data?.photos?.[0]?.secure_url ?? ""}
+                  src={
+                    props.data?.photos?.[0]?.secure_url ?? "/images/lambo.jpg"
+                  }
                   alt="Car Photo"
                   height={"100px"}
                   width={"100px"}
