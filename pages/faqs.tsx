@@ -33,7 +33,7 @@ const FAQS: NextPage = () => {
           ) : (
             <div className="accordion" id="accordionPanelsStayOpenExample">
               {faqs?.map((faq, idx) => (
-                <div className="accordion-item">
+                <div className="accordion-item" key={idx}>
                   <h2
                     className="accordion-header"
                     id={`panelsStayOpen-heading${idx}`}
@@ -67,7 +67,7 @@ const FAQS: NextPage = () => {
             </div>
           )}
 
-          <div className="mt-3">
+          <div className="mt-5">
             <p className="text-center">
               Couldn't find what you are looking for?&nbsp;&nbsp;
               <Link href="/contact-us">
