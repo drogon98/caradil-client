@@ -8,7 +8,7 @@ export const ManageTravel: FC<ManageTravelProps> = (props) => {
     <div className="page-section customContainer">
       <div className="text-center">
         <small className="text-uppercase section-heading-top-heading">
-          Easy Management?
+          Easy Management
         </small>
       </div>
       <div className="d-flex justify-content-center">
