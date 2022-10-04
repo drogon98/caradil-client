@@ -332,7 +332,7 @@ const BrowseCarsNavbar = (): JSX.Element => {
     e.preventDefault();
 
     try {
-      if (!location || !dateTimeInput) return;
+      if (!location && !dateTimeInput) return;
 
       if (values?.max_rate) {
         if (parseInt(values.max_rate, 10) < parseInt(values.min_rate, 10)) {
