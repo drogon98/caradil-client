@@ -163,7 +163,7 @@ export const MainFooter: FC<IProps> = (props) => {
             </div>
           </div>
           <div className="">
-            <h5 className="footer-headings">Contact Info</h5>
+            <h5 className="footer-headings">Contact</h5>
             {/* <p className="main-footer-link">
               <FiSmartphone />
               &nbsp;&nbsp;
