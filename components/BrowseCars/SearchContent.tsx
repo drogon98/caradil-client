@@ -34,8 +34,9 @@ export function SearchContent(props: SearchContentProps) {
   }, [router.query]);
 
   useEffect(() => {
+    let observer: IntersectionObserver | null = null;
     if (props.hasMore) {
-      let observer = new IntersectionObserver(
+      observer = new IntersectionObserver(
         (entries, observer) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting && !props.loadingMore) {
@@ -49,10 +50,15 @@ export function SearchContent(props: SearchContentProps) {
         }
       );
       if (fetchRef && fetchRef.current) {
-        console.log("I have my ref...");
         observer.observe(fetchRef.current);
       }
     }
+
+    return () => {
+      if (observer && fetchRef.current) {
+        observer.unobserve(fetchRef.current);
+      }
+    };
   }, [fetchRef, props.hasMore, props.loadingMore]);
 
   const handleClearFilters = (e: MouseEvent<HTMLButtonElement>) => {
