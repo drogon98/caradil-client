@@ -7,7 +7,7 @@ import { Loading } from "../Loading";
 import Spinner from "../Loading/Spinner";
 
 interface CarDetailsReviewsProps {
-  carId: number;
+  carId: string;
 }
 
 export const CarDetailsReviews: FC<CarDetailsReviewsProps> = (props) => {

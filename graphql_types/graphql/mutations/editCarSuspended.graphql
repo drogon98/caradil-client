@@ -1,5 +1,5 @@
 mutation EditCarSuspended(
-  $carId: Float!
+  $carId: String!
   $action: String!
   $suspend_reason: String
 ) {

@@ -1,4 +1,4 @@
-mutation UpdateCarFavourite($carId: Float!, $opType: String!) {
+mutation UpdateCarFavourite($carId: String!, $opType: String!) {
   updateFavourite(carId: $carId, opType: $opType) {
     status
     error

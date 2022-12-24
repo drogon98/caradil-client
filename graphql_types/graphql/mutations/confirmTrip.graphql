@@ -1,4 +1,4 @@
-mutation ConfirmTrip($tripId: Float!, $publish: Boolean!) {
+mutation ConfirmTrip($tripId: String!, $publish: Boolean!) {
   confirmTrip(tripId: $tripId, publish: $publish) {
     success
     error

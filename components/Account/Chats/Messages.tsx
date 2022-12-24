@@ -20,10 +20,10 @@ import FlexibleLoader from "../../Loading/FlexibleLoader";
 import { ChatBox } from "./ChatBox";
 
 interface ChatsProps {
-  chatMetaId?: number;
-  // senderId?: number;
-  receiverId?: number;
-  activeChatId?: number;
+  chatMetaId?: string;
+  // senderId?: string;
+  receiverId?: string;
+  activeChatId?: string;
   receiverProfile?: User;
   senderProfile?: User;
 }
@@ -45,8 +45,8 @@ export const Messages = (props: ChatsProps) => {
   ] = useGetUserChatMetasLazyQuery();
   const msgBtmRef = useRef<HTMLDivElement>(null);
   const [hasNewChat, setHasNewChat] = useState(false);
-  const [chatMetaId, setChatMetaId] = useState<number>();
-  const [receiverId, setReceiverId] = useState<number>();
+  const [chatMetaId, setChatMetaId] = useState<string>();
+  const [receiverId, setReceiverId] = useState<string>();
   // const [senderId, setSenderId] = useState<number>();
   const [receiverProfile, setReceiverProfile] = useState<User>();
   const [senderProfile, setSenderProfile] = useState<User>();
@@ -59,8 +59,8 @@ export const Messages = (props: ChatsProps) => {
         if (isMdPage) {
           // Small screens page
           getChatMetaData();
-          const tempChatMetaId = parseInt(router.query.meta_id as string, 10);
-          const tempReceiverId = parseInt(router.query.rc_id as string, 10);
+          const tempChatMetaId = router.query.meta_id as string;
+          const tempReceiverId = router.query.rc_id as string;
 
           setChatMetaId(tempChatMetaId);
           setReceiverId(tempReceiverId);

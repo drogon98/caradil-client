@@ -14,7 +14,7 @@ import { ButtonLoading } from "../../Loading/ButtonLoading";
 interface Props {
   showModal: boolean;
   handleClose: any;
-  carId: number;
+  carId: string;
   setCarData: Dispatch<SetStateAction<Car | undefined>>;
 }
 

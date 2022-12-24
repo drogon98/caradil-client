@@ -1,4 +1,4 @@
-mutation CancelTrip($tripId: Float!, $input: CancelTripInput!) {
+mutation CancelTrip($tripId: String!, $input: CancelTripInput!) {
   cancelTrip(tripId: $tripId, input: $input) {
     success
     email_sent

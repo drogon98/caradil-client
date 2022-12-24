@@ -15,7 +15,7 @@ interface Props {
   showModal: boolean;
   handleClose: any;
   booked: boolean;
-  carId: number;
+  carId: string;
   setCarData: Dispatch<SetStateAction<Car | undefined>>;
 }
 

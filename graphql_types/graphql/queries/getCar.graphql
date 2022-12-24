@@ -1,4 +1,4 @@
-query GetCar($carId: Float!, $carName: String!) {
+query GetCar($carId: String!, $carName: String!) {
   getCar(carId: $carId, carName: $carName) {
     car {
       ...carInfo

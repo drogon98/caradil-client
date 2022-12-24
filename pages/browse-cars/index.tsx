@@ -27,6 +27,7 @@ const BrowseCars: NextPage = () => {
     if (router) {
       try {
         const hasQuery = router.asPath.includes("?");
+
         if (!hasQuery) {
           setValues({});
           setCars([]);
@@ -91,6 +92,8 @@ const BrowseCars: NextPage = () => {
     }
   };
 
+  console.log("searching", searching);
+
   useEffect(() => {
     if (values) {
       try {
@@ -118,8 +121,6 @@ const BrowseCars: NextPage = () => {
 
   useEffect(() => {
     if (data?.getCars && !loading) {
-      // console.log("cars", cars);
-      // console.log("data.getCars.data", data.getCars.data);
       setCars((prevCars) => {
         //  Take care of search
         // In search the app fetches the cars based on search filters
@@ -133,6 +134,7 @@ const BrowseCars: NextPage = () => {
       });
       // if (!loading) {
       setMainLoading(false);
+
       setSearching(false);
       // }
     }
@@ -145,6 +147,8 @@ const BrowseCars: NextPage = () => {
       setHasMore(false);
     }
   }, [cursor]);
+
+  console.log("searching", searching);
 
   return (
     <>

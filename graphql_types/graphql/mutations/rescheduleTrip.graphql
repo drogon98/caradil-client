@@ -1,4 +1,4 @@
-mutation RescheduleTrip($tripId: Float!, $input: TripRescheduleInput!) {
+mutation RescheduleTrip($tripId: String!, $input: TripRescheduleInput!) {
   rescheduleTrip(tripId: $tripId, input: $input) {
     success
     error

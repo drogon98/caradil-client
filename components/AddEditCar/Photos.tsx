@@ -25,7 +25,7 @@ import { PhotoBox } from "./PhotoBox";
 
 interface PhotosProps {
   value: CarPhotosInput;
-  carId: number | undefined;
+  carId: string | undefined;
   carVerified?: boolean;
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   activeSlide?: number;

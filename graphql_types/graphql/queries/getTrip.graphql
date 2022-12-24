@@ -1,4 +1,4 @@
-query GetTrip($tripId: Float!) {
+query GetTrip($tripId: String!) {
   getTrip(tripId: $tripId) {
     trip {
       ...tripInfo
