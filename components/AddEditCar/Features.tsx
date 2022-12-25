@@ -24,7 +24,7 @@ interface FeaturesProps {
   activeSlide?: number;
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
-  carId: number | undefined;
+  carId: string | undefined;
   isManage?: boolean;
   isEdit?: boolean;
   booked?: boolean;

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { getUserId } from "../../utils/userId";
 
-export const useUserId = (token: string): number | undefined | null => {
-  const [userId, setUserId] = useState<number | undefined | null>();
+export const useUserId = (token: string): string | undefined | null => {
+  const [userId, setUserId] = useState<string | undefined | null>();
 
   useEffect(() => {
     if (token) {

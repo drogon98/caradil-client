@@ -25,6 +25,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setUser } from "../../redux/userSlice";
 import { fileSizeChecker } from "../../utils/file_size_checker";
+import { isValidPhoneNumber } from "libphonenumber-js";
 
 interface ProfileProps {}
 
@@ -76,6 +77,7 @@ const Profile: FC<ProfileProps> = (props) => {
   const user = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
   const [phone, setPhone] = useState("");
+  const [invalidPhone, setInvalidPhone] = useState(false);
 
   useEffect(() => {
     if (router.query && router.query.initial) {
@@ -105,15 +107,17 @@ const Profile: FC<ProfileProps> = (props) => {
     }
   }, [user]);
 
+  // const handlePhoneBlur = () => {
+  //   const hasPlus = phone.charAt(0) === "+";
+  //   if (!isValidPhoneNumber(hasPlus ? phone : `+${phone}`)) {
+  //     setInvalidPhone(true);
+  //   } else {
+  //     setInvalidPhone(false);
+  //   }
+  // };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.name === "phone") {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value.replace(/\D/g, ""),
-      });
-    } else {
-      setValues({ ...values, [e.target.name]: e.target.value });
-    }
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -161,15 +165,21 @@ const Profile: FC<ProfileProps> = (props) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let payload;
-
-    if (avatar) {
-      payload = { ...values, phone, avatar };
-    } else {
-      payload = { ...values, phone };
-    }
-
     try {
+      const hasPlus = phone.charAt(0) === "+";
+      if (!isValidPhoneNumber(hasPlus ? phone : `+${phone}`)) {
+        setInvalidPhone(true);
+        return;
+      }
+
+      let payload;
+
+      if (avatar) {
+        payload = { ...values, phone: `+${phone}`, avatar };
+      } else {
+        payload = { ...values, phone: `+${phone}` };
+      }
+
       let response = await editProfile({ variables: { input: payload } });
 
       if (response.data?.editProfile.error) {
@@ -350,31 +360,35 @@ const Profile: FC<ProfileProps> = (props) => {
                       />
                     </div>
                     <div className="mb-3">
+                      {invalidPhone && (
+                        <p>
+                          <small className="text-danger">
+                            Invalid phone number!
+                          </small>
+                        </p>
+                      )}
                       <label htmlFor="phone">Phone</label>
-                      {/* <input
-                        onChange={handleChange}
-                        value={values.phone ?? ""}
-                        id="phone"
-                        type="text"
-                        name="phone"
-                        className="form-control"
-                        // required
-                      /> */}
 
                       <PhoneInput
                         country={"ke"}
                         value={phone}
-                        onChange={(val) => setPhone(val)}
+                        onChange={(val) => {
+                          setPhone(val);
+                          setInvalidPhone(false);
+                        }}
+                        // onBlur={handlePhoneBlur}
                         inputProps={{
                           name: "phone",
                           required: true,
                           autoFocus: true,
                         }}
                         placeholder="+2547123456789"
-                        disableDropdown={true}
-                        regions={"africa"}
+                        // disableDropdown={true}
+                        // regions={"africa"}
                         inputStyle={{ width: "100%" }}
+                        countryCodeEditable={false}
                       />
+                      <p>Verify phone logic here</p>
                     </div>
                   </div>
                 </div>

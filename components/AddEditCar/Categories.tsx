@@ -20,7 +20,7 @@ import UpdateBtn from "./ManageCar/UpdateBtn";
 interface CategoryProps {
   value: CarCategoriesInput;
   // setData: Dispatch<SetStateAction<string[] | undefined>>;
-  carId: number | undefined;
+  carId: string | undefined;
   // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 
   setActiveSlide?: Dispatch<SetStateAction<number>>;

@@ -26,7 +26,7 @@ interface Props {
   //   children: ReactChild;
   showModal: boolean;
   handleClose: () => void;
-  tripId: number | undefined;
+  tripId: string | undefined;
   trip: Trip;
   // setTrip: Dispatch<SetStateAction<Trip | undefined>>;
   setShowToast: any;

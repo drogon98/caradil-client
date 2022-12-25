@@ -12,16 +12,16 @@ const CheckoutSuccess: NextPage = () => {
   const [mainLoading, setMainLoading] = useState(true);
   const router = useRouter();
   const [skip, setSkip] = useState(true);
-  const [tripId, setTripId] = useState<number>();
+  const [tripId, setTripId] = useState<string>();
   const [trip, setTrip] = useState<Trip>();
 
   useEffect(() => {
     if (router.query.trip_id) {
       try {
-        const tempId = parseInt(router.query.trip_id as string, 10);
-        if (isNaN(tempId)) {
-          throw new Error("Invalid trip id");
-        }
+        const tempId = router.query.trip_id as string;
+        // if (isNaN(tempId)) {
+        //   throw new Error("Invalid trip id");
+        // }
         setTripId(tempId);
       } catch (error) {
         console.log("error :>> ", error);

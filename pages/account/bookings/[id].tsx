@@ -21,7 +21,7 @@ export default function Booking(props: Props): ReactElement {
   const [mainLoading, setMainLoading] = useState(true);
   const router = useRouter();
   const [skip, setSkip] = useState(true);
-  const [bookingId, setBookingId] = useState<number>();
+  const [bookingId, setBookingId] = useState<string>();
   const [booking, setBooking] = useState<Trip>();
   const [showCancelTripModal, setShowCancelTripModal] = useState(false);
   const [showConfirmTripModal, setShowConfirmTripModal] = useState(false);
@@ -32,10 +32,10 @@ export default function Booking(props: Props): ReactElement {
   useEffect(() => {
     if (router.query) {
       try {
-        const tripID = parseInt(router.query.id as string, 10);
-        if (isNaN(tripID)) {
-          throw new Error("Invalid trip id");
-        }
+        const tripID = router.query.id as string;
+        // if (isNaN(tripID)) {
+        //   throw new Error("Invalid trip id");
+        // }
 
         setBookingId(tripID);
       } catch (error) {}

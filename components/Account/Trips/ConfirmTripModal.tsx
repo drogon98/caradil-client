@@ -19,7 +19,7 @@ interface Props {
   handleClose: () => void;
   // setTrip: Dispatch<SetStateAction<Trip | undefined>>;
   trip: Trip;
-  tripId: number | undefined;
+  tripId: string | undefined;
 }
 
 export default function ConfirmTripModal(props: Props): ReactElement {

@@ -35,7 +35,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
   const [activeSlide, setActiveSlide] = useState(-1);
   const [progress, setProgress] = useState(0);
   const [compData, setCompData] = useState<Car>();
-  const [carId, setCarId] = useState<number>();
+  const [carId, setCarId] = useState<string>();
   const [mainLoading, setMainLoading] = useState(true);
   const router = useRouter();
   const [skip, setSkip] = useState(true);
@@ -58,10 +58,10 @@ export default function CarDataStepForm(props: Props): ReactElement {
   useEffect(() => {
     if (router.query) {
       if (props.isResume) {
-        setCarId(parseInt(router.query.id as string, 10));
+        setCarId(router.query.id as string);
         sessionStorage.removeItem("carId");
       } else {
-        let tempId = parseInt(sessionStorage.getItem("carId")!, 10);
+        let tempId = sessionStorage.getItem("carId")!;
 
         if (tempId) {
           setCarId(tempId);
@@ -160,43 +160,43 @@ export default function CarDataStepForm(props: Props): ReactElement {
   useEffect(() => {
     const checkProgress = (initialData: Car) => {
       if (!initialData?.name) {
-        console.log("x");
+        // console.log("x");
         setActiveSlide(0);
         return;
       }
 
       if (!initialData?.gas) {
-        console.log("o");
+        // console.log("o");
         setActiveSlide(1);
         return;
       }
 
       if (!initialData?.description) {
-        console.log("f");
+        // console.log("f");
         setActiveSlide(2);
         return;
       }
 
       if (initialData?.photos && initialData?.photos.length < 5) {
-        console.log("q");
+        // console.log("q");
         setActiveSlide(3);
         return;
       }
 
       if (initialData?.documents && initialData?.documents.length < 2) {
-        console.log("b");
+        // console.log("b");
         setActiveSlide(4);
         return;
       }
 
       if (!initialData.location) {
-        console.log("t");
+        // console.log("t");
         setActiveSlide(5);
         return;
       }
 
       if (initialData.categories?.length === 0) {
-        console.log("c");
+        // console.log("c");
         setActiveSlide(6);
         return;
       }
@@ -207,19 +207,19 @@ export default function CarDataStepForm(props: Props): ReactElement {
         !initialData.has_unlimited_distance &&
         initialData.distance_per_day === 0
       ) {
-        console.log("l");
+        // console.log("l");
         setActiveSlide(7);
         return;
       }
 
       if (!initialData.advance_book_period) {
         setActiveSlide(8);
-        console.log("m");
+        // console.log("m");
         return;
       }
 
       if (!initialData.daily_rate) {
-        console.log("k");
+        // console.log("k");
         setActiveSlide(9);
         return;
       }
