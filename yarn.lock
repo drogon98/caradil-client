@@ -4117,6 +4117,11 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
+libphonenumber-js@^1.10.15:
+  version "1.10.15"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.10.15.tgz#cad454adb5bf271bc820bbf7dd66776afcda7be6"
+  integrity sha512-sLeVLmWX17VCKKulc+aDIRHS95TxoTsKMRJi5s5gJdwlqNzMWcBCtSHHruVyXjqfi67daXM2SnLf2juSrdx5Sg==
+
 lines-and-columns@^1.1.6:
   version "1.2.4"
   resolved "https://registry.npmjs.org/lines-and-columns/-/lines-and-columns-1.2.4.tgz"
