@@ -28,7 +28,7 @@ interface RescheduleTripProps {}
 const RescheduleTrip: FC<RescheduleTripProps> = (props) => {
   const [mainLoading, setMainLoading] = useState(true);
   const router = useRouter();
-  const [tripId, setTripId] = useState<number>();
+  const [tripId, setTripId] = useState<string>();
   const [skip, setSkip] = useState(true);
   const [trip, setTrip] = useState<Trip>();
   const { data, loading, subscribeToMore } = useGetTripQuery({
@@ -58,11 +58,11 @@ const RescheduleTrip: FC<RescheduleTripProps> = (props) => {
   useEffect(() => {
     if (router.query) {
       try {
-        const tripID = parseInt(router.query.id as string, 10);
-        console.log("tripID", tripID);
-        if (isNaN(tripID)) {
-          throw new Error("Invalid trip id");
-        }
+        const tripID = router.query.id as string;
+        // console.log("tripID", tripID);
+        // if (isNaN(tripID)) {
+        //   throw new Error("Invalid trip id");
+        // }
 
         setTripId(tripID);
       } catch (error) {
@@ -99,85 +99,86 @@ const RescheduleTrip: FC<RescheduleTripProps> = (props) => {
     }
   };
 
-  const disableDates = (date: number) => {
-    try {
-      let tripsData = trip?.car_trips_data?.data!;
-      let tripsDataWithoutThisTrip = tripsData.filter((tD) => tD.id !== tripId);
-      let isInTrips = false;
-      let index = 0;
+  // const disableDates = (date: number) => {
+  //   try {
+  //     // let tripsData = trip?.car_trips_data?.data!;
+  //     let tripsData = "trip?.car_trips_data?.data!;"
+  //     let tripsDataWithoutThisTrip = tripsData.filter((tD) => tD.id !== tripId);
+  //     let isInTrips = false;
+  //     let index = 0;
 
-      while (index < tripsDataWithoutThisTrip.length) {
-        let currentTripData = tripsDataWithoutThisTrip[index];
+  //     while (index < tripsDataWithoutThisTrip.length) {
+  //       let currentTripData = tripsDataWithoutThisTrip[index];
 
-        // let exactTimes = getExactStartAndEndTime({
-        //   start_date: currentTripData.start_date,
-        //   end_date: currentTripData.end_date,
-        //   start_time: currentTripData.start_time,
-        //   end_time: currentTripData.end_time,
-        // });
+  //       // let exactTimes = getExactStartAndEndTime({
+  //       //   start_date: currentTripData.start_date,
+  //       //   end_date: currentTripData.end_date,
+  //       //   start_time: currentTripData.start_time,
+  //       //   end_time: currentTripData.end_time,
+  //       // });
 
-        // console.log("exactTimes", exactTimes);
+  //       // console.log("exactTimes", exactTimes);
 
-        // if (date >= exactTimes.startTime && date <= exactTimes.endTime) {
-        //   isInTrips = true;
-        //   break;
-        // }
+  //       // if (date >= exactTimes.startTime && date <= exactTimes.endTime) {
+  //       //   isInTrips = true;
+  //       //   break;
+  //       // }
 
-        if (currentTripData.start_date !== currentTripData.end_date) {
-          let datesBetweenTripStartAndEndInclusive = [
-            currentTripData.start_date,
-          ];
-          //   console.log("currentTripData", currentTripData);
-          let currentDate = currentTripData.start_date + 86400000;
+  //       if (currentTripData.start_date !== currentTripData.end_date) {
+  //         let datesBetweenTripStartAndEndInclusive = [
+  //           currentTripData.start_date,
+  //         ];
+  //         //   console.log("currentTripData", currentTripData);
+  //         let currentDate = currentTripData.start_date + 86400000;
 
-          while (currentDate <= currentTripData.end_date) {
-            datesBetweenTripStartAndEndInclusive = [
-              ...datesBetweenTripStartAndEndInclusive,
-              currentDate,
-            ];
-            currentDate += 86400000;
-          }
+  //         while (currentDate <= currentTripData.end_date) {
+  //           datesBetweenTripStartAndEndInclusive = [
+  //             ...datesBetweenTripStartAndEndInclusive,
+  //             currentDate,
+  //           ];
+  //           currentDate += 86400000;
+  //         }
 
-          console.log(
-            "datesBetweenTripStartAndEndInclusive",
-            datesBetweenTripStartAndEndInclusive
-          );
+  //         console.log(
+  //           "datesBetweenTripStartAndEndInclusive",
+  //           datesBetweenTripStartAndEndInclusive
+  //         );
 
-          let dateInATrip = datesBetweenTripStartAndEndInclusive.some(
-            (d) => d === date
-          );
+  //         let dateInATrip = datesBetweenTripStartAndEndInclusive.some(
+  //           (d) => d === date
+  //         );
 
-          if (dateInATrip) {
-            isInTrips = true;
-            break;
-          }
-        } else {
-          if (currentTripData.start_date === date) {
-            isInTrips = true;
-            break;
-          }
-        }
+  //         if (dateInATrip) {
+  //           isInTrips = true;
+  //           break;
+  //         }
+  //       } else {
+  //         if (currentTripData.start_date === date) {
+  //           isInTrips = true;
+  //           break;
+  //         }
+  //       }
 
-        index++;
-      }
+  //       index++;
+  //     }
 
-      let operationDays = trip?.car?.book_and_trip_days!;
+  //     let operationDays = trip?.car?.book_and_trip_days!;
 
-      let isInOperationDays = operationDays.some(
-        (d) => d === new Date(date).getDay()
-      );
+  //     let isInOperationDays = operationDays.some(
+  //       (d) => d === new Date(date).getDay()
+  //     );
 
-      console.log("isInOperationDays", isInOperationDays);
+  //     // console.log("isInOperationDays", isInOperationDays);
 
-      return (
-        date < new Date().getTime() - 86400000 ||
-        isInTrips ||
-        !isInOperationDays
-      );
-    } catch (error) {
-      return false;
-    }
-  };
+  //     return (
+  //       date < new Date().getTime() - 86400000 ||
+  //       isInTrips ||
+  //       !isInOperationDays
+  //     );
+  //   } catch (error) {
+  //     return false;
+  //   }
+  // };
 
   const handleDateChange = (start_date: number, end_date: number) => {
     if (start_date && end_date && start_date !== end_date) {
