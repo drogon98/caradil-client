@@ -1003,9 +1003,9 @@ export type Transaction = {
   id?: Maybe<Scalars['String']>;
   invoice_no?: Maybe<Scalars['String']>;
   order_id?: Maybe<Scalars['String']>;
-  parent_transaction_id?: Maybe<Scalars['Float']>;
+  parent_transaction_id?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
-  top_up_transaction_id?: Maybe<Scalars['Float']>;
+  top_up_transaction_id?: Maybe<Scalars['String']>;
   transaction_code?: Maybe<Scalars['String']>;
   transaction_type?: Maybe<Scalars['String']>;
   trip_cancel_after_host_disbursement_balance?: Maybe<Scalars['String']>;
@@ -1142,7 +1142,7 @@ export type VerifyEmailResponse = {
   __typename?: 'VerifyEmailResponse';
   error?: Maybe<Scalars['String']>;
   role?: Maybe<Scalars['Float']>;
-  userId?: Maybe<Scalars['Float']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
 export type CarInfoFragment = { __typename?: 'Car', id?: string | null | undefined, name?: string | null | undefined, description?: string | null | undefined, trips?: number | null | undefined, published?: boolean | null | undefined, seats?: number | null | undefined, bags?: number | null | undefined, doors?: number | null | undefined, transmission?: string | null | undefined, gas?: string | null | undefined, daily_rate?: number | null | undefined, discount?: string | null | undefined, discount_days?: number | null | undefined, make?: string | null | undefined, location?: string | null | undefined, distance_per_day?: number | null | undefined, distance_per_hour?: number | null | undefined, booked?: boolean | null | undefined, categories?: Array<string> | null | undefined, luxury_vip_services?: Array<string> | null | undefined, color?: string | null | undefined, delivery?: boolean | null | undefined, delivery_rate?: number | null | undefined, can_rent_hourly?: boolean | null | undefined, hourly_rate?: number | null | undefined, has_unlimited_distance?: boolean | null | undefined, advance_book_period?: number | null | undefined, manual_transmission_test?: boolean | null | undefined, charge_extra_distance_travelled?: boolean | null | undefined, is_gps_enabled?: boolean | null | undefined, being_edited?: boolean | null | undefined, car_market_class?: string | null | undefined, book_and_trip_days?: Array<number> | null | undefined, fuel_efficiency?: string | null | undefined, fuel_policy?: string | null | undefined, reserved_for_booking?: boolean | null | undefined, suspended?: boolean | null | undefined, reserved_for_booking_guest_id?: string | null | undefined, trip_type?: string | null | undefined, end_user_type?: string | null | undefined, id_or_passport_no?: string | null | undefined, active?: boolean | null | undefined, longitude?: number | null | undefined, latitude?: number | null | undefined, pick_up_location?: string | null | undefined, pick_up_longitude?: number | null | undefined, pick_up_latitude?: number | null | undefined, owner?: { __typename?: 'User', first_name?: string | null | undefined, last_name?: string | null | undefined, created_at?: any | null | undefined, business_name?: string | null | undefined, avatar?: { __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined, features?: Array<{ __typename?: 'FeatureObj', title?: string | null | undefined }> | null | undefined, photos?: Array<{ __typename?: 'FileObj', public_id?: string | null | undefined, secure_url?: string | null | undefined, url?: string | null | undefined }> | null | undefined, besties?: Array<{ __typename?: 'User', id?: string | null | undefined }> | null | undefined };
@@ -1484,7 +1484,7 @@ export type EmailVerifyMutationVariables = Exact<{
 }>;
 
 
-export type EmailVerifyMutation = { __typename?: 'Mutation', verifyEmail: { __typename?: 'VerifyEmailResponse', userId?: number | null | undefined, role?: number | null | undefined, error?: string | null | undefined } };
+export type EmailVerifyMutation = { __typename?: 'Mutation', verifyEmail: { __typename?: 'VerifyEmailResponse', userId?: string | null | undefined, role?: number | null | undefined, error?: string | null | undefined } };
 
 export type GetAccountOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
