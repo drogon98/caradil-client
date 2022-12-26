@@ -6,7 +6,7 @@ import { ChatUserProfileBox } from "./ChatUserProfileBox";
 
 interface ChatUserProfileProps {
   data: ChatMeta;
-  setActiveChatId: Dispatch<SetStateAction<number | undefined>>;
+  setActiveChatId: Dispatch<SetStateAction<string | undefined>>;
 }
 
 export const ChatUserProfile = (props: ChatUserProfileProps) => {

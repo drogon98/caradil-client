@@ -10,7 +10,7 @@ import moment from "moment";
 interface ChatUserProfileBoxProps {
   isLg?: boolean;
   data: ChatMeta;
-  setActiveChatId?: Dispatch<SetStateAction<number | undefined>>;
+  setActiveChatId?: Dispatch<SetStateAction<string | undefined>>;
 }
 
 const getName = (
@@ -60,7 +60,7 @@ export const ChatUserProfileBox = (props: ChatUserProfileBoxProps) => {
 
   // console.log("router :>> ", router);
 
-  const handleClick = async (e: any, id: Maybe<number> | undefined) => {
+  const handleClick = async (e: any, id: Maybe<string> | undefined) => {
     if (!props.isLg) {
       sessionStorage.setItem(
         "rec_prof",
@@ -80,7 +80,7 @@ export const ChatUserProfileBox = (props: ChatUserProfileBoxProps) => {
         `/account/chats/md?meta_id=${id}&rc_id=${props.data.receiver?.id}`
       );
     } else {
-      props.setActiveChatId!(id as number);
+      props.setActiveChatId!(id as string);
       await router.push(
         {
           pathname: `/account/chats`,
