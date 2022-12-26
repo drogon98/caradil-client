@@ -18,7 +18,7 @@ import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface DistanceProps {
   value: CarDistanceInput;
-  carId: number | undefined;
+  carId: string | undefined;
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;

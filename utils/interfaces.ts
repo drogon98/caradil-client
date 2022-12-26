@@ -2,7 +2,7 @@ import { JwtPayload } from "jwt-decode";
 
 export interface CustomJwtPayload extends JwtPayload {
   role: number;
-  userId: number;
+  userId: string;
 }
 
 export interface TripDatesObj {

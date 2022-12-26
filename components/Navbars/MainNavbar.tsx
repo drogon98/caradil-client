@@ -19,7 +19,7 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
   const router = useRouter();
   const [isCarPreview, setIsCarPreview] = useState(false);
   const [editCarPublished, { loading }] = useEditCarPublishedMutation();
-  const [carId, setCarId] = useState<number>();
+  const [carId, setCarId] = useState<string>();
   const loggingOut = useAppSelector((state) => state.logout.loggingOut);
 
   useEffect(() => {
@@ -37,10 +37,7 @@ const MainNavbar = ({ isHome, animated }: MainNavbarProps): JSX.Element => {
         if (tempIsCarPreview) {
           setIsCarPreview(true);
 
-          let tempId = parseInt(router.query.id as string);
-          if (isNaN(tempId)) {
-            throw new Error("Invalid car Id");
-          }
+          let tempId = router.query.id as string;
 
           setCarId(tempId);
         }

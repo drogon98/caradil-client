@@ -1,4 +1,4 @@
-query GetCarReviews($carId: Float!) {
+query GetCarReviews($carId: String!) {
   getCarReviews(carId: $carId) {
     id
     reviewer {

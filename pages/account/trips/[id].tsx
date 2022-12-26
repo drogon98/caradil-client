@@ -22,7 +22,7 @@ interface Props {}
 
 export default function Trip(props: Props): ReactElement {
   const [mainLoading, setMainLoading] = useState(true);
-  const [tripId, setTripId] = useState<number>();
+  const [tripId, setTripId] = useState<string>();
   const router = useRouter();
   const [skip, setSkip] = useState(true);
   const [trip, setTrip] = useState<Trip_>();
@@ -43,10 +43,10 @@ export default function Trip(props: Props): ReactElement {
   useEffect(() => {
     if (router.query) {
       try {
-        const tripID = parseInt(router.query.id as string, 10);
-        if (isNaN(tripID)) {
-          throw new Error("Invalid trip id");
-        }
+        const tripID = router.query.id as string;
+        // if (isNaN(tripID)) {
+        //   throw new Error("Invalid trip id");
+        // }
 
         setTripId(tripID);
       } catch (error) {}

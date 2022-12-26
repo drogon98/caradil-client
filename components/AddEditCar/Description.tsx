@@ -28,7 +28,7 @@ interface DescriptionProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
 
-  carId: number | undefined;
+  carId: string | undefined;
   isManage?: boolean;
   isActive?: boolean;
   // verificationInProgress?: boolean;

@@ -1,4 +1,4 @@
-mutation MakeCarEditbale($carId: Float!) {
+mutation MakeCarEditbale($carId: String!) {
   makeCarEditable(carId: $carId) {
     car {
       ...carPrivateInfo

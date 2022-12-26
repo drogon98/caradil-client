@@ -21,7 +21,7 @@ import UpdateBtn from "./ManageCar/UpdateBtn";
 interface FuelingProps {
   value: CarFuelingInput;
   // setData: Dispatch<SetStateAction<string>>;
-  carId: number | undefined;
+  carId: string | undefined;
   // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   activeSlide?: number;

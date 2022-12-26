@@ -1,4 +1,4 @@
-query GetBooking($bookingId: Float!) {
+query GetBooking($bookingId: String!) {
   getBooking(bookingId: $bookingId) {
     trip {
       ...tripInfo

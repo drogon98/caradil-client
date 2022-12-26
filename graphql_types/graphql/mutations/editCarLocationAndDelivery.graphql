@@ -1,5 +1,5 @@
 mutation EditCarLocationAndDelivery(
-  $carId: Float!
+  $carId: String!
   $input: CarLocationAndDeliveryInput!
 ) {
   editCarLocationAndDelivery(carId: $carId, input: $input) {

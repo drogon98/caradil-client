@@ -1,4 +1,4 @@
-mutation EditCarFueling($carId: Float!, $input: CarFuelingInput!) {
+mutation EditCarFueling($carId: String!, $input: CarFuelingInput!) {
   editCarFueling(carId: $carId, input: $input) {
     error
     carId

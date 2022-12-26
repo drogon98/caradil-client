@@ -1,4 +1,4 @@
-mutation RepublishCar($carId: Float!) {
+mutation RepublishCar($carId: String!) {
   republishCar(carId: $carId) {
     car {
       ...carPrivateInfo

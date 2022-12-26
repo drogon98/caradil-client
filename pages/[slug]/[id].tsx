@@ -90,8 +90,9 @@ const Car: FC<CarProps> = (props) => {
   const [totalCharge, setTotalCharge] = useState<number>();
   const [isNotAvailable, setIsNotAvailable] = useState(false);
 
-  const carId = parseInt(router.query.id as string, 10);
+  const carId = router.query.id as string;
 
+  // console.log("carId", carId);
   // useEffect(() => {
   //   const redirect = async () => {
   //     if (approvedData?.checkIfDriverIsApprovedToDrive) {
@@ -120,7 +121,7 @@ const Car: FC<CarProps> = (props) => {
 
   const { data, loading, subscribeToMore } = useGetCarQuery({
     variables: {
-      carId: parseInt(router.query.id as string, 10),
+      carId: router.query.id as string,
       carName: unslugify(router.query.slug as string),
     },
     skip,
@@ -842,7 +843,7 @@ const Car: FC<CarProps> = (props) => {
                       {car?.can_rent_hourly &&
                         !car?.booked &&
                         (car?.reserved_for_booking_guest_id === userId ||
-                          car?.reserved_for_booking_guest_id === 0) &&
+                          !car?.reserved_for_booking_guest_id) &&
                         !totalCharge && (
                           <div style={{ lineHeight: "12px" }}>
                             <small style={{ fontSize: "10px" }}>

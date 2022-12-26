@@ -18,7 +18,7 @@ import UpdateBtn from "./ManageCar/UpdateBtn";
 interface TripsProps {
   value: CarTripSettingsInput;
   // setData: Dispatch<SetStateAction<CarAvailabilityInput>>;
-  carId: number | undefined;
+  carId: string | undefined;
   // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
   setActiveSlide?: Dispatch<SetStateAction<number>>;
   activeSlide?: number;

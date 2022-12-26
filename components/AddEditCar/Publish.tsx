@@ -9,7 +9,7 @@ import {
 import { ButtonLoading } from "../Loading/ButtonLoading";
 
 interface Props {
-  carId: number | undefined;
+  carId: string | undefined;
   car: Car;
 }
 

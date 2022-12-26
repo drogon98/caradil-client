@@ -25,8 +25,8 @@ interface GeneralInfoProps {
   activeSlide?: number;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;
   isResume?: boolean;
-  setCarId?: Dispatch<SetStateAction<number | undefined>>;
-  carId: number | undefined;
+  setCarId?: Dispatch<SetStateAction<string | undefined>>;
+  carId: string | undefined;
   isManage?: boolean;
   isEdit?: boolean; // Under Manage
   booked?: boolean;

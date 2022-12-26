@@ -35,7 +35,7 @@ interface Props {}
 export default function ManageCar(props: Props): ReactElement {
   const [activeSection, setActiveSection] = useState<number>();
   const router = useRouter();
-  const [carId, setCarId] = useState<number>();
+  const [carId, setCarId] = useState<string>();
   const [skip, setSkip] = useState(true);
   const [carData, setCarData] = useState<Car>();
   const [mainLoading, setMainLoading] = useState(true);
@@ -71,10 +71,8 @@ export default function ManageCar(props: Props): ReactElement {
   useEffect(() => {
     if (router.query && router.query.id) {
       try {
-        let id = parseInt(router.query.id as string, 10);
-        if (isNaN(id)) {
-          throw new Error("Invalid car id!");
-        }
+        let id = router.query.id as string;
+
         setCarId(id);
       } catch (error) {
         console.log("error :>> ", error);
@@ -200,7 +198,7 @@ export default function ManageCar(props: Props): ReactElement {
   //   setShowRequestVerificationModal(true);
   // };
 
-  console.log("carData :>> ", carData);
+  // console.log("carData :>> ", carData);
 
   // if (mainLoading) {
   //   return <Loading />;

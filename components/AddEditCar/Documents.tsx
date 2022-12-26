@@ -27,7 +27,7 @@ import UpdateBtn from "./ManageCar/UpdateBtn";
 
 interface DocumentsProps {
   value: CarDocumentsInput;
-  carId: number | undefined;
+  carId: string | undefined;
   carVerified?: boolean;
   isEdit?: boolean;
   setCompData: Dispatch<SetStateAction<Car | undefined>>;

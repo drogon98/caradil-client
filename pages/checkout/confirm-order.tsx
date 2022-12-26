@@ -110,6 +110,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
   }, [userData]);
 
   // console.log("dummyData :>> ", dummyData);
+  console.log("router.query", router.query);
 
   useEffect(() => {
     if (router.query.carId) {
@@ -117,16 +118,18 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
       setValues({
         ...values,
         p1: router.query.start_date as string,
-        p2: router.query.start_time as string,
-        p3: router.query.end_date as string,
-        p4: `${router.query.end_time as string} ${router.query.carId}`,
+        p2: router.query.end_date as string,
+        p3: router.query.start_time as string,
+        p4: router.query.end_time as string,
       });
+
+      localStorage.setItem("bc_id", router.query.carId as string);
     }
   }, [router.query]);
 
   const { data, loading, subscribeToMore } = useGetCarQuery({
     variables: {
-      carId: parseInt(router.query.carId as string, 10),
+      carId: router.query.carId as string,
       carName: "",
     },
     skip,
@@ -222,7 +225,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
 
   useEffect(() => {
     if (distance) {
-      setValues({ ...values!, p2: values.p2 + " " + distance.toString() });
+      setValues({ ...values!, p3: values.p3 + " " + distance.toString() });
     }
   }, [distance]);
 
@@ -313,7 +316,7 @@ const ConfirmOrder: FC<ConfirmOrderProps> = (props) => {
       } else {
         // Guest reservation session is ended
         // If car is not yet reserved by another user,reserve it for this user again
-        if (data?.getCar.car?.reserved_for_booking_guest_id === 0) {
+        if (!data?.getCar.car?.reserved_for_booking_guest_id) {
           let reserveBookingResponse = await editReservedForBooking({
             variables: { carId: data?.getCar.car?.id! },
           });

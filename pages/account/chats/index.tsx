@@ -20,10 +20,10 @@ const Chats = (props: ChatsProps) => {
   const token = useAppSelector((state) => state.auth._id);
   const role = useRole(token);
   const [mainLoading, setMainLoading] = useState(true);
-  const [metaId, setMetaId] = useState<number>();
+  const [metaId, setMetaId] = useState<string>();
   const [chatProfiles, setChatProfiles] = useState<ChatMeta[]>();
-  const [receiverId, setReceiverId] = useState<number>();
-  const [activeChatId, setActiveChatId] = useState<number>();
+  const [receiverId, setReceiverId] = useState<string>();
+  const [activeChatId, setActiveChatId] = useState<string>();
   const [receiverProfile, setReceiverProfile] = useState<User>();
   const [senderProfile, setSenderProfile] = useState<User>();
 
@@ -32,10 +32,10 @@ const Chats = (props: ChatsProps) => {
   useEffect(() => {
     if (router.query && router.query.meta_id) {
       try {
-        let metaId = parseInt(router.query.meta_id as string);
-        if (isNaN(metaId)) {
-          throw new Error("Invalid Meta Id");
-        }
+        let metaId = router.query.meta_id as string;
+        // if (isNaN(metaId)) {
+        //   throw new Error("Invalid Meta Id");
+        // }
         setMetaId(metaId);
       } catch (error) {
         console.log("error :>> ", error);
@@ -124,7 +124,7 @@ const Chats = (props: ChatsProps) => {
     }
   }, [activeChatId, chatProfiles]);
 
-  console.log("receiverProfile", receiverProfile);
+  // console.log("receiverProfile", receiverProfile);
 
   return (
     <>

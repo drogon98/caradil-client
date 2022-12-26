@@ -1,4 +1,4 @@
-mutation ActivateCar($carId: Float!) {
+mutation ActivateCar($carId: String!) {
   activateCar(carId: $carId) {
     car {
       ...carPrivateInfo

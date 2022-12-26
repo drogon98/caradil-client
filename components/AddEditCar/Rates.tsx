@@ -19,7 +19,7 @@ import UpdateBtn from "./ManageCar/UpdateBtn";
 interface RatesProps {
   value: CarRatesInput;
   // setData: Dispatch<SetStateAction<CarRatesInput>>;
-  carId: number | undefined;
+  carId: string | undefined;
   // car: Car;
   // setResponseCar: Dispatch<SetStateAction<Car | undefined>>;
 

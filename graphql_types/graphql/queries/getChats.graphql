@@ -1,4 +1,4 @@
-query GetChats($chatMetaId: Float!) {
+query GetChats($chatMetaId: String!) {
   getChats(chatMetaId: $chatMetaId) {
     ...chatInfo
   }

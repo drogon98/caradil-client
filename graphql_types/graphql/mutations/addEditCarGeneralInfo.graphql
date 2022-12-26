@@ -1,7 +1,7 @@
 mutation AddEditCarGeneralInfo(
   $options: CarGeneralInfoInput!
   $isEdit: Boolean
-  $carId: Float
+  $carId: String
 ) {
   addEditCarGeneralInfo(input: $options, carId: $carId, isEdit: $isEdit) {
     carId
