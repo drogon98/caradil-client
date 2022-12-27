@@ -8,7 +8,10 @@ interface IProps {}
 const Register: FC<IProps> = (props) => {
   return (
     <>
-      <CustomHead title="Register" />
+      <CustomHead
+        title="Register"
+        metaDescription="Create a guest or host account to start using our amazing services."
+      />
       <Wrapper>
         <RegisterForm />
       </Wrapper>
