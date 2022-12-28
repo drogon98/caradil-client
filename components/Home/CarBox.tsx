@@ -83,10 +83,9 @@ export const CarBox: FC<CarBoxProps> = (props) => {
             <hr />
             <div className="d-flex justify-content-end">
               <p className="fw-bolder">
-                Ksh.
-                {props.data?.daily_rate &&
-                  props.data?.daily_rate.toLocaleString()}
-                /day
+                From Ksh.
+                {props.data?.amount && props.data?.amount.toLocaleString()}
+                {/* /day */}
               </p>
             </div>
           </div>
