@@ -1,14 +1,13 @@
-import React, { ChangeEvent, FC, MouseEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useAppDispatch } from "../../redux/hooks";
+import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import {
   RegisterInput,
   useRegisterMutation,
 } from "../../graphql_types/generated/graphql";
 import { setToken } from "../../redux/authSlice";
+import { useAppDispatch } from "../../redux/hooks";
 import { ButtonLoading } from "../Loading/ButtonLoading";
-import { countries } from "../../data";
 
 interface IProps {
   isAdmin?: boolean;
@@ -27,6 +26,7 @@ const RegisterForm: FC<IProps> = (props) => {
     password: "",
     confirmPassword: "",
     role: 1,
+    register_via: "web",
   });
   const [hasAgreedToTerms, setHasAgreedToTerms] = useState(false);
   const [registering, setRegistering] = useState(false);
