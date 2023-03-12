@@ -132,14 +132,17 @@ export const MainFooter: FC<IProps> = (props) => {
                 <Link href="/browse-cars">Browse cars</Link>
               </p>{" "}
               <p className="main-footer-link">
+                <Link href="/tours">Tours & Safaris</Link>
+              </p>
+              <p className="main-footer-link">
+                <Link href="/transfers">Transfers</Link>
+              </p>
+              <p className="main-footer-link">
                 <Link href="/weddings">Weddings</Link>
               </p>{" "}
               {/* <p className="main-footer-link">
                 <Link href="/">Luxuries & VIPs</Link>
               </p>{" "} */}
-              <p className="main-footer-link">
-                <Link href="/tours">Tours & Safaris</Link>
-              </p>
               {/* <p className="main-footer-link">
                 <Link href="/">Sports</Link>
               </p>{" "} */}

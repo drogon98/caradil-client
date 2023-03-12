@@ -44,6 +44,9 @@ export default function CarDataStepForm(props: Props): ReactElement {
   const [tripSettingsData, setTripSettingsData] =
     useState<CarTripSettingsInput>();
   const [featuresData, setFeaturesData] = useState<FeatureInput[]>();
+  const [rentalServicesOffered, setRentalServicesOffered] =
+    useState<("general" | "fleets" | "transfers" | "tours" | "weddings")[]>();
+  const [isFleetOperator, setIsFleetOperator] = useState(false);
 
   const { data, loading } = useGetPrivateCarQuery({
     variables: { carId: carId! },
@@ -89,6 +92,18 @@ export default function CarDataStepForm(props: Props): ReactElement {
   useEffect(() => {
     if (data?.getCar.car?.id) {
       setCompData({ ...data.getCar.car });
+      setRentalServicesOffered(
+        data.getCar.rental_services as (
+          | "general"
+          | "fleets"
+          | "transfers"
+          | "tours"
+          | "weddings"
+        )[]
+      );
+      setIsFleetOperator(
+        data.getCar.rental_services.some((s) => s === "fleets")
+      );
     }
   }, [data]);
 
@@ -131,11 +146,11 @@ export default function CarDataStepForm(props: Props): ReactElement {
     if (compData?.id) {
       const tempTripSettingsData = {
         advance_book_period: compData?.advance_book_period ?? 1,
-        can_rent_hourly: compData?.can_rent_hourly ?? false,
+        // can_rent_hourly: compData?.can_rent_hourly ?? false,
         book_and_trip_days: compData.book_and_trip_days ?? [],
         car_market_class: compData.car_market_class ?? "",
         trip_type: compData.trip_type!,
-        manual_transmission_test: compData.manual_transmission_test ?? false,
+        // manual_transmission_test: compData.manual_transmission_test ?? false,
       };
 
       setTripSettingsData({ ...tempTripSettingsData });
@@ -204,8 +219,9 @@ export default function CarDataStepForm(props: Props): ReactElement {
       // let bools = [true, false];
 
       if (
-        !initialData.has_unlimited_distance &&
-        initialData.distance_per_day === 0
+        !initialData.has_unlimited_distance
+        // &&
+        // initialData.distance_per_day === 0
       ) {
         // console.log("l");
         setActiveSlide(7);
@@ -218,7 +234,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
         return;
       }
 
-      if (!initialData.daily_rate) {
+      if (!initialData.amount) {
         // console.log("k");
         setActiveSlide(9);
         return;
@@ -282,10 +298,12 @@ export default function CarDataStepForm(props: Props): ReactElement {
               reg_no: compData?.reg_no ?? "",
               id_or_passport_no: compData?.id_or_passport_no ?? "",
               make: compData?.make ?? "",
-              odometer_reading: compData?.odometer_reading ?? 0,
+              // odometer_reading: compData?.odometer_reading ?? 0,
               end_user_type: compData?.end_user_type ?? "",
               is_gps_enabled: compData?.is_gps_enabled ?? true,
+              car_count: compData?.car_count ?? 1,
             }}
+            offerFleetServices={isFleetOperator}
           />
         </div>
       )}
@@ -363,7 +381,7 @@ export default function CarDataStepForm(props: Props): ReactElement {
             value={{
               ...tripSettingsData!,
             }}
-            manual={compData?.transmission === "manual"}
+            // manual={compData?.transmission === "manual"}
             isSelfDriven={compData?.end_user_type === "self_driven"}
           />
         </div>
@@ -413,8 +431,9 @@ export default function CarDataStepForm(props: Props): ReactElement {
             carId={carId}
             value={{
               categories: compData?.categories ?? [],
-              luxury_and_vip_services: compData?.luxury_vip_services ?? [],
+              // luxury_and_vip_services: compData?.luxury_vip_services ?? [],
             }}
+            rentalServicesOffered={rentalServicesOffered ?? []}
           />
         </div>
       )}
@@ -426,13 +445,14 @@ export default function CarDataStepForm(props: Props): ReactElement {
             setCompData={setCompData}
             carId={carId}
             value={{
+              distance: compData?.distance ?? 0,
               has_unlimited_distance: compData?.has_unlimited_distance ?? false,
-              distance_per_day: compData?.distance_per_day ?? 0,
+              // distance_per_day: compData?.distance_per_day ?? 0,
               charge_extra_distance_travelled:
                 compData?.charge_extra_distance_travelled ?? false,
-              distance_per_hour: compData?.distance_per_hour ?? 0,
+              // distance_per_hour: compData?.distance_per_hour ?? 0,
             }}
-            canRentHourly={compData?.can_rent_hourly!}
+            // canRentHourly={compData?.can_rent_hourly!}
           />
         </div>
       )}
@@ -445,14 +465,15 @@ export default function CarDataStepForm(props: Props): ReactElement {
             setCompData={setCompData}
             carId={carId}
             isChauffeurDriven={compData?.end_user_type === "chauffeur_driven"}
-            canRentHourly={compData?.can_rent_hourly!}
+            // canRentHourly={compData?.can_rent_hourly!}
             value={{
-              daily_rate: compData?.daily_rate ?? 0,
+              // daily_rate: compData?.daily_rate ?? 0,
               delivery_rate: compData?.delivery_rate ?? 0,
-              discount: compData?.discount ?? "",
-              discount_days: compData?.discount_days ?? 0,
+              amount: compData?.amount ?? 0,
+              // discount: compData?.discount ?? "",
+              // discount_days: compData?.discount_days ?? 0,
               // driver_daily_rate: compData?.driver_daily_rate ?? 0,
-              hourly_rate: compData?.hourly_rate ?? 0,
+              // hourly_rate: compData?.hourly_rate ?? 0,
             }}
             compData={compData!}
           />
