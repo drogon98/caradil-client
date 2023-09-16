@@ -15,6 +15,7 @@ export const carCategories: string[] = [
   "Limousine",
   "Hummer",
   "Rovers",
+  "Taxis",
   // "Ambulance",
   // "Towing",
 ];
